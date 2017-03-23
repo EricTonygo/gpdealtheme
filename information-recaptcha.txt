@@ -1,0 +1,13 @@
+Informations recaptcha google sur test.gpdeal.com:
+
+Clé du site : 6LfoxhcUAAAAAL3L_vo5dnG1csXgdaYYf5APUTqn
+
+Clé secrète: 6LfoxhcUAAAAAKfy_FPsm9L3reQoUs7oE0y32M2m
+
+Intégration coté client: 
+
+Dans le head
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+Dans le form
+<div class="g-recaptcha" data-sitekey="6LfoxhcUAAAAAL3L_vo5dnG1csXgdaYYf5APUTqn"></div>
