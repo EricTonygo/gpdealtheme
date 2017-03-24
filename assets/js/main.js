@@ -164,8 +164,7 @@ $(document).ready(function () {
 
     $('.ui.top.attached.tabular.menu .item')
             .tab({
-                history: true,
-                historyType: 'hash'
+               
     });
 
     $('a[href^="#"]').click(function () {
