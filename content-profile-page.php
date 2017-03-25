@@ -80,7 +80,7 @@ if (in_array("particular", $roles)) {
                         <a class="item <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second">Professionnel/Entreprise</a>
                     </div>
                     <div class="ui bottom attached tab segment <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">
-                        <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain').'/'.__('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form">
+                        <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain').'/'.__('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
 
                             <input  type="hidden" name="role" value="particular" >
 

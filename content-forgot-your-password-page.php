@@ -20,7 +20,7 @@
         </div>
         <div class="ui fluid card">
             <div class="content">
-                <form id='forgot_password_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))); ?>" class="ui form">
+                <form id='forgot_password_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                     <div class="fields">
                         <div class="four wide field">
                             <label>Adresse email <span style="color:red;">*</span></label>
