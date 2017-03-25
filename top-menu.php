@@ -84,7 +84,7 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" >
+                                <form  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
                                     <p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>
                                     <div class="field">
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
