@@ -25,7 +25,7 @@
                     <a class="item" data-tab="second">Professionnel / Entreprise</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form">
+                    <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
 
                         <input  type="hidden" name="role" value="particular" >
 
@@ -310,7 +310,7 @@
                     </form>
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="second"> 
-                    <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data">
+                    <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data" autocomplete="off">
                         <div class="fields">
                             <div class="four wide field"></div>
                             <div class="twelve wide field">

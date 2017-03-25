@@ -42,7 +42,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                     <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))); ?>" class="ui form">
+                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                         
                         <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
                         <div class="two wide fields">

@@ -32,7 +32,7 @@ if ($slider):
             <div class="ui bottom attached active tab segment" data-tab="search_carriers">
                 <div id="content_search_carrier_form" class="ui fluid card">
                     <div class="content">
-                        <form id='search_transport_offers_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form">
+                        <form id='search_transport_offers_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                             <div class="two wide fields">
                                 <div class="field">
                                     <div class="ui input left icon">
@@ -112,7 +112,7 @@ if ($slider):
             <div class="ui bottom attached tab segment" data-tab="search_packages_unsatisfied"> 
                 <div id="content_search_packages_form" class="ui fluid card">
                     <div class="content">
-                        <form id='search_unsatisfied_packages_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-expeditions-non-satisfaites', 'gpdealdomain'))); ?>" class="ui form">
+                        <form id='search_unsatisfied_packages_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-expeditions-non-satisfaites', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                             <div class="two wide fields">
                                 <div class="field">
                                     <div class="ui input left icon">

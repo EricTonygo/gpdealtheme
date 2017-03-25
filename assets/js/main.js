@@ -139,17 +139,17 @@ $(document).ready(function () {
             .sidebar('attach events', '.toc.item')
             ;
 
-//    $('.top-nav')
-//            .visibility({
-//                once: false,
-//                onBottomPassed: function () {
-//                    $('.fixed.menu').transition('fade in');
-//                },
-//                onBottomPassedReverse: function () {
-//                    $('.fixed.menu').transition('fade out');
-//                }
-//            })
-//            ;
+    $('.main.menu')
+            .visibility({
+                once: false,
+                onBottomPassed: function () {
+                    $(this).addClass('.shadow_main_menu');
+                },
+                onBottomPassedReverse: function () {
+                    $(this).removeClass('.shadow_main_menu');
+                }
+            })
+            ;
 
     // show dropdown on hover
     $('.ui.dropdown').dropdown({

@@ -60,7 +60,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='write_transport_offer_form'  method="POST" action="<?php the_permalink(); ?>" class="ui form">
+                    <form id='write_transport_offer_form'  method="POST" action="<?php the_permalink(); ?>" class="ui form" autocomplete="off">
                         
                         <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
@@ -299,6 +299,20 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
 
+                    
+                    <h4 class="ui dividing header">INFORMATIONS SUR LE TRANSPORT</h4>
+                    <div class="fields">
+                        <div class="four wide field">
+                            <label>Statut :</label>
+                        </div>
+                        <div class="twelve wide field">
+                            <div class="inline fields">
+                                <div class="field">
+                                    <span><?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-state', true))); ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <?php
                     $package_ids = get_post_meta(get_the_ID(), 'carrier-ID', true);
                     if (is_array($package_ids)) {
@@ -307,7 +321,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         $package_ids = null;
                     }
                     ?>
-                    <h4 class="ui dividing header">COURRIERS/COLIS</h4>
+                    <h4 class="ui dividing header" style="text-transform: uppercase;">COURRIERS/COLIS transportés</h4>
                     <div class="fields">
                         <?php if ($package_ids): ?>
                             <div class="four wide field">
@@ -334,19 +348,6 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                             </div>
                         <?php endif ?>
-                    </div>
-                    <h4 class="ui dividing header">INFORMATIONS SUR LE TRANSPORT</h4>
-                    <div class="fields">
-                        <div class="four wide field">
-                            <label>Statut :</label>
-                        </div>
-                        <div class="twelve wide field">
-                            <div class="inline fields">
-                                <div class="field">
-                                    <span><?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-state', true))); ?></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="field" style="margin-top: 4em">
                         <button id="edit_transport_offer_infos_btn" class="ui right floated green button" >Modifier l'offre</button>
