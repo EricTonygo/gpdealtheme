@@ -314,7 +314,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <?php
-                    $package_ids = get_post_meta(get_the_ID(), 'carrier-ID', true);
+                    $package_ids = get_post_meta(get_the_ID(), 'packages-IDs', true);
                     if (is_array($package_ids)) {
                         $package_ids = array_map('intval', $package_ids);
                     } else {
@@ -334,11 +334,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                         $package_ids_count = count($package_ids);
                                         $i = 0;
                                         foreach ($package_ids as $id) :
-                                            ?>
+                                            $post_author = get_post_field('post_author', $id)
+                                            ?>                                        
                                             <?php if ($i < $package_ids_count - 1) : ?>
-                                                <span><?php echo get_post_met($id, 'package-number', true); ?>, </span>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo get_post_meta($id, 'package-number', true); ?></a>, </span>
                                             <?php else: ?>
-                                                <span><?php echo get_post_met($id, 'package-number', true); ?></span>
+                                                <span><a href="<?php the_permalink($id) ?>"><span><?php echo get_post_meta($id, 'package-number', true); ?></a></span>
                                             <?php endif ?>
                                             <?php
                                             $i++;

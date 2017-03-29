@@ -42,8 +42,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                     <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
-                        
+                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">                        
                         <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
@@ -156,7 +155,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                             </div>
                         </div>
                         <div class="field">
-                            <button id="submit_send_package" class="ui right floated green button" type="submit">Enregistrer l'expédition</button>
+                            <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Selectionner transporteurs</button>
                         </div>
                     </form>
                 </div>

@@ -1,19 +1,6 @@
 <?php
 get_template_part('top-menu', get_post_format());
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $type = array_map('intval', array(removeslashes(esc_attr(trim($_POST['package_type'])))));
-    $content = array_map('intval', isset($_POST['portable_objects']) ? $_POST['portable_objects'] : array());
-    $length = removeslashes(esc_attr(trim($_POST['package_dimensions_length'])));
-    $width = removeslashes(esc_attr(trim($_POST['package_dimensions_width'])));
-    $height = removeslashes(esc_attr(trim($_POST['package_dimensions_height'])));
-    $weight = removeslashes(esc_attr(trim($_POST['package_weight'])));
-    $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
-    $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-    $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
-    $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
-    $terms = removeslashes(esc_attr(trim($_POST['terms'])));
-    $action = removeslashes(esc_attr(trim($_POST['action'])));
-} else {
+
     $type = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids"));
     $content = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "ids"));
     $length = get_post_meta(get_the_ID(), 'length', true);
@@ -29,7 +16,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
     $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
     $action = removeslashes(esc_attr(trim($_GET['action'])));
-}
+
 ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
@@ -39,7 +26,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 <i class="right chevron icon divider"></i>
                 <a href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))) ?>" class="section"><?php echo get_page_by_path(__('mon-compte', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
-                <a href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('courriers-colis', 'gpdealdomain'))) ?>" class="section"><?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('courriers-colis', 'gpdealdomain'))->post_title ?></a>
+                <a href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))) ?>" class="section"><?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))->post_title ?></a>
                 <i class="right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -47,11 +34,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 <div class="ui vertical masthead  segment container">
-    <
     <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action == 'show' || $action == 'evaluate_close'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
-            <div class="header"><?php echo __("Modification du courrier/colis", 'gpdealdomain') ?> : </div>
-            <p><?php echo __("Remplissez les informations ci-dessous de votre courrier/colis puis rechercher à nouveau les transporteurs disponibles.", 'gpdealdomain') ?></p>
+            <div class="header"><?php echo __("Modification de l'expédition", 'gpdealdomain') ?> : </div>
+            <p><?php echo __("Remplissez les informations ci-dessous de votre expédition puis rechercher à nouveau les transporteurs disponibles.", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
@@ -60,8 +46,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php the_permalink(); ?>" class="ui form" autocomplete="off">
-                        
+                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
+
                         <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
@@ -175,8 +161,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="field">
                             <input type="hidden" name='action' value='edit'>
+                            <input type="hidden" name='package_id' value='<?php the_ID()?>'>
                             <button id="cancel_edit_package_infos_btn" class="ui green button" >Annuler la modification</button>
-                            <button id="submit_send_package" class="ui right floated green button" type="submit">Enregistrer l'expédition</button>
+                            <a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" type="submit">Selectionner transporteurs</a>
+                            <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit">Modifier l'éxpédition</button>
                         </div>
                     </form>
                 </div>
@@ -190,7 +178,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">
-                    
+
                     <h4 class="ui dividing header">DEPART </h4>
                     <div class="four wide fields">
                         <div class="field">
@@ -310,27 +298,46 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <?php
-                    $carrier_id = get_post_meta(get_the_ID(), 'carrier-ID', true);
-                    if ($carrier_id && $carrier_id > -1):
-                        ?>
-                        <h4 class="ui dividing header">TRANSPORT </h4>
-                        <div class="three wide fields">
-                            <div class="field">
-                                <label>Trasporteur </label>
-                                <span><?php echo get_user_by('id', $carrier_id)->user_firstname; ?></span>
-                            </div>
-                            <div class="field">
-                                <label>Type de transporteur </label>
-                                <span><?php echo get_user_role_by_user_id($carrier_id); ?></span>
-                            </div>
-                            <div class="field">
-                                <label>Statut </label>
-                                <span><?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-state', true))); ?></span>
+                    $carrier_ids = get_post_meta(get_the_ID(), 'carrier-ID', true);
+                    if ($carrier_ids != -1 && is_array($carrier_ids)) {
+                        $carrier_ids = array_map('intval', $carrier_ids);
+                    } else {
+                        $carrier_ids = null;
+                    }
+                    ?>
+                    <?php if ($carrier_ids): ?>
+                        <h4 class="ui dividing header">TRANSPORTEUR(S) </h4>
+                        <div class="fields">
+                            <!--                            <div class="four wide field">
+                                                            <label>Numéros de courriers :</label>
+                                                        </div>-->
+                            <div class="sixteen wide field">
+                                <div class="inline fields">
+                                    <div class="field">
+                                        <?php
+                                        $carrier_ids_count = count($carrier_ids);
+                                        $i = 0;
+                                        foreach ($carrier_ids as $id) :
+                                            $post_author = get_post_field('post_author', $id)
+                                            ?>
+                                            <?php 
+                                            if ($i < $carrier_ids_count - 1) : ?>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo get_the_author_meta('user_login', $post_author); ?></a>, </span>
+                                            <?php else: ?>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo get_the_author_meta('user_login', $post_author); ?></a> </span>
+                                            <?php endif ?>
+                                            <?php
+                                            $i++;
+                                        endforeach
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-<?php endif ?>
+                    <?php endif ?>
                     <div class="field" style="margin-top: 4em">
-                        <button id="edit_package_infos_btn" class="ui green button" >Modifier le courrier/colis</button>
+                        <button id="edit_package_infos_btn" class="ui green button">Modifier l'expédition</button>
+                        <a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" type="submit">Selectionner transporteurs</a>
                         <button id="evaluate_close_send_package_btn" class="ui right floated red button">Evaluer / Fermer</button>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
         <div class="ui fluid card">
             <div class="content">
 
-                <form  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
+                <form id="login_form2"  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
                     <p style="font-size: 12px">(<span style="color: red;">*</span>) Informations obligatoires</p>
                     <div class="field">
                         <label>Email ou pseudo <span style="color: red;">*</span></label>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <?php if (isset($_GET['redirect_to'])): ?>
-                    <input type="hidden" name='redirect_to' value="<?php echo $_GET['redirect_to']; ?>" >
+                        <input type="hidden" name='redirect_to' value="<?php echo $_GET['redirect_to']; ?>" >
                     <?php endif ?>
                     <div class="inline field">
                         <div class="ui checkbox">
@@ -43,14 +43,26 @@
                             <label>Se souvenir de moi</label>
                         </div>
                     </div>
+                    <div class="field">
+                        <div id="server_error_message2" class="ui negative message" style="display:none">
+                            <i class="close icon"></i>
+                            <div id="server_error_content2" class="header">Internal server error</div>
+                        </div>
+                        <div id="error_name_message2" class="ui error message" style="display: none">
+                            <i class="close icon"></i>
+                            <ul id="error_name_list2" class="list">
+
+                            </ul>
+                        </div>
+                    </div>
                     <div class="field center aligned">
-                        <button id="submit_login_form" class="ui green fluid button" type="submit">Se Connecter</button>
+                        <button id="submit_login_form2" class="ui green fluid button" type="submit">Se Connecter</button>
                     </div> 
                     <div class="field center aligned">
                         <a href="<?php echo get_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))); ?>" ><?php echo __("Mot de passe oublié", "gpdealdomain") ?> ?</a>
                     </div>
                     <div class="field center aligned">
-                        <span><?php echo __("Vous n'avez un compte", "gpdealdomain")?> ? </span><a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))); ?>" ><?php echo __("S'inscrire", "gpdealdomain") ?></a>
+                        <span><?php echo __("Vous n'avez un compte", "gpdealdomain") ?> ? </span><a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))); ?>" ><?php echo __("S'inscrire", "gpdealdomain") ?></a>
                     </div>
                 </form>
             </div>

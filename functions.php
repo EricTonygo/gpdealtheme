@@ -64,6 +64,7 @@ function gpdeal_scripts() {
     wp_register_script('contact_js', get_template_directory_uri() . '/assets/js/contact.js', array(), false, true);
     wp_register_script('package_js', get_template_directory_uri() . '/assets/js/package.js', array(), false, true);
     wp_register_script('transport_offer_js', get_template_directory_uri() . '/assets/js/transport_offer.js', array(), false, true);
+    wp_register_script('select_transport_offers_js', get_template_directory_uri() . '/assets/js/select_transport_offers.js', array(), false, true);
     wp_register_script('home_js', get_template_directory_uri() . '/assets/js/home.js', array(), false, true);
     wp_register_script('datetimepicker_js', get_template_directory_uri() . '/assets/js/jquery.datetimepicker.full.min.js', array(), false, true);
     wp_enqueue_script('datetimepicker_js');
@@ -85,6 +86,10 @@ function gpdeal_scripts() {
 
     if (is_page(__('nous-contacter', 'gpdealdomain'))) {
         wp_enqueue_script('contact_js');
+    }
+    
+    if (is_page(__('selectionner-les-offres-de-transport', 'gpdealdomain'))) {
+        wp_enqueue_script('select_transport_offers_js');
     }
     if (is_home() || is_front_page()) {
         wp_enqueue_script('home_js');

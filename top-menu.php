@@ -84,7 +84,7 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
+                                <form id="login_form" method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
                                     <p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>
                                     <div class="field">
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
@@ -103,8 +103,20 @@
                                             <label>Se souvenir de moi</label>
                                         </div>
                                     </div>
+                                    <div class="field">
+                                        <div id="server_error_message" class="ui negative message" style="display:none">
+                                            <i class="close icon"></i>
+                                            <div id="server_error_content" class="header">Internal server error</div>
+                                        </div>
+                                        <div id="error_name_message" class="ui error message" style="display: none">
+                                            <i class="close icon"></i>
+                                            <ul id="error_name_list" class="list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
                                     <div class="field center aligned">
-                                        <button id="submit_login_form" class="ui green fluid button" type="submit">Se connecter</button>
+                                        <button id="submit_login_form"  class="ui green fluid button submit_login_form">Se connecter</button>
                                     </div> 
                                     <div class="field center aligned">
                                         <a href="<?php echo get_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))) ?>" >Mot de passe oublié ?</a>
@@ -152,24 +164,24 @@
                     <?php if (is_user_logged_in()): ?>
                         <div id="search_input_top" class="ui action input" style="width: 35em">
                             <div class="ui input left icon" style="width: 35em">
-                                 <i class="marker icon"></i>
-                            <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
-                            if (isset($_GET['s'])) {
-                                echo stripslashes($_GET['s']);
-                            }
-                            ?>">
+                                <i class="marker icon"></i>
+                                <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
+                                if (isset($_GET['s'])) {
+                                    echo stripslashes($_GET['s']);
+                                }
+                                ?>">
                             </div>
                             <button id="submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
                         </div>
                     <?php else: ?>
                         <div id="search_input_top" class="ui action input" style="width: 29em">
                             <div class="ui input left icon" style="width: 29em">
-                                 <i class="marker icon"></i>
-                            <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
-                            if (isset($_GET['s'])) {
-                                echo stripslashes($_GET['s']);
-                            }
-                            ?>">
+                                <i class="marker icon"></i>
+                                <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
+                                if (isset($_GET['s'])) {
+                                    echo stripslashes($_GET['s']);
+                                }
+                                ?>">
                             </div>
                             <button id="submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
                         </div>
@@ -241,7 +253,7 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" >
+                                <form id="login_form1"  method="POST" class="ui form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" >
                                     <p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>
                                     <div class="field">
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
@@ -260,8 +272,20 @@
                                             <label>Se souvenir de moi</label>
                                         </div>
                                     </div>
+                                    <div class="field">
+                                        <div id="server_error_message1" class="ui negative message" style="display:none">
+                                            <i class="close icon"></i>
+                                            <div id="server_error_content1" class="header">Internal server error</div>
+                                        </div>
+                                        <div id="error_name_message1" class="ui error message" style="display: none">
+                                            <i class="close icon"></i>
+                                            <ul id="error_name_list1" class="list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
                                     <div class="field center aligned">
-                                        <button id="submit_login_form" class="ui green fluid button" type="submit"><?php echo __('Se connecter', 'gpdealdomain'); ?></button>
+                                        <button id="submit_login_form1" class="ui green fluid button submit_login_form" type="submit"><?php echo __('Se connecter', 'gpdealdomain'); ?></button>
                                     </div> 
                                     <div class="field center aligned">
                                         <a href="<?php echo get_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))) ?>" >Mot de passe oublié ?</a>
@@ -286,17 +310,17 @@
             <div class="column">
                 <div class="ui link list">
                     <a href="<?php echo home_url('/') ?>" class="item"><?php echo get_page_by_path(__('accueil', 'gpdealdomain'))->post_title ?></a>
-                    <?php if (!is_user_logged_in()):?>       
-                    <a href="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" class="item"><?php echo __("Se connecter", 'gpdealdomain') ?></a>
-                    <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="item"><?php echo __("S'inscrire", 'gpdealdomain') ?></a>
-                        <?php else : ?>
-                    <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))) ?>' class="item">
+                    <?php if (!is_user_logged_in()): ?>       
+                        <a href="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" class="item"><?php echo __("Se connecter", 'gpdealdomain') ?></a>
+                        <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="item"><?php echo __("S'inscrire", 'gpdealdomain') ?></a>
+                    <?php else : ?>
+                        <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))) ?>' class="item">
                             <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain'))->post_title ?>                         
-                    </a>
-                    <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('profil', 'gpdealdomain'))) ?>' class="item">
-                        <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('profil', 'gpdealdomain'))->post_title ?>                         
-                    </a>
-                    <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), home_url('/'))) ?> " class="item">
+                        </a>
+                        <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('profil', 'gpdealdomain'))) ?>' class="item">
+                            <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('profil', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), home_url('/'))) ?> " class="item">
                             <?php echo __('Se déconnecter', 'gpdealdomain') ?>
                         </a>
                     <?php endif ?>
@@ -311,13 +335,13 @@
                     <a  href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>"  class="item" >
                         <?php echo __('Proposer un transport'); ?>
                     </a>
-                    <?php if (is_user_logged_in()):?>
-                    <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))) ?>' class="item">
-                        <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))->post_title ?>                         
-                    </a>
-                    <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))) ?>' class="item">
-                        <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))->post_title ?>                         
-                    </a>
+                    <?php if (is_user_logged_in()): ?>
+                        <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))) ?>' class="item">
+                            <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))) ?>' class="item">
+                            <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))->post_title ?>                         
+                        </a>
                     <?php endif ?>
                 </div>
             </div>

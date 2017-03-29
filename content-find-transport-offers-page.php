@@ -1,4 +1,27 @@
-<?php get_template_part('top-menu', get_post_format()); ?>
+
+
+<?php 
+$search_data = null;
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["submit_search_transport_offers"]) && removeslashes(esc_attr(trim($_POST["submit_search_transport_offers"] = "yes")))) {
+        $package_type = array_map('intval', isset($_POST['package_type']) ? $_POST['package_type'] : array());
+        //$transport_method = array_map('intval', isset($_POST['transport_method']) ? $_POST['transport_method'] : array());
+        //$start_country = removeslashes(esc_attr(trim($_POST['start_country'])));
+        //$start_state = removeslashes(esc_attr(trim($_POST['start_state']));
+        $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
+        $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
+        //$destination_country = removeslashes(esc_attr(trim($_POST['destination_country'])));
+        //$destination_state = removeslashes(esc_attr(trim($_POST['destination_state']));
+        $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
+        $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
+        $search_data = array(
+            'package_type' => $package_type,
+            'start_city' => $start_city,
+            'start_date' => $start_date,
+            'destination_country' => $destination_city,
+            'destination_date' => $destination_date
+        );
+}
+get_template_part('top-menu', get_post_format()); ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
@@ -22,7 +45,7 @@
                 </div>
                 <div class="content content_packages_transports">
                     <?php
-                    $transport_offers = new WP_Query(getWPQueryArgsForCarrierSearch());
+                    $transport_offers = new WP_Query(getWPQueryArgsForCarrierSearch($search_data));
                     $exclude_ids = array();
                     if ($transport_offers->have_posts()) {
                         ?>
@@ -135,7 +158,7 @@
                 </div>
             </div>
             <?php
-            $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($exclude_ids));
+            $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, $exclude_ids));
             if ($transport_offers_which_can_interest->have_posts()) {
                 ?>
                 <div  class="ui content_packages_transports fluid card">

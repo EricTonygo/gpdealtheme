@@ -1,4 +1,20 @@
-<?php get_template_part('top-menu', get_post_format()); ?>
+<?php 
+$search_data = null;
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["submit_search_unsatisfied_packages"]) && removeslashes(esc_attr(trim($_POST["submit_search_unsatisfied_packages"] = "yes")))) {
+        $package_type = array_map('intval', isset($_POST['package_type']) ? $_POST['package_type'] : array());
+        $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
+        $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
+        $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
+        $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
+        $search_data = array(
+            'package_type' => $package_type,
+            'start_city' => $start_city,
+            'start_date' => $start_date,
+            'destination_city' => $destination_city,
+            'destination_date' => $destination_date
+        );
+}
+get_template_part('top-menu', get_post_format()); ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
@@ -22,7 +38,7 @@
                 </div>
                 <div class="content content_packages_transports">
                     <?php
-                    $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackages());
+                    $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackages($search_data));
                     $exclude_ids = array();
                     if ($packages->have_posts()) {
                         ?>
@@ -101,7 +117,7 @@
                 </div>
             </div>
             <?php
-            $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($exclude_ids));
+            $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, $exclude_ids));
             if ($packages->have_posts()) {
                 ?>
                 <div class="ui content_packages_transports fluid card">

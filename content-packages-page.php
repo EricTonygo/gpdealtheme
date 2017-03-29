@@ -30,7 +30,7 @@
                         if ($packages->have_posts()) {
                             while ($packages->have_posts()): $packages->the_post();
                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
-                                $carrier_id = get_post_meta(get_the_ID(), 'carrier-ID', true);
+                                //$carrier_id = get_post_meta(get_the_ID(), 'carrier-ID', true);
                                 ?>
                                 <div class="column">
                                     <div class="ui fluid card">
@@ -55,8 +55,8 @@
                                                     </span>
                                                 </div>
                                                 
-                                                <?php if ($carrier_id && $carrier_id > -1): ?>
-                                                <div class="inline field">
+                                                <?php if ($carrier_id): ?>
+<!--                                                <div class="inline field">
                                                         <label>Transporteur : </label> 
                                                     <span>
                                                         <?php
@@ -71,7 +71,7 @@
                                                             echo get_user_role_by_user_id($carrier_id);
                                                         ?>
                                                     </span>
-                                                </div>
+                                                </div>-->
                                                 <?php endif; ?>
                                                 <div class="inline field">
                                                         <label>Status du transport : </label> 
@@ -95,6 +95,11 @@
                                                             <i class="edit icon"></i>
                                                             Modifier
                                                         </a>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" class="item">
+                                                            <i class="shipping icon"></i>
+                                                            Selectionner transporteurs
+                                                        </a>
+
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink()))?>" class="item">
                                                             <i class="star icon"></i>
                                                             Evaluer / Fermer
