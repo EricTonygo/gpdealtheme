@@ -161,9 +161,9 @@
                                                     </span>
                                                 </div>-->
                                                 <div class="inline field">
-                                                    <label>Status du transport : </label> 
+                                                    <label><?php echo __("Statut", "gpdealdomain"); ?> : </label> 
                                                     <span>
-                                                        <?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-state', true))); ?>
+                                                        <?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-status', true))); ?>
                                                     </span>
                                                 </div>
                                             </div>

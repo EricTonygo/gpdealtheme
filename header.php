@@ -7,7 +7,7 @@
         <?php if(is_page(__("mon-compte", "gpdealdomain"))): ?>
             <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
         <?php endif ?>
-        <title>Global Parcel Deal - <?php the_title() ?></title>
+        <title>Global Parcel Deal - <?php if(is_search()) echo __("Recherche des transporteurs", "gpdealdomain"); else the_title() ?></title>
         <link rel="shortcut icon" href="<?php echo get_template_directory_uri() ?>/assets/images/favicon.ico">
         <?php if(is_page(__("mon-compte", "gpdealdomain"))){ 
             header('Cache-Control: no-cache, must-revalidate');

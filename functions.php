@@ -88,9 +88,9 @@ function gpdeal_scripts() {
         wp_enqueue_script('contact_js');
     }
     
-    if (is_page(__('selectionner-les-offres-de-transport', 'gpdealdomain'))) {
+    //if (is_page(__('selectionner-les-offres-de-transport', 'gpdealdomain'))) {
         wp_enqueue_script('select_transport_offers_js');
-    }
+    //}
     if (is_home() || is_front_page()) {
         wp_enqueue_script('home_js');
     }

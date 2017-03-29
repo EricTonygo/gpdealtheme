@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>-->
-            <form method="POST" action="<?php the_permalink($package_id) ?>">
+            <form method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain'))) ?>">
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
                         <div class="header"><?php echo __('Les offres correspondantes'); ?></div>
@@ -187,8 +187,11 @@
                                     <div class="column">
                                         <div class="ui fluid card">
                     <!--                        <i class="huge travel icon center aligned"></i>-->
+                                            <?php 
+                                            $post_author = get_post_field('post_author', get_the_ID());
+                                            ?>
                                             <div class="content">
-                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong>Transporteur : </strong><a ><?php echo get_the_author_meta('user_login'); ?></a>
+                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain")." ".get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo get_the_author_meta('user_login'); ?></a>
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
@@ -277,7 +280,7 @@
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            Nous n'avons trouvé aucune offre non expirée correspondant à vos critères de recherche. Nous avons enregistré votre éxpédition. Vous pourrez éffectuer la recherche 
+                                            Nous n'avons trouvé aucune offre valide correspondant à vos critères de recherche. Nous avons enregistré votre éxpédition. Vous pourrez éffectuer la recherche 
                                             ultérieurement ou la modifier <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink($package_id)))?>">ici</a> pour explorer d'autres offres disponibles. Vous serez notifié par email lorsqu'une nouvelle offre correspondant à vos critère sera disponible chez nous.
                                         </div>
                                     </div>
@@ -310,8 +313,12 @@
                                     <div class="column">
                                         <div class="ui fluid card">
                     <!--                        <i class="huge travel icon center aligned"></i>-->
+                                            <?php 
+                                            $post_author = get_post_field('post_author', get_the_ID());
+                                            $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain"): get_the_author_meta('user_login');
+                                            ?>
                                             <div class="content">
-                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong>Transporteur : </strong><a ><?php echo get_the_author_meta('user_login'); ?></a>
+                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain")." ".get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo $carrier_name; ?></a>
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
@@ -401,6 +408,7 @@
                 if ($transport_offers_which_can_interest->have_posts() || $transport_offers->have_posts()):  ?>
                 <input type="hidden" name='package_id' value="<?php echo $package_id; ?>">
                 <div align="center">
+                    <!--<button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" ><?php echo __("Valider la selection", "gpdealdomain") ?></button>-->
                     <button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" value='yes'><?php echo __("Valider la selection", "gpdealdomain") ?></button>
                 </div>
                 <?php endif ?>

@@ -39,7 +39,7 @@
                     <?php endif ?>
                     <div class="inline field">
                         <div class="ui checkbox">
-                            <input type="checkbox" name="_remember" value="true" checked="checked">
+                            <input type="checkbox" name="_remember" value="true">
                             <label>Se souvenir de moi</label>
                         </div>
                     </div>

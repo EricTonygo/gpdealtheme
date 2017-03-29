@@ -24,7 +24,7 @@
                     <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                         <?php
                         global $current_user;
-                        $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID));
+                        $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' =>array(array('key' => 'package-status','value' => 2,'compare' => '='))));
                         if ($packages->have_posts()) {
                             while ($packages->have_posts()): $packages->the_post();
                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
@@ -73,14 +73,22 @@
                                                             <i class="unhide icon"></i>
                                                             Détails
                                                         </a>
-<!--                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink()))?>" class="item">
+                                                        <?php if(get_post_meta(get_the_ID(), 'package-status', true) != 3 || get_post_meta(get_the_ID(), 'package-status', true) != 4): ?>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink()))?>" class="item">
                                                             <i class="edit icon"></i>
                                                             Modifier
-                                                        </a>-->
+                                                        </a>
+                                                        <?php endif ?>
+                                                        <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain')))))?>" class="item">
+                                                            <i class="search icon"></i>
+                                                            Transporteurs en attente
+                                                        </a>
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink()))?>" class="item">
                                                             <i class="star icon"></i>
                                                             Evaluer / Fermer
                                                         </a>
+                                                        <?php endif ?>
                                                     </div>
                                                 </div>
                                             </div>

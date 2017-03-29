@@ -11,6 +11,9 @@ $start_date_string = removeslashes(esc_attr(trim($_POST['start_date'])));
 $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
 $destination_date_string = removeslashes(esc_attr(trim($_POST['destination_date'])));
 $terms = removeslashes(esc_attr(trim($_POST['terms'])));
+if(isset($_POST['selected_transport_offers'])){
+$selected_transport_offers = array_map('intval', $_POST['selected_transport_offers']);
+}
 ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
@@ -33,7 +36,11 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
             <div class="header"><?php echo __("Saisir une expédition", 'gpdealdomain') ?> : </div>
-            <p><?php echo __("Remplissez ci-dessous les informations de votre courrier/colis puis rechercher les transporteurs disponibles.", 'gpdealdomain') ?></p>
+            <?php if(isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?>
+            <p><?php echo __("Remplissez ci-dessous les informations de votre expédition pour finaliser la transaction.", 'gpdealdomain') ?></p>
+            <?php else: ?>
+            <p><?php echo __("Remplissez ci-dessous les informations de votre expédition puis rechercher les transporteurs disponibles.", 'gpdealdomain') ?></p>
+            <?php endif ?>
         </div>
         <div class="ui fluid card">
             <div class="content">
@@ -42,7 +49,11 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                     <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">                        
+                    <?php if(isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?>
+                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">                    
+                    <?php else: ?>
+                      <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">  
+                    <?php endif ?>
                         <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
@@ -111,7 +122,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 </select>
                             </div>
                         </div>
-
+                        
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Dimensions/Poids <span style="color:red;">*</span></label>
@@ -155,7 +166,23 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                             </div>
                         </div>
                         <div class="field">
-                            <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Selectionner transporteurs</button>
+                            <?php if(isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?> 
+                            <input type="hidden" name="confirm_transaction"  value="true">
+                            <select name="selected_transport_offers[]"  multiple="multiple" style="display: none">
+                                    
+                                    <?php
+                                    if(!empty($selected_transport_offers)){
+                                    foreach ($selected_transport_offers as $transport_offer_id):
+                                        ?>
+                                        <option value="<?php echo $transport_offer_id; ?>"  selected="selected" ><?php echo $transport_offer_id ?></option>
+
+                                    <?php endforeach ?>
+                                    <?php } ?>
+                                </select>
+                           <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Finaliser la transaction</button>
+                        <?php else: ?>
+                            <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Rechercher transporteurs</button>
+                        <?php endif ?>
                         </div>
                     </form>
                 </div>

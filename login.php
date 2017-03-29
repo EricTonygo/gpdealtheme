@@ -25,6 +25,17 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 $json = array("message" => "Mot de passe incorrect");
                 return wp_send_json_error($json);
             } else {
+                if (isset($_POST['no_redirect']) && $_POST['no_redirect'] == "true") {
+                    $remember = removeslashes(esc_attr(trim($_POST['_remember'])));
+                    if ($remember && $remember == 'true') {
+                        $remember = true;
+                    } else {
+                        $remember = false;
+                    }
+                    $creds = array('user_login' => $user_login->data->user_login, 'user_password' => $password, 'remember' => $remember);
+                    $secure_cookie = is_ssl() ? true : false;
+                    $user = wp_signon($creds, $secure_cookie);
+                }
                 $json = array("message" => "Ajout possible");
                 return wp_send_json_success($json);
             }

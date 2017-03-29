@@ -74,9 +74,9 @@
                                                 </div>-->
                                                 <?php endif; ?>
                                                 <div class="inline field">
-                                                        <label>Status du transport : </label> 
+                                                        <label><?php echo __("Statut", "gpdealdomain"); ?> : </label> 
                                                     <span>
-                                                        <?php echo getTransportStatus(intval(get_post_meta(get_the_ID(), 'transport-state', true))); ?>
+                                                        <?php echo getPackageStatus(intval(get_post_meta(get_the_ID(), 'package-status', true))); ?>
                                                     </span>
                                                 </div>
                                             </div>
@@ -91,19 +91,28 @@
                                                             <i class="unhide icon"></i>
                                                             Détails
                                                         </a>
+                                                        <?php if(get_post_meta(get_the_ID(), 'package-status', true) != 3 || get_post_meta(get_the_ID(), 'package-status', true) != 4): ?>
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink()))?>" class="item">
                                                             <i class="edit icon"></i>
                                                             Modifier
                                                         </a>
+                                                        <?php endif ?>
+                                                        <?php if(get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
                                                         <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" class="item">
-                                                            <i class="shipping icon"></i>
-                                                            Selectionner transporteurs
+                                                            <i class="search icon"></i>
+                                                            Rechercher transporteurs
                                                         </a>
-
+                                                        <?php endif ?>
+                                                        <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain')))))?>" class="item">
+                                                            <i class="search icon"></i>
+                                                            Transporteurs en attente
+                                                        </a>
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink()))?>" class="item">
                                                             <i class="star icon"></i>
                                                             Evaluer / Fermer
                                                         </a>
+                                                        <?php endif ?>
                                                     </div>
                                                 </div>
                                             </div>

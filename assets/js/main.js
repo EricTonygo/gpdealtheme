@@ -555,7 +555,6 @@ $(document).ready(function () {
                     } else if (response.success === false) {
                         $('#login_form1.ui.form').removeClass('loading');
                         $('#submit_login_form1').removeClass('disabled');
-                        $('#error_name_header1').html("Echec de la validation");
                         $('#error_name_list1').html('<li>' + response.data.message + '</li>');
                         $('#error_name_message1').show();
                     } else {
@@ -635,7 +634,6 @@ $(document).ready(function () {
                     } else if (response.success === false) {
                         $('#login_form.ui.form').removeClass('loading');
                         $('#submit_login_form').removeClass('disabled');
-                        $('#error_name_header').html("Echec de la validation");
                         $('#error_name_list').html('<li>' + response.data.message + '</li>');
                         $('#error_name_message').show();
                     } else {
@@ -714,7 +712,6 @@ $(document).ready(function () {
                     } else if (response.success === false) {
                         $('#login_form2.ui.form').removeClass('loading');
                         $('#submit_login_form2').removeClass('disabled');
-                        $('#error_name_header2').html("Echec de la validation");
                         $('#error_name_list2').html('<li>' + response.data.message + '</li>');
                         $('#error_name_message2').show();
                     } else {
@@ -733,6 +730,96 @@ $(document).ready(function () {
         }
     });
     
+    
+    $('#login_form3.ui.form')
+            .form({
+                fields: {
+                    username: {
+                        identifier: '_username',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir votre login'
+                            }
+                        ]
+                    },
+                    last_name: {
+                        identifier: '_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir votre mot de passe'
+                            }
+                        ]
+                    }
+                }
+                //inline: true,
+                //on: 'change'
+            });
+
+        $('#submit_login_form3').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#login_form3.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: $('#login_form3.ui.form').attr('action'),
+                data: $('#login_form3.ui.form').serialize(),
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#login_form3.ui.form').addClass('loading');
+                    $('#submit_login_form3').addClass('disabled');
+                    $('#cancel_login_form3').addClass('disabled');
+                    $('#server_error_message3').hide();
+                    $('#error_name_message3').hide();
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#login_form3.ui.form').removeClass('loading');
+                        $('#submit_login_form3').removeClass('disabled');
+                        $('#cancel_login_form3').removeClass('disabled');
+                        $('#server_error_message3').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        $('#login_form3.ui.form').removeClass('loading');
+                        $('#submit_login_form3').removeClass('disabled');
+                        $('#cancel_login_form3').removeClass('disabled');
+                        $('#error_name_header3').html("Echec de la validation");
+                        $('#error_name_message3').show();
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    if (response.success === true) {
+                        //$('#login_form3.ui.form').submit();
+                        location.reload();
+                    } else if (response.success === false) {
+                        $('#login_form3.ui.form').removeClass('loading');
+                        $('#submit_login_form3').removeClass('disabled');
+                        $('#error_name_list3').html('<li>' + response.data.message + '</li>');
+                        $('#error_name_message3').show();
+                    } else {
+                        $('#login_form3.ui.form').removeClass('loading');
+                        $('#submit_login_form3').removeClass('disabled');
+                        $('#cancel_login_form3').removeClass('disabled');
+                        $('#error_name_header3').html("Internal server error");
+                        $('#error_name_message3').show();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#login_form3.ui.form').removeClass('loading');
+                    $('#submit_login_form3').removeClass('disabled');
+                    $('#cancel_login_form3').removeClass('disabled');
+                    $('#server_error_message3').show();
+                }
+            });
+        }
+    });
+    
 });
 
+function signin(){
+    $('#login_modal.ui.small.modal')
+            .modal('show')
+            ;
+}
 

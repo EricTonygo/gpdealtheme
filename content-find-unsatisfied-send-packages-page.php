@@ -104,7 +104,7 @@ get_template_part('top-menu', get_post_format()); ?>
                             <div class="ui warning message">
                                 <div class="content">
                                     <div class="header" style="font-weight: normal;">
-                                       Nous n'avons trouvé aucune expédition non expirée correspondant à vos critères de recherche.
+                                       Nous n'avons trouvé aucune expédition valide correspondant à vos critères de recherche.
                                     </div>
                                 </div>
                             </div>
