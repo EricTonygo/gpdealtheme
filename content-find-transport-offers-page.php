@@ -3,20 +3,15 @@ global $current_user;
 $search_data = null;
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["submit_search_transport_offers"]) && removeslashes(esc_attr(trim($_POST["submit_search_transport_offers"] = "yes")))) {
     $package_type = array_map('intval', isset($_POST['package_type']) ? $_POST['package_type'] : array());
-    //$transport_method = array_map('intval', isset($_POST['transport_method']) ? $_POST['transport_method'] : array());
-    //$start_country = removeslashes(esc_attr(trim($_POST['start_country'])));
-    //$start_state = removeslashes(esc_attr(trim($_POST['start_state']));
     $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
     $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-    //$destination_country = removeslashes(esc_attr(trim($_POST['destination_country'])));
-    //$destination_state = removeslashes(esc_attr(trim($_POST['destination_state']));
     $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
     $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
     $search_data = array(
         'package_type' => $package_type,
         'start_city' => $start_city,
         'start_date' => $start_date,
-        'destination_country' => $destination_city,
+        'destination_city' => $destination_city,
         'destination_date' => $destination_date
     );
 }
@@ -37,7 +32,7 @@ get_template_part('top-menu', get_post_format());
     <!--div class="ui text container">
     </div-->
     <div class="ui stackable grid">
-
+        
         <div class="wide column">
             <form method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
                 <?php if (is_user_logged_in()): ?>
@@ -94,6 +89,7 @@ get_template_part('top-menu', get_post_format());
                         </div>
                     </div>
                 <?php endif ?>
+                
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
                         <div class="header"><?php echo __('Les offres correspondantes'); ?></div>
@@ -194,9 +190,9 @@ get_template_part('top-menu', get_post_format());
                                                 <?php if (is_user_logged_in()) : ?>
                                                     <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
                                                     <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php else: ?>
-                                                <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php endif ?>
                                             </div>
                                         </div>
@@ -321,9 +317,9 @@ get_template_part('top-menu', get_post_format());
                                                 <?php if (is_user_logged_in()) : ?>
                                                     <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
                                                     <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php else: ?>
-                                                <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php endif ?>
                                             </div>
                                         </div>
@@ -340,7 +336,7 @@ get_template_part('top-menu', get_post_format());
                     <input type="hidden" name='confirm_transaction' value='true' >
                     <div align="center" >
                         <!--<button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" ><?php echo __("Valider la selection", "gpdealdomain") ?></button>-->
-                        <button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" value='yes'><?php echo __("Valider la selection", "gpdealdomain") ?></button>
+                        <button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" value='yes' style="display: none"><?php echo __("Valider la selection", "gpdealdomain") ?></button>
                     </div>
                 <?php endif ?>
             </form>

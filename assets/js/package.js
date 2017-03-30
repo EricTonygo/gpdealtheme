@@ -2,14 +2,14 @@ $(function () {
     $.datetimepicker.setLocale('fr');
     $('input[name="start_date"]').datetimepicker({
         timepicker: false,
-        minDate:'0',
+        minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
     });
     $('input[name="destination_date"]').datetimepicker({
         timepicker: false,
-        minDate:'0',
+        minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
@@ -234,6 +234,9 @@ $(function () {
                     if (!valid) {
                         $('#error_name_message').show();
                         return false;
+                    } else {
+                        $('#confirm_transaction_modal.ui.small.modal')
+                                .modal('show');
                     }
                 }
             }

@@ -154,7 +154,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="extra content">
+<!--                                        <div class="extra content">
                                             <div class="right floated">
 
                                                 <div class="ui dropdown top left pointing item">
@@ -176,7 +176,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <?php

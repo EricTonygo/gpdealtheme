@@ -22,6 +22,7 @@ if (in_array("particular", $roles)) {
     $test_question_ID = get_user_meta($user_id, 'test-question-ID', true);
     $answer_test_question = get_user_meta($user_id, 'answer-test-question', true);
     $receive_notifications = get_user_meta($user_id, 'receive-notifications', true);
+    $echo_locality = $region_province_state != "" ? $commune_city_locality.", ".$region_province_state.", ".$country : $commune_city_locality.", ".$country;
 } elseif (in_array("enterprise", $roles) || in_array("professional", $roles)) {
     $user_login_pro = $current_user->user_login;
     //$user_pass_pro = $current_user->user_pass;
@@ -52,6 +53,7 @@ if (in_array("particular", $roles)) {
     $test_question_ID_pro = get_user_meta($user_id, 'test-question-ID', true);
     $answer_test_question_pro = get_user_meta($user_id, 'answer-test-question', true);
     $receive_notifications_pro = get_user_meta($user_id, 'receive-notifications', true);
+    $echo_locality_pro = $region_province_state_pro != "" ? $commune_city_locality_pro.", ".$region_province_state_pro.", ".$country_pro : $commune_city_locality_pro.", ".$country_pro;
 }
 ?>
 
@@ -142,6 +144,7 @@ if (in_array("particular", $roles)) {
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Date de naissance <span style="color:red;">*</span></label>
+                                    <span style="font-size: 12px; font-style: italic"><?php echo __("Il faut être majeur pour utiliser notre service", "gpdealdomain") ?></span>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="ui calendar" >
@@ -174,66 +177,15 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Pays <span style="color:red;">*</span></label>
+                                    <label>Localité <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <select name="country" class="ui search fluid dropdown">
-                                        <option value="">Selectionner le pays</option>
-                                        <?php
-                                        $countries = getCountriesList();
-                                        foreach ($countries as $my_country) :
-                                            ?>
-                                            <?php if ($my_country['code'] == $country): ?>
-                                                <option value="<?php echo $my_country['code'] ?>" selected="selected"><?php echo $my_country['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $my_country['code'] ?>" ><?php echo $my_country['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="ui input left icon">
+                                    <i class="marker icon"></i>
+                                    <input id="locality" type="text" name='locality' placeholder="Votre localité" value="<?php echo $echo_locality ?>">
+                                </div>
                                 </div>                        
-                            </div>
-
-                            <div class="fields">
-                                <div class="four wide field">
-                                    <label>Region/Province/State <span style="color:red;">*</span></label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <select name="state_country" class="ui search fluid dropdown">
-                                        <option value="">Selectionner votre région</option>
-                                        <?php
-                                        $states = getStatesListOfCountry();
-                                        foreach ($states as $state) :
-                                            ?>
-                                            <?php if ($state['code'] == $region_province_state): ?>
-                                                <option value="<?php echo $state['code'] ?>" selected="selected"><?php echo $state['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $state['code'] ?>" ><?php echo $state['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>             
-                            </div>
-
-                            <div class="fields">
-                                <div class="four wide field">
-                                    <label>Commune/Ville/Localité <span style="color:red;">*</span></label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <select name="city_state" class="ui search fluid dropdown">
-                                        <option value="">Selectionner votre ville</option>
-                                        <?php
-                                        $cities = getCitiesListOfState();
-                                        foreach ($cities as $city) :
-                                            ?>
-                                            <?php if ($city['code'] == $commune_city_locality): ?>
-                                                <option value="<?php echo $city['code'] ?>" selected="selected"><?php echo $city['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $city['code'] ?>" ><?php echo $city['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>             
-                            </div>
+                            </div>                            
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Téléphone mobile <span style="color:red;">*</span></label>
@@ -319,12 +271,12 @@ if (in_array("particular", $roles)) {
                             <div class="inline field">
                                 <div class="ui checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications == 'yes'): ?> checked="checked" <?php endif ?>>
-                                    <label>Je souhaite être informé(e) des produits et des services du site global parcel deal susceptibles de m'intéresser. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations du compte.</label>
+                                    <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
                                 </div>
                             </div>
-<!--                            <div class="inline field">
+                            <div class="inline field">
                                 <label><a href="#">Je souhaite faire verifier mon identité</a></label>
-                            </div>-->
+                            </div>
 
                             <?php if (in_array('particular', $roles)): ?>
                                 <div class="field">
@@ -445,65 +397,14 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Pays <span style="color:red;">*</span></label>
+                                    <label>Localité <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <select name="country" class="ui search fluid dropdown">
-                                        <option value="">Selectionner le pays</option>
-                                        <?php
-                                        $countries = getCountriesList();
-                                        foreach ($countries as $my_country) :
-                                            ?>
-                                            <?php if ($my_country['code'] == $country_pro): ?>
-                                                <option value="<?php echo $my_country['code'] ?>" selected="selected"><?php echo $my_country['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $my_country['code'] ?>" ><?php echo $my_country['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="ui input left icon">
+                                    <i class="marker icon"></i>
+                                    <input id="locality_pro" type="text" name='locality_pro' placeholder="Votre localité" value="<?php echo $echo_locality_pro ?>">
+                                </div>
                                 </div>                        
-                            </div>
-
-                            <div class="fields">
-                                <div class="four wide field">
-                                    <label>Region/Province/State <span style="color:red;">*</span></label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <select name="state_country" class="ui search fluid dropdown">
-                                        <option value="">Selectionner votre région</option>
-                                        <?php
-                                        $states = getStatesListOfCountry();
-                                        foreach ($states as $state) :
-                                            ?>
-                                            <?php if ($state['code'] == $region_province_state_pro): ?>
-                                                <option value="<?php echo $state['code'] ?>" selected="selected"><?php echo $state['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $state['code'] ?>" ><?php echo $state['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>             
-                            </div>
-
-                            <div class="fields">
-                                <div class="four wide field">
-                                    <label>Commune/Ville/Localité <span style="color:red;">*</span></label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <select name="city_state" class="ui search fluid dropdown">
-                                        <option value="">Selectionner votre ville</option>
-                                        <?php
-                                        $cities = getCitiesListOfState();
-                                        foreach ($cities as $city) :
-                                            ?>
-                                            <?php if ($city['code'] == $commune_city_locality_pro): ?>
-                                                <option value="<?php echo $city['code'] ?>" selected="selected"><?php echo $city['name'] ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $city['code'] ?>" ><?php echo $city['name'] ?></option>
-                                            <?php endif ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>             
                             </div>
 
                             <div class="fields">
@@ -737,7 +638,7 @@ if (in_array("particular", $roles)) {
                             <div class="inline field">
                                 <div class="ui checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'on'): ?> checked="checked" <?php endif ?>>
-                                    <label>Je souhaite être informé(e) des produits et des services du site global parcel deal susceptibles de m'intéresser. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations du compte.</label>
+                                    <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
                                 </div>
                             </div>
                             <div class="inline field">
@@ -843,7 +744,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="five wide field center aligned">
-                                    <label>Region/Province/State : </label>
+                                    <label>Region : </label>
                                 </div>
                                 <div class="eleven wide field center aligned">
                                     <span><?php echo $region_province_state; ?></span>
@@ -852,7 +753,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="five wide field center aligned">
-                                    <label>Commune/Ville/Localité : </label>
+                                    <label>Ville : </label>
                                 </div>
                                 <div class="eleven wide field center aligned">
                                     <span><?php echo $commune_city_locality; ?></span>
@@ -1018,7 +919,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="five wide field center aligned">
-                                    <label>Region/Province/State :</label>
+                                    <label>Region :</label>
                                 </div>
                                 <div class="twelve wide field center aligned">
                                     <span><?php echo $region_province_state_pro ?></span>
@@ -1027,7 +928,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="five wide field center aligned">
-                                    <label>Commune/Ville/Localité : </label>
+                                    <label>Ville : </label>
                                 </div>
                                 <div class="eleven wide field center aligned">
                                     <span><?php echo $commune_city_locality_pro ?></span>

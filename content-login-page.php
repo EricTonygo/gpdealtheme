@@ -16,21 +16,24 @@
     <div class="ui signin_contenair basic segment container">
         <div class="ui attached message">
             <div class="header"><?php echo __("Connexion", 'gpdealdomain') ?> </div>
-            <p><?php echo __("Remplissez les informations ci-dessus pour se connecter", 'gpdealdomain') ?></p>
+            <p><?php echo __("Remplissez les informations ci-dessous pour se connecter", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
 
                 <form id="login_form2"  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
-                    <p style="font-size: 12px">(<span style="color: red;">*</span>) Informations obligatoires</p>
+                    <!--<p style="font-size: 12px">(<span style="color: red;">*</span>) Informations obligatoires</p>-->
                     <div class="field">
                         <label>Email ou pseudo <span style="color: red;">*</span></label>
-                        <input type="text" name="_username" placeholder="Email ou pseudo">
+                        <div class="ui input left icon">
+                            <i class="mail icon"></i>
+                            <input type="text" name="_username" placeholder="Email ou pseudo">
+                        </div>
                     </div>
                     <div class="field">
                         <label>Mot de passe <span style="color: red;">*</span></label>
-                        <div class="ui input right icon">
-                            <i class="unhide link icon show_hide_password_login"></i>
+                        <div class="ui input left icon">
+                            <i class="lock icon"></i>
                             <input type="password" name="_password" placeholder="Mot de passe">
                         </div>
                     </div>
@@ -56,7 +59,7 @@
                         </div>
                     </div>
                     <div class="field center aligned">
-                        <button id="submit_login_form2" class="ui green fluid button" type="submit">Se Connecter</button>
+                        <button id="submit_login_form2" class="ui green fluid button" type="submit">Se connecter</button>
                     </div> 
                     <div class="field center aligned">
                         <a href="<?php echo get_permalink(get_page_by_path(__('mot-de-passe-oublie', 'gpdealdomain'))); ?>" ><?php echo __("Mot de passe oublié", "gpdealdomain") ?> ?</a>

@@ -16,6 +16,8 @@ get_template_part('top-menu', get_post_format());
     $destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
     $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
     $action = removeslashes(esc_attr(trim($_GET['action'])));
+    $echo_start_city = $start_state != "" ? $start_city.", ".$start_state.", ".$start_country : $start_city.", ".$start_country;
+    $echo_destination_city = $destination_state != "" ? $destination_city.", ".$destination_state.", ".$destination_country : $destination_city.", ".$destination_country;
 
 ?>
 <div class="ui large borderless second-nav menu">
@@ -53,7 +55,7 @@ get_template_part('top-menu', get_post_format());
                             <div class="field">
                                 <div class="ui input left icon">
                                     <i class="marker icon"></i>
-                                    <input id="start_city" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city . ", " . $start_state . ", " . $start_country ?>">
+                                    <input id="start_city" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $echo_start_city; ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -71,7 +73,7 @@ get_template_part('top-menu', get_post_format());
                             <div class="field">
                                 <div class="ui input left icon">
                                     <i class="marker icon"></i>
-                                    <input id="destination_city" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city . ", " . $destination_state . ", " . $destination_country ?>">
+                                    <input id="destination_city" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $echo_destination_city; ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -343,7 +345,7 @@ get_template_part('top-menu', get_post_format());
                         <!--<a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" type="submit">Enregistrer la transaction</a>-->
                         <?php endif ?>
                         <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
-                        <button id="evaluate_close_send_package_btn" class="ui right floated red button">Evaluer / Fermer</button>
+                        <button id="evaluate_close_send_package_btn" class="ui right floated red button">Evaluer / Cloturer</button>
                         <?php endif ?>
                     </div>
                 </div>

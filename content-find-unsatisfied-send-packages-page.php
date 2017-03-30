@@ -90,9 +90,9 @@ get_template_part('top-menu', get_post_format()); ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="extra content">
+<!--                                        <div class="extra content">
                                             <a class="ui fluid green button"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <?php
@@ -173,9 +173,9 @@ get_template_part('top-menu', get_post_format()); ?>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="extra content">
+<!--                                        <div class="extra content">
                                             <a class="ui fluid green button"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <?php

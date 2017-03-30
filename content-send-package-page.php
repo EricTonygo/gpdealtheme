@@ -179,7 +179,7 @@ $selected_transport_offers = array_map('intval', $_POST['selected_transport_offe
                                     <?php endforeach ?>
                                     <?php } ?>
                                 </select>
-                           <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Finaliser la transaction</button>
+                           <button id="submit_send_package" onclick='confirm_finalisation_transaction_send_package()' class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Finaliser la transaction</button>
                         <?php else: ?>
                             <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit">Rechercher transporteurs</button>
                         <?php endif ?>

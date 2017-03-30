@@ -8,12 +8,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
     $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
     $deadline_proposition = removeslashes(esc_attr(trim($_POST['start_deadline'])));
-    $destination_country = removeslashes(esc_attr(trim($_POST['destination_country'])));
-    $destination_state = removeslashes(esc_attr(trim($_POST['destination_state'])));
     $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
     $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
     $terms = removeslashes(esc_attr(trim($_POST['terms'])));
     $action = removeslashes(esc_attr(trim($_POST['action'])));
+    $echo_start_city = $start_city;
+    $echo_destination_city =  $destination_city;
 } else {
     $package_type = array_map('intval', wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids")));
     $transport_method = array_map('intval', wp_get_post_terms(get_the_ID(), 'transport-method', array("fields" => "ids")));
@@ -29,6 +29,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $destination_city = get_post_meta(get_the_ID(), 'destination-city-transport-offer', true);
     $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true)));
     $action = removeslashes(esc_attr(trim($_GET['action'])));
+    $echo_start_city = $start_state != "" ? $start_city.", ".$start_state.", ".$start_country : $start_city.", ".$start_country;
+    $echo_destination_city = $destination_state != "" ? $destination_city.", ".$destination_state.", ".$destination_country : $destination_city.", ".$destination_country;
 }
 ?>
 <div class="ui large borderless second-nav menu">

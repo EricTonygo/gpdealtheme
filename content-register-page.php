@@ -87,6 +87,7 @@
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Date de naissance <span style="color:red;">*</span></label>
+                                <span style="font-size: 12px; font-style: italic"><?php echo __("Il faut être majeur pour utiliser notre service", "gpdealdomain") ?></span>
                             </div>
                             <div class="twelve wide field">
                                 <div class="ui calendar" >
@@ -120,53 +121,14 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Pays <span style="color:red;">*</span></label>
+                                <label>Localité <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <select name="country" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre pays</option>
-                                    <?php
-                                    $countries = getCountriesList();
-                                    foreach ($countries as $my_country) :
-                                        ?>
-                                        <option value="<?php echo $my_country['code'] ?>" ><?php echo $my_country['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="ui input left icon">
+                                    <i class="marker icon"></i>
+                                    <input id="locality" type="text" name='locality' placeholder="Votre localité">
+                                </div>
                             </div>                        
-                        </div>
-
-                        <div class="fields">
-                            <div class="four wide field">
-                                <label>Region/Province/Etat <span style="color:red;">*</span></label>
-                            </div>
-                            <div class="twelve wide field">
-                                <select name="state_country" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre région</option>
-                                    <?php
-                                    $states = getStatesListOfCountry();
-                                    foreach ($states as $state) :
-                                        ?>
-                                        <option value="<?php echo $state['code'] ?>" ><?php echo $state['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>             
-                        </div>
-
-                        <div class="fields">
-                            <div class="four wide field">
-                                <label>Commune/Ville/Localité <span style="color:red;">*</span></label>
-                            </div>
-                            <div class="twelve wide field">
-                                <select name="city_state" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre ville</option>
-                                    <?php
-                                    $cities = getCitiesListOfState();
-                                    foreach ($cities as $city) :
-                                        ?>
-                                        <option value="<?php echo $city['code'] ?>" ><?php echo $city['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>             
                         </div>
 
                         <div class="fields">
@@ -282,7 +244,7 @@
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="receive_notifications">
-                                <label>Je souhaite être informé(e) des produits et des services du site global parcel deal susceptibles de m'intéresser. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations du compte.</label>
+                                <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
                             </div>
                         </div>
                         <div class="inline field">
@@ -410,52 +372,12 @@
                                 <label>Pays <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <select name="country" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre pays</option>
-                                    <?php
-                                    $countries = getCountriesList();
-                                    foreach ($countries as $my_country) :
-                                        ?>
-                                        <option value="<?php echo $my_country['code'] ?>" ><?php echo $my_country['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="ui input left icon">
+                                    <i class="marker icon"></i>
+                                    <input id="locality_pro" type="text" name='locality_pro' placeholder="Votre localité">
+                                </div>
                             </div>                        
                         </div>
-
-                        <div class="fields">
-                            <div class="four wide field">
-                                <label>Region/Province/Etat <span style="color:red;">*</span></label>
-                            </div>
-                            <div class="twelve wide field">
-                                <select name="state_country" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre région</option>
-                                    <?php
-                                    $states = getStatesListOfCountry();
-                                    foreach ($states as $state) :
-                                        ?>
-                                        <option value="<?php echo $state['code'] ?>" ><?php echo $state['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>             
-                        </div>
-
-                        <div class="fields">
-                            <div class="four wide field">
-                                <label>Commune/Ville/Localité <span style="color:red;">*</span></label>
-                            </div>
-                            <div class="twelve wide field">
-                                <select name="city_state" class="ui search fluid dropdown">
-                                    <option value="">Selectionner votre ville</option>
-                                    <?php
-                                    $cities = getCitiesListOfState();
-                                    foreach ($cities as $city) :
-                                        ?>
-                                        <option value="<?php echo $city['code'] ?>" ><?php echo $city['name'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>             
-                        </div>
-
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Code postal <span style="color:red;">*</span></label>

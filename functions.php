@@ -70,7 +70,7 @@ function gpdeal_scripts() {
     wp_enqueue_script('datetimepicker_js');
     wp_enqueue_script('hideShowPassword_js');
     wp_enqueue_style('datetimepicker_css');
-    if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('profile', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))
+    if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))
     ) {
         wp_enqueue_script('register_js');
         //wp_enqueue_script('recaptcha_api');

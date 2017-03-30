@@ -145,29 +145,11 @@ $(function () {
                         ]
                     },
                     country: {
-                        identifier: 'country',
+                        identifier: 'locality',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner votre pays'
-                            }
-                        ]
-                    },
-                    state: {
-                        identifier: 'state_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner votre Région, Province ou Etat.'
-                            }
-                        ]
-                    },
-                    city: {
-                        identifier: 'city_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner votre Commune, Ville ou Localité.'
+                                prompt: 'Veuillez saisir votre localité'
                             }
                         ]
                     },
@@ -377,29 +359,11 @@ $(function () {
                         ]
                     },
                     country: {
-                        identifier: 'country',
+                        identifier: 'locality_pro',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner votre pays'
-                            }
-                        ]
-                    },
-                    state: {
-                        identifier: 'state_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner votre region, province ou etat.'
-                            }
-                        ]
-                    },
-                    city: {
-                        identifier: 'city_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner votre commune, ville ou localité.'
+                                prompt: 'Veuillez saisir votre localité'
                             }
                         ]
                     },

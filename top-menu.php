@@ -85,15 +85,18 @@
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
                                 <form id="login_form" method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
-                                    <p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>
+                                    <!--<p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>-->
                                     <div class="field">
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
-                                        <input type="text" name="_username" placeholder="Email ou pseudo">
+                                        <div class="ui input left icon">
+                                            <i class="mail icon"></i>
+                                            <input type="text" name="_username" placeholder="Email ou pseudo">
+                                        </div>
                                     </div>
                                     <div class="field">
                                         <label>Mot de passe <span style="color: red;">*</span></label>
-                                        <div class="ui input right icon">
-                                            <i class="unhide link icon show_hide_password_login"></i>
+                                        <div class="ui input left icon">
+                                            <i class="lock icon"></i>
                                             <input type="password" name="_password" placeholder="Mot de passe">
                                         </div>
                                     </div>
@@ -169,7 +172,7 @@
                                 if (isset($_GET['s'])) {
                                     echo stripslashes($_GET['s']);
                                 }
-                                ?>">
+                                ?>" autocomplete="off">
                             </div>
                             <button id="submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
                         </div>
@@ -181,7 +184,7 @@
                                 if (isset($_GET['s'])) {
                                     echo stripslashes($_GET['s']);
                                 }
-                                ?>">
+                                ?>" autocomplete="off">
                             </div>
                             <button id="submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
                         </div>
@@ -253,16 +256,19 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form id="login_form1"  method="POST" class="ui form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" >
-                                    <p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>
+                                <form id="login_form1"  method="POST" class="ui form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
+                                    <!--<p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>-->
                                     <div class="field">
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
+                                        <div class="ui input left icon">
+                                            <i class="mail icon"></i>
                                         <input type="text" name="_username" placeholder="Email ou pseudo">
+                                        </div>
                                     </div>
                                     <div class="field">
                                         <label>Mot de passe <span style="color: red;">*</span></label>
-                                        <div class="ui input right icon">
-                                            <i class="unhide link icon show_hide_password_login"></i>
+                                        <div class="ui input left icon">
+                                            <i class="lock icon"></i>
                                             <input type="password" name="_password" placeholder="Mot de passe">
                                         </div>
                                     </div>

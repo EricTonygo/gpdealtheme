@@ -536,3 +536,8 @@ tlbs-flux{
 .ui.dividing.header{
     font-weight: normal;
 }
+
+/*#login_modal.ui.small.modal{
+    width: 400px;
+    margin-left: -15px
+}*/

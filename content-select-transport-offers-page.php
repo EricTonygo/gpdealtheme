@@ -267,7 +267,7 @@
                                             <div class="extra content">
                                                 <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
                                                 <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@
                                             <div class="extra content">
                                                 <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
                                                 <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -409,7 +409,7 @@
                 <input type="hidden" name='package_id' value="<?php echo $package_id; ?>">
                 <div align="center">
                     <!--<button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" ><?php echo __("Valider la selection", "gpdealdomain") ?></button>-->
-                    <button id='submit_selected_transport_offers' type='submit' name='submit_selected_transport_offers' class="ui green button" value='yes'><?php echo __("Valider la selection", "gpdealdomain") ?></button>
+                    <button id='submit_selected_transport_offers' onclick="confirm_finalisation_transaction_select()" type='submit' name='submit_selected_transport_offers' class="ui green button" value='yes'><?php echo __("Valider la selection", "gpdealdomain") ?></button>
                 </div>
                 <?php endif ?>
             </form>

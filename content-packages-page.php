@@ -105,12 +105,12 @@
                                                         <?php endif ?>
                                                         <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
                                                         <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain')))))?>" class="item">
-                                                            <i class="search icon"></i>
+                                                            <i class="shipping icon"></i>
                                                             Transporteurs en attente
                                                         </a>
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink()))?>" class="item">
                                                             <i class="star icon"></i>
-                                                            Evaluer / Fermer
+                                                            Evaluer / Cloturer
                                                         </a>
                                                         <?php endif ?>
                                                     </div>
