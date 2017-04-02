@@ -2,14 +2,14 @@ $(function () {
     $.datetimepicker.setLocale('fr');
     $('input[name="start_date"]').datetimepicker({
         timepicker: false,
-        minDate:'0',
+        minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
     });
     $('input[name="destination_date"]').datetimepicker({
         timepicker: false,
-        minDate:'0',
+        minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
@@ -17,7 +17,7 @@ $(function () {
 
     $('input[name="start_deadline"]').datetimepicker({
         timepicker: false,
-        minDate:'0',
+        minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
@@ -299,7 +299,305 @@ $(function () {
 //        }
 //    });
 
+
+
+    $('#evaluation_form.ui.form')
+            .form({
+                fields: {
+                    item_delivred: {
+                        identifier: 'item_delivred',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: "Veuillez s'il vous plait répondre à cette question"
+                            }
+                        ]
+                    },
+
+                    item_state: {
+                        identifier: 'item_state',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: "Veuillez s'il vous plait répondre à cette question"
+                            }
+                        ]
+                    },
+                    delivry_time: {
+                        identifier: 'delivry_time',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: "Veuillez s'il vous plait répondre à cette question"
+                            }
+                        ]
+                    },
+                    cost: {
+                        identifier: 'cost',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: "Veuillez s'il vous plait répondre à cette question"
+                            }
+                        ]
+                    },
+                    recommanded_carrier: {
+                        identifier: 'recommended_carrier',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: "Veuillez s'il vous plait répondre à cette question"
+                            }
+                        ]
+                    }
+                },
+                //inline: true,
+                on: 'blur',
+                onSuccess: function (event, fields) {
+                    $('#evaluation_form .ui.error.message').hide();
+                    $.ajax({
+                        type: 'post',
+                        url: $('#evaluation_form.ui.form').attr('action'),
+                        data: $('#evaluation_form.ui.form').serialize(),
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $('#evaluation_form.ui.form').addClass('loading');
+                            $('#submit_evaluation_form').addClass('disabled');
+                        },
+                        statusCode: {
+                            500: function (xhr) {
+                                $('#evaluation_form.ui.form').removeClass('loading');
+                                $('#submit_evaluation_form').removeClass('disabled');
+                                $('#server_error_message').show();
+                            },
+                            400: function (response, textStatus, jqXHR) {
+                                $('#evaluation_form.ui.form').removeClass('loading');
+                                $('#submit_evaluation_form').removeClass('disabled');
+                                $('#error_name_header').html("Echec de la validation");
+                                $('#error_name_message').show();
+                            }
+                        },
+                        success: function (response, textStatus, jqXHR) {
+                            if (response.success === true) {
+                                //$('#evaluation_form.ui.form').submit();
+                                window.location.reload();
+                            } else if (response.success === false) {
+                                $('#evaluation_form.ui.form').removeClass('loading');
+                                $('#submit_evaluation_form').removeClass('disabled');
+                                $('#error_name_header').html("Echec de la validation");
+                                $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                                $('#error_name_message').show();
+                            } else {
+                                $('#evaluation_form.ui.form').removeClass('loading');
+                                $('#submit_evaluation_form').removeClass('disabled');
+                                $('#error_name_header').html("Internal server error");
+                                $('#error_name_message').show();
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#evaluation_form.ui.form').removeClass('loading');
+                            $('#submit_evaluation_form').removeClass('disabled');
+                            $('#server_error_message').show();
+                        }
+                    });
+                    return false;
+                }
+            }
+            );
+    $('.add_comment_form')
+            .form({
+                fields: {
+                    comment_content: {
+                        identifier: 'comment_content',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez s'il vous plait saisir votre commentaire"
+                            }
+                        ]
+                    }
+                },
+                inline: true,
+                on: 'blur'
+            }
+            );
+    
+    $('.add_comment_reply_form')
+            .form({
+                fields: {
+                    comment_content: {
+                        identifier: 'comment_content',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Veuillez s'il vous plait saisir votre réponse"
+                            }
+                        ]
+                    }
+                },
+                inline: true,
+                on: 'blur'
+            }
+            );
+    
+    $('a.close_transport_offer').click(function(e){
+       e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('href'),
+            data: {"action": "close"},
+            dataType: 'json',
+            beforeSend: function () {
+                $(this).addClass('loading');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $(this).removeClass('loading');
+                },
+                400: function (response, textStatus, jqXHR) {
+                    $(this).removeClass('loading');
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    window.location.reload();
+                } else if (response.success === false) {
+                    $(this).removeClass('loading');
+                } else {
+                    $(this).removeClass('loading');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $(this).removeClass('loading');
+            }
+        });
+    });
 });
 
+function add_evaluation_comment(event, id) {
+    event.preventDefault();
+    if ($('#evaluation_comment_form' + id).form("is valid")) {
+        $.ajax({
+            type: 'post',
+            url: $('#evaluation_comment_form' + id).attr('action'),
+            data: $('#evaluation_comment_form' + id).serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#error_server_message' + id).hide();
+                $('#error_name_message').show();
+                $('#evaluation_comment_form' + id).addClass('loading');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#evaluation_comment_form' + id).removeClass('loading');
+                    $('#error_server_message' + id).show();
+                },
+                400: function (response, textStatus, jqXHR) {
+                    $('#evaluation_comment_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_message' + id).show();
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    window.location.reload();
+                } else if (response.success === false) {
+                    $('#evaluation_comment_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_list' + id).html('<li>' + response.data.message + '</li>');
+                    $('#error_name_message' + id).show();
+                } else {
+                    $('#evaluation_comment_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Internal server error");
+                    $('#error_name_message' + id).show();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#evaluation_comment_form' + id).removeClass('loading');
+            }
+        });
+    }
+    return false;
+}
 
 
+function add_comment_reply(event, id) {
+    event.preventDefault();
+    if ($('#comment_reply_form' + id).form("is valid")) {
+        $.ajax({
+            type: 'post',
+            url: $('#comment_reply_form' + id).attr('action'),
+            data: $('#comment_reply_form' + id).serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#error_server_message' + id).hide();
+                $('#error_name_message').show();
+                $('#comment_reply_form' + id).addClass('loading');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#comment_reply_form' + id).removeClass('loading');
+                    $('#error_server_message' + id).show();
+                },
+                400: function (response, textStatus, jqXHR) {
+                    $('#comment_reply_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_message' + id).show();
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    window.location.reload();
+                } else if (response.success === false) {
+                    $('#comment_reply_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_list' + id).html('<li>' + response.data.message + '</li>');
+                    $('#error_name_message' + id).show();
+                } else {
+                    $('#comment_reply_form' + id).removeClass('loading');
+                    $('#error_name_header' + id).html("Internal server error");
+                    $('#error_name_message' + id).show();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#comment_reply_form' + id).removeClass('loading');
+            }
+        });
+    }
+    return false;
+}
+
+function show_comment_reply_form(id){
+    $('#show_comment_reply_form' + id).hide();
+    $('#hide_comment_reply_form' + id).show();
+    $('#comment_reply_form' + id).show();
+}
+function hide_comment_reply_form(id){
+    $('#hide_comment_reply_form' + id).hide();
+    $('#show_comment_reply_form' + id).show();
+    $('#comment_reply_form' + id).hide();
+}
+
+function show_evaluation_comment_form(id){
+    $('#show_evaluation_comment_form' + id).hide();
+    $('#hide_evaluation_comment_form' + id).show();
+    $('#evaluation_comment_form' + id).show();
+}
+function hide_evaluation_comment_form(id){
+    $('#hide_evaluation_comment_form' + id).hide();
+    $('#show_evaluation_comment_form' + id).show();
+    $('#evaluation_comment_form' + id).hide();
+}
+
+function show_block_evaluation_form(){
+    $('#show_block_evaluation_form').hide();
+    $('#block_evaluation_form').show();
+}
+function show_block_evaluation_form_top(){
+    $('#show_block_evaluation_form').hide();
+    $('#block_evaluation_form').show();
+}
+function hide_block_evaluation_form(){
+    $('#show_block_evaluation_form').show();
+    $('#block_evaluation_form').hide();
+}

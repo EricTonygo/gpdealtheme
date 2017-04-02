@@ -41,7 +41,7 @@
     </script>   
 <?php endif ?>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places"></script>
+<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places"></script>
 <script>
             var input = document.getElementById('s');
             var options = {
@@ -49,9 +49,9 @@
                 types: ['(cities)']
             };
             autocomplete = new google.maps.places.Autocomplete(input, options);
-</script>
+</script>-->
 <?php if (is_home() || is_front_page()): ?>
-    <script>
+<!--    <script>
         var input1 = document.getElementById('start_city_transport');
         var input2 = document.getElementById('destination_city_transport');
         var input3 = document.getElementById('start_city_package');
@@ -64,11 +64,11 @@
         autocomplete2 = new google.maps.places.Autocomplete(input2, options);
         autocomplete3 = new google.maps.places.Autocomplete(input3, options);
         autocomplete4 = new google.maps.places.Autocomplete(input4, options);
-    </script>
+    </script>-->
 <?php endif ?>
 <?php if (is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_singular('package') || is_page(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_singular('transport-offer')):
     ?>
-    <script>
+<!--    <script>
         var input1 = document.getElementById('start_city');
         var input2 = document.getElementById('destination_city');
         var options = {
@@ -77,11 +77,11 @@
         };
         autocomplete1 = new google.maps.places.Autocomplete(input1, options);
         autocomplete2 = new google.maps.places.Autocomplete(input2, options);
-    </script>
+    </script>-->
 <?php endif ?>
     
 <?php if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain'))): ?>
-       <script>
+<!--       <script>
         var input1 = document.getElementById('locality');
         var input2 = document.getElementById('locality_pro');
         var options = {
@@ -90,7 +90,7 @@
         };
         autocomplete1 = new google.maps.places.Autocomplete(input1, options);
         autocomplete2 = new google.maps.places.Autocomplete(input2, options);
-    </script>
+    </script>-->
 <?php endif ?>
 </body>
 </html>

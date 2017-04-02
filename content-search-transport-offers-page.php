@@ -19,19 +19,19 @@ get_template_part('top-menu', get_post_format());
     <div class="ui stackable grid">
 
         <div class="wide column">
-            <form method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
+            <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
                         <div class="header"><?php echo __('Les offres correspondantes pour le départ'); ?></div>
                     </div>
                     <div class="content">
                         <?php
-                        $transport_offers = new WP_Query(getWPQueryArgsForMainCarrierSearchWithStartParameters());
-                        if ($transport_offers->have_posts()) {
+                        $transport_offers_start = new WP_Query(getWPQueryArgsForMainCarrierSearchWithStartParameters());
+                        if ($transport_offers_start->have_posts()) {
                             ?>
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                 <?php
-                                while ($transport_offers->have_posts()): $transport_offers->the_post();
+                                while ($transport_offers_start->have_posts()): $transport_offers_start->the_post();
                                     ?>
                                     <div class="column">
                                         <div class="ui fluid card">
@@ -154,12 +154,12 @@ get_template_part('top-menu', get_post_format());
                     </div>
                     <div class="content">
                         <?php
-                        $transport_offers = new WP_Query(getWPQueryArgsForMainCarrierSearchWithDestinationParameters());
-                        if ($transport_offers->have_posts()) {
+                        $transport_offers_destination = new WP_Query(getWPQueryArgsForMainCarrierSearchWithDestinationParameters());
+                        if ($transport_offers_destination->have_posts()) {
                             ?>
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                 <?php
-                                while ($transport_offers->have_posts()): $transport_offers->the_post();
+                                while ($transport_offers_destination->have_posts()): $transport_offers_destination->the_post();
                                     ?>
                                     <div class="column">
                                         <div class="ui fluid card">
@@ -244,7 +244,7 @@ get_template_part('top-menu', get_post_format());
                                             </div>
                                             <div class="extra content">
                                                 <?php if (is_user_logged_in()) : ?>
-                                                    <input id='selected_transport_offer_destination_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
+                                                    <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
                                                     <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
                                                     <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php else: ?>
@@ -275,7 +275,7 @@ get_template_part('top-menu', get_post_format());
                         ?>
                     </div>
                 </div>
-                <?php if ($transport_offers->have_posts() || $transport_offers->have_posts()): ?>
+                <?php if ($transport_offers_start->have_posts() || $transport_offers_destination->have_posts()): ?>
                     <input type="hidden" name='package_id' value="<?php echo $package_id; ?>">
                     <input type="hidden" name='confirm_transaction' value='true' >
                     <div align="center" >

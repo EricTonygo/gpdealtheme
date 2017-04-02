@@ -78,37 +78,37 @@
                                                 </div>
                                                 <?php $roles = get_user_roles_by_user_id($post_author); ?>
                                                 <?php if (in_array("particular", $roles)): ?>
-                                                <div class="inline field">
-                                                    <label>Téléphone : </label> 
-                                                    <span>
-                                                        <?php echo get_user_meta($post_author, 'mobile-phone-number', true); ?>
-                                                    </span>
-                                                </div>
-                                                <div class="inline field">
-                                                    <label>Nom : </label> 
-                                                    <span>
-                                                        <?php echo get_the_author_meta('user_lastname'); ?>
-                                                    </span>
-                                                </div>
-                                                <div class="inline field">
-                                                    <label>Prénom : </label> 
-                                                    <span>
-                                                        <?php echo get_the_author_meta('user_firstname'); ?>
-                                                    </span>
-                                                </div>
-                                                <?php elseif(in_array("enterprise", $roles) || in_array("professional", $roles)): ?>
-                                                <div class="inline field">
-                                                    <label>Téléphone : </label> 
-                                                    <span>
-                                                        <?php echo get_user_meta($user_id, 'home-phone-number', true); ?>
-                                                    </span>
-                                                </div>
-                                                <div class="inline field">
-                                                    <label>Nom de l'entreprise : </label> 
-                                                    <span>
-                                                        <?php echo get_user_meta($post_author, 'company-name', true); ?>
-                                                    </span>
-                                                </div>
+                                                    <div class="inline field">
+                                                        <label>Téléphone : </label> 
+                                                        <span>
+                                                            <?php echo get_user_meta($post_author, 'mobile-phone-number', true); ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="inline field">
+                                                        <label>Nom : </label> 
+                                                        <span>
+                                                            <?php echo get_the_author_meta('user_lastname'); ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="inline field">
+                                                        <label>Prénom : </label> 
+                                                        <span>
+                                                            <?php echo get_the_author_meta('user_firstname'); ?>
+                                                        </span>
+                                                    </div>
+                                                <?php elseif (in_array("enterprise", $roles) || in_array("professional", $roles)): ?>
+                                                    <div class="inline field">
+                                                        <label>Téléphone : </label> 
+                                                        <span>
+                                                            <?php echo get_user_meta($user_id, 'home-phone-number', true); ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="inline field">
+                                                        <label>Nom de l'entreprise : </label> 
+                                                        <span>
+                                                            <?php echo get_user_meta($post_author, 'company-name', true); ?>
+                                                        </span>
+                                                    </div>
                                                 <?php endif ?>
                                                 <div class="inline field">
                                                     <label>Objet(s) : </label> 
@@ -153,30 +153,25 @@
 
                                             </div>
                                         </div>
+                                        <div class="extra content">
+                                            <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate'), get_the_permalink())) ?>" class="ui icon fluid blue button">
+                                                <i class="star icon"></i>
+                                                Evaluer
+                                            </a>
+                                            <!--                                                <div class="ui two column wide doubling stackable grid">
+                                                                                                <div class="column">
+                                                                                                    <a href="<?php echo esc_url(add_query_arg(array('action' => 'close'), the_permalink())) ?>" class="ui icon fluid red button">
+                                                                                                        <i class="checkmark icon"></i>
+                                                                                                        Cloturer
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                                <div class="column">
+                                                                                                    
+                                                                                                </div>
+                                            
+                                                                                            </div>-->
 
-<!--                                        <div class="extra content">
-                                            <div class="right floated">
-
-                                                <div class="ui dropdown top left pointing item">
-                                                    <i class="ellipsis vertical icon"></i>
-                                                    <div class="menu">
-
-                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'show'), the_permalink())) ?>" class=" item">
-                                                            <i class="unhide icon"></i>
-                                                            Détails
-                                                        </a>
-                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink())) ?>" class="item">
-                                                            <i class="edit icon"></i>
-                                                            Modifier
-                                                        </a>
-                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink())) ?>" class="item">
-                                                            <i class="star icon"></i>
-                                                            Evaluer / Fermer
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>-->
+                                        </div>
                                     </div>
                                 </div>
                                 <?php

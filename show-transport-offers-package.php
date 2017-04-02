@@ -51,20 +51,34 @@ if (is_user_logged_in()) {
         } elseif (isset($_POST['submit_selected_transport_offers']) && $_POST['submit_selected_transport_offers'] == "yes" && $_POST['selected_transport_offers'] && $_POST['package_id']) {
             $selected_transport_offers = array_map('intval', $_POST['selected_transport_offers']);
             $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
-            if ($selected_transport_offers) {
+            if ($selected_transport_offers && is_array($selected_transport_offers) && !empty($selected_transport_offers)) {
                 //update_post_meta($package_id, 'transports-IDs', $selected_transport_offers);
+                $old_transport_offers = get_post_meta($transport_offer_id, 'carrier-ID', true);
+                if (is_array($old_transport_offers) && !empty($old_transport_offers)) {
+                    foreach ($old_transport_offers as $old_transport_offer_id) {
+                        if (!in_array($old_transport_offer_id, $selected_transport_offers)) {
+                            $package_ids = get_post_meta($old_transport_offer_id, 'packages-IDs', true);
+                            if (is_array($package_ids) && !empty($package_ids)) {
+                                $package_ids = array_diff(array_map('intval', $package_ids), array($package_id));
+                                update_post_meta($old_transport_offer_id, 'packages-IDs', $package_ids);
+                            }
+                        }
+                    }
+                }
                 update_post_meta($package_id, 'carrier-ID', $selected_transport_offers);
+                update_post_meta($package_id, 'package-status', 2);
                 foreach ($selected_transport_offers as $transport_offer_id) {
                     $package_ids = get_post_meta($transport_offer_id, 'packages-IDs', true);
                     if (is_array($package_ids) && !empty($package_ids)) {
-                        $package_ids = array_map('intval', $package_ids);
-                        $package_ids[] = $package_id;
-                        update_post_meta($transport_offer_id, 'packages-IDs', $package_ids, -1);
+                        if ( !in_array($package_id, $package_ids)) {
+                            $package_ids = array_map('intval', $package_ids);
+                            $package_ids[] = $package_id;
+                            update_post_meta($transport_offer_id, 'packages-IDs', $package_ids);
+                        }
                     } else {
                         update_post_meta($transport_offer_id, 'packages-IDs', array($package_id));
                     }
                 }
-                update_post_meta($package_id, 'package-status', 2);
             } else {
 //            $old_transport_offers = get_post_meta($package_id, 'carrier-ID', true);
 //            if (is_array($old_transport_offers) && !empty($old_transport_offers)) {

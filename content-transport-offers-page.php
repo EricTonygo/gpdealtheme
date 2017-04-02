@@ -92,9 +92,9 @@
                                                         <i class="edit icon"></i>
                                                         Modifier
                                                     </a>
-                                                    <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink())) ?>" class="item">
+                                                    <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluations'), the_permalink())) ?>" class="item">
                                                         <i class="star icon"></i>
-                                                        Evaluer / Fermer
+                                                        Evaluations
                                                     </a>
                                                 </div>
                                             </div>

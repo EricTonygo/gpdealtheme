@@ -66,7 +66,7 @@ $selected_transport_offers = array_map('intval', $_POST['selected_transport_offe
                                 <div class="ui calendar" >
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name='start_date' placeholder="Date" value="<?php echo $start_date_string ?>">
+                                        <input type="text" name='start_date' placeholder="Date de départ" value="<?php echo $start_date_string ?>">
                                     </div>
                                 </div>
                             </div>      
@@ -84,7 +84,7 @@ $selected_transport_offers = array_map('intval', $_POST['selected_transport_offe
                                 <div class="ui calendar" >
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name='destination_date' placeholder="Date" value="<?php echo $destination_date_string ?>">
+                                        <input type="text" name='destination_date' placeholder="Date de destination" value="<?php echo $destination_date_string ?>">
                                     </div>
                                 </div>
                             </div>      

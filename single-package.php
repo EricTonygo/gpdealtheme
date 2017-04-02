@@ -40,14 +40,29 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
         if ($selected_transport_offers) {
             //update_post_meta($package_id, 'transports-IDs', $selected_transport_offers);
+            $old_transport_offers = get_post_meta($transport_offer_id, 'carrier-ID', true);
+            if (is_array($old_transport_offers) && !empty($old_transport_offers)) {
+                foreach ($old_transport_offers as $old_transport_offer_id) {
+                    if (!in_array($old_transport_offer_id, $selected_transport_offers)) {
+                        $package_ids = get_post_meta($old_transport_offer_id, 'packages-IDs', true);
+                        if (is_array($package_ids) && !empty($package_ids)) {
+                            $package_ids = array_diff(array_map('intval', $package_ids), array($package_id));
+                            update_post_meta($old_transport_offer_id, 'packages-IDs', $package_ids);
+                        }
+                    }
+                }
+            }
             update_post_meta($package_id, 'carrier-ID', $selected_transport_offers);
             update_post_meta($package_id, 'package-status', 2);
             foreach ($selected_transport_offers as $transport_offer_id) {
+
                 $package_ids = get_post_meta($transport_offer_id, 'packages-IDs', true);
-                if (is_array($package_ids) && !empty($package_ids)) {
-                    $package_ids = array_map('intval', $package_ids);
-                    $package_ids[] = $package_id;
-                    update_post_meta($transport_offer_id, 'packages-IDs', $package_ids, -1);
+                if (is_array($package_ids) && !empty($package_ids) && !in_array($package_id, $package_ids)) {
+                    if (!in_array($transport_offer_id, $old_transport_offer_id)) {
+                        $package_ids = array_map('intval', $package_ids);
+                        $package_ids[] = $package_id;
+                        update_post_meta($transport_offer_id, 'packages-IDs', $package_ids);
+                    }
                 } else {
                     update_post_meta($transport_offer_id, 'packages-IDs', array($package_id));
                 }
@@ -77,9 +92,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     get_header();
     get_template_part('content-single-package-page', get_post_format());
     get_footer();
-} 
-//else {
-//    get_header();
-//    get_template_part('content-single-package-page', get_post_format());
-//    get_footer();
-//}
+} elseif (is_user_logged_in()) {
+    get_header();
+    get_template_part('content-single-package-page', get_post_format());
+    get_footer();
+}

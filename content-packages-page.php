@@ -96,6 +96,10 @@
                                                             <i class="edit icon"></i>
                                                             Modifier
                                                         </a>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'cancel'), the_permalink()))?>" class="item">
+                                                            <i class="trash icon"></i>
+                                                            Annuler
+                                                        </a>
                                                         <?php endif ?>
                                                         <?php if(get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
                                                         <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" class="item">
@@ -104,15 +108,16 @@
                                                         </a>
                                                         <?php endif ?>
                                                         <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'fence'), the_permalink()))?>" class="item">
+                                                            <i class="checkmark icon"></i>
+                                                            Cloturer
+                                                        </a>
                                                         <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' .__('visualiser-les-contacts-des-transporteurs', 'gpdealdomain')))))?>" class="item">
                                                             <i class="shipping icon"></i>
                                                             Transporteurs en attente
                                                         </a>
-                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink()))?>" class="item">
-                                                            <i class="star icon"></i>
-                                                            Evaluer / Cloturer
-                                                        </a>
                                                         <?php endif ?>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>

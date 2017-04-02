@@ -36,7 +36,7 @@ get_template_part('top-menu', get_post_format());
     </div>
 </div>
 <div class="ui vertical masthead  segment container">
-    <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action == 'show' || $action == 'evaluate_close'): ?> style="display: none;" <?php endif ?>>
+    <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
             <div class="header"><?php echo __("Modification de l'expédition", 'gpdealdomain') ?> : </div>
             <p><?php echo __("Remplissez les informations ci-dessous de votre expédition puis rechercher à nouveau les transporteurs disponibles.", 'gpdealdomain') ?></p>
@@ -175,7 +175,7 @@ get_template_part('top-menu', get_post_format());
             </div>
         </div>
     </div>
-    <div id='show_package_infos' class="ui signup_contenair basic segment container" <?php if ($action && $action == 'edit'): ?> style="display: none;" <?php endif ?> >
+    <div id='show_package_infos' class="ui signup_contenair basic segment container" <?php if ($action && $action !='show'): ?> style="display: none;" <?php endif ?> >
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">

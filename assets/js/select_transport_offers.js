@@ -20,3 +20,9 @@ function select_transport_offer(package_id){
     }
 }
 
+$(function(){
+    $('#selected_transport_offers_form').submit(function(){
+        $('#selected_transport_offers_form').addClass('ui form loading');
+    });
+});
+

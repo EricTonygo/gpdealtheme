@@ -55,7 +55,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 <div class="ui calendar" >
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name='start_date' placeholder="Date" value="<?php echo $start_date ?>">
+                                        <input type="text" name='start_date' placeholder="Date de départ" value="<?php echo $start_date ?>">
                                     </div>
                                 </div>
                             </div>      
@@ -73,7 +73,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 <div class="ui calendar" >
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name='destination_date' placeholder="Date" value="<?php echo $destination_date ?>">
+                                        <input type="text" name='destination_date' placeholder="Date de destination" value="<?php echo $destination_date ?>">
                                     </div>
                                 </div>
                             </div>      

@@ -34,7 +34,7 @@ get_template_part('top-menu', get_post_format());
     <div class="ui stackable grid">
         
         <div class="wide column">
-            <form method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
+            <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
                 <?php if (is_user_logged_in()): ?>
                     <div style="display: none">
                         <div class="two wide fields">

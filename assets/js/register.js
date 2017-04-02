@@ -241,7 +241,7 @@ $(function () {
                         ]
                     }
                 },
-                //inline: true,
+                inline: true,
                 on: 'change',
                 onSuccess: function (event, fields) {
                     $('#error_name_message').hide();
@@ -262,6 +262,13 @@ $(function () {
                 }
             }
             );
+
+    $("#register_form_particular.ui.form").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 
 
     $('#register_form_enterprise.ui.form')
@@ -490,6 +497,12 @@ $(function () {
             }
             );
 
+    $("#register_form_enterprise.ui.form").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 
     $('#forgot_password_form.ui.form')
             .form({
@@ -585,258 +598,48 @@ $(function () {
 
     $('#confirm_save_account_enterprise').click(function (e) {
         e.preventDefault();
-        $('#server_error_message').hide();
-        $("#register_form_enterprise.ui.form input[name='save_account']").val('yes');
-        $.ajax({
-            type: 'post',
-            url: $('#register_form_enterprise.ui.form').attr('action'),
-            data: {'testunicity': 'yes', 'username': $('#register_form_enterprise.ui.form input[name="company_name"]').val(), 'email': $('#register_form_enterprise.ui.form input[name="email_pro"]').val(),
-                'g-recaptcha-response': $('#register_form_enterprise.ui.form input[name="g-recaptcha-response-register"]').val()},
-            dataType: 'json',
-            beforeSend: function () {
-                $('#block_recap').hide();
-                $('#block_form_edit').show();
-                $('#submit_create_account_enterprise').addClass('disabled');
-                $('#confirm_save_account_enterprise').addClass('disabled');
-                $('#edit_account').addClass('disabled');
-                $('#register_form_enterprise.ui.form').addClass('loading');
-            },
-            statusCode: {
-                500: function (xhr) {
-                    $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_pro);
-                    $('#server_error_message').show();
-                },
-                400: function (response, textStatus, jqXHR) {
-                    $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    $('#error_name_header').html("Echec de la validation");
-                    $('#error_name_message').show();
-                    grecaptcha.reset(widgetId_pro);
+        confirm_save_account_enterprise();
+    });
 
-                }
-            },
-            success: function (response, textStatus, jqXHR) {
-                if (response.success === true) {
-                    $('#register_form_enterprise.ui.form').submit();
-                } else if (response.success === false) {
-                    $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_pro);
-                    $('#error_name_header').html("Echec de la validation");
-                    $('#error_name_list').html('<li>' + response.data.message + '</li>');
-                    $('#error_name_message').show();
-                } else {
-                    $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_pro);
-                    $('#error_name_header').html("Internal server error");
-                    $('#error_name_message').show();
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
-                $('#register_form_enterprise.ui.form').removeClass('loading');
-                grecaptcha.reset(widgetId_pro);
-                $('#server_error_message').show();
-            }
-        });
+    $("#confirm_save_account_enterprise").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            confirm_save_account_enterprise();
+            return false;
+        }
     });
 
     $('#confirm_edit_account_enterprise').click(function (e) {
         e.preventDefault();
-        $('#server_error_message').hide();
-        $("#register_form_enterprise.ui.form input[name='edit_account']").val('yes');
-        $.ajax({
-            type: 'post',
-            url: $('#register_form_enterprise.ui.form').attr('action'),
-            data: {'testunicity': 'yes', 'username': $('#register_form_enterprise.ui.form input[name="company_name"]').val(), 'email': $('#register_form_enterprise.ui.form input[name="email_pro"]').val()},
-            dataType: 'json',
-            beforeSend: function () {
-                $('#block_recap').hide();
-                $('#block_form_edit').show();
-                $('#submit_edit_account_enterprise').addClass('disabled');
-                $('#confirm_edit_account_enterprise').addClass('disabled');
-                $('#edit_account').addClass('disabled');
-                $('#register_form_enterprise.ui.form').addClass('loading');
-            },
-            statusCode: {
-                500: function (xhr) {
-                    $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    $('#confirm_edit_account_enterprise').removeClass('disabled');
-                    $('#server_error_message').show();
-                },
-                400: function (response, textStatus, jqXHR) {
-                    $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    $('#error_name_header').html("Echec de la validation");
-                    $('#error_name_message').show();
-                    $('#confirm_edit_account_enterprise').removeClass('disabled');
+        confirm_edit_account_enterprise();
+    });
 
-                }
-            },
-            success: function (response, textStatus, jqXHR) {
-                if (response.success === true) {
-                    $('#register_form_enterprise.ui.form').submit();
-                } else if (response.success === false) {
-                    $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    $('#submit_edit_account_enterprise').removeClass('disabled');
-                    $('#error_name_header').html("Echec de la validation");
-                    $('#error_name_list').html('<li>' + response.data.message + '</li>');
-                    $('#error_name_message').show();
-                } else {
-                    $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
-                    $('#register_form_enterprise.ui.form').removeClass('loading');
-                    $('#submit_edit_account_enterprise').removeClass('disabled');
-                    $('#error_name_header').html("Internal server error");
-                    $('#error_name_message').show();
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
-                $('#register_form_enterprise.ui.form').removeClass('loading');
-                $('#submit_edit_account_enterprise').removeClass('disabled');
-                $('#server_error_message').show();
-            }
-        });
+    $("#confirm_edit_account_enterprise").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            confirm_edit_account_enterprise();
+            return false;
+        }
     });
 
     $('#confirm_save_account_particular').click(function (e) {
         e.preventDefault();
-        if (getAge($('#register_form_particular.ui.form input[name="birthdate"]').datetimepicker('getValue')) >= 18) {
-            $("#register_form_particular.ui.form input[name='save_account']").val('yes');
-            $.ajax({
-                type: 'post',
-                url: $('#register_form_particular.ui.form').attr('action'),
-                data: {'testunicity': 'yes', 'username': $('#register_form_particular.ui.form input[name="username"]').val(), 'email': $('#register_form_particular.ui.form input[name="email"]').val(),
-                    'g-recaptcha-response': $('#register_form_particular.ui.form input[name="g-recaptcha-response-register"]').val()},
-                dataType: 'json',
-                beforeSend: function () {
-                    $('#block_recap').hide();
-                    $('#block_form_edit').show();
-                    $('#submit_create_account_particular').addClass('disabled');
-                    $('#edit_account').addClass('disabled');
-                    $('#confirm_create_account').addClass('disabled');
-                    $('#register_form_particular.ui.form').addClass('loading');
-                },
-                statusCode: {
-                    500: function (xhr) {
-                        $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        grecaptcha.reset(widgetId_particular);
-                        $('#server_error_message').show();
-                    },
-                    400: function (response, textStatus, jqXHR) {
-                        $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        $('#error_name_header').html("Echec de la validation");
-                        $('#error_name_message').show();
-                        grecaptcha.reset(widgetId_particular);
+        confirm_save_account_particular();
+    });
 
-                    }
-                },
-                success: function (response, textStatus, jqXHR) {
-                    if (response.success === true) {
-                        $('#register_form_particular.ui.form').submit();
-                    } else if (response.success === false) {
-                        $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        grecaptcha.reset(widgetId_particular);
-                        $('#error_name_header').html("Echec de la validation");
-                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
-                        $('#error_name_message').show();
-                    } else {
-                        $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        grecaptcha.reset(widgetId_particular);
-                        $('#error_name_header').html("Internal server error");
-                        $('#error_name_message').show();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                    $('#register_form_particular.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_particular);
-                    $('#server_error_message').show();
-                }
-            });
-        } else {
-            $('#register_form_particular.ui.form').removeClass('loading');
-            grecaptcha.reset(widgetId_particular);
-            $('#error_name_header').html("Echec de la validation");
-            $('#error_name_list').html("<li>L'âge d'un utilisateur doit être supérieur ou égal à 18 ans</li>");
-            $('#error_name_message').show();
+    $("#confirm_save_account_particular").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            confirm_save_account_particular();
             return false;
         }
     });
 
     $('#confirm_edit_account_particular').click(function (e) {
         e.preventDefault();
-        if (getAge($('#register_form_particular.ui.form input[name="birthdate"]').datetimepicker('getValue')) >= 18) {
-            $("#register_form_particular.ui.form input[name='edit_account']").val('yes');
-            $.ajax({
-                type: 'post',
-                url: $('#register_form_particular.ui.form').attr('action'),
-                data: {'testunicity': 'yes', 'username': $('#register_form_particular.ui.form input[name="username"]').val(), 'email': $('#register_form_particular.ui.form input[name="email"]').val()},
-                dataType: 'json',
-                beforeSend: function () {
-                    $('#block_recap').hide();
-                    $('#block_form_edit').show();
-                    $('#submit_edit_account_particular').addClass('disabled');
-                    $('#confirm_edit_account_particular').addClass('disabled');
-                    $('#edit_account').addClass('disabled');
-                    $('#register_form_particular.ui.form').addClass('loading');
-                },
-                statusCode: {
-                    500: function (xhr) {
-                        $("#register_form_particular.ui.form input[name='edit_account']").val('no');
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        $('#confirm_edit_account_particular').removeClass('disabled');
-                        $('#server_error_message').show();
-                    },
-                    400: function (response, textStatus, jqXHR) {
-                        $("#register_form_particular.ui.form input[name='edit_account']").val('no');
-                        $('#error_name_header').html("Echec de la validation");
-                        $('#error_name_message').show();
-                        $('#confirm_edit_account_particular').removeClass('disabled');
-                        $('#register_form_particular.ui.form').removeClass('loading');
+        confirm_edit_account_particular();
+    });
 
-                    }
-                },
-                success: function (response, textStatus, jqXHR) {
-                    if (response.success === true) {
-                        $('#register_form_particular.ui.form').submit();
-                    } else if (response.success === false) {
-                        $("#register_form_particular.ui.form input[name='edit_account']").val('no');
-                        $('#submit_edit_account_particular').removeClass('disabled');
-                        $('#error_name_header').html("Echec de la validation");
-                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
-                        $('#error_name_message').show();
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                    } else {
-                        $("#register_form_particular.ui.form input[name='edit_account']").val('no');
-                        $('#confirm_edit_account_particular').removeClass('disabled');
-                        $('#error_name_header').html("Internal server error");
-                        $('#error_name_message').show();
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $("#register_form_particular.ui.form input[name='edit_account']").val('no');
-                    $('#register_form_particular.ui.form').removeClass('loading');
-                    $('#submit_edit_account_particular').removeClass('disabled');
-                    $('#server_error_message').show();
-                }
-            });
-        } else {
-            $('#register_form_particular.ui.form').removeClass('loading');
-            $('#submit_edit_account_particular').removeClass('disabled');
-            $('#error_name_header').html("Echec de la validation");
-            $('#error_name_list').html("<li>L'âge d'un utilisateur doit être supérieur ou égal à 18 ans</li>");
-            $('#error_name_message').show();
+    $("#confirm_edit_account_particular").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+            confirm_edit_account_particular();
             return false;
         }
     });
@@ -849,4 +652,256 @@ $(function () {
 });
 
 
+function confirm_edit_account_particular() {
+    if (getAge($('#register_form_particular.ui.form input[name="birthdate"]').datetimepicker('getValue')) >= 18) {
+        $("#register_form_particular.ui.form input[name='edit_account']").val('yes');
+        $.ajax({
+            type: 'post',
+            url: $('#register_form_particular.ui.form').attr('action'),
+            data: {'testunicity': 'yes', 'username': $('#register_form_particular.ui.form input[name="username"]').val(), 'email': $('#register_form_particular.ui.form input[name="email"]').val()},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#block_recap').hide();
+                $('#block_form_edit').show();
+                $('#submit_edit_account_particular').addClass('disabled');
+                $('#confirm_edit_account_particular').addClass('disabled');
+                $('#edit_account').addClass('disabled');
+                $('#register_form_particular.ui.form').addClass('loading');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $("#register_form_particular.ui.form input[name='edit_account']").val('no');
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                    $('#confirm_edit_account_particular').removeClass('disabled');
+                    $('#server_error_message').show();
+                },
+                400: function (response, textStatus, jqXHR) {
+                    $("#register_form_particular.ui.form input[name='edit_account']").val('no');
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_message').show();
+                    $('#confirm_edit_account_particular').removeClass('disabled');
+                    $('#register_form_particular.ui.form').removeClass('loading');
 
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    $('#register_form_particular.ui.form').submit();
+                } else if (response.success === false) {
+                    $("#register_form_particular.ui.form input[name='edit_account']").val('no');
+                    $('#submit_edit_account_particular').removeClass('disabled');
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                    $('#error_name_message').show();
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                } else {
+                    $("#register_form_particular.ui.form input[name='edit_account']").val('no');
+                    $('#confirm_edit_account_particular').removeClass('disabled');
+                    $('#error_name_header').html("Internal server error");
+                    $('#error_name_message').show();
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#register_form_particular.ui.form input[name='edit_account']").val('no');
+                $('#register_form_particular.ui.form').removeClass('loading');
+                $('#submit_edit_account_particular').removeClass('disabled');
+                $('#server_error_message').show();
+            }
+        });
+    } else {
+        $('#register_form_particular.ui.form').removeClass('loading');
+        $('#submit_edit_account_particular').removeClass('disabled');
+        $('#error_name_header').html("Echec de la validation");
+        $('#error_name_list').html("<li>L'âge d'un utilisateur doit être supérieur ou égal à 18 ans</li>");
+        $('#error_name_message').show();
+        return false;
+    }
+}
+
+function confirm_save_account_particular() {
+    if (getAge($('#register_form_particular.ui.form input[name="birthdate"]').datetimepicker('getValue')) >= 18) {
+        $("#register_form_particular.ui.form input[name='save_account']").val('yes');
+        $.ajax({
+            type: 'post',
+            url: $('#register_form_particular.ui.form').attr('action'),
+            data: {'testunicity': 'yes', 'username': $('#register_form_particular.ui.form input[name="username"]').val(), 'email': $('#register_form_particular.ui.form input[name="email"]').val(),
+                'g-recaptcha-response': $('#register_form_particular.ui.form input[name="g-recaptcha-response-register"]').val()},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#block_recap').hide();
+                $('#block_form_edit').show();
+                $('#submit_create_account_particular').addClass('disabled');
+                $('#edit_account').addClass('disabled');
+                $('#confirm_create_account').addClass('disabled');
+                $('#register_form_particular.ui.form').addClass('loading');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $("#register_form_particular.ui.form input[name='save_account']").val('no');
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                    grecaptcha.reset(widgetId_particular);
+                    $('#server_error_message').show();
+                },
+                400: function (response, textStatus, jqXHR) {
+                    $("#register_form_particular.ui.form input[name='save_account']").val('no');
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_message').show();
+                    grecaptcha.reset(widgetId_particular);
+
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    $('#register_form_particular.ui.form').submit();
+                } else if (response.success === false) {
+                    $("#register_form_particular.ui.form input[name='save_account']").val('no');
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                    grecaptcha.reset(widgetId_particular);
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                    $('#error_name_message').show();
+                } else {
+                    $("#register_form_particular.ui.form input[name='save_account']").val('no');
+                    $('#register_form_particular.ui.form').removeClass('loading');
+                    grecaptcha.reset(widgetId_particular);
+                    $('#error_name_header').html("Internal server error");
+                    $('#error_name_message').show();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#register_form_particular.ui.form input[name='save_account']").val('no');
+                $('#register_form_particular.ui.form').removeClass('loading');
+                grecaptcha.reset(widgetId_particular);
+                $('#server_error_message').show();
+            }
+        });
+    } else {
+        $('#register_form_particular.ui.form').removeClass('loading');
+        grecaptcha.reset(widgetId_particular);
+        $('#error_name_header').html("Echec de la validation");
+        $('#error_name_list').html("<li>L'âge d'un utilisateur doit être supérieur ou égal à 18 ans</li>");
+        $('#error_name_message').show();
+        return false;
+    }
+}
+
+function confirm_edit_account_enterprise() {
+    $('#server_error_message').hide();
+    $("#register_form_enterprise.ui.form input[name='edit_account']").val('yes');
+    $.ajax({
+        type: 'post',
+        url: $('#register_form_enterprise.ui.form').attr('action'),
+        data: {'testunicity': 'yes', 'username': $('#register_form_enterprise.ui.form input[name="company_name"]').val(), 'email': $('#register_form_enterprise.ui.form input[name="email_pro"]').val()},
+        dataType: 'json',
+        beforeSend: function () {
+            $('#block_recap').hide();
+            $('#block_form_edit').show();
+            $('#submit_edit_account_enterprise').addClass('disabled');
+            $('#confirm_edit_account_enterprise').addClass('disabled');
+            $('#edit_account').addClass('disabled');
+            $('#register_form_enterprise.ui.form').addClass('loading');
+        },
+        statusCode: {
+            500: function (xhr) {
+                $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                $('#confirm_edit_account_enterprise').removeClass('disabled');
+                $('#server_error_message').show();
+            },
+            400: function (response, textStatus, jqXHR) {
+                $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                $('#error_name_header').html("Echec de la validation");
+                $('#error_name_message').show();
+                $('#confirm_edit_account_enterprise').removeClass('disabled');
+
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            if (response.success === true) {
+                $('#register_form_enterprise.ui.form').submit();
+            } else if (response.success === false) {
+                $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                $('#submit_edit_account_enterprise').removeClass('disabled');
+                $('#error_name_header').html("Echec de la validation");
+                $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                $('#error_name_message').show();
+            } else {
+                $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                $('#submit_edit_account_enterprise').removeClass('disabled');
+                $('#error_name_header').html("Internal server error");
+                $('#error_name_message').show();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#register_form_enterprise.ui.form input[name='edit_account']").val('no');
+            $('#register_form_enterprise.ui.form').removeClass('loading');
+            $('#submit_edit_account_enterprise').removeClass('disabled');
+            $('#server_error_message').show();
+        }
+    });
+}
+
+function confirm_save_account_enterprise() {
+    $('#server_error_message').hide();
+    $("#register_form_enterprise.ui.form input[name='save_account']").val('yes');
+    $.ajax({
+        type: 'post',
+        url: $('#register_form_enterprise.ui.form').attr('action'),
+        data: {'testunicity': 'yes', 'username': $('#register_form_enterprise.ui.form input[name="company_name"]').val(), 'email': $('#register_form_enterprise.ui.form input[name="email_pro"]').val(),
+            'g-recaptcha-response': $('#register_form_enterprise.ui.form input[name="g-recaptcha-response-register"]').val()},
+        dataType: 'json',
+        beforeSend: function () {
+            $('#block_recap').hide();
+            $('#block_form_edit').show();
+            $('#submit_create_account_enterprise').addClass('disabled');
+            $('#confirm_save_account_enterprise').addClass('disabled');
+            $('#edit_account').addClass('disabled');
+            $('#register_form_enterprise.ui.form').addClass('loading');
+        },
+        statusCode: {
+            500: function (xhr) {
+                $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                grecaptcha.reset(widgetId_pro);
+                $('#server_error_message').show();
+            },
+            400: function (response, textStatus, jqXHR) {
+                $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                $('#error_name_header').html("Echec de la validation");
+                $('#error_name_message').show();
+                grecaptcha.reset(widgetId_pro);
+
+            }
+        },
+        success: function (response, textStatus, jqXHR) {
+            if (response.success === true) {
+                $('#register_form_enterprise.ui.form').submit();
+            } else if (response.success === false) {
+                $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                grecaptcha.reset(widgetId_pro);
+                $('#error_name_header').html("Echec de la validation");
+                $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                $('#error_name_message').show();
+            } else {
+                $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
+                $('#register_form_enterprise.ui.form').removeClass('loading');
+                grecaptcha.reset(widgetId_pro);
+                $('#error_name_header').html("Internal server error");
+                $('#error_name_message').show();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            $("#register_form_enterprise.ui.form input[name='save_account']").val('no');
+            $('#register_form_enterprise.ui.form').removeClass('loading');
+            grecaptcha.reset(widgetId_pro);
+            $('#server_error_message').show();
+        }
+    });
+}

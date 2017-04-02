@@ -4,11 +4,11 @@
         <?php echo __("Connexion", "gpdealdomain"); ?>
     </div>
     <div class="content">            
-        <form id="login_form3"  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off">
+        <form id="login_form3"  method="POST" class="ui form login_form" action="<?php echo get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))) ?>" style="margin-bottom: 1em" autocomplete="off" onkeydown="submit_modal_login_form();">
             <div class="field">
                 <label>Email ou pseudo <span style="color: red;">*</span></label>
                 <div class="ui input left icon">
-                    <i class="mail icon"></i>
+                    <i class="user icon"></i>
                 <input type="text" name="_username" placeholder="Email ou pseudo">
                 </div>
             </div>

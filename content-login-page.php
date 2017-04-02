@@ -26,7 +26,7 @@
                     <div class="field">
                         <label>Email ou pseudo <span style="color: red;">*</span></label>
                         <div class="ui input left icon">
-                            <i class="mail icon"></i>
+                            <i class="user icon"></i>
                             <input type="text" name="_username" placeholder="Email ou pseudo">
                         </div>
                     </div>
