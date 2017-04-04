@@ -1,24 +1,23 @@
 <?php
 get_template_part('top-menu', get_post_format());
-    global $current_user;
-    $type = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids"));
-    $content = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "ids"));
-    $length = get_post_meta(get_the_ID(), 'length', true);
-    $width = get_post_meta(get_the_ID(), 'width', true);
-    $height = get_post_meta(get_the_ID(), 'height', true);
-    $weight = get_post_meta(get_the_ID(), 'weight', true);
-    $start_country = get_post_meta(get_the_ID(), 'departure-country-package', true);
-    $start_state = get_post_meta(get_the_ID(), 'departure-state-package', true);
-    $start_city = get_post_meta(get_the_ID(), 'departure-city-package', true);
-    $start_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
-    $destination_country = get_post_meta(get_the_ID(), 'destination-country-package', true);
-    $destination_state = get_post_meta(get_the_ID(), 'destination-state-package', true);
-    $destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
-    $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
-    $action = removeslashes(esc_attr(trim($_GET['action'])));
-    $echo_start_city = $start_state != "" ? $start_city.", ".$start_state.", ".$start_country : $start_city.", ".$start_country;
-    $echo_destination_city = $destination_state != "" ? $destination_city.", ".$destination_state.", ".$destination_country : $destination_city.", ".$destination_country;
-
+global $current_user;
+$type = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids"));
+$content = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "ids"));
+$length = get_post_meta(get_the_ID(), 'length', true);
+$width = get_post_meta(get_the_ID(), 'width', true);
+$height = get_post_meta(get_the_ID(), 'height', true);
+$weight = get_post_meta(get_the_ID(), 'weight', true);
+$start_country = get_post_meta(get_the_ID(), 'departure-country-package', true);
+$start_state = get_post_meta(get_the_ID(), 'departure-state-package', true);
+$start_city = get_post_meta(get_the_ID(), 'departure-city-package', true);
+$start_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
+$destination_country = get_post_meta(get_the_ID(), 'destination-country-package', true);
+$destination_state = get_post_meta(get_the_ID(), 'destination-state-package', true);
+$destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
+$destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
+$action = removeslashes(esc_attr(trim($_GET['action'])));
+$echo_start_city = $start_state != "" ? $start_city . ", " . $start_state . ", " . $start_country : $start_city . ", " . $start_country;
+$echo_destination_city = $destination_state != "" ? $destination_city . ", " . $destination_state . ", " . $destination_country : $destination_city . ", " . $destination_country;
 ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
@@ -163,7 +162,7 @@ get_template_part('top-menu', get_post_format());
                         </div>
                         <div class="field">
                             <input type="hidden" name='action' value='edit'>
-                            <input type="hidden" name='package_id' value='<?php the_ID()?>'>
+                            <input type="hidden" name='package_id' value='<?php the_ID() ?>'>
                             <button id="cancel_edit_package_infos_btn" class="ui green button" >Annuler la modification</button>
                             <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit">Rechercher transporteur</button>
                         </div>
@@ -175,7 +174,7 @@ get_template_part('top-menu', get_post_format());
             </div>
         </div>
     </div>
-    <div id='show_package_infos' class="ui signup_contenair basic segment container" <?php if ($action && $action !='show'): ?> style="display: none;" <?php endif ?> >
+    <div id='show_package_infos' class="ui signup_contenair basic segment container" <?php if ($action && $action != 'show'): ?> style="display: none;" <?php endif ?> >
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">
@@ -320,13 +319,12 @@ get_template_part('top-menu', get_post_format());
                                         $i = 0;
                                         foreach ($carrier_ids as $id) :
                                             $post_author = get_post_field('post_author', $id);
-                                            $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain"): get_the_author_meta('user_login', $post_author);
+                                            $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login', $post_author);
                                             ?>
-                                            <?php 
-                                            if ($i < $carrier_ids_count - 1) : ?>
-                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name." (".__("Transporteur", "gpdealdomain")." ".get_user_role_by_user_id($post_author).")"; ?></a>, </span>
+                                            <?php if ($i < $carrier_ids_count - 1) : ?>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) . ")"; ?></a>, </span>
                                             <?php else: ?>
-                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name." (".__("Transporteur", "gpdealdomain")." ".get_user_role_by_user_id($post_author).")"; ?></a> </span>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) . ")"; ?></a> </span>
                                             <?php endif ?>
                                             <?php
                                             $i++;
@@ -337,17 +335,19 @@ get_template_part('top-menu', get_post_format());
                             </div>
                         </div>
                     <?php endif ?>
-                    <div class="field" style="margin-top: 4em">
-                        <button id="edit_package_infos_btn" class="ui green button">Modifier l'expédition</button>
-                        <?php if(get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
-                        <a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" type="submit">Rechercher transporteurs</a>
-                        <?php else: ?>
-                        <!--<a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain')))))?>" type="submit">Enregistrer la transaction</a>-->
-                        <?php endif ?>
-                        <?php if(get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
-                        <button id="evaluate_close_send_package_btn" class="ui right floated red button">Evaluer / Cloturer</button>
-                        <?php endif ?>
-                    </div>
+                    <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID): ?>
+                        <div class="field" style="margin-top: 4em">
+                            <button id="edit_package_infos_btn" class="ui green button">Modifier l'expédition</button>
+                            <?php if (get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
+                                <a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))))) ?>" type="submit">Rechercher transporteurs</a>
+                            <?php else: ?>
+                                <!--<a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))))) ?>" type="submit">Enregistrer la transaction</a>-->
+                            <?php endif ?>
+                            <?php if (get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
+                                <button onclick="fence_send_package(<?php the_ID() ?>)" class="ui right floated red icon button"><i class="checkmark icon"></i> Cloturer</button>
+                            <?php endif ?>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>

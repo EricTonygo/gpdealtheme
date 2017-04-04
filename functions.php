@@ -76,7 +76,7 @@ function gpdeal_scripts() {
         //wp_enqueue_script('recaptcha_api');
     }
 
-    if (is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_singular('package')) {
+    if (is_page(__('mon-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain')) || is_singular('package')) {
         wp_enqueue_script('package_js');
     }
 

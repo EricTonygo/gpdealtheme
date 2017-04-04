@@ -32,7 +32,7 @@ get_template_part('top-menu', get_post_format());
     <!--div class="ui text container">
     </div-->
     <div class="ui stackable grid">
-        
+
         <div class="wide column">
             <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
                 <?php if (is_user_logged_in()): ?>
@@ -89,7 +89,7 @@ get_template_part('top-menu', get_post_format());
                         </div>
                     </div>
                 <?php endif ?>
-                
+
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
                         <div class="header"><?php echo __('Les offres correspondantes'); ?></div>
@@ -109,6 +109,7 @@ get_template_part('top-menu', get_post_format());
                                         <div class="ui fluid card">
                     <!--                        <i class="huge travel icon center aligned"></i>-->
                                             <div class="content">
+
                                                 <?php
                                                 $post_author = get_post_field('post_author', get_the_ID());
                                                 $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
@@ -183,7 +184,14 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-
+                                                    <div class="inline field">
+                                                        <label>Avis et évaluations : </label> 
+                                                        <span> 
+                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
+                                                                Voir
+                                                            </a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="extra content">
@@ -192,7 +200,7 @@ get_template_part('top-menu', get_post_format());
                                                     <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
                                                     <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php else: ?>
-                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                    <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php endif ?>
                                             </div>
                                         </div>
@@ -240,6 +248,7 @@ get_template_part('top-menu', get_post_format());
                                             $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
                                             ?>
                                             <div class="content">
+                                               
                                                 <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo $carrier_name; ?></a>
                                             </div>
                                             <div class="content">
@@ -310,7 +319,14 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-
+                                                    <div class="inline field">
+                                                        <label>Avis et évaluations : </label> 
+                                                        <span> 
+                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
+                                                                Voir
+                                                            </a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="extra content">
@@ -319,7 +335,7 @@ get_template_part('top-menu', get_post_format());
                                                     <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
                                                     <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php else: ?>
-                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                    <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                                 <?php endif ?>
                                             </div>
                                         </div>
@@ -343,5 +359,6 @@ get_template_part('top-menu', get_post_format());
         </div>
     </div>
 </div>
-<?php
-include(locate_template('content-login-modal-page.php'));
+<?php include(locate_template('content-login-modal-page.php')); ?>
+<div id='main_content_reviews_evaluations'>
+</div>

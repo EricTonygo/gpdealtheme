@@ -41,6 +41,11 @@ get_template_part('top-menu', get_post_format());
                                             $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
                                             ?>
                                             <div class="content">
+                                                <div class="right floated meta">
+                                                    <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
+                                                        Avis
+                                                    </a>
+                                                </div>
                                                 <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo $carrier_name; ?></a>
                                             </div>
                                             <div class="content">
@@ -111,7 +116,14 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-
+                                                    <div class="inline field">
+                                                        <label>Avis et évaluations : </label> 
+                                                        <span> 
+                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
+                                                                Voir
+                                                            </a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="extra content">
@@ -239,7 +251,14 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-
+                                                    <div class="inline field">
+                                                        <label>Avis et évaluations : </label> 
+                                                        <span> 
+                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
+                                                                Voir
+                                                            </a>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="extra content">

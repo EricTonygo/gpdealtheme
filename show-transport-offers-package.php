@@ -79,6 +79,7 @@ if (is_user_logged_in()) {
                         update_post_meta($transport_offer_id, 'packages-IDs', array($package_id));
                     }
                 }
+                
             } else {
 //            $old_transport_offers = get_post_meta($package_id, 'carrier-ID', true);
 //            if (is_array($old_transport_offers) && !empty($old_transport_offers)) {

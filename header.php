@@ -222,17 +222,17 @@
 
         <!-- Page Contents -->
         <div class="pusher">
-            <div id="message_success" class="ui success message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <div id="message_success" class="ui success message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
                 <i class="close icon"></i>
                 <div class="header"></div>
             </div>
 
-            <div id="message_error" class="ui error message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <div id="message_error" class="ui error message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
                 <i class="close icon"></i>
                 <div class="header"> </div>
             </div>
 
-            <div id="message_loading" class="ui icon message" style="position: fixed; top: 5em; right: 40em; left: auto; z-index: 5; width: 20em; display: none;">
+            <div id="message_loading" class="ui icon message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 20em; display: none;">
                 <i class="notched circle loading icon"></i>
                 <div class="content">
                     <div class="header">Traitement encours... </div>

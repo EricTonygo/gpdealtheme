@@ -1,8 +1,52 @@
 <?php
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "cancel") {
+        $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
+//        $transport_offers = get_post_meta($package_id, 'carrier-ID', true);
+//        if (is_array($transport_offers) && !empty($transport_offers)) {
+//            $transport_offers = array_map('intval', $transport_offers);
+//            foreach ($transport_offers as $transport_offer_id) {
+//                $package_ids = get_post_meta($transport_offer_id, 'packages-IDs', true);
+//                if (is_array($package_ids) && !empty($package_ids)) {
+//                    $package_ids = array_diff(array_map('intval', $package_ids), array($package_id));
+//                    if (is_array($package_ids) && !empty($package_ids)) {
+//                        update_post_meta($transport_offer_id, 'packages-IDs', $package_ids);
+//                        update_post_meta($transport_offer_id, 'transport-status', 1);
+//                    } else {
+//                        update_post_meta($transport_offer_id, 'packages-IDs', -1);
+//                        update_post_meta($transport_offer_id, 'transport-status', 1);
+//                    }
+//                }
+//            }
+//        }
 
-    if (isset($_POST['package_type']) && isset($_POST['portable_objects']) && isset($_POST['package_dimensions_length']) && isset($_POST['package_dimensions_width']) && isset($_POST['package_dimensions_height']) && isset($_POST['package_weight']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
+        if ($package_id) {
+            //$package_id_result = update_post_meta($package_id, 'carrier-ID', -1);
+            $package_id_result = update_post_meta($package_id, 'package-status', 5);
+        }
+        if ($package_id_result == false) {
+            $json = array("message" => "Impossible d'annuler votre expédition.");
+            return wp_send_json_error($json);
+        } else {
+            $json = array("message" => "Expédition annulée avec succès !");
+            return wp_send_json_success($json);
+        }
+    }if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "fence") {
+        $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
+        $transport_offers = get_post_meta($package_id, 'carrier-ID', true);
+        
+        if ($package_id) {
+            $package_id_result = update_post_meta($package_id, 'package-status', 4);
+        }
+        if ($package_id_result == false) {
+            $json = array("message" => "Impossible d'annuler votre expédition.");
+            return wp_send_json_error($json);
+        } else {
+            $json = array("message" => "Expédition annulée avec succès !");
+            return wp_send_json_success($json);
+        }
+    } elseif (isset($_POST['package_type']) && isset($_POST['portable_objects']) && isset($_POST['package_dimensions_length']) && isset($_POST['package_dimensions_width']) && isset($_POST['package_dimensions_height']) && isset($_POST['package_weight']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
         if (is_user_logged_in()) {
             $type = removeslashes(esc_attr(trim($_POST['package_type'])));
             $content = array_map('intval', $_POST['portable_objects']);

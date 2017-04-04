@@ -51,7 +51,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 <div class="ui vertical masthead  segment container">
 
-    <div id='edit_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
+    <div id='edit_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none" <?php endif ?>>
         <div class="ui attached message">
             <div class="header"><?php echo __("Mofication de l' offre de transport", 'gpdealdomain') ?> : </div>
             <p><?php echo __("Modifier les informations ci-dessous de votre offre de transport puis enregistrer à nouveau.", 'gpdealdomain') ?></p>
@@ -198,7 +198,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
-    <div id='show_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action && $action != 'show'): ?> style="display: none;" <?php endif ?> >
+    
+    <div id='show_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action!=null && $action != 'show'): ?> style="display: none" <?php endif ?> >
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">
@@ -340,12 +341,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                                             ?>                                        
                                             <?php if ($i < $package_ids_count - 1) : ?>
                                                 <span><a href="<?php the_permalink($id) ?>"><?php
-                                                        echo $id;
                                                         echo get_post_meta($id, 'package-number', true);
                                                         ?></a>, </span>
                                             <?php else: ?>
                                                 <span><a href="<?php the_permalink($id) ?>"><span><?php
-                                                            echo $id;
                                                             echo get_post_meta($id, 'package-number', true);
                                                             ?></a></span>
                                                 <?php endif ?>
@@ -358,14 +357,18 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                         <?php endif ?>
                     </div>
-                    <div class="field" style="margin-top: 4em">
-                        <button id="edit_transport_offer_infos_btn" class="ui right floated green button" >Modifier l'offre</button>
-                    </div>
+                    <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID): ?>
+                        <div class="field" style="margin-top: 4em">
+                            <button id="edit_transport_offer_infos_btn" class="ui right floated green button" >Modifier l'offre</button>
+                            <button id="evaluations_transport_offer_btn" class="ui right floated blue button" >Avis/Evaluations</button>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>
     </div>
-    <div id='evaluations' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'evaluate'): ?> style="display: none;" <?php endif ?>>
+    
+    <div id='evaluations' class="ui signup_contenair basic segment container" <?php if ($action==null || ($action != 'evaluate' && $action != 'evaluations')): ?> style="display: none" <?php endif ?>>
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">
@@ -414,7 +417,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php
         $transport_offer_link = get_the_permalink();
         $evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'meta_query' => array(array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='))));
-        $current_user_evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => 1, "post_status" => 'publish', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='))));
+        if($package_id){
+            $current_user_evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => 1, "post_status" => 'publish', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'AND', array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='), array('key' => 'package-ID', 'value' => $package_id, 'compare' => '='))));
+        }else{
+            $current_user_evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => 1, "post_status" => 'publish', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='))));
+        }
+        
         ?>
         <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts()): ?>
             <div id="action_evaluate_top" class="ui fluid card" style="margin-bottom: 1em; box-shadow: none">
@@ -430,6 +438,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="header"><?php echo __("Les évaluations de l'offre", "gpdealdomain"); ?></div>
             </div>
             <div class="content">
+                <?php
+                 if ($evaluations->have_posts()) { ?>
                 <div class="ui fluid card">
                     <div class="content">
                         <div  class="ui form" >
@@ -453,7 +463,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 </div>
                 <?php
-                if ($evaluations->have_posts()) {
+               
                     while ($evaluations->have_posts()): $evaluations->the_post();
                         $evaluate_user = get_userdata(get_post_field('post_author', get_the_ID()));
                         $comments_list = get_comments(array('post_id' => get_the_ID(), "parent" => 0, "orderby" => "comment_date", "order" => "asc"));
@@ -600,7 +610,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="ui warning message">
                             <div class="content">
                                 <div class="header" style="font-weight: normal;">
-                                    Aucune évaluation de cette offre pour l'instant.
+                                    Aucune évaluation de cette offre est disponible pour l'instant.
                                 </div>
 
                             </div>
@@ -612,7 +622,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 ?>
             </div>
         </div>
-
+        <?php if($package_id): ?>
         <?php if ($evaluations->have_posts() && get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts()) : ?>
             <div id="action_evaluate_down" class="ui fluid card" style="margin-bottom: 1em; box-shadow: none">
                 <div class="field">
@@ -730,6 +740,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                             <textarea name="comment_content"></textarea>
                         </div>
                         <input type="hidden" name="action" value="evaluate" >
+                        <input type="hidden" name="package_id" value="<?php echo $package_id; ?>">
                         <div class="ui error message"><ul class="list"><li><?php echo __("Veuillez s'il vous plait répondre à toutes les questions", "gpdealdomain"); ?></li></ul></div>
                         <div class="field">                       
                             <div id="hide_block_evaluation_form" onclick="hide_block_evaluation_form()" class="ui black button right floated"><?php echo __("Annuler", "gpdealdomain") ?></div>
@@ -738,6 +749,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                     </form>
                 </div>
             </div>
+        <?php endif ?>
         <?php endif ?>
     </div>
 </div>

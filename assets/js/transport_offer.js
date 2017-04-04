@@ -28,6 +28,14 @@ $(function () {
         $('#show_transport_offer_infos').hide();
         $('#edit_transport_offer_infos').show();
     });
+    
+    $('#evaluations_transport_offer_btn').click(function (e) {
+        e.preventDefault();
+        $('#show_transport_offer_infos').hide();
+        $('#edit_transport_offer_infos').hide();
+        $('#evaluations').show();
+    });
+    
     $('#cancel_edit_transport_offer_infos_btn').click(function (e) {
         e.preventDefault();
         $('#edit_transport_offer_infos').hide();

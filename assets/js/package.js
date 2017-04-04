@@ -296,5 +296,116 @@ $(function () {
 
 });
 
+function cancel_send_package(id) {
+    $('#confirm_cancel_send_package.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_cancel_send_package').click(function (e) {
+        e.preventDefault();
+        $('#confirm_cancel_send_package.ui.small.modal')
+            .modal('hide')
+            ;
+        $.ajax({
+            type: $('#single_package_content_form'+ id).attr('method'),
+            url: $('#single_package_content_form'+ id).attr('action'),
+            data: {"action": "cancel", "package_id": id},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#single_package_content_form'+ id).addClass("ui form loading");
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error').show();
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    //$('#single_package_column'+id).remove();
+                    window.location.reload();
+                    $('#message_success>div.header').html(response.data.message);
+                    $('#message_success').show();
+                    setTimeout(function () {
+                    $('#message_success').hide();
+                }, 4000);
+                } else if (response.success === false) {
+                    $('#message_error>div.header').html(response.data.message);
+                    $('#message_error').show();
+                } else {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                }
+                $('#single_package_content_form'+ id).removeClass("ui form loading");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#single_package_content_form'+ id).removeClass("ui form loading");
+
+            }
+        });
+    });
+}
+
+
+function fence_send_package(id) {
+    $('#confirm_fence_send_package.ui.small.modal')
+            .modal('show')
+            ;
+
+    $('#execute_fence_send_package').click(function (e) {
+        e.preventDefault();
+        $('#confirm_fence_send_package.ui.small.modal')
+            .modal('hide')
+            ;
+        $.ajax({
+            type: $('#single_package_content_form'+ id).attr('method'),
+            url: $('#single_package_content_form'+ id).attr('action'),
+            data: {"action": "fence", "package_id": id},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#single_package_content_form'+ id).addClass("ui form loading");
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error').show();
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    //$('#single_package_column'+id).remove();
+                    window.location.reload();
+                    $('#message_success>div.header').html(response.data.message);
+                    $('#message_success').show();
+                    setTimeout(function () {
+                    $('#message_success').hide();
+                }, 4000);
+                } else if (response.success === false) {
+                    $('#message_error>div.header').html(response.data.message);
+                    $('#message_error').show();
+                } else {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                }
+                $('#single_package_content_form'+ id).removeClass("ui form loading");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#single_package_content_form'+ id).removeClass("ui form loading");
+
+            }
+        });
+    });
+}
+
 
 

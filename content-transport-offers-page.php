@@ -120,16 +120,16 @@
                                 <div class="column">
                                     <div class="ui fluid card">
                 <!--                        <i class="huge travel icon center aligned"></i>-->
-<!--                                        <div class="content">
-                                            <a href="<?php the_permalink() ?>" class="header"><?php the_title() ?></a>
-                                        </div>-->
+                                        <!--                                        <div class="content">
+                                                                                    <a href="<?php the_permalink() ?>" class="header"><?php the_title() ?></a>
+                                                                                </div>-->
                                         <div class="content">
                                             <div class="ui form description">
                                                 <div class="inline field">
                                                     <label>Départ : </label> 
                                                     <span>
                                                         <?php echo get_post_meta(get_the_ID(), 'departure-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-transport-offer', true)));
-                                                         ?>
+                                                        ?>
                                                     </span>
                                                 </div>
                                                 <div class="inline field">
@@ -138,28 +138,28 @@
                                                         <?php echo get_post_meta(get_the_ID(), 'destination-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true))); ?>
                                                     </span>
                                                 </div>
-                                                
+
                                                 <div class="inline field">
                                                     <label>Date de limite : </label> 
                                                     <span>
                                                         <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'deadline-of-proposition-transport-offer', true))); ?>
                                                     </span>
                                                 </div>
-                                                
-<!--                                                <div class="inline field">
-                                                    <label>Transporteur : </label> 
-                                                    <span>
-                                                        <?php echo get_the_author_meta('user_email');?>
-                                                    </span>
-                                                </div>-->
-<!--                                                <div class="inline field">
-                                                    <label>Type de transporteur : </label> 
-                                                    <span>
-                                                        <?php
-                                                        echo get_user_role_by_user_id(get_the_author_meta('ID'));
-                                                        ?>
-                                                    </span>
-                                                </div>-->
+
+                                                <!--                                                <div class="inline field">
+                                                                                                    <label>Transporteur : </label> 
+                                                                                                    <span>
+                                                <?php echo get_the_author_meta('user_email'); ?>
+                                                                                                    </span>
+                                                                                                </div>-->
+                                                <!--                                                <div class="inline field">
+                                                                                                    <label>Type de transporteur : </label> 
+                                                                                                    <span>
+                                                <?php
+                                                echo get_user_role_by_user_id(get_the_author_meta('ID'));
+                                                ?>
+                                                                                                    </span>
+                                                                                                </div>-->
                                                 <div class="inline field">
                                                     <label><?php echo __("Statut", "gpdealdomain"); ?> : </label> 
                                                     <span>
@@ -179,13 +179,19 @@
                                                             <i class="unhide icon"></i>
                                                             Détails
                                                         </a>
+                                                        <?php if (get_post_meta(get_the_ID(), 'transport-status', true) != 2 || get_post_meta(get_the_ID(), 'package-status', true) != 3): ?>
                                                         <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), the_permalink())) ?>" class="item">
                                                             <i class="edit icon"></i>
                                                             Modifier
                                                         </a>
-                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate_close'), the_permalink())) ?>" class="item">
+<!--                                                        <a onclick="cancel_transport_offer(<?php the_ID() ?>)" class="item">
+                                                            <i class="trash icon"></i>
+                                                            Annuler
+                                                        </a>-->
+                                                        <?php endif ?>
+                                                        <a href="<?php echo esc_url(add_query_arg(array('action' => 'evaluations'), the_permalink())) ?>" class="item">
                                                             <i class="star icon"></i>
-                                                            Evaluer / Fermer
+                                                            Avis/Evaluations
                                                         </a>
                                                     </div>
                                                 </div>
