@@ -1,4 +1,64 @@
 $(function () {
+
+    $('#package_picture_link').click(function () {
+        $('#package_picture_file').click();
+    });
+
+    $('#package_picture_edit').click(function () {
+        $('#package_picture_file').click();
+    });
+
+    $('#package_picture_remove').click(function () {
+        $('#package_picture_dimmer').hide();
+        $('#package_picture_link').show();
+        $('#package_picture_file').val('');
+    });
+
+    $('#package_picture_dimmer.image')
+            .dimmer({
+                on: 'hover'
+            })
+            ;
+
+    function previewPackagePicture() {
+        var preview = document.getElementById('package_picture_img');
+        var file = document.getElementById('package_picture_file').files[0];
+        var reader = new FileReader();
+        if (file) {
+            reader.addEventListener("loadstart", function () {
+                $('#package_picture_edit').hide();
+                $('#package_picture_remove').hide();
+                $('#package_picture_loader').show();
+                $('#package_picture_dimmer.image .dimmer').dimmer('show');
+                $('#package_picture_link').addClass("loading");
+            }, false);
+
+            reader.addEventListener("load", function () {
+
+                preview.src = reader.result;
+            }, false);
+
+            reader.addEventListener("loadend", function () {
+                
+                $('#package_picture_loader').hide();
+                $('#package_picture_link').hide();
+                $('#package_picture_dimmer.image .dimmer').dimmer('hide');
+                $('#package_picture_link').removeClass("loading");
+                $('#package_picture_dimmer').show();
+                $('#package_picture_edit').show();
+                $('#package_picture_remove').show();
+
+            }, false);
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $("#package_picture_file").change(function () {
+        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+        previewPackagePicture();
+    });
+
     $.datetimepicker.setLocale('fr');
     $('input[name="start_date"]').datetimepicker({
         timepicker: false,
@@ -304,15 +364,15 @@ function cancel_send_package(id) {
     $('#execute_cancel_send_package').click(function (e) {
         e.preventDefault();
         $('#confirm_cancel_send_package.ui.small.modal')
-            .modal('hide')
-            ;
+                .modal('hide')
+                ;
         $.ajax({
-            type: $('#single_package_content_form'+ id).attr('method'),
-            url: $('#single_package_content_form'+ id).attr('action'),
+            type: $('#single_package_content_form' + id).attr('method'),
+            url: $('#single_package_content_form' + id).attr('action'),
             data: {"action": "cancel", "package_id": id},
             dataType: 'json',
             beforeSend: function () {
-                $('#single_package_content_form'+ id).addClass("ui form loading");
+                $('#single_package_content_form' + id).addClass("ui form loading");
             },
             statusCode: {
                 500: function (xhr) {
@@ -332,8 +392,8 @@ function cancel_send_package(id) {
                     $('#message_success>div.header').html(response.data.message);
                     $('#message_success').show();
                     setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
+                        $('#message_success').hide();
+                    }, 4000);
                 } else if (response.success === false) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
@@ -341,10 +401,10 @@ function cancel_send_package(id) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
                 }
-                $('#single_package_content_form'+ id).removeClass("ui form loading");
+                $('#single_package_content_form' + id).removeClass("ui form loading");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('#single_package_content_form'+ id).removeClass("ui form loading");
+                $('#single_package_content_form' + id).removeClass("ui form loading");
 
             }
         });
@@ -360,15 +420,15 @@ function fence_send_package(id) {
     $('#execute_fence_send_package').click(function (e) {
         e.preventDefault();
         $('#confirm_fence_send_package.ui.small.modal')
-            .modal('hide')
-            ;
+                .modal('hide')
+                ;
         $.ajax({
-            type: $('#single_package_content_form'+ id).attr('method'),
-            url: $('#single_package_content_form'+ id).attr('action'),
+            type: $('#single_package_content_form' + id).attr('method'),
+            url: $('#single_package_content_form' + id).attr('action'),
             data: {"action": "fence", "package_id": id},
             dataType: 'json',
             beforeSend: function () {
-                $('#single_package_content_form'+ id).addClass("ui form loading");
+                $('#single_package_content_form' + id).addClass("ui form loading");
             },
             statusCode: {
                 500: function (xhr) {
@@ -388,8 +448,8 @@ function fence_send_package(id) {
                     $('#message_success>div.header').html(response.data.message);
                     $('#message_success').show();
                     setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
+                        $('#message_success').hide();
+                    }, 4000);
                 } else if (response.success === false) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
@@ -397,10 +457,10 @@ function fence_send_package(id) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
                 }
-                $('#single_package_content_form'+ id).removeClass("ui form loading");
+                $('#single_package_content_form' + id).removeClass("ui form loading");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('#single_package_content_form'+ id).removeClass("ui form loading");
+                $('#single_package_content_form' + id).removeClass("ui form loading");
 
             }
         });
@@ -408,4 +468,55 @@ function fence_send_package(id) {
 }
 
 
+function fence_send_package_on_single_page(id) {
+    $('#confirm_fence_send_package.ui.small.modal')
+            .modal('show')
+            ;
 
+    $('#execute_fence_send_package').click(function (e) {
+        e.preventDefault();
+        $('#confirm_fence_send_package.ui.small.modal')
+                .modal('hide')
+                ;
+        $.ajax({
+            type: 'POST',
+            url: $('#fence_package_url').val(),
+            data: {"action": "fence", "package_id": id},
+            dataType: 'json',
+            beforeSend: function () {
+                $('#fence_package_btn').addClass("loading");
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                },
+                404: function (response, textStatus, jqXHR) {
+                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error').show();
+                }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    window.location.reload();
+                    $('#message_success>div.header').html(response.data.message);
+                    $('#message_success').show();
+                    setTimeout(function () {
+                        $('#message_success').hide();
+                    }, 4000);
+                } else if (response.success === false) {
+                    $('#message_error>div.header').html(response.data.message);
+                    $('#message_error').show();
+                } else {
+                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error').show();
+                }
+                $('#fence_package_btn').removeClass("loading");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#fence_package_btn').removeClass("loading");
+
+            }
+        });
+    });
+}

@@ -3,7 +3,7 @@
 /*
   Template Name: Transport Offer Page
  */
-
+session_start();
 if (is_user_logged_in()) {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['transport_offer_price']) && isset($_POST['transport_offer_currency']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
@@ -48,5 +48,6 @@ if (is_user_logged_in()) {
         get_footer();
     }
 } else {
-    wp_safe_redirect(esc_url(add_query_arg(array('redirect_to' => get_the_permalink()), get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))))));
+    $_SESSION['redirect_to'] = get_the_permalink();
+    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
 }

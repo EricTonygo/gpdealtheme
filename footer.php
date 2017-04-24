@@ -1,3 +1,9 @@
+<div id='deadline_transport_offer_help_content' style="display: none"class="ui bottom pointing green basic label">
+    <?php echo __("Date limite de validité de l'offre de transport", "gpdealdomain") ?>
+</div>
+<div id='type_package_transport_offer_help_content' style="display: none"class="ui bottom pointing green basic label">
+    <?php echo __("Types d'objets acceptés par le transporteur", "gpdealdomain") ?>
+</div>
 <div class="ui vertical footer segment" style="margin-top: 3em">
     <div class="ui container">
         <div class="ui stackable inverted divided equal height stackable grid">
@@ -27,7 +33,7 @@
                 </div>-->
         <div class="ui stackable inverted divided equal height stackable grid center aligned">
             <div class="five wide column center aligned">
-                <div class="ui inverted" style="width: 25em"><strong>&copy;2017 - Global Parcel Deal - tous les droits réservés</strong></div>
+                <div class="ui inverted" style="font-size: 9pt">&copy;2017 - <a href="<?php echo home_url('/') ?>">Global Parcel Deal<sup style="font-size: 7pt">&reg;</sup></a> - Tous droits réservés</div>
             </div>
         </div>
     </div>
@@ -49,6 +55,12 @@
                 types: ['(cities)']
             };
             autocomplete = new google.maps.places.Autocomplete(input, options);
+            var input_mobile = document.getElementById('s_mobile');
+            var options = {
+                //bounds: defaultBounds,
+                types: ['(cities)']
+            };
+            autocomplete_mobile = new google.maps.places.Autocomplete(input_mobile, options);
 </script>-->
 <?php if (is_home() || is_front_page()): ?>
 <!--    <script>

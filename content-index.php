@@ -26,8 +26,8 @@ if ($slider):
                         <h3></h3>
                         <a href="#block_search_carriers" class="ui huge green button"><i class="search icon"></i> <?php echo $button_text; ?> </a>-->
             <div class="ui top attached tabular menu">
-                <a class="<?php if( $submit_search_transport_offers == "yes" || ($submit_search_transport_offers != "yes" && $submit_search_unsatisfied_packages != "yes")): ?> active <?php endif ?> item" data-tab="search_carriers">Offres transports</a>
-                <a class="<?php if($submit_search_unsatisfied_packages == "yes"): ?> active <?php endif ?>item" data-tab="search_packages_unsatisfied">Demandes transports</a>
+                <a class="<?php if ($submit_search_transport_offers == "yes" || ($submit_search_transport_offers != "yes" && $submit_search_unsatisfied_packages != "yes")): ?> active <?php endif ?> item" data-tab="search_carriers">Offres transports</a>
+                <a class="<?php if ($submit_search_unsatisfied_packages == "yes"): ?> active <?php endif ?>item" data-tab="search_packages_unsatisfied">Demandes transports</a>
             </div>
             <div class="ui bottom attached active tab segment" data-tab="search_carriers">
                 <div id="content_search_carrier_form" class="ui fluid card">
@@ -35,9 +35,10 @@ if ($slider):
                         <form id='search_transport_offers_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                             <div class="two wide fields">
                                 <div class="field">
-                                    <div class="ui input left icon">
-                                        <i class="marker icon"></i>
-                                        <input id="start_city_transport" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
+                                    <div class="ui input icon start_city_transport">
+                                        <!--<i class="marker icon start_city_transport" locality_id='start_city_transport'></i>-->
+                                        <i class="remove link icon start_city_transport" style="display: none;" locality_id='start_city_transport'></i>
+                                        <input id="start_city_transport" class="locality" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
                                     </div>
                                 </div>             
                                 <div class="field">
@@ -52,9 +53,10 @@ if ($slider):
 
                             <div class="two wide fields">
                                 <div class="field">
-                                    <div class="ui input left icon">
-                                        <i class="marker icon"></i>
-                                        <input id="destination_city_transport" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
+                                    <div class="ui input icon destination_city_transport">
+                                        <!--<i class="marker icon destination_city_transport" locality_id='destination_city_transport'></i>-->
+                                        <i class="remove link icon destination_city_transport" style="display: none;" locality_id='destination_city_transport'></i>
+                                        <input id="destination_city_transport" class="locality" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
                                     </div>
                                 </div>             
                                 <div class="field">
@@ -67,25 +69,21 @@ if ($slider):
                                 </div>     
                             </div>
                             <div class="fields">
-                                <div class="four wide field">
-                                    <label><?php echo __("OBJET(S)", 'gpdealdomain') ?> :</label>
-                                    <span style="font-size: 12px"><?php echo "(" . __("Plusieurs choix possibles", "gpdealdomain") . ")" ?></span>
-                                </div>
-                                <div class="twelve wide field">
-                                    <div class="inline fields">
-                                        <?php
-                                        $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
-                                        foreach ($typePackages as $typePackage):
-                                            ?>
-                                            <div class="field">
-                                                <div class="ui checkbox">
-                                                    <input type="checkbox" name="package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
-                                                    <label><?php echo $typePackage->name; ?></label>
-                                                </div>
+                                <div style="margin-left: 0.6em" class="inline fields">
+                                    <label style="font-weight: normal"><?php echo __("Objet(s)", 'gpdealdomain') ?><i id='select_type_package_help_link' class="help circle green link icon select_type_package_help_link"></i></label>
+                                    <?php
+                                    $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
+                                    foreach ($typePackages as $typePackage):
+                                        ?>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo $typePackage->name; ?></label>
                                             </div>
-                                        <?php endforeach ?>
-                                    </div>
+                                        </div>
+                                    <?php endforeach ?>
                                 </div>
+                                <!--</div>-->
                             </div>
                             <div class="field">
                                 <div id="server_error_message" class="ui negative message" style="display:none">
@@ -115,9 +113,10 @@ if ($slider):
                         <form id='search_unsatisfied_packages_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('rechercher-les-expeditions-non-satisfaites', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
                             <div class="two wide fields">
                                 <div class="field">
-                                    <div class="ui input left icon">
-                                        <i class="marker icon"></i>
-                                        <input id="start_city_package" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
+                                    <div class="ui input  icon start_city_package">
+                                        <!--<i class="marker icon start_city_package" locality_id='start_city_package'></i>-->
+                                        <i class="remove link icon start_city_package" style="display: none;" locality_id='start_city_package'></i>
+                                        <input id="start_city_package" type="text" class="locality" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
                                     </div>
                                 </div>             
                                 <div class="field">
@@ -132,9 +131,10 @@ if ($slider):
 
                             <div class="two wide fields">
                                 <div class="field">
-                                    <div class="ui input left icon">
-                                        <i class="marker icon"></i>
-                                        <input id="destination_city_package" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
+                                    <div class="ui input icon destination_city_package">
+                                        <!--<i class="marker icon destination_city_package" locality_id='destination_city_package'></i>-->
+                                        <i class="remove link icon destination_city_package" style="display: none;" locality_id='destination_city_package'></i>
+                                        <input id="destination_city_package" type="text" class="locality" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
                                     </div>
                                 </div>             
                                 <div class="field">
@@ -147,27 +147,21 @@ if ($slider):
                                 </div>     
                             </div>
                             <div class="fields">
-                                <div class="four wide field">
-                                    <label><?php echo __("OBJET(S)", 'gpdealdomain') ?> :</label>
-                                    <span style="font-size: 12px"><?php echo "(" . __("Plusieurs choix possibles", "gpdealdomain") . ")" ?></span>
-                                </div>
-                                <div class="twelve wide field">   
-                                    <div class="inline fields">
-                                        <?php
-                                        $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
-                                        foreach ($typePackages as $typePackage):
-                                            ?>
-                                            <div class="field">
-                                                <div class="ui checkbox">
-                                                    <input type="checkbox" name="package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
-                                                    <label><?php echo $typePackage->name; ?></label>
-                                                </div>
+                                <div style="margin-left: 0.6em" class="inline fields">
+                                    <label  style="font-weight: normal"><?php echo __("Objet(s)", 'gpdealdomain') ?><i class="help circle green link icon select_type_package_help_link"></i></label>
+                                    <?php
+                                    $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
+                                    foreach ($typePackages as $typePackage):
+                                        ?>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo $typePackage->name; ?></label>
                                             </div>
-                                        <?php endforeach ?>
-                                    </div>
+                                        </div>
+                                    <?php endforeach ?>
                                 </div>
                             </div>
-
 
                             <div class="field">
                                 <div id="server_error_message_package" class="ui negative message" style="display:none">
@@ -191,6 +185,9 @@ if ($slider):
                     </div>
                 </div>
             </div>
+        </div>
+        <div id='select_type_package_help_content' style="display: none"class="ui bottom pointing green basic label">
+            <?php echo __("Plusieurs choix possibles", "gpdealdomain") ?>
         </div>
     </div>
 <?php endif ?>

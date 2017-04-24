@@ -35,23 +35,20 @@
                                 <div id="single_package_column<?php the_ID() ?>" class="column">
                                     <form id="single_package_content_form<?php the_ID() ?>" method="POST" action="<?php the_permalink() ?>">
                                         <div id="single_package_card<?php the_ID() ?>" class="ui fluid card">
-                    <!--                        <i class="huge travel icon center aligned"></i>-->
-                                            <!--                                        <div class="content">
-                                                                                        <a href="<?php the_permalink() ?>" class="header"><?php the_title() ?></a>
-                                                                                    </div>-->
+                   
                                             <div class="content">
                                                 <div class="ui form description">
                                                     <div class="inline field">
-                                                        <label>Départ : </label> 
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
+                                                        <span class="span_label">Départ : </span> 
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Destination : </label> 
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
+                                                        <span class="span_label">Destination : </span> 
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
                                                             ?>
                                                         </span>
                                                     </div>
@@ -75,8 +72,8 @@
                                                                                                         </div>-->
                                                     <?php endif; ?>
                                                     <div class="inline field">
-                                                        <label><?php echo __("Statut", "gpdealdomain"); ?> : </label> 
-                                                        <span>
+                                                        <span class="span_label"><?php echo __("Statut", "gpdealdomain"); ?> : </span> 
+                                                        <span class="span_value">
                                                             <?php echo getPackageStatus(intval(get_post_meta(get_the_ID(), 'package-status', true))); ?>
                                                         </span>
                                                     </div>

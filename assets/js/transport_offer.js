@@ -28,14 +28,14 @@ $(function () {
         $('#show_transport_offer_infos').hide();
         $('#edit_transport_offer_infos').show();
     });
-    
+
     $('#evaluations_transport_offer_btn').click(function (e) {
         e.preventDefault();
         $('#show_transport_offer_infos').hide();
         $('#edit_transport_offer_infos').hide();
         $('#evaluations').show();
     });
-    
+
     $('#cancel_edit_transport_offer_infos_btn').click(function (e) {
         e.preventDefault();
         $('#edit_transport_offer_infos').hide();
@@ -309,109 +309,56 @@ $(function () {
 
 
 
-    $('#evaluation_form.ui.form')
-            .form({
-                fields: {
-                    item_delivred: {
-                        identifier: 'item_delivred',
-                        rules: [
-                            {
-                                type: 'checked',
-                                prompt: "Veuillez s'il vous plait répondre à cette question"
-                            }
-                        ]
-                    },
-
-                    item_state: {
-                        identifier: 'item_state',
-                        rules: [
-                            {
-                                type: 'checked',
-                                prompt: "Veuillez s'il vous plait répondre à cette question"
-                            }
-                        ]
-                    },
-                    delivry_time: {
-                        identifier: 'delivry_time',
-                        rules: [
-                            {
-                                type: 'checked',
-                                prompt: "Veuillez s'il vous plait répondre à cette question"
-                            }
-                        ]
-                    },
-                    cost: {
-                        identifier: 'cost',
-                        rules: [
-                            {
-                                type: 'checked',
-                                prompt: "Veuillez s'il vous plait répondre à cette question"
-                            }
-                        ]
-                    },
-                    recommanded_carrier: {
-                        identifier: 'recommended_carrier',
-                        rules: [
-                            {
-                                type: 'checked',
-                                prompt: "Veuillez s'il vous plait répondre à cette question"
-                            }
-                        ]
-                    }
+    $('#evaluation_form.ui.form').submit(function (e) {
+        e.preventDefault();
+        $('#evaluation_form .ui.error.message').hide();
+        $.ajax({
+            type: 'post',
+            url: $('#evaluation_form.ui.form').attr('action'),
+            data: $('#evaluation_form.ui.form').serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                $('#evaluation_form.ui.form').addClass('loading');
+                $('#submit_evaluation_form').addClass('disabled');
+            },
+            statusCode: {
+                500: function (xhr) {
+                    $('#evaluation_form.ui.form').removeClass('loading');
+                    $('#submit_evaluation_form').removeClass('disabled');
+                    $('#server_error_message').show();
                 },
-                //inline: true,
-                on: 'blur',
-                onSuccess: function (event, fields) {
-                    $('#evaluation_form .ui.error.message').hide();
-                    $.ajax({
-                        type: 'post',
-                        url: $('#evaluation_form.ui.form').attr('action'),
-                        data: $('#evaluation_form.ui.form').serialize(),
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $('#evaluation_form.ui.form').addClass('loading');
-                            $('#submit_evaluation_form').addClass('disabled');
-                        },
-                        statusCode: {
-                            500: function (xhr) {
-                                $('#evaluation_form.ui.form').removeClass('loading');
-                                $('#submit_evaluation_form').removeClass('disabled');
-                                $('#server_error_message').show();
-                            },
-                            400: function (response, textStatus, jqXHR) {
-                                $('#evaluation_form.ui.form').removeClass('loading');
-                                $('#submit_evaluation_form').removeClass('disabled');
-                                $('#error_name_header').html("Echec de la validation");
-                                $('#error_name_message').show();
-                            }
-                        },
-                        success: function (response, textStatus, jqXHR) {
-                            if (response.success === true) {
-                                //$('#evaluation_form.ui.form').submit();
-                                window.location.reload();
-                            } else if (response.success === false) {
-                                $('#evaluation_form.ui.form').removeClass('loading');
-                                $('#submit_evaluation_form').removeClass('disabled');
-                                $('#error_name_header').html("Echec de la validation");
-                                $('#error_name_list').html('<li>' + response.data.message + '</li>');
-                                $('#error_name_message').show();
-                            } else {
-                                $('#evaluation_form.ui.form').removeClass('loading');
-                                $('#submit_evaluation_form').removeClass('disabled');
-                                $('#error_name_header').html("Internal server error");
-                                $('#error_name_message').show();
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            $('#evaluation_form.ui.form').removeClass('loading');
-                            $('#submit_evaluation_form').removeClass('disabled');
-                            $('#server_error_message').show();
-                        }
-                    });
-                    return false;
+                400: function (response, textStatus, jqXHR) {
+                    $('#evaluation_form.ui.form').removeClass('loading');
+                    $('#submit_evaluation_form').removeClass('disabled');
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_message').show();
                 }
+            },
+            success: function (response, textStatus, jqXHR) {
+                if (response.success === true) {
+                    //$('#evaluation_form.ui.form').submit();
+                    window.location.reload();
+                } else if (response.success === false) {
+                    $('#evaluation_form.ui.form').removeClass('loading');
+                    $('#submit_evaluation_form').removeClass('disabled');
+                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                    $('#error_name_message').show();
+                } else {
+                    $('#evaluation_form.ui.form').removeClass('loading');
+                    $('#submit_evaluation_form').removeClass('disabled');
+                    $('#error_name_header').html("Internal server error");
+                    $('#error_name_message').show();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#evaluation_form.ui.form').removeClass('loading');
+                $('#submit_evaluation_form').removeClass('disabled');
+                $('#server_error_message').show();
             }
-            );
+        });
+
+    });
     $('.add_comment_form')
             .form({
                 fields: {
@@ -429,7 +376,7 @@ $(function () {
                 on: 'blur'
             }
             );
-    
+
     $('.add_comment_reply_form')
             .form({
                 fields: {
@@ -447,9 +394,9 @@ $(function () {
                 on: 'blur'
             }
             );
-    
-    $('a.close_transport_offer').click(function(e){
-       e.preventDefault();
+
+    $('a.close_transport_offer').click(function (e) {
+        e.preventDefault();
         $.ajax({
             type: 'post',
             url: $(this).attr('href'),
@@ -575,37 +522,47 @@ function add_comment_reply(event, id) {
     return false;
 }
 
-function show_comment_reply_form(id){
+function show_comment_reply_form(id) {
     $('#show_comment_reply_form' + id).hide();
     $('#hide_comment_reply_form' + id).show();
     $('#comment_reply_form' + id).show();
 }
-function hide_comment_reply_form(id){
+function hide_comment_reply_form(id) {
     $('#hide_comment_reply_form' + id).hide();
     $('#show_comment_reply_form' + id).show();
     $('#comment_reply_form' + id).hide();
 }
 
-function show_evaluation_comment_form(id){
+function show_evaluation_comment_form(id) {
     $('#show_evaluation_comment_form' + id).hide();
     $('#hide_evaluation_comment_form' + id).show();
     $('#evaluation_comment_form' + id).show();
 }
-function hide_evaluation_comment_form(id){
+function hide_evaluation_comment_form(id) {
     $('#hide_evaluation_comment_form' + id).hide();
     $('#show_evaluation_comment_form' + id).show();
     $('#evaluation_comment_form' + id).hide();
 }
 
-function show_block_evaluation_form(){
+function show_block_evaluation_form() {
     $('#show_block_evaluation_form').hide();
     $('#block_evaluation_form').show();
 }
-function show_block_evaluation_form_top(){
+function show_block_evaluation_form_top() {
     $('#show_block_evaluation_form').hide();
     $('#block_evaluation_form').show();
 }
-function hide_block_evaluation_form(){
+function hide_block_evaluation_form() {
     $('#show_block_evaluation_form').show();
     $('#block_evaluation_form').hide();
+}
+
+
+function show_user_evaluation(id){
+    if($('#content_evaluation_'+id).css('display')==="none"){
+        $('#content_evaluation_'+id).show();
+        
+    }else{
+        $('#content_evaluation_'+id).hide();
+    }
 }

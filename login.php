@@ -3,7 +3,9 @@
 /*
   Template Name: Login Page
  */
+session_start();
 header("Cache-Control", "no-cache, no-store, must-revalidate");
+if(!is_user_logged_in()){
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         if (isset($_POST['_username']) && isset($_POST['_password'])) {
@@ -40,7 +42,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
                 return wp_send_json_success($json);
             }
         } else {
-            $json = array("message" => "Saisir le nom et le mot de passe");
+            $json = array("message" => "Saisir le nom d'utilisateur et le mot de passe");
             return wp_send_json_error($json);
         }
     } elseif (isset($_POST['_username']) && isset($_POST['_password'])) {
@@ -56,4 +58,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     get_template_part('content-login-page', get_post_format());
 
     get_footer();
+}
+}else{
+    wp_safe_redirect(get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))));
 }

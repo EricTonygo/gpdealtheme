@@ -4,7 +4,7 @@ global $current_user;
 <div id="show-reviews-evaluations-carrier" class="ui modal">
     <i class="close icon"></i>
     <div class="header">
-        <?php echo __("Avis et évaluations du transporteur ", "gpdealdomain") . get_the_author_meta('user_login', $carrier_id); ?>
+        <?php echo __("Avis/Evaluations", "gpdealdomain"); ?>
     </div>
     <div class="content">
         <?php
@@ -18,16 +18,12 @@ global $current_user;
                         $statistics = getTotalStatistiticsEvaluationsOfCarrier($carrier_id);
                         foreach ($statistics as $stat_key => $stat_value):
                             ?>
-                            <div class="inline fields">
-                                <label><?php echo $stat_key; ?> ?</label>
-                                <?php foreach ($stat_value as $key => $value): ?>
-                                    <?php if ($key != "vote_count"): ?>
-                                        <div class="field">
-                                            <label><?php echo $key ?> : </label>
-                                            <span><?php echo $value; ?>%</span>
-                                        </div>
-                                    <?php endif ?>
-                                <?php endforeach; ?>
+                            <div class="two fields">
+                                <div class="four wide field"><span style="font-weight: bold"><?php echo $stat_key; ?> <span style="color:#2185d0; font-weight: bold"><?php echo $stat_value["vote_count"]; ?> avis</span> :</span></div>
+                                <div class="twelve wide field disable">
+                                    <div class="ui huge star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></div>
+                                    <div class="sub-title-rating"><span class="left-sub-title-rating">Insatisfait</span> <span class="right-sub-title-rating">Très satisfait</span></div>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -35,15 +31,18 @@ global $current_user;
             </div>
             <?php
             while ($evaluations->have_posts()): $evaluations->the_post();
-                $evaluate_user = get_userdata(get_post_field('post_author', get_the_ID()));
+                $post_author = get_post_field('post_author', get_the_ID());
+                $evaluate_user = get_userdata($post_author);
                 $comments_list = get_comments(array('post_id' => get_the_ID(), "parent" => 0, "orderby" => "comment_date", "order" => "asc"));
                 $questions = get_post_meta(get_the_ID(), 'questions', true);
                 $responses = get_post_meta(get_the_ID(), 'responses', true);
+                $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
                 ?>
                 <div class="ui form">
                     <div class="ui fluid card">
+                        
                         <div class="content">
-                            <div class=""><img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"><?php echo $evaluate_user->user_login ?>
+                            <div class=""><img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>><span style="font-weight: bold"><a onclick="show_user_evaluation(<?php the_ID(); ?>)"><?php echo $evaluate_user->user_login ?></a></span>
 
                                 <span class="meta"><?php echo "a évalué il y a " . human_time_diff(get_the_time('U'), current_time('timestamp')); ?></span>
 
@@ -52,32 +51,44 @@ global $current_user;
                         <?php
                         if (is_array($questions) && is_array($responses) && count($questions) == 5 && count($responses) == 5):
                             ?>
-                            <div class="content ui form">
-                                <div class="three fields" >
-                                    <?php for ($i = 0; $i < 3; $i++): ?>
-                                        <div class="inline fields">
-                                            <label><?php echo $questions[$i] . " :"; ?></label>
-                                            <div class="field">
-                                                <label><?php echo $responses[$i]; ?></label>
-                                            </div>
+                            <div id="content_evaluation_<?php the_ID(); ?>" class="content ui form" style="display: none;">
+                                <?php for ($i = 0; $i < 2; $i++): ?>
+                                    <div class="two fields" >
+                                        <div class="four wide field"><label><?php echo $questions[$i]; ?> :</label></div>
+                                        <div class="twelve wide field">
+                                            <label style="margin-left: 7em;"><?php echo $responses[$i]; ?></label>
                                         </div>
-                                    <?php endfor ?>
+                                    </div>
+                                <?php endfor ?>
+
+                                <div class="fields">
+                                    <div class="four wide field"><label><?php echo $questions[2]; ?> :</label></div>
+                                    <div class="twelve wide field disable">
+                                        <div class="ui huge star rating" data-rating="<?php echo $responses[2]; ?>" data-max-rating="5"></div>
+                                        <div class="sub-title-rating"><span class="left-sub-title-rating">Insatisfait</span> <span class="right-sub-title-rating">Très satisfait</span></div>
+                                    </div>
                                 </div>
-                                <div class="two fields" >
-                                    <?php for ($i = 3; $i < 5; $i++): ?>
-                                        <div class="inline fields">
-                                            <label><?php echo $questions[$i] . " :"; ?></label>
-                                            <div class="field">
-                                                <label><?php echo $responses[$i]; ?></label>
-                                            </div>
-                                        </div>
-                                    <?php endfor ?>
+
+                                <div class="fields">
+                                    <div class="four wide field"><label><?php echo $questions[3]; ?> :</label></div>
+                                    <div class="twelve wide field disable">
+                                        <div class="ui huge star rating" data-rating="<?php echo $responses[3]; ?>" data-max-rating="5"></div>
+                                        <div class="sub-title-rating"><span class="left-sub-title-rating">Onéreux</span> <span class="right-sub-title-rating">Economique</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="four wide field"><label><?php echo $questions[4]; ?> :</label></div>
+                                    <div class="twelve wide field disable">
+                                        <div class="ui huge star rating" data-rating="<?php echo $responses[4]; ?>" data-max-rating="5"></div>
+                                        <div class="sub-title-rating"><span class="left-sub-title-rating">Insatisfait</span> <span class="right-sub-title-rating">Très satisfait</span></div>
+                                    </div>
                                 </div>
                             </div>
                         <?php endif ?>
                     </div>
 
-                    <h4 class="ui dividing header">COMMENTAIRES </h4>
+                    <h4 class="ui dividing header">Commentaires </h4>
                     <div class="ui comments">
                         <?php if ($comments_list): ?>
                             <?php
@@ -85,11 +96,12 @@ global $current_user;
                                 $comment_user = get_userdata($comment->user_id);
 //                                    $comments_children = get_comments(array('post_id' => get_the_ID(), "parent" => $comment->comment_ID));
 //                                    var_dump($comments_children);
+                                $comment_profile_picture_id = get_user_meta($comment->user_id, 'profile-picture-ID', true) ? get_user_meta($comment->user_id, 'profile-picture-ID', true) : get_user_meta($comment->user_id, 'company-logo-ID', true);
                                 ?>
 
                                 <div class="comment">
                                     <a class="avatar">
-                                        <img src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png">
+                                        <img  class="ui avatar image" <?php if ($comment_profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($comment_profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>>
                                     </a>
                                     <div class="content">
                                         <a class="author"><?php echo $comment_user->user_login; ?></a>
@@ -110,6 +122,7 @@ global $current_user;
                         <?php endif ?>
                     </div>   
                 </div>
+        <div class="ui fitted divider" style="margin-bottom: 1em"></div>
                 <?php
             endwhile;
         } else {

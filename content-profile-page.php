@@ -5,6 +5,7 @@ $current_user = wp_get_current_user();
 $user_id = $current_user->ID;
 //$roles = get_user_meta($user_id, 'wp_capabilities', true);
 $roles = $current_user->roles;
+$identity_status = get_user_meta($user_id, 'identity-status', true);
 if (in_array("particular", $roles)) {
     $user_login = $current_user->user_login;
     //$user_pass = $current_user->user_pass;
@@ -16,13 +17,15 @@ if (in_array("particular", $roles)) {
     $number_street = get_user_meta($user_id, 'number-street', true);
     $complement_address = get_user_meta($user_id, 'complement-address', true);
     $country = get_user_meta($user_id, 'country', true);
-    $region_province_state = get_user_meta($user_id, 'region-province-state', true);
-    $commune_city_locality = get_user_meta($user_id, 'commune-city-locality', true);
+    $region = get_user_meta($user_id, 'region-province-state', true);
+    $city = get_user_meta($user_id, 'commune-city-locality', true);
     $mobile_phone_number = get_user_meta($user_id, 'mobile-phone-number', true);
     $test_question_ID = get_user_meta($user_id, 'test-question-ID', true);
     $answer_test_question = get_user_meta($user_id, 'answer-test-question', true);
     $receive_notifications = get_user_meta($user_id, 'receive-notifications', true);
-    $echo_locality = $region_province_state != "" ? $commune_city_locality.", ".$region_province_state.", ".$country : $commune_city_locality.", ".$country;
+    $profile_picture_id = get_user_meta($user_id, 'profile-picture-ID', true);
+    $identity_file_id = get_user_meta($user_id, 'identity-file-ID', true);
+    $echo_locality = $region != "" ? $city . ", " . $region . ", " . $country : $city . ", " . $country;
 } elseif (in_array("enterprise", $roles) || in_array("professional", $roles)) {
     $user_login_pro = $current_user->user_login;
     //$user_pass_pro = $current_user->user_pass;
@@ -46,14 +49,16 @@ if (in_array("particular", $roles)) {
     $number_street_pro = get_user_meta($user_id, 'number-street', true);
     $complement_address_pro = get_user_meta($user_id, 'complement-address', true);
     $country_pro = get_user_meta($user_id, 'country', true);
-    $region_province_state_pro = get_user_meta($user_id, 'region-province-state', true);
-    $commune_city_locality_pro = get_user_meta($user_id, 'commune-city-locality', true);
+    $region_pro = get_user_meta($user_id, 'region-province-state', true);
+    $city_pro = get_user_meta($user_id, 'commune-city-locality', true);
     $postal_code_pro = get_user_meta($user_id, 'postal-code', true);
     $home_phone_number_pro = get_user_meta($user_id, 'home-phone-number', true);
     $test_question_ID_pro = get_user_meta($user_id, 'test-question-ID', true);
     $answer_test_question_pro = get_user_meta($user_id, 'answer-test-question', true);
     $receive_notifications_pro = get_user_meta($user_id, 'receive-notifications', true);
-    $echo_locality_pro = $region_province_state_pro != "" ? $commune_city_locality_pro.", ".$region_province_state_pro.", ".$country_pro : $commune_city_locality_pro.", ".$country_pro;
+    $company_logo_id = get_user_meta($user_id, 'company-logo-ID', true);
+    $identity_file_pro_id = get_user_meta($user_id, 'identity-file-ID', true);
+    $echo_locality_pro = $region_pro != "" ? $city_pro . ", " . $region_pro . ", " . $country_pro : $city_pro . ", " . $country_pro;
 }
 ?>
 
@@ -76,17 +81,42 @@ if (in_array("particular", $roles)) {
     <div class="ui signup_contenair basic segment container">
         <div class="ui fluid card">
             <div class="content">
-                <div id="block_form_edit" style="display: none">  
+                <div id="block_form_edit" style="display: none">
+                    <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
                     <div class="ui top attached tabular menu">
-                        <a class="item <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">Particulier</a>
-                        <a class="item <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second">Professionnel/Entreprise</a>
+                        <div class="item <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">Particulier</div>
+                        <div class="item <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second">Professionnel/<br class="mobile_br" style="display: none;">Entreprise</div>
                     </div>
                     <div class="ui bottom attached tab segment <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">
-                        <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain').'/'.__('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
+                        <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
 
                             <input  type="hidden" name="role" value="particular" >
-
-                            <h4 class="ui dividing header">ETAT CIVIL</h4>
+                            <div  class="fields">
+                                <!--                                <div class="four wide field">
+                                                                    <label>Photo de profil </label>
+                                                                </div>-->
+                                <div class="sixteen wide field center aligned">
+                                    <div id="profile_picture_dimmer" class="ui tiny image">
+                                        <div class="ui dimmer">
+                                            <div class="content">
+                                                <div class="center">
+                                                    <div id="profile_picture_loader" class="ui loader content" style="display:none"></div>
+                                                    <!--<div id="profile_picture_remove" class="ui red icon button"><i class="remove icon"></i></div>-->
+                                                    <div id="profile_picture_edit" class="ui green basic icon button" ><i class="write icon"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <img id="profile_picture_img" class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>>
+                                    </div>
+                                    <div style="height:0px;overflow:hidden">
+                                        <input type="file" id="profile_picture_file" name="profile_picture_file" accept=".jpg,.png,.gif,.jpeg">
+                                    </div>
+                                </div>
+                            </div>
+                            <?php if ($profile_picture_id): ?>
+                                <input type="hidden" name="profile_picture_id" value="<?php echo $profile_picture_id; ?>">
+                            <?php endif ?>
+                            <h4 class="ui dividing header">Etat civil</h4>
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Civilité <span style="color:red;">*</span> </label>
@@ -96,7 +126,7 @@ if (in_array("particular", $roles)) {
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input type="radio" name="gender" value="M" <?php if ($gender == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M</label>
+                                                <label>M.</label>
                                             </div>
                                         </div>
                                         <div class="field">
@@ -155,7 +185,8 @@ if (in_array("particular", $roles)) {
                                     </div>
                                 </div>      
                             </div>
-                            <h4 class="ui dividing header">ADRESSE</h4>
+
+                            <h4 class="ui dividing header">Adresse</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
@@ -180,10 +211,11 @@ if (in_array("particular", $roles)) {
                                     <label>Localité <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="locality" type="text" name='locality' placeholder="Votre localité" value="<?php echo $echo_locality ?>">
-                                </div>
+                                    <div class="ui input icon locality">
+                                        <!--<i class="marker icon locality" locality_id='locality'></i>-->
+                                        <i class="remove link icon locality" style="display: none;" locality_id='locality'></i>
+                                        <input id="locality" type="text" class="locality" name='locality' placeholder="Votre localité" value="<?php echo $echo_locality ?>">
+                                    </div>
                                 </div>                        
                             </div>                            
                             <div class="fields">
@@ -203,7 +235,7 @@ if (in_array("particular", $roles)) {
                                     <input type="tel" name="mobile_phone_number_confirm" placeholder="Confirmation Numéro de téléphone mobile" value="<?php echo $mobile_phone_number ?>">
                                 </div>
                             </div>
-                            <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
+                            <h4 class="ui dividing header">Informations de connexion</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
@@ -223,7 +255,7 @@ if (in_array("particular", $roles)) {
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
+                            <h4 class="ui dividing header">Informations de sécurité</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
@@ -259,24 +291,28 @@ if (in_array("particular", $roles)) {
                                 </div>                              
                             </div>
 
-                            
-
-                            <!--<div class="inline field">
-                                <div class="ui checkbox">
-                                    <input type="checkbox" name="terms"  checked="checked" > 
-                                    <label><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
-                                </div>
-                            </div>-->
-
                             <div class="inline field">
                                 <div class="ui checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications == 'yes'): ?> checked="checked" <?php endif ?>>
-                                    <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
+                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
                                 </div>
                             </div>
-                            <div class="inline field">
-                                <label><a href="#">Je souhaite faire verifier mon identité</a></label>
+                            <div class="fields"> 
+                                <div id="identity_file_bloc" class="seven wide field ">
+                                    <?php if ($identity_file_id): ?>
+                                        <div id="identity_file_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_get_attachment_url($identity_file_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                    <?php else: ?>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                    <?php endif ?>
+                                    <div style="height:0px;overflow:hidden">
+                                        <input type="file" id="identity_file" name="identity_file">
+                                    </div>
+                                </div>
                             </div>
+                            <?php if ($identity_file_id): ?>
+                                <input type="hidden" name="identity_file_id"  value="<?php echo $identity_file_id; ?>">
+                            <?php endif ?>
 
                             <?php if (in_array('particular', $roles)): ?>
                                 <div class="field">
@@ -300,7 +336,30 @@ if (in_array("particular", $roles)) {
                         </form>
                     </div>
                     <div class="ui bottom attached tab segment <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second"> 
-                        <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain').'/'.__('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form">
+                        <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data">
+                            <div  class="fields">
+                                
+                                <div class="sixteen wide field center aligned">
+                                    <div id="company_logo_dimmer" class="ui tiny image">
+                                        <div class="ui dimmer">
+                                            <div class="content">
+                                                <div class="center">
+                                                    <div id="company_logo_loader" class="ui loader content" style="display:none"></div>
+                                                    <!--<div id="profile_picture_remove" class="ui red icon button"><i class="remove icon"></i></div>-->
+                                                    <div id="company_logo_edit" class="ui green basic icon button" ><i class="write icon"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <img id="company_logo_img" class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_get_attachment_url($company_logo_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/default_logo.png" <?php endif ?>>
+                                    </div>
+                                    <div style="height:0px;overflow:hidden">
+                                        <input type="file" id="company_logo_file" name="company_logo_file" accept=".jpg,.png,.gif,.jpeg">
+                                    </div>
+                                </div>
+                            </div>
+                            <?php if ($company_logo_id): ?>
+                                <input type="hidden" name="company_logo_id" value="<?php echo $company_logo_id; ?>">
+                            <?php endif ?>
                             <div class="fields">
                                 <div class="four wide field"></div>
                                 <div class="twelve wide field">
@@ -320,7 +379,7 @@ if (in_array("particular", $roles)) {
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="ui dividing header">INFORMATIONS SUR L'ENTREPRISE </h4>
+                            <h4 class="ui dividing header">Informations sur l'entreprise </h4>
                             <div  class="fields">
                                 <div class="four wide field">
                                     <label>Nom de la société <span style="color:red;">*</span></label>
@@ -357,25 +416,17 @@ if (in_array("particular", $roles)) {
                                 </div>
                             </div>
 
-<!--                            <div  class="fields">
-                                <div class="four wide field">
-                                    <label>Logo de l'entreprise </label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <input type="file" name="company_logo" >
-                                </div>
-                            </div>
 
-                            <div  class="fields">
-                                <div class="four wide field">
-                                    <label>Pièces Jointes </label>
-                                </div>
-                                <div class="twelve wide field">
-                                    <input type="file" name="company_attachements"  multiple="multiple">
-                                </div>
-                            </div>-->
+                            <!--                                                        <div  class="fields">
+                                                                                        <div class="four wide field">
+                                                                                            <label>Pièces Jointes </label>
+                                                                                        </div>
+                                                                                        <div class="twelve wide field">
+                                                                                            <input type="file" name="company_attachements"  multiple="multiple">
+                                                                                        </div>
+                                                                                    </div>-->
 
-                            <h4 class="ui dividing header">ADRESSE</h4>
+                            <h4 class="ui dividing header">Adresse</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
@@ -400,10 +451,11 @@ if (in_array("particular", $roles)) {
                                     <label>Localité <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="locality_pro" type="text" name='locality_pro' placeholder="Votre localité" value="<?php echo $echo_locality_pro ?>">
-                                </div>
+                                    <div class="ui input icon locality_pro">
+                                        <!--<i class="marker icon locality_pro" locality_id='locality_pro'></i>-->
+                                        <i class="remove link icon locality_pro" style="display: none;" locality_id='locality_pro'></i>
+                                        <input id="locality_pro" type="text" class="locality" name='locality_pro' placeholder="Votre localité" value="<?php echo $echo_locality_pro ?>">
+                                    </div>
                                 </div>                        
                             </div>
 
@@ -426,7 +478,7 @@ if (in_array("particular", $roles)) {
                                 </div>                        
                             </div>
 
-                            <h4 class="ui dividing header">REPRESENTANT 1 </h4>
+                            <h4 class="ui dividing header">Représentant 1 </h4>
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Civilité <span style="color:red;">*</span> </label>
@@ -436,7 +488,7 @@ if (in_array("particular", $roles)) {
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative1_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M</label>
+                                                <label>M.</label>
                                             </div>
                                         </div>
                                         <div class="field">
@@ -483,7 +535,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Adresse email professionnelle <span style="color:red;">*</span></label>
+                                    <label>Email professionnel <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="email" name="email_representative1" placeholder="Adresse email professionnelle" value="<?php echo $email_representative1_pro ?>">
@@ -499,7 +551,7 @@ if (in_array("particular", $roles)) {
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">REPRESENTANT 2 (Facultatif)</h4>
+                            <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Civilité </label>
@@ -509,7 +561,7 @@ if (in_array("particular", $roles)) {
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative2_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M</label>
+                                                <label>M.</label>
                                             </div>
                                         </div>
                                         <div class="field">
@@ -556,7 +608,7 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Adresse email professionnelle <span style="color:red;">*</span></label>
+                                    <label>Email professionnel <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="email" name="email_representative2" placeholder="Adresse email professionnelle" value="<?php echo $email_representative2_pro ?>">
@@ -572,11 +624,11 @@ if (in_array("particular", $roles)) {
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
+                            <h4 class="ui dividing header">Informations de connexion</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Adresse email de la société <span style="color:red;">*</span></label>
+                                    <label>Email de la société <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="email" name="email_pro" placeholder="Adresse email de la société" value="<?php echo $user_email_pro ?>">
@@ -585,14 +637,14 @@ if (in_array("particular", $roles)) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Confirmer adresse email de la société <span style="color:red;">*</span></label>
+                                    <label>Confirmer email de la société <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="email" name="email_confirm_pro" placeholder="Adresse email" value="<?php echo $user_email_pro; ?>">
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
+                            <h4 class="ui dividing header">Informations de sécurité</h4>
 
                             <div class="fields">
                                 <div class="four wide field">
@@ -630,20 +682,33 @@ if (in_array("particular", $roles)) {
 
                             <div class="inline field">
                                 <div class="ui checkbox">
-                                    <input type="checkbox" name="terms" <?php if ($terms_pro == 'on'|| is_user_logged_in()): ?> checked="checked" <?php endif ?>> 
-                                    <label><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
+                                    <input type="checkbox" name="terms" <?php if ($terms_pro == 'on' || is_user_logged_in()): ?> checked="checked" <?php endif ?>> 
+                                    <label class="label_terms_use"><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
                                 </div>
                             </div>
 
                             <div class="inline field">
                                 <div class="ui checkbox">
-                                    <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'on'): ?> checked="checked" <?php endif ?>>
-                                    <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
+                                    <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'yes'): ?> checked="checked" <?php endif ?>>
+                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
                                 </div>
                             </div>
-                            <div class="inline field">
-                                <label><a href="#">Je souhaite faire verifier mon identité</a></label>
+                            <div class="fields"> 
+                                <div id="identity_file_pro_bloc" class="field ">
+                                    <?php if ($identity_file_pro_id): ?>
+                                        <div id="identity_file_pro_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_get_attachment_url($identity_file_pro_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                    <?php else: ?>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                    <?php endif ?>
+                                    <div style="height:0px;overflow:hidden">
+                                        <input type="file" id="identity_file_pro" name="identity_file_pro">
+                                    </div>
+                                </div>
                             </div>
+                            <?php if ($identity_file_pro_id): ?>
+                                <input type="hidden" name="identity_file_pro_id"  value="<?php echo $identity_file_pro_id; ?>">
+                            <?php endif ?>
 
                             <?php if (in_array('professional', $roles) || in_array('enterprise', $roles)): ?>
                                 <div class="field">
@@ -669,489 +734,761 @@ if (in_array("particular", $roles)) {
                 <div id="block_recap"> 
                     <?php if (in_array('particular', $roles)): ?>
                         <div class='ui form recap'>
-                            <h4 class="ui dividing header">ETAT CIVIL</h4>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Civilité : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span> <?php echo $gender ?></span>
+                            <div  class="fields">
+                                <div class="sixteen wide field center aligned">
+                                    <img  class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>>
                                 </div>
                             </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Prénom : </label>
+                            <div id="block_recap_desktop">
+                                <h4 class="ui dividing header">Etat civil</h4>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Civilité : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"> <?php echo $gender ?></span>
+                                    </div>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span> <?php echo $first_name; ?></span>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Prénom : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"> <?php echo $first_name; ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Nom :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"> <?php echo $last_name; ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Pseudo : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $user_login; ?></span>
+                                    </div>                        
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Date de naissance : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $birthdate ?></span>
+                                    </div>      
+                                </div>
+
+                                <h4 class="ui dividing header">Adresse</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Numéro et rue : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $number_street; ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Complément adresse : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $complement_address ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Pays : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $country ?></span>
+                                    </div>                        
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Region : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $region; ?></span>
+                                    </div>                    
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Ville : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $city; ?></span>
+                                    </div>                    
+                                </div>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Numéro téléphone mobile : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $mobile_phone_number; ?></span>
+                                    </div>       
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de connexion</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Email : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $user_email; ?></span>
+                                    </div> 
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Mot de passe : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value">*********</span>
+                                    </div>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de sécurité</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Question test : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php
+                                            $test_question = get_post((int) $test_question_ID);
+                                            echo $test_question->post_title
+                                            ?></span>
+                                    </div>                        
+                                </div>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Reponse à la question test : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $answer_test_question; ?></span>
+                                    </div>                              
                                 </div>
                             </div>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Nom :</label>
+                            <div id="block_recap_mobile" style="display: none">
+                                <h4 class="ui dividing header">Etat civil</h4>
+                                <div class="inline field">
+                                    <span class="span_label">Civilité : </span>
+                                    <span class="span_value"> <?php echo $gender ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span> <?php echo $last_name; ?></span>
-                                </div>
-                            </div>
+                                <div class="inline field">
+                                    <span class="span_label">Prénom : </span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Pseudo : </label>
+                                    <span class="span_value"> <?php echo $first_name; ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $user_login; ?></span>
-                                </div>                        
-                            </div>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Date de naissance : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $birthdate ?></span>
-                                </div>      
-                            </div>
-                            <h4 class="ui dividing header">ADRESSE</h4>
+                                <div class="inline field">
+                                    <span class="span_label">Nom :</span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Numéro et rue : </label>
+                                    <span class="span_value"> <?php echo $last_name; ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $number_street; ?></span>
-                                </div>
-                            </div>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Complément adresse </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $complement_address ?></span>
-                                </div>
-                            </div>
+                                <div class="inline field">
+                                    <span class="span_label">Pseudo : </span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Pays : </label>
+                                    <span class="span_value"><?php echo $user_login; ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $country ?></span>
-                                </div>                        
-                            </div>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Region : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $region_province_state; ?></span>
-                                </div>                    
-                            </div>
+                                <div class="inline field">
+                                    <span class="span_label">Date de naissance : </span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Ville : </label>
+                                    <span class="span_value"><?php echo $birthdate ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $commune_city_locality; ?></span>
-                                </div>                    
-                            </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Numéro téléphone mobile : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $mobile_phone_number; ?></span>
-                                </div>       
-                            </div>
 
-                            <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
+                                <h4 class="ui dividing header">Adresse</h4>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Adresse email : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $user_email; ?></span>
-                                </div> 
-                            </div>
+                                <div class="inline field">
+                                    <span class="span_label">Numéro et rue : </span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Mot de passe : </label>
+                                    <span class="span_value"><?php echo $number_street; ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span>*********</span>
-                                </div>
-                            </div>
 
-                            <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
+                                <div class="inline field">
+                                    <span class="span_label">Complément adresse : </span>
 
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Question test : </label>
+                                    <span class="span_value"><?php echo $complement_address ?></span>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php
+
+                                <div class="inline field">
+                                    <span class="span_label">Pays : </span>
+
+                                    <span class="span_value"><?php echo $country ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Region : </span>
+
+                                    <span class="span_value"><?php echo $region; ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Ville : </span>
+
+                                    <span class="span_value"><?php echo $city; ?></span>
+                                </div>
+                                <div class="inline field">
+                                    <span class="span_label">Numéro téléphone mobile : </span>
+
+                                    <span class="span_value"><?php echo $mobile_phone_number; ?></span>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de connexion</h4>
+
+                                <div class="inline field">
+                                    <span class="span_label">Email : </span>
+
+                                    <span class="span_value"><?php echo $user_email; ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Mot de passe : </span>
+
+                                    <span class="span_value">*********</span>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de sécurité</h4>
+
+                                <div class="inline field">
+                                    <span class="span_label">Question test : </span>
+
+                                    <span class="span_value"><?php
                                         $test_question = get_post((int) $test_question_ID);
                                         echo $test_question->post_title
                                         ?></span>
-                                </div>                        
-                            </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Reponse à la question test : </label>
                                 </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $answer_test_question; ?></span>
-                                </div>                              
-                            </div>
+                                <div class="inline field">
+                                    <span class="span_label">Reponse à la question test : </span>
 
-                            <!--div class="fields"-->
-                            <button id="edit_account" class="ui right floated green icon button"  style="width: 12em;" ><i class="edit icon"></i> Modifier</button>
-                        </div>
-                    <?php elseif (in_array('professional', $roles) || in_array('enterprise', $roles)): ?>
-                        <div class='ui form recap'>
-                            <div class="fields">
-                                <div class="wide field">
-                                    <div class="inline fields">
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input id="checkbox_professional" type="radio" name="role" value="professional" <?php if (in_array('professional', $roles) && !in_array('enterprise', $roles)): ?> checked='checked' <?php endif ?>>
-                                                <label>Professionnel</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input id="checkbox_enterprise" type="radio" name="role" value="enterprise" <?php if (in_array('enterprise', $roles) && !in_array('enterprise', $roles)): ?> checked='checked' <?php endif ?>>
-                                                <label>Entreprise</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <span class="span_value"><?php echo $answer_test_question; ?></span>
                                 </div>
-                            </div>
-                            <h4 class="ui dividing header">INFORMATIONS SUR L'ENTREPRISE </h4>
-                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Nom de la société </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $company_name_pro ?></span>
-                                </div>                              
-                            </div>
-
-                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Forme juridique </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $company_legal_form_pro ?></span>
-                                </div>                              
-                            </div>
-
-                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Numéro d'identification de la société </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $company_identity_number_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Numéro individuel d'identification de la TVA </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $company_identity_tva_number_pro ?></span>
-                                </div>
-                            </div>
-
-<!--                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Logo de l'entreprise </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <input type="file" name="company_logo" >
-                                </div>
-                            </div>
-
-                            <div  class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Pièces Jointes </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <input type="file" name="company_attachements"  multiple="multiple">
-                                </div>
-                            </div>-->
-
-                            <h4 class="ui dividing header">ADRESSE</h4>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Numéro et rue </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $number_street_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Complément adresse </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $complement_address_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Pays : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span> <?php echo $country_pro ?></span>
-                                </div>                        
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Region :</label>
-                                </div>
-                                <div class="twelve wide field center aligned">
-                                    <span><?php echo $region_province_state_pro ?></span>
-                                </div>             
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Ville : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $commune_city_locality_pro ?></span>
-                                </div>             
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Code postal : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $postal_code_pro ?></span>
-                                </div>                              
-                            </div>
-
-
-                            <div id="fields_home_phone_number" class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Téléphone fixe : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $home_phone_number_pro ?></span>
-                                </div>                        
-                            </div>
-
-                            <h4 class="ui dividing header">REPRESENTANT 1 </h4>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Civilité : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <div class="inline fields">
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative1_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mme" <?php if ($civility_representative1_pro == "Mme"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mme</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mlle" <?php if ($civility_representative1_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mlle</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Prénom :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $first_name_representative1_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Nom :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $last_name_representative1_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Fonction dans l'entreprise : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $function_representative1_pro ?></span>
-                                </div>                        
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Adresse email professionnelle : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $email_representative1_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Téléphone mobile : </label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $mobile_phone_number_representative1_pro ?></span>
-                                </div>
-                            </div>
-
-                            <h4 class="ui dividing header">REPRESENTANT 2 (Facultatif)</h4>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Civilité :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <div class="inline fields">
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative2_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mme" <?php if ($civility_representative2_pro == "Mme"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mme</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mlle" <?php if ($civility_representative2_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mlle</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Prénom :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $first_name_representative2_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Nom :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $last_name_representative2_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Fonction dans la société :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $function_representative2_pro ?></span>
-                                </div>                        
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Adresse email professionnelle :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $email_representative2_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Téléphone mobile :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $mobile_phone_number_representative2_pro ?></span>
-                                </div>
-                            </div>
-
-                            <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Adresse email de la société :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php echo $user_email_pro ?></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Mot de passe :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span>*******</span>
-                                </div>
-                            </div>
-
-                            <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
-
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Question test :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span><?php
-                                        $test_question = get_post((int) $test_question_ID_pro);
-                                        echo $test_question->post_title
-                                        ?></span>
-                                </div>                        
-                            </div>
-                            <div class="fields">
-                                <div class="five wide field center aligned">
-                                    <label>Reponse à la question test :</label>
-                                </div>
-                                <div class="eleven wide field center aligned">
-                                    <span> <?php echo $answer_test_question_pro ?> </span>
-                                </div>                              
                             </div>
 
                             <div class="inline field">
-                                <div class="ui checkbox">
-                                    <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'yes'): ?> checked="checked" <?php endif ?>>
-                                    <label>Je souhaite être informé(e) des produits et des services du site global parcel deal susceptibles de m'intéresser. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations du compte.</label>
+                                <div class="ui disabled checkbox">
+                                    <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications == 'yes'): ?> checked="checked" <?php endif ?> disabled="disabled">
+                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
                                 </div>
                             </div>
-                            <button id="edit_account" class="ui right floated green icon button"  style="width: 12em;" ><i class="edit icon"></i> Modifier</button>
+                            <div class="fields">
+                                <div class="sixteen wide field center aligned">
+                                    <?php if ($identity_status == 0): ?> 
+                                        <span ><i class="refresh large blue icon"></i> <span class="blue_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php elseif ($identity_status == 1): ?> 
+                                        <span ><i class="remove large circle red icon"></i> <span class="red_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php else: ?> 
+                                        <span><i class="check large circle green icon"></i> <span class="green_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                            <?php if ($identity_file_id): ?>
+                                <div class="fields"> 
+                                    <div  class="field">
+                                        <div class="ui message"><a  href="<?php echo wp_get_attachment_url($identity_file_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
+                                    </div>
+                                </div>
+                            <?php endif ?>
+
+                            <div class="field">
+                                <button id="edit_account" class="ui right floated green icon button"  style="min-width: 12em;" ><i class="edit icon"></i> Modifier le profil</button>
+                                <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('modifier-le-mot-de-passe', 'gpdealdomain'))); ?>"><i class="edit icon"></i> Modifier le mot de passe</a>
+                            </div>
+                        </div>
+                    <?php elseif (in_array('professional', $roles) || in_array('enterprise', $roles)): ?>
+                        <div class='ui form recap'>
+                            <div  class="fields">
+                                <div class="sixteen wide field center aligned">
+                                    <img  class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_get_attachment_url($company_logo_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/default_logo.png" <?php endif ?>>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="sixteen wide field center aligned">
+                                    <span><?php
+                                        $role = (in_array('professional', $roles) && !in_array('enterprise', $roles)) ? "professional" : "enterprise";
+                                        echo getUserRoleName($role)
+                                        ?></span>
+                                </div>
+                            </div>
+
+                            <div id="block_recap_desktop">
+                                <h4 class="ui dividing header">Informations sur l'entreprise </h4>
+                                <div  class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Nom de la société </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $company_name_pro ?></span>
+                                    </div>                              
+                                </div>
+
+                                <div  class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Forme juridique </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $company_legal_form_pro ?></span>
+                                    </div>                              
+                                </div>
+
+                                <div  class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Numéro d'identification de la société </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $company_identity_number_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div  class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Numéro individuel d'identification de la TVA </label>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
+                                    </div>
+                                </div>
+
+
+                                <h4 class="ui dividing header">Adresse</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Numéro et rue </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $number_street_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Complément adresse : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $complement_address_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Pays : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"> <?php echo $country_pro ?></span>
+                                    </div>                        
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Region :</span>
+                                    </div>
+                                    <div class="twelve wide field">
+                                        <span class="span_value"><?php echo $region_pro ?></span>
+                                    </div>             
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Ville : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $city_pro ?></span>
+                                    </div>             
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Code postal : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $postal_code_pro ?></span>
+                                    </div>                              
+                                </div>
+
+
+                                <div id="fields_home_phone_number" class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Téléphone fixe : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $home_phone_number_pro ?></span>
+                                    </div>                        
+                                </div>
+
+                                <h4 class="ui dividing header">Représentant 1 </h4>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Civilité : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $civility_representative1_pro ?></span>
+
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Prénom :</label>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Nom :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Fonction dans l'entreprise : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $function_representative1_pro ?></span>
+                                    </div>                        
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Email professionnel : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $email_representative1_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Téléphone mobile : </span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $mobile_phone_number_representative1_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Civilité :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $civility_representative2_pro ?></span>
+                                    </div>
+                                </div>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Prénom :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Nom :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Fonction dans la société :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $function_representative2_pro ?></span>
+                                    </div>                        
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Email professionnel :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $email_representative2_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Téléphone mobile :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $mobile_phone_number_representative2_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de connexion</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Email de la société :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php echo $user_email_pro ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Mot de passe :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value">*******</span>
+                                    </div>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de sécurité</h4>
+
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Question test :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"><?php
+                                            $test_question = get_post((int) $test_question_ID_pro);
+                                            echo $test_question->post_title
+                                            ?></span>
+                                    </div>                        
+                                </div>
+                                <div class="fields">
+                                    <div class="five wide field">
+                                        <span class="span_label">Reponse à la question test :</span>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <span class="span_value"> <?php echo $answer_test_question_pro ?> </span>
+                                    </div>                              
+                                </div>
+                            </div>
+                            <div id="block_recap_mobile" style="display: none">
+                                <h4 class="ui dividing header">Informations sur l'entreprise </h4>
+                                <div  class="inline field">
+                                    <span class="span_label">Nom de la société </span>
+
+                                    <span class="span_value"><?php echo $company_name_pro ?></span>
+                                </div>
+
+                                <div  class="inline field">
+                                    <span class="span_label">Forme juridique </span>
+
+                                    <span class="span_value"><?php echo $company_legal_form_pro ?></span>
+                                </div>
+
+                                <div  class="inline field">
+                                    <span class="span_label">Numéro d'identification de la société </span>
+
+                                    <span class="span_value"><?php echo $company_identity_number_pro ?></span>
+                                </div>
+
+                                <div  class="inline field">
+                                    <span class="span_label">Numéro individuel d'identification de la TVA </label>
+
+                                        <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
+                                </div>
+
+                                <h4 class="ui dividing header">Adresse</h4>
+
+                                <div class="inline field">
+                                    <span class="span_label">Numéro et rue </span>
+
+                                    <span class="span_value"><?php echo $number_street_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Complément adresse : </span>
+
+                                    <span class="span_value"><?php echo $complement_address_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Pays : </span>
+
+                                    <span class="span_value"> <?php echo $country_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Region :</span>
+
+                                    <span class="span_value"><?php echo $region_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Ville : </span>
+
+                                    <span class="span_value"><?php echo $city_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Code postal : </span>
+
+                                    <span class="span_value"><?php echo $postal_code_pro ?></span>
+                                </div>
+
+                                <div id="fields_home_phone_number" class="inline field">
+                                    <span class="span_label">Téléphone fixe : </span>
+
+                                    <span class="span_value"><?php echo $home_phone_number_pro ?></span>
+                                </div>
+
+                                <h4 class="ui dividing header">Représentant 1 </h4>
+                                <div class="inline field">
+                                    <span class="span_label">Civilité : </span>
+
+                                    <span class="span_value"><?php echo $civility_representative1_pro ?></span>
+                                </div>
+                                <div class="inline field">
+                                    <span class="span_label">Prénom :</label>
+
+                                        <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Nom :</span>
+
+                                    <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Fonction dans l'entreprise : </span>
+
+                                    <span class="span_value"><?php echo $function_representative1_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Email professionnel : </span>
+
+                                    <span class="span_value"><?php echo $email_representative1_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Téléphone mobile : </span>
+
+                                    <span class="span_value"><?php echo $mobile_phone_number_representative1_pro ?></span>
+                                </div>
+
+                                <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
+                                <div class="inline field">
+                                    <span class="span_label">Civilité :</span>
+
+                                    <span class="span_value"><?php echo $civility_representative2_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Prénom :</span>
+
+                                    <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Nom :</span>
+
+                                    <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Fonction dans la société :</span>
+
+                                    <span class="span_value"><?php echo $function_representative2_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Email professionnel :</span>
+
+                                    <span class="span_value"><?php echo $email_representative2_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Téléphone mobile :</span>
+
+                                    <span class="span_value"><?php echo $mobile_phone_number_representative2_pro ?></span>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de connexion</h4>
+
+                                <div class="inline field">
+                                    <span class="span_label">Email de la société :</span>
+
+                                    <span class="span_value"><?php echo $user_email_pro ?></span>
+                                </div>
+
+                                <div class="inline field">
+                                    <span class="span_label">Mot de passe :</span>
+
+                                    <span class="span_value">*******</span>
+                                </div>
+
+                                <h4 class="ui dividing header">Informations de sécurité</h4>
+
+                                <div class="inline field">
+                                    <span class="span_label">Question test :</span>
+
+                                    <span class="span_value"><?php
+                                        $test_question = get_post((int) $test_question_ID_pro);
+                                        echo $test_question->post_title
+                                        ?></span>
+                                </div>
+                                <div class="inline field">
+                                    <span class="span_label">Reponse à la question test :</span>
+
+                                    <span class="span_value"> <?php echo $answer_test_question_pro ?> </span>
+                                </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui disabled checkbox">
+                                    <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'yes'): ?> checked="checked" <?php endif ?> disabled="disabled">
+                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
+                                </div>
+                            </div>
+                            <div class="fields">
+                                <div class="sixteen wide field center aligned">
+                                    <?php if ($identity_status == 0): ?> 
+                                        <span ><i class="refresh large blue icon"></i> <span class="blue_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php elseif ($identity_status == 1): ?> 
+                                        <span ><i class="remove large circle red icon"></i> <span class="red_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php else: ?> 
+                                        <span><i class="check large circle green icon"></i> <span class="green_identity"><?php echo getUserIdentityStatus($identity_status); ?></span></span>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                            <?php if ($identity_file_pro_id): ?>
+                                <div class="fields"> 
+                                    <div  class="field">                                   
+                                        <div class="ui message"><a  href="<?php echo wp_get_attachment_url($identity_file_pro_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>                                  
+                                    </div>
+                                </div>
+                            <?php endif ?>
+                            
+                                <div class="field "> 
+                                    <button id="edit_account" class="ui right floated green button"  style="min-width: 12em;" ><i class="edit icon"></i> Modifier</button>
+                                    <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('modifier-le-mot-de-passe', 'gpdealdomain'))); ?>"><i class="edit icon"></i> Modifier le mot de passe</a>
+                                </div>
                         </div>
                     <?php endif ?>
                 </div>
             </div>
         </div>
     </div>
+</div>

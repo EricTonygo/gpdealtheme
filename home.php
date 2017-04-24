@@ -4,9 +4,12 @@
   Template Name: Home Page
  */
 //header("Cache-Control", "no-cache, no-store, must-revalidate");
-if(is_user_logged_in() && isset($_GET['logout']) && esc_attr($_GET['logout'])=='true'){
+session_start();
+if(is_user_logged_in() && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout']) && esc_attr($_POST['logout'])=='true'){
     wp_logout();
-    wp_safe_redirect(home_url('/'));
+    $json = array("message" => "disconnected successfully.");
+    return wp_send_json_success($json);
+    //wp_safe_redirect(home_url('/'));
 }
 
 get_header(); 

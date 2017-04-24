@@ -3,7 +3,7 @@
 /*
   Template Name: Packages Page
  */
-
+session_start();
 if (is_user_logged_in()) {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['package_type']) && isset($_POST['portable_objects']) && isset($_POST['package_dimensions_length']) && isset($_POST['package_dimensions_width']) && isset($_POST['package_dimensions_height']) && isset($_POST['package_weight']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
@@ -17,7 +17,12 @@ if (is_user_logged_in()) {
             $start_date = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', removeslashes(esc_attr(trim($_POST['start_date']))))));
             $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
             $destination_date = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', removeslashes(esc_attr(trim($_POST['destination_date']))))));
-
+            $package_picture = $_FILES['package_picture_file'];
+            $package_picture_id= null;
+            if (!empty($package_picture)) {
+                $package_picture_id = upload_file($package_picture);
+            }
+            
             $package_data = array(
                 "package_type" => $type,
                 "portable_objects" => $content,
@@ -28,7 +33,8 @@ if (is_user_logged_in()) {
                 "start_city" => $start_city,
                 "start_date" => $start_date,
                 "destination_city" => $destination_city,
-                "destination_date" => $destination_date
+                "destination_date" => $destination_date,
+                "package_picture_id"=>$package_picture_id
             );
             $package_id = sendPackage($package_data);
             if (!is_wp_error($package_id)) {
@@ -52,5 +58,6 @@ if (is_user_logged_in()) {
         get_footer();
     }
 } else {
-    wp_safe_redirect(esc_url(add_query_arg(array('redirect_to' => get_the_permalink()), get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))))));
+    $_SESSION['redirect_to'] = get_the_permalink();
+    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
 }

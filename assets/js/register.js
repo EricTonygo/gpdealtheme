@@ -96,6 +96,231 @@ $(function () {
         scrollInput: false
     });
 
+    $('#profile_picture_edit').click(function () {
+        $('#profile_picture_file').click();
+    });
+
+    function previewProfilePicture() {
+        var preview = document.getElementById('profile_picture_img');
+        var file = document.getElementById('profile_picture_file').files[0];
+        var reader = new FileReader();
+        reader.addEventListener("loadstart", function () {
+            $('#profile_picture_edit').hide();
+            $('#profile_picture_loader').show();
+            $('#profile_picture_dimmer.image .dimmer').dimmer('show');
+        }, false);
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        reader.addEventListener("loadend", function () {
+            $('#profile_picture_loader').hide();
+            $('#profile_picture_edit').show();
+            $('#profile_picture_dimmer.image .dimmer').dimmer('hide');
+
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $('#profile_picture_dimmer.image')
+            .dimmer({
+                on: 'hover'
+            })
+            ;
+
+    $("#profile_picture_file").change(function () {
+        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+        previewProfilePicture();
+    });
+
+
+    $('#identity_file_link').click(function () {
+        $('#identity_file').click();
+    });
+
+    function previewIdentityFile() {
+        var preview = document.getElementById('identity_file_bloc');
+        var file = document.getElementById('identity_file').files[0];
+        var reader = new FileReader();
+        if (file) {
+            reader.addEventListener("loadstart", function () {
+                $('#identity_file_link').addClass("loading");
+            }, false);
+
+            reader.addEventListener("load", function () {
+                $('#identity_file_bloc').append($('<div id="identity_file_preview" class="ui message"><i class="close icon"></i><a class="header">' + file.name + ' </a></div>'));
+                $('#identity_file_preview.message .close')
+                        .on('click', function () {
+                            $(this)
+                                    .closest('.message')
+                                    .transition('fade')
+                                    ;
+                            $('#identity_file').val('');
+                            $('#identity_file_link').show();
+                        })
+                        ;
+                $('#identity_file_preview>.close.icon').click(function (e) {
+                    $('#identity_file_preview').remove();
+                    $('#identity_file_link').show();
+                });
+                preview.src = reader.result;
+            }, false);
+
+            reader.addEventListener("loadend", function () {
+                $('#identity_file_link').hide();
+                $('#identity_file_link').removeClass("loading");
+            }, false);
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $('#identity_file_preview.message .close')
+            .on('click', function () {
+                $(this)
+                        .closest('.message')
+                        .transition('fade')
+                        ;
+                $('#identity_file').val('');
+                $('#identity_file_link').show();
+            })
+            ;
+
+
+    $("#identity_file").change(function () {
+        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+        previewIdentityFile();
+    });
+    
+    
+    
+    
+    
+    $('#company_logo_edit').click(function () {
+        $('#company_logo_file').click();
+    });
+
+    function previewCompanyLogo() {
+        var preview = document.getElementById('company_logo_img');
+        var file = document.getElementById('company_logo_file').files[0];
+        var reader = new FileReader();
+        reader.addEventListener("loadstart", function () {
+            $('#company_logo_edit').hide();
+            $('#company_logo_loader').show();
+            $('#company_logo_dimmer.image .dimmer').dimmer('show');
+        }, false);
+
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        }, false);
+
+        reader.addEventListener("loadend", function () {
+            $('#company_logo_loader').hide();
+            $('#company_logo_edit').show();
+            $('#company_logo_dimmer.image .dimmer').dimmer('hide');
+
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $('#company_logo_dimmer.image')
+            .dimmer({
+                on: 'hover'
+            })
+            ;
+
+    $("#company_logo_file").change(function () {
+        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+        previewCompanyLogo();
+    });
+
+
+    $('#identity_file_pro_link').click(function () {
+        $('#identity_file_pro').click();
+    });
+
+    function previewIdentityFilePro() {
+        var preview = document.getElementById('identity_file_pro_bloc');
+        var file = document.getElementById('identity_file_pro').files[0];
+        var reader = new FileReader();
+        if (file) {
+            reader.addEventListener("loadstart", function () {
+                $('#identity_file_pro_link').addClass("loading");
+            }, false);
+
+            reader.addEventListener("load", function () {
+                $('#identity_file_pro_bloc').append($('<div id="identity_file_pro_preview" class="ui message"><i class="close icon"></i><a class="header">' + file.name + ' </a></div>'));
+                $('#identity_file_pro_preview.message .close')
+                        .on('click', function () {
+                            $(this)
+                                    .closest('.message')
+                                    .transition('fade')
+                                    ;
+                            $('#identity_file_pro').val('');
+                            $('#identity_file_pro_link').show();
+                        })
+                        ;
+                $('#identity_file_pro_preview>.close.icon').click(function (e) {
+                    $('#identity_file_pro_preview').remove();
+                    $('#identity_file_pro_link').show();
+                });
+                preview.src = reader.result;
+            }, false);
+
+            reader.addEventListener("loadend", function () {
+                $('#identity_file_pro_link').hide();
+                $('#identity_file_pro_link').removeClass("loading");
+            }, false);
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    $('#identity_file_pro_preview.message .close')
+            .on('click', function () {
+                $(this)
+                        .closest('.message')
+                        .transition('fade')
+                        ;
+                $('#identity_file_pro').val('');
+                $('#identity_file_pro_link').show();
+            })
+            ;
+
+
+    $("#identity_file_pro").change(function () {
+        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+        previewIdentityFilePro();
+    });
+
+
+//    $('#company_logo_img').click(function () {
+//        $('#company_logo_file').click();
+//    });
+//
+//    function readURLCompanyLogo(input) {
+//        if (input.files && input.files[0]) {
+//            var reader = new FileReader();
+//
+//            reader.onload = function (e) {
+//                $('#company_logo_img').attr('src', e.target.result);
+//            };
+//            reader.readAsDataURL(input.files[0]);
+//        }
+//    }
+//
+//    $("#company_logo_file").change(function () {
+//        //alert('This file size is: '+this.files[0].type+' ' + this.files[0].size/1024/1024 + "MB");
+//        readURLCompanyLogo(this);
+//    });
+
     $('#register_form_particular.ui.form')
             .form({
                 fields: {
@@ -252,8 +477,6 @@ $(function () {
                         $('#submit_create_account_particular').addClass('disabled');
                         $('#submit_edit_account_particular').addClass('disabled');
                     } else {
-                        $('#register_form_particular.ui.form').removeClass('loading');
-                        $('#submit_create_account_particular').removeClass('disabled');
                         $('#error_name_header').html("Echec de la validation");
                         $('#error_name_list').html("<li>L'âge d'un utilisateur doit être supérieur ou égal à 18 ans</li>");
                         $('#error_name_message').show();
@@ -264,7 +487,7 @@ $(function () {
             );
 
     $("#register_form_particular.ui.form").bind("keypress", function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             e.preventDefault();
             return false;
         }
@@ -338,15 +561,15 @@ $(function () {
                             }
                         ]
                     },
-                    company_identity_tva_number: {
-                        identifier: 'company_identity_tva_number',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez saisir votre numéro siren'
-                            }
-                        ]
-                    },
+//                    company_identity_tva_number: {
+//                        identifier: 'company_identity_tva_number',
+//                        rules: [
+//                            {
+//                                type: 'empty',
+//                                prompt: 'Veuillez saisir votre numéro siren'
+//                            }
+//                        ]
+//                    },
                     function_representative1: {
                         identifier: 'function_representative1',
                         rules: [
@@ -539,7 +762,7 @@ $(function () {
 
                 },
                 inline: true,
-                on: 'change'
+                on: 'blur'
             }
             );
 
@@ -589,6 +812,97 @@ $(function () {
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#forgot_password_form.ui.form').removeClass('loading');
                     $('#submit_forgot_password').removeClass('disabled');
+                    $('#server_error_message').show();
+                }
+            });
+        }
+    });
+    
+    
+    //Reset a password
+    $('#reset_password_form.ui.form')
+            .form({
+                fields: {
+                    old_password: {
+                        identifier: 'old_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir votre mot de passe actuel'
+                            }
+                        ]
+                    },
+
+                    new_password: {
+                        identifier: 'new_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: 'Veuillez saisir le nouveau mot de passe'
+                            }
+                        ]
+                    },
+                    confirm_new_password: {
+                        identifier: 'confirm_new_password',
+                        rules: [
+                            {
+                                type: 'match[new_password]',
+                                prompt: 'Les deux nouveaux mots de passe ne se correspondent pas'
+                            }
+                        ]
+                    }
+                },
+                inline: true,
+                on: 'blur'
+            }
+            );
+
+    $('#submit_reset_password').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        //$('#reset_password_form.ui.form').form('validate form');
+        if ($('#reset_password_form.ui.form').form('is valid')) {
+            $.ajax({
+                type: 'post',
+                url: $('#reset_password_form.ui.form').attr('action'),
+                data: $('#reset_password_form.ui.form').serialize(),
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#reset_password_form.ui.form').addClass('loading');
+                    $('#submit_reset_password').addClass('disabled');
+                },
+                statusCode: {
+                    500: function (xhr) {
+                        $('#reset_password_form.ui.form').removeClass('loading');
+                        $('#submit_reset_password').removeClass('disabled');
+                        $('#server_error_message').show();
+                    },
+                    400: function (response, textStatus, jqXHR) {
+                        $('#reset_password_form.ui.form').removeClass('loading');
+                        $('#submit_reset_password').removeClass('disabled');
+                        $('#error_name_header').html("Echec de la validation");
+                        $('#error_name_message').show();
+                    }
+                },
+                success: function (response, textStatus, jqXHR) {
+                    if (response.success === true) {
+                        $('#reset_password_form.ui.form').submit();
+                    } else if (response.success === false) {
+                        $('#reset_password_form.ui.form').removeClass('loading');
+                        $('#submit_reset_password').removeClass('disabled');
+                        $('#error_name_header').html("Echec de la validation");
+                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
+                        $('#error_name_message').show();
+                    } else {
+                        $('#reset_password_form.ui.form').removeClass('loading');
+                        $('#submit_reset_password').removeClass('disabled');
+                        $('#error_name_header').html("Internal server error");
+                        $('#error_name_message').show();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#reset_password_form.ui.form').removeClass('loading');
+                    $('#submit_reset_password').removeClass('disabled');
                     $('#server_error_message').show();
                 }
             });
@@ -757,24 +1071,27 @@ function confirm_save_account_particular() {
                     $('#register_form_particular.ui.form').submit();
                 } else if (response.success === false) {
                     $("#register_form_particular.ui.form input[name='save_account']").val('no');
-                    $('#register_form_particular.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_particular);
+                    $('#register_form_particular.ui.form').removeClass('loading');                    
                     $('#error_name_header').html("Echec de la validation");
                     $('#error_name_list').html('<li>' + response.data.message + '</li>');
                     $('#error_name_message').show();
+                    grecaptcha.reset(widgetId_particular);
+                    
                 } else {
                     $("#register_form_particular.ui.form input[name='save_account']").val('no');
                     $('#register_form_particular.ui.form').removeClass('loading');
-                    grecaptcha.reset(widgetId_particular);
                     $('#error_name_header').html("Internal server error");
                     $('#error_name_message').show();
+                    grecaptcha.reset(widgetId_particular);
+                    
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#register_form_particular.ui.form input[name='save_account']").val('no');
                 $('#register_form_particular.ui.form').removeClass('loading');
-                grecaptcha.reset(widgetId_particular);
                 $('#server_error_message').show();
+                grecaptcha.reset(widgetId_particular);
+                
             }
         });
     } else {

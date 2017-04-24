@@ -1,19 +1,5 @@
 <?php 
-$search_data = null;
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["submit_search_unsatisfied_packages"]) && removeslashes(esc_attr(trim($_POST["submit_search_unsatisfied_packages"] = "yes")))) {
-        $package_type = array_map('intval', isset($_POST['package_type']) ? $_POST['package_type'] : array());
-        $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
-        $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-        $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
-        $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
-        $search_data = array(
-            'package_type' => $package_type,
-            'start_city' => $start_city,
-            'start_date' => $start_date,
-            'destination_city' => $destination_city,
-            'destination_date' => $destination_date
-        );
-}
+
 get_template_part('top-menu', get_post_format()); ?>
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
@@ -46,31 +32,34 @@ get_template_part('top-menu', get_post_format()); ?>
                             <?php
                             while ($packages->have_posts()): $packages->the_post();
                                 $exclude_ids[] = get_the_ID();
+                                $post_author = get_post_field('post_author', get_the_ID());
+                                $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
+                                $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
                                 ?>
                                 <div class="column">
                                     <div class="ui fluid card">
                 <!--                        <i class="huge travel icon center aligned"></i>-->
                                         <div class="content">
-                                            <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong>Expéditeur : </strong><a ><?php echo get_the_author_meta('user_login'); ?></a>
+                                            <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>> <span class='profile_name'><?php echo $carrier_name; ?></span>
                                         </div>
                                         <div class="content">
                                             <div class="ui form description">
                                                 <div class="inline field">
-                                                    <label>Départ : </label> 
-                                                    <span>
+                                                    <span class="span_label">Départ : </span> 
+                                                    <span class="span_value">
                                                         <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                     </span>
                                                 </div>
                                                 <div class="inline field">
-                                                    <label>Destination : </label> 
-                                                    <span>
+                                                    <span class="span_label">Destination : </span> 
+                                                    <span class="span_value">
                                                         <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                     </span>
                                                 </div>
 
                                                 <div class="inline field">
-                                                    <label>Objet : </label> 
-                                                    <span>
+                                                    <span class="span_label">Objet : </span> 
+                                                    <span class="span_value">
                                                         <?php
                                                         $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
                                                         $package_type_list_count = count($package_type_list);
@@ -90,9 +79,7 @@ get_template_part('top-menu', get_post_format()); ?>
                                                 </div>
                                             </div>
                                         </div>
-<!--                                        <div class="extra content">
-                                            <a class="ui fluid green button"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                        </div>-->
+
                                     </div>
                                 </div>
                                 <?php
@@ -104,7 +91,7 @@ get_template_part('top-menu', get_post_format()); ?>
                             <div class="ui warning message">
                                 <div class="content">
                                     <div class="header" style="font-weight: normal;">
-                                       Nous n'avons trouvé aucune expédition valide correspondant à vos critères de recherche.
+                                       Aucune expédition non satisfaite ne correspond à vos critères.
                                     </div>
                                 </div>
                             </div>
@@ -117,8 +104,8 @@ get_template_part('top-menu', get_post_format()); ?>
                 </div>
             </div>
             <?php
-            $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, $exclude_ids));
-            if ($packages->have_posts()) {
+            $packages_wci = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, $exclude_ids));
+            if ($packages_wci->have_posts()) {
                 ?>
                 <div class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
@@ -128,32 +115,37 @@ get_template_part('top-menu', get_post_format()); ?>
 
                         <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                             <?php
-                            while ($packages->have_posts()): $packages->the_post();
+                            while ($packages_wci->have_posts()): $packages_wci->the_post();
+                            
                                 ?>
                                 <div class="column">
                                     <div class="ui fluid card">
-                <!--                        <i class="huge travel icon center aligned"></i>-->
+                                        <?php
+                                            $post_author = get_post_field('post_author', get_the_ID());
+                                            $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
+                                            $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
+                                            ?>
                                         <div class="content">
-                                            <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong>Expéditeur : </strong><a ><?php echo get_the_author_meta('user_login'); ?></a>
+                                            <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>> <span class='profile_name'><?php echo $carrier_name; ?></span>
                                         </div>
                                         <div class="content">
                                             <div class="ui form description">
                                                 <div class="inline field">
-                                                    <label>Départ : </label> 
-                                                    <span>
-                                                        <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
+                                                    <span class="span_label">Départ : </span> 
+                                                    <span class="span_value">
+                                                        <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                     </span>
                                                 </div>
                                                 <div class="inline field">
-                                                    <label>Destination : </label> 
-                                                    <span>
-                                                        <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
+                                                    <span class="span_label">Destination : </span> 
+                                                    <span class="span_value">
+                                                        <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                     </span>
                                                 </div>
 
                                                 <div class="inline field">
-                                                    <label>Objet : </label> 
-                                                    <span>
+                                                    <span class="span_label">Objet : </span> 
+                                                    <span class="span_value">
                                                         <?php
                                                         $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
                                                         $package_type_list_count = count($package_type_list);
@@ -173,9 +165,7 @@ get_template_part('top-menu', get_post_format()); ?>
                                                 </div>
                                             </div>
                                         </div>
-<!--                                        <div class="extra content">
-                                            <a class="ui fluid green button"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                        </div>-->
+
                                     </div>
                                 </div>
                                 <?php

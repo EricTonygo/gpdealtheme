@@ -4,7 +4,7 @@
   Template Name: Profile Page
  */
 
-
+session_start();
 if (is_user_logged_in()) {
     get_header();
 
@@ -12,5 +12,6 @@ if (is_user_logged_in()) {
 
     get_footer();
 }else{
-    wp_safe_redirect(esc_url(add_query_arg(array('redirect_to' => get_the_permalink()), get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))))));
+    $_SESSION['redirect_to'] = get_the_permalink();
+    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
 }

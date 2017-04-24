@@ -15,8 +15,8 @@
     </div-->
     <div class="ui signin_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Connexion", 'gpdealdomain') ?> </div>
-            <p><?php echo __("Remplissez les informations ci-dessous pour se connecter", 'gpdealdomain') ?></p>
+            <span class="header" style="text-align: center"><?php echo __("Connexion", 'gpdealdomain') ?> </span>
+            <!--<p class="promo_text_form"><?php echo __("Remplissez les informations ci-dessous pour se connecter", 'gpdealdomain') ?></p>-->
         </div>
         <div class="ui fluid card">
             <div class="content">
@@ -37,8 +37,8 @@
                             <input type="password" name="_password" placeholder="Mot de passe">
                         </div>
                     </div>
-                    <?php if (isset($_GET['redirect_to'])): ?>
-                        <input type="hidden" name='redirect_to' value="<?php echo $_GET['redirect_to']; ?>" >
+                    <?php if (isset($_SESSION['redirect_to'])): ?>
+                        <input type="hidden" name='redirect_to' value="<?php echo $_SESSION['redirect_to']; unset($_SESSION['redirect_to']); ?>" >
                     <?php endif ?>
                     <div class="inline field">
                         <div class="ui checkbox">

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if (is_user_logged_in()) {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "evaluate") {
@@ -7,12 +7,13 @@ if (is_user_logged_in()) {
             $item_state = removeslashes(esc_attr(trim($_POST['item_state'])));
             $delivry_time = removeslashes(esc_attr(trim($_POST['delivry_time'])));
             $cost = removeslashes(esc_attr(trim($_POST['cost'])));
-            $recommended_carrier = removeslashes(esc_attr(trim($_POST['recommended_carrier'])));
+            $global_evaluation = removeslashes(esc_attr(trim($_POST['global_evaluation'])));
             $comment_content = removeslashes(esc_attr(trim($_POST['comment_content'])));
             $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
             $evaluation_data = array(
-                "responses" => array($item_delivred, $item_state, $delivry_time, $cost, $recommended_carrier),
-                'comment_content' => $comment_content
+                "responses" => array($item_delivred, $item_state, $delivry_time, $cost, $global_evaluation),
+                'comment_content' => $comment_content,
+                'package_id' => $package_id
             );
 
             $evaluation_id = evaluateTransportOffer($evaluation_data);
@@ -133,5 +134,6 @@ if (is_user_logged_in()) {
         get_footer();
     }
 } else {
-    wp_safe_redirect(esc_url(add_query_arg(array('redirect_to' => get_the_permalink()), get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))))));
+    $_SESSION['redirect_to'] = get_the_permalink();
+    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
 }

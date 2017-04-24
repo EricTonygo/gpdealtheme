@@ -15,31 +15,55 @@
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Bienvenu dans notre site!", 'gpdealdomain') ?> </div>
-            <p><?php echo __("Remplissez le formulaire ci-dessus pour créer un nouveau compte", 'gpdealdomain') ?></p>
+            <div class="header"><?php echo __("Bienvenue sur notre site", 'gpdealdomain') ?> ! </div>
+            <p class="promo_text_form"><?php echo __("Inscrivez-vous en quelques minutes et profitez pleinement de nos services !", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
+                <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
                 <div class="ui top attached tabular menu">
-                    <a class="item active" data-tab="first">Particulier</a>
-                    <a class="item" data-tab="second">Professionnel / Entreprise</a>
+                    <div class="item active" data-tab="first">Particulier</div>
+                    <div class="item" data-tab="second">Professionnel/<br class="mobile_br" style="display: none;">Entreprise</div>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
+                    <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
 
                         <input  type="hidden" name="role" value="particular" >
+                        <div  class="fields">
+<!--                            <div class="four wide field">
+                                <label>Photo de profil </label>
+                            </div>-->
+                            <div class="sixteen wide field center aligned">
+                                <div id="profile_picture_dimmer" class="ui tiny image">
+                                    <div class="ui dimmer">
+                                        <div class="content">
+                                            <div class="center">
+                                                <div id="profile_picture_loader" class="ui loader content" style="display:none"></div>
+                                                <!--<div id="profile_picture_remove" class="ui red icon button"><i class="remove icon"></i></div>-->
+                                                <div id="profile_picture_edit" class="ui green basic icon button" ><i class="write icon"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <img id="profile_picture_img" class="ui tiny image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png">
+                                </div>
+                                <div style="height:0px;overflow:hidden">
+                                    <input type="file" id="profile_picture_file" name="profile_picture_file" accept=".jpg,.png,.gif,.jpeg">
+                                </div>
+                            </div>
+                        </div>
 
-                        <h4 class="ui dividing header">ETAT CIVIL</h4>
-                        <div class="fields">
+                        <h4 class="ui dividing header">Etat civil</h4>
+                        <div id='civility_bloc' class="fields">
                             <div class="four wide field">
                                 <label>Civilité <span style="color:red;">*</span> </label>
                             </div>
                             <div class="twelve wide field">
+                                <label class='mobile_label' style="display:none">Civilité <span style="color:red;">*</span> </label>
                                 <div class="inline fields">                                   
                                     <div class="field">
                                         <div class="ui radio checkbox">
                                             <input type="radio" name="gender" value="M">
-                                            <label>M</label>
+                                            <label>M.</label>
                                         </div>
                                     </div>
                                     <div class="field">
@@ -98,8 +122,9 @@
                                 </div>
                             </div>      
                         </div>
+                        
 
-                        <h4 class="ui dividing header">ADRESSE</h4>
+                        <h4 class="ui dividing header">Adresse</h4>
 
                         <div class="fields">
                             <div class="four wide field">
@@ -124,9 +149,10 @@
                                 <label>Localité <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="locality" type="text" name='locality' placeholder="Votre localité">
+                                <div class="ui input icon">
+                                    <!--<i class="marker icon locality" locality_id='locality'></i>-->
+                                    <i class="remove link icon locality" style="display: none;" locality_id='locality'></i>
+                                    <input id="locality" type="text" class="locality" name="locality" placeholder="Votre localité">
                                 </div>
                             </div>                        
                         </div>
@@ -142,19 +168,19 @@
 
                         <div  class="fields">
                             <div class="four wide field">
-                                <label>Confirmation Téléphone mobile <span style="color:red;">*</span></label>
+                                <label>Confirmation téléphone mobile <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <input type="tel" name="mobile_phone_number_confirm" placeholder="Confirmation Numéro de téléphone mobile">
+                                <input type="tel" name="mobile_phone_number_confirm" placeholder="Confirmation numéro de téléphone mobile">
                             </div>
                         </div>
 
 
-                        <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
+                        <h4 class="ui dividing header">Informations de connexion</h4>
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Adresse email <span style="color:red;">*</span></label>
+                                <label>Email <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
                                 <input type="email" name="email" placeholder="Adresse email">
@@ -163,10 +189,10 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Confirmation Adresse email <span style="color:red;">*</span></label>
+                                <label>Confirmation email <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <input type="email" name="email_confirm" placeholder="Adresse email">
+                                <input type="email" name="email_confirm" placeholder="Confirmation de l'adresse email">
                             </div>
                         </div>
 
@@ -184,17 +210,17 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Confirmation Mot de passe <span style="color:red;">*</span></label>
+                                <label>Confirmation mot de passe <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
                                 <div class="ui input right icon">
                                     <i id="show_hide_password_confirm_particular" class="unhide link icon"></i>
-                                    <input type="password" name="password_confirm" placeholder="Confirmation Mot de passe">
+                                    <input type="password" name="password_confirm" placeholder="Confirmation du mot de passe">
                                 </div>
                             </div>
                         </div>
 
-                        <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
+                        <h4 class="ui dividing header">Informations de sécurité</h4>
 
                         <div class="fields">
                             <div class="four wide field">
@@ -237,20 +263,24 @@
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="terms"> 
-                                <label><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
+                                <label class="label_terms_use"><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
                             </div>
                         </div>
 
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="receive_notifications">
-                                <label>Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations de mon profil.</label>
+                                <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
                             </div>
                         </div>
-                        <div class="inline field">
-                            <label><a href="#">Je souhaite faire verifier mon identité</a></label>
+                        <div class="fields"> 
+                            <div id="identity_file_bloc" class="seven wide field "> 
+                                <a id="identity_file_link" class="ui green basic icon fluid button"><i class="attach icon"></i> Je souhaite faire verifier mon identité</a>
+                                <div style="height:0px;overflow:hidden">
+                                    <input type="file" id="identity_file" name="identity_file">
+                                </div>
+                            </div>
                         </div>
-
                         <div class="field">
                             <div id="server_error_message" class="ui negative message" style="display:none">
                                 <i class="close icon"></i>
@@ -273,6 +303,28 @@
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="second"> 
                     <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . "/" . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data" autocomplete="off">
+                        <div  class="fields">
+<!--                            <div class="four wide field">
+                                <label>Logo de l'entreprise </label>
+                            </div>-->
+                            <div class="sixteen wide field center aligned">
+                                <div id="company_logo_dimmer" class="ui tiny image">
+                                    <div class="ui dimmer">
+                                        <div class="content">
+                                            <div class="center">
+                                                <div id="company_logo_loader" class="ui loader content" style="display:none"></div>
+                                                <!--<div id="profile_picture_remove" class="ui red icon button"><i class="remove icon"></i></div>-->
+                                                <div id="company_logo_edit" class="ui green basic icon button" ><i class="write icon"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <img id="company_logo_img" class="ui tiny image" src="<?php echo get_template_directory_uri() ?>/assets/images/default_logo.png">
+                                </div>
+                               <div style="height:0px;overflow:hidden">
+                                    <input type="file" id="company_logo_file" name="company_logo_file" accept=".jpg,.png,.gif,.jpeg">
+                                </div>
+                            </div>
+                        </div>
                         <div class="fields">
                             <div class="four wide field"></div>
                             <div class="twelve wide field">
@@ -292,7 +344,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="ui dividing header">INFORMATIONS SUR L'ENTREPRISE </h4>
+                        <h4 class="ui dividing header">Informations sur l'entreprise </h4>
                         <div  class="fields">
                             <div class="four wide field">
                                 <label>Nom de la société <span style="color:red;">*</span></label>
@@ -329,25 +381,18 @@
                             </div>
                         </div>
 
-                        <!--                        <div  class="fields">
-                                                    <div class="four wide field">
-                                                        <label>Logo de l'entreprise </label>
-                                                    </div>
-                                                    <div class="twelve wide field">
-                                                        <input type="file" name="company_logo" >
-                                                    </div>
-                                                </div>
                         
-                                                <div  class="fields">
-                                                    <div class="four wide field">
-                                                        <label>Pièces Jointes </label>
-                                                    </div>
-                                                    <div class="twelve wide field">
-                                                        <input type="file" name="company_attachements"  multiple="multiple">
-                                                    </div>
-                                                </div>-->
 
-                        <h4 class="ui dividing header">ADRESSE</h4>
+                        <!--                                                <div  class="fields">
+                                                                            <div class="four wide field">
+                                                                                <label>Pièces Jointes </label>
+                                                                            </div>
+                                                                            <div class="twelve wide field">
+                                                                                <input type="file" name="company_attachements"  multiple="multiple">
+                                                                            </div>
+                                                                        </div>-->
+
+                        <h4 class="ui dividing header">Adresse</h4>
 
                         <div class="fields">
                             <div class="four wide field">
@@ -372,9 +417,10 @@
                                 <label>Pays <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="locality_pro" type="text" name='locality_pro' placeholder="Votre localité">
+                                <div class="ui input icon locality_pro">
+                                    <!--<i class="marker icon locality_pro" locality_id='locality_pro'></i>-->
+                                    <i class="remove link icon locality_pro" style="display: none;" locality_id='locality_pro'></i>
+                                    <input id="locality_pro" type="text" class="locality" name="locality_pro" placeholder="Votre localité">
                                 </div>
                             </div>                        
                         </div>
@@ -397,7 +443,7 @@
                             </div>                        
                         </div>
 
-                        <h4 class="ui dividing header">REPRESENTANT 1 </h4>
+                        <h4 class="ui dividing header">Représentant 1 </h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Civilité <span style="color:red;">*</span> </label>
@@ -407,7 +453,7 @@
                                     <div class="field">
                                         <div class="ui radio checkbox">
                                             <input type="radio" name="civility_representative1" value="M">
-                                            <label>M</label>
+                                            <label>M.</label>
                                         </div>
                                     </div>
                                     <div class="field">
@@ -454,7 +500,7 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Adresse email professionnelle <span style="color:red;">*</span></label>
+                                <label>Email professionnel <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
                                 <input type="email" name="email_representative1" placeholder="Adresse email professionnelle">
@@ -470,7 +516,7 @@
                             </div>
                         </div>
 
-                        <h4 class="ui dividing header">REPRESENTANT 2 (Facultatif)</h4>
+                        <h4 class="ui dividing header">Répresentant 2 (Facultatif)</h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Civilité </label>
@@ -480,7 +526,7 @@
                                     <div class="field">
                                         <div class="ui radio checkbox">
                                             <input type="radio" name="civility_representative2" value="M">
-                                            <label>M</label>
+                                            <label>M.</label>
                                         </div>
                                     </div>
                                     <div class="field">
@@ -527,7 +573,7 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Adresse email professionnelle </label>
+                                <label>Email professionnel </label>
                             </div>
                             <div class="twelve wide field">
                                 <input type="email" name="email_representative2" placeholder="Adresse email professionnelle">
@@ -543,11 +589,11 @@
                             </div>
                         </div>
 
-                        <h4 class="ui dividing header">INFORMATIONS DE CONNEXION</h4>
+                        <h4 class="ui dividing header">Informations de connexion</h4>
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Adresse email de la société <span style="color:red;">*</span></label>
+                                <label>Email de la société <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
                                 <input type="email" name="email_pro" placeholder="Adresse email de la société">
@@ -556,10 +602,10 @@
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label>Confirmer adresse email de la société <span style="color:red;">*</span></label>
+                                <label>Confirmer email de la société <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <input type="email" name="email_confirm_pro" placeholder="Adresse email">
+                                <input type="email" name="email_confirm_pro" placeholder="Confirmation de l'adresse email de la société">
                             </div>
                         </div>
 
@@ -572,7 +618,7 @@
                                     <i id="show_hide_password_pro" class="unhide link icon"></i>
                                     <input type="password" name="password_pro" placeholder="Mot de passe">
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -583,13 +629,13 @@
                             <div class="twelve wide field">
                                 <div class="ui input right icon">
                                     <i id="show_hide_password_confirm_pro" class="unhide link icon"></i>
-                                    <input type="password" name="password_confirm_pro" placeholder="Confirmation Mot de passe">
+                                    <input type="password" name="password_confirm_pro" placeholder="Confirmation mot de passe">
                                 </div>
-                                
+
                             </div>
                         </div>
 
-                        <h4 class="ui dividing header">INFORMATIONS DE SECURITE</h4>
+                        <h4 class="ui dividing header">Informations de sécurité</h4>
 
                         <div class="fields">
                             <div class="four wide field">
@@ -633,19 +679,25 @@
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="terms"> 
-                                <label><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
+                                <label class="label_terms_use"><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
                             </div>
                         </div>
 
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="receive_notifications">
-                                <label>Je souhaite être informé(e) des produits et des services du site global parcel deal susceptibles de m'intéresser. Ces informations peuvent être communiquées par email ou SMS. Je peux modifier ce paramètres à tout moment dans les paramètres de la gestion des informations du compte.</label>
+                                <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
                             </div>
                         </div>
-<!--                        <div class="inline field">                           
-                            <label><a href="#">Je souhaite faire verifier mon identité</a></label>
-                        </div>-->
+                        <div class="fields"> 
+                            <div id="identity_file_pro_bloc" class="seven wide field "> 
+                                <a id="identity_file_pro_link" class="ui green basic icon fluid button"><i class="attach icon"></i> Je souhaite faire verifier mon identité</a>
+                                <div style="height:0px;overflow:hidden">
+                                    <input type="file" id="identity_file_pro" name="identity_file_pro">
+                                </div>
+                            </div>
+                        </div>
+                        
 
                         <div class="field">
                             <div id="server_error_message_enterprise" class="ui negative message" style="display:none">
@@ -655,7 +707,7 @@
                             <div id="error_name_message_enterprise" class="ui error message" style="display: none">
                                 <i class="close icon"></i>
                                 <div id="error_name_header_enterprise" class="header"></div>
-                                <ul id="error_name_list" class="list">
+                                <ul id="error_name_list_enterprise" class="list">
 
                                 </ul>
                             </div>

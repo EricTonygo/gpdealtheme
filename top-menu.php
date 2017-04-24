@@ -2,15 +2,17 @@
 <div id='my_mobile_menu' class="ui large borderless top fixed menu" style="height: 4em; display: none" >
     <div class="ui container">
         <div  class="left menu">
-            <div class="ui dropdown top left pointing item">
-                <i class="sidebar icon"></i>
-                <div class="menu">
-                    <a href="<?php echo home_url('/') ?>" class="ui item"><i class="home icon"></i><?php echo get_page_by_path(__('accueil', 'gpdealdomain'))->post_title ?></a>
-                    <a href="<?php echo get_permalink(get_page_by_path(__('mentions-legales', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('mentions-legales', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="info icon"></i><?php echo get_page_by_path(__('mentions-legales', 'gpdealdomain'))->post_title ?></a>
-                    <a href="<?php echo get_permalink(get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('conditions-dutilisation', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="universal access icon"></i><?php echo get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))->post_title ?></a>
-                    <a href="<?php echo get_permalink(get_page_by_path(__('nous-contacter', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('nous-contacter', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="mail icon"></i><?php echo get_page_by_path(__('nous-contacter', 'gpdealdomain'))->post_title ?></a>
-                </div>
-            </div>
+            <a id="sidebar_mobile_menu_item" class="ui item"><i class="sidebar icon"></i></a>
+            <a id='remove_mobile_menu_item' class="ui item" style="display:none"><i class="remove icon"></i></a>
+            <!--            <div class="ui dropdown top left pointing item">
+                            <i class="sidebar icon"></i>
+                            <div class="menu">
+                                <a href="<?php echo home_url('/') ?>" class="ui item"><i class="home icon"></i><?php echo __("Accueil", "gpdealdomain") ?></a>
+                                <a href="<?php echo get_permalink(get_page_by_path(__('mentions-legales', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('mentions-legales', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="info icon"></i><?php echo get_page_by_path(__('mentions-legales', 'gpdealdomain'))->post_title ?></a>
+                                <a href="<?php echo get_permalink(get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('conditions-dutilisation', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="universal access icon"></i><?php echo get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))->post_title ?></a>
+                                <a href="<?php echo get_permalink(get_page_by_path(__('nous-contacter', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('nous-contacter', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="mail icon"></i><?php echo get_page_by_path(__('nous-contacter', 'gpdealdomain'))->post_title ?></a>
+                            </div>
+                        </div>-->
             <div class="toc item" style="display:none;">
                 <i class="sidebar icon"></i>
             </div>
@@ -25,16 +27,26 @@
                         </div>-->
         </div>
         <div class="right menu">
-            <!--            <div class="ui dropdown top right pointing item">
-                            <i class="search icon"></i>
-                            <div class="menu">
-                                <div class="ui icon input">
-                                    <i class="search link icon"></i>
-                                    <input type="text" name="search" placeholder="Recherche...">
-                                </div>
-                                <div class="item" style="display: none"></div>
+            <div id="dropdow_search_mobile" class="ui dropdown item">
+                <i class="search icon"></i>
+                <div id='dropdow_menu_search_mobile' class="menu" style="padding: 0.3em; border-radius: 0px;">
+                    <div class="item" style="display: none">test value</div>
+                    <form id="mobile_search_input_top_form" action="<?php echo home_url('/') ?>" method="GET" >
+                        <div class="ui action input" style="">
+                            <div class="ui input right icon s_mobile" style="">
+                                <i class="remove link icon s_mobile" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s_mobile'></i>
+                                <input id='s_mobile' type="text" class="locality" placeholder="Rechercher en fonction d'une ville ..." name="s" value="<?php
+                                if (isset($_GET['s'])) {
+                                    echo stripslashes($_GET['s']);
+                                }
+                                ?>" autocomplete="off">
                             </div>
-                        </div>-->
+                            <button id="mobile_submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
+                        </div>
+                    </form>
+                    <div class="item" style="display: none">test value</div>
+                </div>
+            </div>
             <div  class="ui top right pointing dropdown item lang_select">
                 <i class="world icon"></i>
                 <div class="menu">
@@ -49,9 +61,10 @@
             <?php
             if (is_user_logged_in()):
                 $current_user = wp_get_current_user();
+                $profile_picture_id = get_user_meta($current_user->ID, 'profile-picture-ID', true) ? get_user_meta($current_user->ID, 'profile-picture-ID', true) : get_user_meta($current_user->ID, 'company-logo-ID', true);
                 ?>                    
                 <div class="ui dropdown top right pointing item"> 
-                    <img src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png" alt="..." class="ui avatar image">
+                    <img  <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?> alt="..." class="ui avatar image">
                     <div class="menu">
                         <h2 class="header"><?php echo $current_user->user_login ?></h2>
                         <div class="divider"></div>
@@ -72,7 +85,7 @@
                             <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))->post_title ?>                         
                         </a>
                         <div class="divider"></div>
-                        <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), home_url('/'))) ?> " class="ui item">
+                        <a  href="<?php echo home_url('/'); ?> " class="ui item disconnected_btn">
                             <i class="sign out icon"></i>
                             <?php echo __('Se déconnecter', 'gpdealdomain') ?>
                         </a>
@@ -106,18 +119,8 @@
                                             <label>Se souvenir de moi</label>
                                         </div>
                                     </div>
-                                    <div class="field">
-                                        <div id="server_error_message" class="ui negative message" style="display:none">
-                                            <i class="close icon"></i>
-                                            <div id="server_error_content" class="header">Internal server error</div>
-                                        </div>
-                                        <div id="error_name_message" class="ui error message" style="display: none">
-                                            <i class="close icon"></i>
-                                            <ul id="error_name_list" class="list">
-
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    
+                                    <input type="hidden" name='no_redirect' value="true" >
                                     <div class="field center aligned">
                                         <button id="submit_login_form"  class="ui green fluid button submit_login_form">Se connecter</button>
                                     </div> 
@@ -128,7 +131,7 @@
     <!--                                <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="ui green fluid button" type="submit">Inscrivez-vous</a>-->
                             </div>
                         </div>
-                        <div class="item" style="display: none"></div>
+                        <div class="item" style="display: none">test value</div>
                     </div>
                 </div>
                 <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="item">
@@ -166,9 +169,10 @@
                 <form id="search_input_top_form" action="<?php echo home_url('/') ?>" method="GET">
                     <?php if (is_user_logged_in()): ?>
                         <div id="search_input_top" class="ui action input" style="width: 35em">
-                            <div class="ui input left icon" style="width: 35em">
-                                <i class="marker icon"></i>
-                                <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
+                            <div class="ui input right icon s" style="width: 35em">
+                                <!--<i class="marker icon s" locality_id='s'></i>-->
+                                <i class="remove link icon s" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s'></i>
+                                <input id='s' type="text" class="locality" placeholder="Rechercher en fonction d'une ville ..." name="s" value="<?php
                                 if (isset($_GET['s'])) {
                                     echo stripslashes($_GET['s']);
                                 }
@@ -178,9 +182,10 @@
                         </div>
                     <?php else: ?>
                         <div id="search_input_top" class="ui action input" style="width: 29em">
-                            <div class="ui input left icon" style="width: 29em">
-                                <i class="marker icon"></i>
-                                <input id='s' type="text" placeholder="Rechercher en fonction d'un lieu ..." name="s" value="<?php
+                            <div class="ui input right icon s" style="width: 29em">
+                                <!--<i class="marker icon s" locality_id='s'></i>-->
+                                <i class="remove link icon s" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s'></i>
+                                <input id='s' type="text" class="locality" placeholder="Rechercher en fonction d'une ville ..." name="s" value="<?php
                                 if (isset($_GET['s'])) {
                                     echo stripslashes($_GET['s']);
                                 }
@@ -221,9 +226,10 @@
             <?php
             if (is_user_logged_in()):
                 $current_user = wp_get_current_user();
+                $profile_picture_id = get_user_meta($current_user->ID, 'profile-picture-ID', true) ? get_user_meta($current_user->ID, 'profile-picture-ID', true) : get_user_meta($current_user->ID, 'company-logo-ID', true);
                 ?>                    
                 <div class="ui dropdown top right pointing item"> 
-                    <img src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png" alt="..." class="ui avatar image">
+                    <img  <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?> alt="..." class="ui avatar image">
                     <?php echo $current_user->user_login ?>
                     <div class="menu">
                         <a href='<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))) ?>' class="ui item">
@@ -243,7 +249,7 @@
                             <?php echo get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))->post_title ?>                         
                         </a>
                         <div class="divider"></div>
-                        <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), home_url('/'))) ?> " class="ui item">
+                        <a href="<?php echo home_url('/'); ?> " class="ui item disconnected_btn">
                             <i class="sign out icon"></i>
                             <?php echo __('Se déconnecter', 'gpdealdomain') ?>
                         </a>
@@ -262,7 +268,7 @@
                                         <label>Email ou pseudo <span style="color: red;">*</span></label>
                                         <div class="ui input left icon">
                                             <i class="user icon"></i>
-                                        <input type="text" name="_username" placeholder="Email ou pseudo">
+                                            <input type="text" name="_username" placeholder="Email ou pseudo">
                                         </div>
                                     </div>
                                     <div class="field">
@@ -278,18 +284,8 @@
                                             <label>Se souvenir de moi</label>
                                         </div>
                                     </div>
-                                    <div class="field">
-                                        <div id="server_error_message1" class="ui negative message" style="display:none">
-                                            <i class="close icon"></i>
-                                            <div id="server_error_content1" class="header">Internal server error</div>
-                                        </div>
-                                        <div id="error_name_message1" class="ui error message" style="display: none">
-                                            <i class="close icon"></i>
-                                            <ul id="error_name_list1" class="list">
-
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name='no_redirect' value="true" >
+                                    
                                     <div class="field center aligned">
                                         <button id="submit_login_form1" class="ui green fluid button submit_login_form" type="submit"><?php echo __('Se connecter', 'gpdealdomain'); ?></button>
                                     </div> 
@@ -300,7 +296,7 @@
     <!--                                <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="ui green fluid button" type="submit"><?php echo __("S'inscrire", 'gpdealdomain') ?></a>-->
                             </div>
                         </div>
-                        <div class="item" style="display: none"></div>
+                        <div class="item" style="display: none">test value</div>
                     </div>
                 </div>
                 <a href="<?php echo get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))) ?>" class="item">

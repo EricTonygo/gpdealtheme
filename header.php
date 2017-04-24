@@ -9,12 +9,13 @@
         <?php endif ?>
         <title><?php if(is_search()) echo __("Recherche des transporteurs", "gpdealdomain"); else the_title() ?> - Global Parcel Deal</title>
         <link rel="shortcut icon" href="<?php echo get_template_directory_uri() ?>/assets/images/favicon.ico">
+        <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->
         <?php if(is_page(__("mon-compte", "gpdealdomain"))){ 
             header('Cache-Control: no-cache, must-revalidate');
             header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
         }?>
         <?php wp_head(); ?>
-        <?php if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain'))): ?>
+        <?php if (!is_user_logged_in() && (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')))): ?>
             <script type="text/javascript">
                 var widgetId_particular;
                 var widgetId_pro;
@@ -67,10 +68,10 @@
                     <div class="ui dropdown top left pointing item">
                         <i class="sidebar icon"></i>
                         <div class="menu">
-                            <a href="<?php echo home_url('/') ?>" class="ui item"><i class="home icon"></i><?php echo get_page_by_path(__('accueil', 'gpdealdomain'))->post_title ?></a>
-                            <a href="<?php echo get_permalink(get_page_by_path(__('mentions-legales', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('mentions-legales', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="info icon"></i><?php echo get_page_by_path(__('mentions-legales', 'gpdealdomain'))->post_title ?></a>
-                            <a href="<?php echo get_permalink(get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('conditions-dutilisation', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="universal access icon"></i><?php echo get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))->post_title ?></a>
-                            <a href="<?php echo get_permalink(get_page_by_path(__('nous-contacter', 'gpdealdomain'))) ?>" class="ui <?php if (is_page(__('nous-contacter', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="mail icon"></i><?php echo get_page_by_path(__('nous-contacter', 'gpdealdomain'))->post_title ?></a>
+                            <a href="<?php echo wp_make_link_relative(get_template_directory_uri() . '/assets/css/reset.css') ?>" class="ui item"><i class="home icon"></i><?php echo get_page_by_path(__('accueil', 'gpdealdomain'))->post_title ?></a>
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('mentions-legales', 'gpdealdomain')))) ?>" class="ui <?php if (is_page(__('mentions-legales', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="info icon"></i><?php echo get_page_by_path(__('mentions-legales', 'gpdealdomain'))->post_title ?></a>
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('conditions-dutilisation', 'gpdealdomain')))) ?>" class="ui <?php if (is_page(__('conditions-dutilisation', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="universal access icon"></i><?php echo get_page_by_path(__('conditions-dutilisation', 'gpdealdomain'))->post_title ?></a>
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('nous-contacter', 'gpdealdomain')))) ?>" class="ui <?php if (is_page(__('nous-contacter', 'gpdealdomain'))): ?> active_menu <?php endif ?> item"><i class="mail icon"></i><?php echo get_page_by_path(__('nous-contacter', 'gpdealdomain'))->post_title ?></a>
                         </div>
                     </div>
                     <div class="toc item" style="display:none;">

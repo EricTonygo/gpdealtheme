@@ -28,16 +28,16 @@ function close_transport_offer(id) {
     $('#execute_close_transport_offer').click(function (e) {
         e.preventDefault();
         $('#confirm_close_transport_offer.ui.small.modal')
-            .modal('hide')
-            ;
+                .modal('hide')
+                ;
         $.ajax({
             type: $('#close_transport_offer_form' + id).attr('method'),
             url: $('#close_transport_offer_form' + id).attr('action'),
             data: $('#close_transport_offer_form' + id).serialize(),
             dataType: 'json',
             beforeSend: function () {
-                $('#close_transport_offer_btn'+ id).addClass("loading");
-                $('#evaluate_transport_offer_btn'+ id).addClass("disabled");
+                $('#close_transport_offer_btn' + id).addClass("loading");
+                $('#evaluate_transport_offer_btn' + id).addClass("disabled");
             },
             statusCode: {
                 500: function (xhr) {
@@ -52,12 +52,12 @@ function close_transport_offer(id) {
             },
             success: function (response, textStatus, jqXHR) {
                 if (response.success === true) {
-                    $('#selected_transport_offer_column'+id).remove();
+                    $('#selected_transport_offer_column' + id).remove();
                     $('#message_success>div.header').html(response.data.message);
                     $('#message_success').show();
                     setTimeout(function () {
-                    $('#message_success').hide();
-                }, 4000);
+                        $('#message_success').hide();
+                    }, 4000);
                 } else if (response.success === false) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
@@ -65,12 +65,12 @@ function close_transport_offer(id) {
                     $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
                     $('#message_error').show();
                 }
-                $('#close_transport_offer_btn'+ id).removeClass("loading");
-                $('#evaluate_transport_offer_btn'+ id).removeClass("disabled");
+                $('#close_transport_offer_btn' + id).removeClass("loading");
+                $('#evaluate_transport_offer_btn' + id).removeClass("disabled");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $('#close_transport_offer_btn'+ id).removeClass("loading");
-                $('#evaluate_transport_offer_btn'+ id).removeClass("disabled");
+                $('#close_transport_offer_btn' + id).removeClass("loading");
+                $('#evaluate_transport_offer_btn' + id).removeClass("disabled");
 
             }
         });
@@ -78,20 +78,45 @@ function close_transport_offer(id) {
 }
 
 
-function show_reviews_evaluations(event, id){
+function show_reviews_evaluations(event, id) {
     event.preventDefault();
-    $('#show_reviews_evaluations_btn'+id).addClass('loading');
-    $('#main_content_reviews_evaluations').load($('#show_reviews_evaluations_btn'+id).attr('href'), function(){
-        $('#show_reviews_evaluations_btn'+id).removeClass('loading');
+    $('#show_reviews_evaluations_btn' + id).addClass('loading');
+    $('#main_content_reviews_evaluations').load($('#show_reviews_evaluations_btn' + id).attr('href'), function () {
+        $('#show_reviews_evaluations_btn' + id).removeClass('loading');
         $('#show-reviews-evaluations-carrier').modal('show');
     });
-    
+
 }
 
 $(function () {
+    $('a.show_reviews_evaluations').click(function (e) {
+        e.preventDefault();
+        $(this).children('i.icon').removeClass('yellow');
+        $(this).addClass('loading');
+        $('#show-reviews-evaluations-carrier').remove();
+        $('#main_content_reviews_evaluations').load($(this).attr('href'), function () {
+            $('.ui.rating')
+                    .rating('disable')
+                    ;
+            //show_user_evaluation($(this).attr('id'));
+            $('a.show_reviews_evaluations').removeClass('loading');
+            $('a.show_reviews_evaluations>i').addClass('yellow');
+            $('#show-reviews-evaluations-carrier').modal('show');
+        });
+    });
+
     $('#selected_transport_offers_form').submit(function () {
         $('#selected_transport_offers_form').addClass('ui form loading');
     });
 });
+
+function show_user_evaluation(id){
+    if($('#content_evaluation_'+id).css('display')==="none"){
+        $('#content_evaluation_'+id).show();
+        
+    }else{
+        $('#content_evaluation_'+id).hide();
+    }
+}
 
 

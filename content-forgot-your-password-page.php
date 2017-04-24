@@ -15,8 +15,8 @@
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Mot de passe oublié", 'gpdealdomain') ?> : </div>
-            <p><?php echo __("Remplissez ci-dessous les informations nécessaires pour la demande de votre mot de passe.", 'gpdealdomain') ?></p>
+            <div class="header"><?php echo __("Mot de passe oublié", 'gpdealdomain') ?> </div>
+            <p class="promo_text_form"><?php echo __("Remplissez les informations ci-dessous nécessaires pour l'obtention de votre mot de passe.", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
@@ -34,15 +34,19 @@
                             <label>Question test <span style="color:red;">*</span></label>
                         </div>
                         <div class="twelve wide field">
-                            <select name="test_question" class="ui fluid dropdown">
+                            <select name="test_question" class="ui search fluid dropdown">
                                 <option value="">Selectionner une question </option>
                                 <?php
+                                $question1s = new WP_Query(array('post_type' => 'question', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'ASC'));
+                                if ($question1s->have_posts()) {
+                                    while ($question1s->have_posts()): $question1s->the_post();
+                                        ?>
+                                        <option value="<?php the_ID() ?>"><?php the_title() ?></option>
+                                        <?php
+                                    endwhile;
+                                }
                                 wp_reset_postdata();
-                                query_posts(array('post_type' => 'question', 'post_per_page' => -1, "post_status" => 'publish'));
-                                while (have_posts()): the_post()
-                                    ?>
-                                    <option value="<?php the_ID() ?>"><?php the_title() ?></option>
-                                <?php endwhile; ?>
+                                ?>
                             </select>
                         </div>                        
                     </div>
@@ -68,7 +72,7 @@
                             </ul>
                         </div>
                     </div>
-                        <button id="submit_forgot_password" class="ui right floated green button" ><i class="send icon"></i>Envoyer</button>
+                    <button id="submit_forgot_password" class="ui right floated green button" ><i class="send icon"></i>Envoyer</button>
                 </form>
             </div>
         </div>

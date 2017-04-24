@@ -21,10 +21,10 @@
 <div id="confirm_fence_send_package" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">
-        Confirmation de l'annulation de l'expédition
+        Confirmation de la cloture de l'expédition
     </div>
     <div class="content">
-        <p>Vous êtes sur le point d'annuler votre expédition. </p>
+        <p>Vous êtes sur le point de cloturer cette expédition. </p>
         <p>Voulez-vous vraiment continuer ?</p>
     </div>
     <div class="actions">

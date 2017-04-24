@@ -10,7 +10,8 @@ if (get_magic_quotes_gpc()) {
     $_COOKIE = stripslashes_deep($_COOKIE);
 }
 
-define('WOOCOMMERCE_USE_CSS', false);
+//define('WOOCOMMERCE_USE_CSS', false);
+define( 'WP_CONTENT_URL', '/');
 
 add_action('wp_print_scripts', 'theme_slug_dequeue_footer_jquery');
 
@@ -70,8 +71,8 @@ function gpdeal_scripts() {
     wp_enqueue_script('datetimepicker_js');
     wp_enqueue_script('hideShowPassword_js');
     wp_enqueue_style('datetimepicker_css');
-    if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))
-    ) {
+    if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))|| is_page(__('mon-compte', 'gpdealdomain') . '/' .__('modifier-le-mot-de-passe', 'gpdealdomain')))
+    {
         wp_enqueue_script('register_js');
         //wp_enqueue_script('recaptcha_api');
     }

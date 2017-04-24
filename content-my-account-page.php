@@ -35,28 +35,28 @@
                                             <div class="content">
                                                 <div class="ui form description">
                                                     <div class="inline field">
-                                                        <label>Départ : </label> 
+                                                        <span class="span_label">Départ : </span> 
 
-                                                        <span >
-                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>)
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>)
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Départ : </label> 
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>)
+                                                        <span class="span_label">Départ : </span> 
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?> (<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>)
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Date de départ : </label> 
-                                                        <span>
+                                                        <span class="span_label">Date de départ : </span> 
+                                                        <span class="span_value">
                                                             <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
                                                             ?>
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Date d'arrivée : </label> 
-                                                        <span>
+                                                        <span class="span_label">Date d'arrivée : </span> 
+                                                        <span class="span_value">
                                                             <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
                                                             ?>
                                                         </span>

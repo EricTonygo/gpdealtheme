@@ -15,6 +15,7 @@ $destination_country = get_post_meta(get_the_ID(), 'destination-country-package'
 $destination_state = get_post_meta(get_the_ID(), 'destination-state-package', true);
 $destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
 $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
+$package_picture_id = get_post_meta(get_the_ID(), 'package-picture-ID', true);
 $action = removeslashes(esc_attr(trim($_GET['action'])));
 $echo_start_city = $start_state != "" ? $start_city . ", " . $start_state . ", " . $start_country : $start_city . ", " . $start_country;
 $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $destination_state . ", " . $destination_country : $destination_city . ", " . $destination_country;
@@ -38,23 +39,25 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
     <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
             <div class="header"><?php echo __("Modification de l'expédition", 'gpdealdomain') ?> : </div>
-            <p><?php echo __("Remplissez les informations ci-dessous de votre expédition puis rechercher à nouveau les transporteurs disponibles.", 'gpdealdomain') ?></p>
+            <p class="promo_text_form"><?php echo __("Modifiez les informations ci-dessous puis rechercher à nouveau les transporteurs disponibles pour votre expédition.", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
+                <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
                 <div class="ui top attached tabular menu">
-                    <a class="item active" data-tab="first">Commencer l'expédition</a>
-                    <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
+                    <div class="item active" data-tab="first">Commencer <br class="mobile_br" style="display: none;">l'expédition</div>
+                    <div class="item" data-tab="second">Comment ça <br class="mobile_br" style="display: none;">fonctionnne ?</div>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
+                    <form id='send_package_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
 
-                        <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
+                        <h4 class="ui dividing header">Départ <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="start_city" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $echo_start_city; ?>">
+                                <div class="ui input icon start_city">
+                                    <!--<i class="marker icon start_city" locality_id='start_city'></i>-->
+                                    <i class="remove link icon start_city" style="display: none;" locality_id='start_city'></i>
+                                    <input id="start_city" type="text" class="locality" name='start_city' placeholder="Ville de départ" value="<?php echo $echo_start_city; ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -67,12 +70,13 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                             </div>      
                         </div>
 
-                        <h4 class="ui dividing header">DESTINATION <span style="color:red;">*</span></h4>
+                        <h4 class="ui dividing header">Destination <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="destination_city" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $echo_destination_city; ?>">
+                                <div class="ui input icon destination_city">
+                                    <!--<i class="marker icon destination_city" locality_id='destination_city'></i>-->
+                                    <i class="remove link icon destination_city" style="display: none;" locality_id='destination_city'></i>
+                                    <input id="destination_city" type="text" class="locality" name='destination_city' placeholder="Ville de destination" value="<?php echo $echo_destination_city; ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -84,7 +88,7 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                                 </div>
                             </div>      
                         </div>
-                        <h4 class="ui dividing header">INFORMATIONS SUR LE COURRIER/COLIS</h4>
+                        <h4 class="ui dividing header">Informations sur le courrier/colis</h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label>Objet <span style="color:red;">*</span></label>
@@ -140,6 +144,32 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                             </div>
                         </div>
 
+                        <h4 class="ui dividing header">Illustration</h4>
+                        <div  class="fields">
+                            <div class="sixteen wide field center aligned">
+                                <div id="package_picture_dimmer" class="ui small image" <?php if (!$package_picture_id): ?>style="display: none"<?php endif ?>>
+                                    <div class="ui dimmer">
+                                        <div class="content">
+                                            <div class="center">
+                                                <div id="package_picture_loader" class="ui loader content" style="display:none"></div>
+                                                <div id="package_picture_remove" class="ui red basic icon button" ><i class="remove icon"></i></div>
+                                                <div id="package_picture_edit" class="ui green basic icon button" ><i class="write icon"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <img id="package_picture_img" class="ui small image" <?php if ($package_picture_id): ?> src= "<?php echo wp_get_attachment_url($package_picture_id); ?>" <?php else: ?> src=""<?php endif ?>>
+                                </div>
+                                <a id="package_picture_link" class="ui green basic icon button" <?php if ($package_picture_id): ?> style="display: none" <?php endif ?>><i class="file image outline icon"></i> Ajouter une image de vos objets</a>
+                                <div style="height:0px;overflow:hidden">
+                                    <input type="file" id="package_picture_file" name="package_picture_file" accept=".jpg,.png,.gif,.jpeg">
+                                </div>
+                            </div>
+                        </div>
+                        <?php if ($package_picture_id): ?>
+                            <input type="hidden" name="package_picture_id" value="<?php echo $package_picture_id; ?>">
+                        <?php endif ?>
+
+
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="terms" <?php if ($terms == 'on' || is_user_logged_in()): ?> checked="checked" <?php endif ?>> 
@@ -178,125 +208,226 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
         <div  class="ui fluid card">
             <div class="content">
                 <div class="ui form">
+                    <div id="block_recap_desktop">
+                        <h4 class="ui dividing header">Départ </h4>
+                        <div class="four wide fields">
+                            <div class="field">
+                                <label class="span_label">Pays </label>
+                                <span class="span_value"><?php echo $start_country; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Région/Etat </label>
+                                <span class="span_value"><?php echo $start_state; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Ville </label>
+                                <span class="span_value"><?php echo $start_city; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Date</label>
+                                <span class="span_value"><?php echo $start_date; ?></span>
+                            </div>   
+                        </div>
 
-                    <h4 class="ui dividing header">DEPART </h4>
-                    <div class="four wide fields">
-                        <div class="field">
-                            <label>Pays </label>
-                            <span><?php echo $start_country; ?></span>
+                        <h4 class="ui dividing header">Destination </h4>
+                        <div class="four wide fields">
+                            <div class="field">
+                                <label class="span_label">Pays </label>
+                                <span class="span_value"><?php echo $destination_country; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Région/Etat </label>
+                                <span class="span_value"><?php echo $destination_state; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Ville </label>
+                                <span class="span_value"><?php echo $destination_city; ?></span>
+                            </div>
+                            <div class="field">
+                                <label class="span_label">Date</label>
+                                <span class="span_value"><?php echo $destination_date; ?></span>
+                            </div>   
                         </div>
-                        <div class="field">
-                            <label>Région/Etat </label>
-                            <span><?php echo $start_state; ?></span>
-                        </div>
-                        <div class="field">
-                            <label>Ville </label>
-                            <span><?php echo $start_city; ?></span>
-                        </div>
-                        <div class="field">
-                            <label>Date</label>
-                            <span><?php echo $start_date; ?></span>
-                        </div>   
-                    </div>
-
-                    <h4 class="ui dividing header">DESTINATION </h4>
-                    <div class="four wide fields">
-                        <div class="field">
-                            <label>Pays </label>
-                            <span><?php echo $destination_country; ?></span>
-                        </div>
-                        <div class="field">
-                            <label>Région/Etat </label>
-                            <span><?php echo $destination_state; ?></span>
-                        </div>
-                        <div class="field">
-                            <label>Ville </label>
-                            <span><?php echo $destination_city; ?></span>
-                        </div>
-                        <div class="field">
-                            <label>Date</label>
-                            <span><?php echo $destination_date; ?></span>
-                        </div>   
-                    </div>
-                    <h4 class="ui dividing header">INFORMATIONS SUR LE COURRIER/COLIS</h4>
-                    <div class="fields">
-                        <div class="four wide field">
-                            <label>Type :</label>
-                        </div>
-                        <div class="twelve wide field">
-                            <div class="inline fields">
-                                <div class="field">
-                                    <?php
-                                    $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
-                                    $package_type_list_count = count($package_type_list);
-                                    $j = 0;
-                                    foreach ($package_type_list as $name) :
-                                        ?>
-                                        <?php if ($j < $package_type_list_count - 1) : ?>
-                                            <span><?php echo $name; ?>,</span>
-                                        <?php else: ?>
-                                            <span><?php echo $name; ?></span>
-                                        <?php endif ?>
+                        <h4 class="ui dividing header">Informations sur le courrier/colis</h4>
+                        <div class="fields">
+                            <div class="four wide field">
+                                <span class="span_label">Type :</span>
+                            </div>
+                            <div class="twelve wide field">
+                                <div class="inline fields">
+                                    <div class="field">
                                         <?php
-                                        $j++;
-                                    endforeach
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fields">
-                        <div class="four wide field">
-                            <label>Contenu :</label>
-                        </div>
-                        <div class="twelve wide field">
-                            <div class="inline fields">
-                                <div class="field">
-                                    <?php
-                                    $portable_object_list = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "names"));
-                                    $portable_object_list_count = count($portable_object_list);
-                                    $i = 0;
-                                    foreach ($portable_object_list as $name) :
+                                        $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
+                                        $package_type_list_count = count($package_type_list);
+                                        $j = 0;
+                                        foreach ($package_type_list as $name) :
+                                            ?>
+                                            <?php if ($j < $package_type_list_count - 1) : ?>
+                                                <span class="span_value"><?php echo $name; ?>,</span>
+                                            <?php else: ?>
+                                                <span class="span_value"><?php echo $name; ?></span>
+                                            <?php endif ?>
+                                            <?php
+                                            $j++;
+                                        endforeach
                                         ?>
-                                        <?php if ($i < $portable_object_list_count - 1) : ?>
-                                            <span><?php echo $name; ?>,</span>
-                                        <?php else: ?>
-                                            <span><?php echo $name; ?></span>
-                                        <?php endif ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fields">
+                            <div class="four wide field">
+                                <span class="span_label">Contenu :</span>
+                            </div>
+                            <div class="twelve wide field">
+                                <div class="inline fields">
+                                    <div class="field">
                                         <?php
-                                        $i++;
-                                    endforeach
-                                    ?>
+                                        $portable_object_list = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "names"));
+                                        $portable_object_list_count = count($portable_object_list);
+                                        $i = 0;
+                                        foreach ($portable_object_list as $name) :
+                                            ?>
+                                            <?php if ($i < $portable_object_list_count - 1) : ?>
+                                                <span class="span_value"><?php echo $name; ?>,</span>
+                                            <?php else: ?>
+                                                <span class="span_value"><?php echo $name; ?></span>
+                                            <?php endif ?>
+                                            <?php
+                                            $i++;
+                                        endforeach
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="fields">
-                        <div class="four wide field">
-                            <label>Dimensions/Poids :</label>
-                        </div>
-                        <div class="twelve wide field">
-                            <div class="four wide fields">
-                                <div class="field">
-                                    <label>Longueur </label>
-                                    <span><?php echo $length; ?></span>
-                                </div>
-                                <div class="field">
-                                    <label>Largeur </label>
-                                    <span><?php echo $width; ?></span>
-                                </div>
-                                <div class="field">
-                                    <label>Hauteur </label>
-                                    <span><?php echo $height; ?></span>
-                                </div>
-                                <div class="field">
-                                    <label>Poids</label>
-                                    <span><?php echo $weight; ?></span>
+                        <div class="fields">
+                            <div class="four wide field">
+                                <span class="span_label">Dimensions/Poids :</span>
+                            </div>
+                            <div class="twelve wide field">
+                                <div class="four wide fields">
+                                    <div class="field">
+                                        <label class="span_label">Longueur </label>
+                                        <span class="span_value"><?php echo $length; ?></span>
+                                    </div>
+                                    <div class="field">
+                                        <label class="span_label">Largeur </label>
+                                        <span class="span_value"><?php echo $width; ?></span>
+                                    </div>
+                                    <div class="field">
+                                        <label class="span_label">Hauteur </label>
+                                        <span class="span_value"><?php echo $height; ?></span>
+                                    </div>
+                                    <div class="field">
+                                        <label class="span_label">Poids</label>
+                                        <span class="span_value"><?php echo $weight; ?></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div id="block_recap_mobile" style="display: none">
+                        <h4 class="ui dividing header">Départ </h4>
+                        <div class="inline field">
+                            <span class="span_label">Pays : </span>
+                            <span class="span_value"><?php echo $start_country; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Région/Etat : </span>
+                            <span class="span_value"><?php echo $start_state; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Ville : </span>
+                            <span class="span_value"><?php echo $start_city; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Date : </span>
+                            <span class="span_value"><?php echo $start_date; ?></span>
+                        </div>   
+
+                        <h4 class="ui dividing header">Destination </h4>
+                        <div class="inline field">
+                            <span class="span_label">Pays : </span>
+                            <span class="span_value"><?php echo $destination_country; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Région/Etat : </span>
+                            <span class="span_value"><?php echo $destination_state; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Ville : </span>
+                            <span class="span_value"><?php echo $destination_city; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Date : </span>
+                            <span class="span_value"><?php echo $destination_date; ?></span>
+                        </div>   
+                        <h4 class="ui dividing header">Informations sur le courrier/colis</h4>
+                        <div class="inline field">                            
+                            <span class="span_label">Type : </span>
+                            <?php
+                            $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
+                            $package_type_list_count = count($package_type_list);
+                            $j = 0;
+                            foreach ($package_type_list as $name) :
+                                ?>
+                                <?php if ($j < $package_type_list_count - 1) : ?>
+                                    <span class="span_value"><?php echo $name; ?>,</span>
+                                <?php else: ?>
+                                    <span class="span_value"><?php echo $name; ?></span>
+                                <?php endif ?>
+                                <?php
+                                $j++;
+                            endforeach
+                            ?>
+
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Contenu : </span>
+                            <?php
+                            $portable_object_list = wp_get_post_terms(get_the_ID(), 'portable-object', array("fields" => "names"));
+                            $portable_object_list_count = count($portable_object_list);
+                            $i = 0;
+                            foreach ($portable_object_list as $name) :
+                                ?>
+                                <?php if ($i < $portable_object_list_count - 1) : ?>
+                                    <span class="span_value"><?php echo $name; ?>,</span>
+                                <?php else: ?>
+                                    <span class="span_value"><?php echo $name; ?></span>
+                                <?php endif ?>
+                                <?php
+                                $i++;
+                            endforeach
+                            ?>                               
+                        </div>
+
+                        <div class="inline field">
+                            <span class="span_label">Longueur : </span>
+                            <span class="span_value"><?php echo $length; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Largeur : </span>
+                            <span class="span_value"><?php echo $width; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Hauteur : </span>
+                            <span class="span_value"><?php echo $height; ?></span>
+                        </div>
+                        <div class="inline field">
+                            <span class="span_label">Poids : </span>
+                            <span class="span_value"><?php echo $weight; ?></span>
+                        </div>
+                    </div>
+                    <?php if ($package_picture_id): ?>
+                        <h4 class="ui dividing header">Illustration</h4>
+                        <div  class="fields">                                
+                            <div class="sixteen wide field center aligned">
+                                <img  class="ui small image"  src= "<?php echo wp_get_attachment_url($package_picture_id); ?>">
+                            </div>
+                        </div>
+                    <?php endif ?>
                     <?php
                     $carrier_ids = get_post_meta(get_the_ID(), 'carrier-ID', true);
                     if ($carrier_ids != -1 && is_array($carrier_ids)) {
@@ -306,11 +437,8 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                     }
                     ?>
                     <?php if ($carrier_ids): ?>
-                        <h4 class="ui dividing header">TRANSPORTEUR(S) </h4>
+                        <h4 class="ui dividing header">Transporteur(s) </h4>
                         <div class="fields">
-                            <!--                            <div class="four wide field">
-                                                            <label>Numéros de courriers :</label>
-                                                        </div>-->
                             <div class="sixteen wide field">
                                 <div class="inline fields">
                                     <div class="field">
@@ -322,9 +450,9 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                                             $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login', $post_author);
                                             ?>
                                             <?php if ($i < $carrier_ids_count - 1) : ?>
-                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) . ")"; ?></a>, </span>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . get_user_role_by_user_id($post_author) . ")"; ?></a>, </span>
                                             <?php else: ?>
-                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) . ")"; ?></a> </span>
+                                                <span><a href="<?php the_permalink($id) ?>"><?php echo $carrier_name . " (" . get_user_role_by_user_id($post_author) . ")"; ?></a> </span>
                                             <?php endif ?>
                                             <?php
                                             $i++;
@@ -337,14 +465,17 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
                     <?php endif ?>
                     <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID): ?>
                         <div class="field" style="margin-top: 4em">
-                            <button id="edit_package_infos_btn" class="ui green button">Modifier l'expédition</button>
+                            <?php if (get_post_meta(get_the_ID(), 'package-status', true) != 3 && get_post_meta(get_the_ID(), 'package-status', true) != 4 && get_post_meta(get_the_ID(), 'package-status', true) != 5): ?>
+                                <button id="edit_package_infos_btn" class="ui green button">Modifier l'expédition</button>
+                            <?php endif ?>
                             <?php if (get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
                                 <a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))))) ?>" type="submit">Rechercher transporteurs</a>
                             <?php else: ?>
                                 <!--<a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), the_permalink(get_page_by_path(__('selectionner-les-offres-de-transport', 'gpdealdomain'))))) ?>" type="submit">Enregistrer la transaction</a>-->
                             <?php endif ?>
                             <?php if (get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
-                                <button onclick="fence_send_package(<?php the_ID() ?>)" class="ui right floated red icon button"><i class="checkmark icon"></i> Cloturer</button>
+                                <input type='hidden' id='fence_package_url' value="<?php the_permalink(); ?>" >
+                                <button id='fence_package_btn' onclick="fence_send_package_on_single_page(<?php the_ID() ?>)" class="ui right floated red icon button" style="min-width: 12em;"><i class="checkmark icon"></i> Cloturer</button>
                             <?php endif ?>
                         </div>
                     <?php endif ?>
@@ -353,4 +484,4 @@ $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $
         </div>
     </div>
 </div>
-
+<?php include(locate_template('content-modal-confirmation-package.php'));

@@ -1,6 +1,6 @@
 body, div, p, a, h1, h2, h3, span, input, textarea label{
-  font-family: "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif!important;
-  /*font-family: "Whitney SSm A","Whitney SSm B","Helvetica Neue",Helvetica,Arial,sans-serif !important;*/
+    font-family: "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif!important;
+    /*font-family: "Whitney SSm A","Whitney SSm B","Helvetica Neue",Helvetica,Arial,sans-serif !important;*/
 }
 
 .main.menu {
@@ -43,6 +43,9 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     background-color: rgba(143, 199, 66, 0.66);
 }
 
+.second-nav.menu .center.menu .item{
+    font-weight: normal;
+}
 
 .hidden.menu {
     display: none;
@@ -125,9 +128,27 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     }
 
     .ui.large.borderless.second-nav.menu{
-        margin-top: 4.5em;
+        margin-top: 4.5em!important;
     }
 
+    #sub_main_menu.ui.fixed.menu {
+        top: 4.3em!important;
+    }
+
+    #feature_homepage {
+        margin-top: 4.5em!important;
+    }
+    #dropdow_menu_search_mobile{
+        margin-left: -8em!important;
+        margin-right: auto!important;
+    }
+
+/*    #select_type_package_help_content.ui.green.basic.label {
+        right: 29em!important;
+        top: 26.7em!important;
+        background-color: white;
+        color: #16ab39;
+    }*/
 }
 
 @media only screen and (max-width: 700px) {
@@ -135,6 +156,17 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         .ui.menu .menu {
             display: none;
         }*/
+    #block_recap_desktop{
+        display:none!important;
+    }
+    
+    #block_recap_mobile{
+        display:block!important;
+    }
+    .mobile_label.hidden{
+        display: block!important;
+    }
+    
     .title_gpdeal.item{
         display: none!important;
     }
@@ -200,11 +232,41 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         right: 1em!important;
         bottom: 1em!important;
     }
+/*    #select_type_package_help_content.ui.green.basic.label {
+        right: 16em!important;
+        top: 26.7em!important;
+    }*/
+    #sidebar_mobile_menu_item, #remove_mobile_menu_item{
+        display: none;
+    }
 
+    #dropdow_menu_search_mobile{
+        margin-left: -12em!important;
+        margin-right: auto!important;
+    }
+
+    .ui.fluid.button{
+        margin-bottom: 0.8em!important;
+    }
+
+    .column_signup_login_modal{
+        margin-top: 2em;
+    }
+    
+    .mobile_br{
+        display: block!important;
+    }
+    
+    #message_error, #message_loading, #message_success{
+        top: 5em!important;
+        right: 1em!important;
+    }
 }
 
-
-.ui.menu .item{
+/*#block_recap_mobile{
+        display:none!important;
+    }*/
+/*.ui.menu .item{
     font-size: 16px;
     font-weight: bold;
 }
@@ -213,7 +275,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     background-color: white;
     font-size: 16px;
     font-weight: bold;
-}
+}*/
 
 .ui.tiny.image{
     width: 115px;
@@ -232,6 +294,10 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 .ui.button{
+    border-radius: 0;
+}
+
+.ui.basic.button{
     border-radius: 0;
 }
 
@@ -304,7 +370,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 .ui.signin_contenair.segment{
-    width: 30em;
+    width: 32em;
 }
 
 .ui.signin_contenair .ui.card{
@@ -312,7 +378,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 .ui.form.recap  .fields{
-    padding-left: 8em;
+    /*padding-left: 8em;*/
 }
 
 .ui.bottom.attached.tab.segment{
@@ -472,11 +538,21 @@ tlbs-flux{
     background-color: #d4d4d5;
 }
 
+#feature_homepage .ui.top.attached.tabular.menu .item{
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+#feature_homepage .ui.top.attached.tabular.menu .item.active{
+    font-size: 12pt;
+    font-weight: bold!important;
+}
+
 .ui.action.input input{
     border-radius: 0;
 }
 
- .ui.action.input .ui.button:last-child{
+.ui.action.input .ui.button:last-child{
     border-radius: 0;
 }
 
@@ -502,6 +578,10 @@ tlbs-flux{
     color: white;
     background-color: rgba(143, 199, 66, 0.98);
 }
+#remove_mobile_menu_item{
+    color: white;
+    background-color: rgba(143, 199, 66, 0.98);
+}
 
 /*.red{
     color: red!important;
@@ -516,25 +596,41 @@ tlbs-flux{
 }
 
 .ui.card>.content>.header:not(.ui){
-    font-weight: normal; 
-    font-size: 16pt;
+    font-weight: bold; 
+    font-size: 12pt;
+}
+
+.inline.field{
+    /*font-weight: bold!important;*/
+    font-size: 10pt;
+}
+
+
+span.locality_name{
+    color: #2185d0;
 }
 
 .ui.menu .item {
-    font-size: 16px;
-    font-weight: normal;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+
+#sitename.center.menu{
+    margin-top: 0.7em;
 }
 
 .ui.form .field>label{
-    font-weight: normal!important;
+    font-size: 10pt;
 }
 
-.ui.menu .active.item {
-   font-weight: normal!important; 
-}
+/*.ui.menu .active.item {
+    font-weight: normal!important; 
+}*/
 
 .ui.dividing.header{
-    font-weight: normal;
+    font-size: 12pt;
+    color: black;
 }
 
 /*#login_modal.ui.small.modal{
@@ -554,4 +650,176 @@ tlbs-flux{
     top: 0.2rem;
     right: 0.2rem;
     font-size: 1em;
+}
+
+.ui.star.rating .active.icon {
+    background: 0 0!important;
+    color: #21ba45!important;
+    text-shadow: 0 0px 0 #21ba45, 0px 0 0 #21ba45,0 0px 0 #21ba45,0px 0 0 #21ba45!important;
+}
+
+.ui.star.rating .icon.selected, .ui.star.rating .icon.active.selected {
+    background: 0 0!important;
+    color: #21ba45!important;
+    text-shadow: 0 0px 0 #21ba45,0px 0 0 #21ba45,0 0px 0 #21ba45,0px 0 0 #21ba45!important;
+}
+
+.ui.form .fields .field .ui.star.rating {
+    margin-left: 2em;
+}
+
+.sub-title-rating span{
+    font-size: 9pt;
+}
+
+.sub-title-rating .left-sub-title-rating{
+    margin-left: 1.9em;
+}
+
+.sub-title-rating .right-sub-title-rating{
+    margin-left: 5em;
+}
+
+.ui.fluid.card .content a:not(.button):hover{
+    text-decoration: underline;
+}
+
+
+#select_type_package_help_content.ui.green.basic.label {
+    z-index: 2;
+    border-radius: 0;
+    position: absolute;
+    font-weight: normal!important;
+}
+
+#deadline_transport_offer_help_content.ui.green.basic.label {
+    z-index: 2;
+    border-radius: 0;
+    position: absolute;
+    font-weight: normal!important;
+    width: 15em;
+}
+
+#type_package_transport_offer_help_content.ui.green.basic.label {
+    z-index: 2;
+    border-radius: 0;
+    position: absolute;
+    font-weight: normal!important;
+    width: 15em;
+}
+
+.ui.top.attached.tabular.menu .item{
+    cursor: pointer;
+}
+
+.ui.input.icon .remove.icon{
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.74);
+}
+
+.ui.input.icon>.remove.link.icon:hover{
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.74);
+}
+
+.ui.icon.input>i.link.icon:hover{
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.74);
+
+}
+
+.icon {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    /*    -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;*/
+}
+
+#profile_picture_img{
+    cursor: pointer;
+}
+
+.column_signup_login_modal{
+    margin-top: 5em;
+}
+
+.span_label{
+    font-weight: bold;
+    font-size: 10pt;
+    color: black
+}
+
+.span_value{
+    color: black;
+    font-size: 10pt;
+}
+
+.ui.form .inline.field>:first-child{
+    margin: 0;
+}
+
+.ui.warning.message .header{
+    font-size: 10pt;
+}
+
+#my_mobile_menu.menu .right.menu .item{
+    font-size: 10pt;
+}
+
+#my_mobile_menu.menu .right.menu{
+    margin-left: 0!important;
+}
+
+.help_label{
+    font-weight: normal;
+}
+
+.required_infos{
+    font-size: 9pt; 
+}
+
+.ui.form .fields .field{
+    color: black;
+}
+
+.ui.form .field{
+    color: black;
+}
+
+.promo_text_form{
+    font-size: 9pt;
+}
+
+.ui.attached.message .header{
+    font-size: 12pt;
+}
+
+/*.mobile_label.hidden{
+    display: none!important;
+}*/
+
+.label_terms_use{
+    font-size: 9pt!important;
+    /*text-align: justify;*/
+}
+
+.blue_identity{
+    color: #4285f4;
+    font-weight: bold;
+}
+
+.red_identity{
+    color: #db2828;
+    font-weight: bold;
+}
+
+.green_identity{
+    color: #21ba45;
+    font-weight: bold;
+}
+
+.profile_name{
+    color: #8ec641;
+    font-weight: bold;
 }

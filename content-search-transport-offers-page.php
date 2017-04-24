@@ -22,65 +22,77 @@ get_template_part('top-menu', get_post_format());
             <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain'))) ?>">
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Les offres correspondantes pour le départ'); ?></div>
+                        <div class="header"><?php echo __('Transporteurs au départ de'); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
                     </div>
                     <div class="content">
                         <?php
-                        $transport_offers_start = new WP_Query(getWPQueryArgsForMainCarrierSearchWithStartParameters());
+                        $transport_offers_start = new WP_Query(getWPQueryArgsForMainCarrierSearchWithStartParameters($search_query));
                         if ($transport_offers_start->have_posts()) {
                             ?>
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                 <?php
                                 while ($transport_offers_start->have_posts()): $transport_offers_start->the_post();
+                                    $transport_offer_start_id = get_the_ID();
                                     ?>
                                     <div class="column">
                                         <div class="ui fluid card">
-                    <!--                        <i class="huge travel icon center aligned"></i>-->
                                             <?php
-                                            $post_author = get_post_field('post_author', get_the_ID());
+                                            $post_author = get_post_field('post_author', $transport_offer_start_id);
                                             $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
+                                            $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
                                             ?>
                                             <div class="content">
+                                                <?php
+                                                $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
+                                                wp_reset_postdata();
+                                                ?>
                                                 <div class="right floated meta">
-                                                    <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
-                                                        Avis
-                                                    </a>
+                                                    <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                                        <?php
+                                                        foreach ($statistics as $stat_key => $stat_value):
+                                                            ?>
+                                                            <div class="ui form">
+                                                                <div class="field disable">
+                                                                    <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
+                                                                    <a id="<?php echo $transport_offer_start_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))); ?>" class="show_reviews_evaluations">
+                                                                        <?php echo $stat_value["vote_count"]; ?> avis
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <span id="<?php echo $transport_offer_start_id; ?>"  ><i class="star icon"></i> <?php echo __("Aucun avis", "gpdealdomain"); ?></span>
+                                                    <?php endif ?>
                                                 </div>
-                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo $carrier_name; ?></a>
+                                                <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>><span class='profile_name'><?php echo $carrier_name; ?></span> (<strong><?php echo get_user_role_by_user_id($post_author) ?></strong>)
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
                                                     <div class="inline field">
-                                                        <label>Départ : </label>
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-transport-offer', true))); ?>
+                                                        <span class="span_label">Départ : </span>
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta($transport_offer_start_id, 'departure-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_start_id, 'departure-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_start_id, 'date-of-departure-transport-offer', true))); ?>
                                                         </span>
                                                     </div>
                                                     <div class="inline field"> 
-                                                        <label>Destination : </label>
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true))); ?>
+                                                        <span class="span_label">Destination : </span>
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta($transport_offer_start_id, 'destination-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_start_id, 'destination-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_start_id, 'arrival-date-transport-offer', true))); ?>
                                                         </span>
                                                     </div>
 
                                                     <div class="inline field">
-                                                        <label>Date de limite : </label> 
-                                                        <span>
-                                                            <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'deadline-of-proposition-transport-offer', true))); ?>
+                                                        <span class="span_label">Date limite<i class="help circle green link icon deadline_transport_offer_help_link"></i> : </span> 
+                                                        <span class="span_value">
+                                                            <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_start_id, 'deadline-of-proposition-transport-offer', true))); ?>
                                                         </span>
-                                                    </div>
 
-                                                    <div class="inline field">
-                                                        <label>Coût du transport : </label> 
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'price', true) . " " . get_post_meta(get_the_ID(), 'currency', true); ?>
-                                                        </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Objet(s) : </label> 
-                                                        <span>
+                                                        <span class="span_label">Objet(s)<i class="help circle green link icon type_package_transport_offer_help_link"></i> : </span> 
+                                                        <span class="span_value">
                                                             <?php
-                                                            $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
+                                                            $package_type_list = wp_get_post_terms($transport_offer_start_id, 'type_package', array("fields" => "names"));
                                                             $package_type_list_count = count($package_type_list);
                                                             $j = 0;
                                                             foreach ($package_type_list as $name) :
@@ -97,15 +109,15 @@ get_template_part('top-menu', get_post_format());
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Mode de transport : </label> 
-                                                        <span>
+                                                        <span class="span_label">Mode de transport : </span> 
+                                                        <span class="span_value">
                                                             <?php
-                                                            $tranport_method_list = wp_get_post_terms(get_the_ID(), 'transport-method', array("fields" => "names"));
-                                                            $tranport_method_list_count = count($tranport_method_list);
+                                                            $transport_method_list = wp_get_post_terms($transport_offer_start_id, 'transport-method', array("fields" => "names"));
+                                                            $transport_method_list_count = count($transport_method_list);
                                                             $i = 0;
-                                                            foreach ($tranport_method_list as $name) :
+                                                            foreach ($transport_method_list as $name) :
                                                                 ?>
-                                                                <?php if ($i < $tranport_method_list_count - 1) : ?>
+                                                                <?php if ($i < $transport_method_list_count - 1) : ?>
                                                                     <span><?php echo $name; ?>, </span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $name; ?></span>
@@ -116,26 +128,22 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-                                                    <div class="inline field">
-                                                        <label>Avis et évaluations : </label> 
-                                                        <span> 
-                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
-                                                                Voir
-                                                            </a>
-                                                        </span>
-                                                    </div>
+
+                                                    <span class="ui blue right ribbon label">
+                                                        <?php echo get_post_meta($transport_offer_start_id, 'price', true) . " " . get_post_meta($transport_offer_start_id, 'currency', true); ?>
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="extra content">
-                                                <?php if (is_user_logged_in()) : ?>
-                                                    <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
-                                                    <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                                <?php else: ?>
-                                                    <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                                <?php endif ?>
-                                            </div>
-                                        </div>
+                                            <!--                                            <div class="extra content">
+                                            <?php if (is_user_logged_in()) : ?>
+                                                                                                    <input id='selected_transport_offer_checkbox<?php echo $transport_offer_start_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_start_id; ?>" style="display: none">
+                                                                                                    <a id='selected_transport_offer<?php echo $transport_offer_start_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_start_id; ?>)"><i class="checkmark icon"></i></a>
+                                                                                                    <a id='unselected_transport_offer<?php echo $transport_offer_start_id; ?>' class="ui fluid green button" onclick="select_transport_offer(<?php echo $transport_offer_start_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                            <?php else: ?>
+                                                                                                    <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                            <?php endif ?>
+                                                                                        </div>-->
+                                        </div>                                        
                                     </div>
                                     <?php
                                 endwhile;
@@ -146,7 +154,7 @@ get_template_part('top-menu', get_post_format());
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            Nous n'avons trouvé aucune offre de transport valide pour le départ correspondant à vos mots clés de recherche.
+                                            Aucune offre valide au départ de <?php echo $country_region_city['city']; ?>.
                                         </div>
 
                                     </div>
@@ -162,60 +170,80 @@ get_template_part('top-menu', get_post_format());
 
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Les offres correspondantes pour la destination'); ?></div>
+                        <div class="header"><?php echo __('Transporteurs à destination de'); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
                     </div>
                     <div class="content">
                         <?php
-                        $transport_offers_destination = new WP_Query(getWPQueryArgsForMainCarrierSearchWithDestinationParameters());
+                        $transport_offers_destination = new WP_Query(getWPQueryArgsForMainCarrierSearchWithDestinationParameters($search_query));
                         if ($transport_offers_destination->have_posts()) {
                             ?>
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                 <?php
                                 while ($transport_offers_destination->have_posts()): $transport_offers_destination->the_post();
+                                    $transport_offer_dest_id = get_the_ID();
                                     ?>
                                     <div class="column">
+
                                         <div class="ui fluid card">
                     <!--                        <i class="huge travel icon center aligned"></i>-->
                                             <?php
-                                            $post_author = get_post_field('post_author', get_the_ID());
+                                            $post_author = get_post_field('post_author', $transport_offer_dest_id);
+                                            //$evaluations_of_author = getEvaluationsOfCarrier($post_author);
                                             $carrier_name = $current_user->ID == $post_author ? __("Vous", "gpdealdomain") : get_the_author_meta('user_login');
+                                            $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
                                             ?>
                                             <div class="content">
-                                                <img class="ui avatar image" src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"> <strong><?php echo __("Transporteur", "gpdealdomain") . " " . get_user_role_by_user_id($post_author) ?> : </strong><a ><?php echo $carrier_name; ?></a>
+                                                <?php
+                                                $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
+                                                wp_reset_postdata();
+                                                ?>
+                                                <div class="right floated meta">
+                                                    <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                                        <?php
+                                                        foreach ($statistics as $stat_key => $stat_value):
+                                                            ?>
+                                                            <div class="ui form">
+                                                                <div class="field disable">
+                                                                    <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
+                                                                    <a id="<?php echo $transport_offer_dest_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))); ?>" class="show_reviews_evaluations">
+                                                                        <?php echo $stat_value["vote_count"]; ?> avis
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <span id="<?php echo $transport_offer_dest_id; ?>"  ><i class="star icon"></i> <?php echo __("Aucun avis", "gpdealdomain"); ?></span>
+                                                    <?php endif ?>
+                                                </div>
+                                                <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>> <span class='profile_name'><?php echo $carrier_name; ?></span> (<strong><?php echo get_user_role_by_user_id($post_author) ?></strong>)
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
                                                     <div class="inline field">
-                                                        <label>Départ : </label>
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'departure-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'departure-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-transport-offer', true))); ?>
+                                                        <span class="span_label">Départ : </span>
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta($transport_offer_dest_id, 'departure-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_dest_id, 'departure-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_dest_id, 'date-of-departure-transport-offer', true))); ?>
                                                         </span>
                                                     </div>
                                                     <div class="inline field"> 
-                                                        <label>Destination : </label>
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'destination-city-transport-offer', true) ?>(<?php echo get_post_meta(get_the_ID(), 'destination-country-transport-offer', true) ?>) <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true))); ?>
+                                                        <span class="span_label">Destination : </span>
+                                                        <span class="span_value">
+                                                            <?php echo get_post_meta($transport_offer_dest_id, 'destination-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_dest_id, 'destination-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_dest_id, 'arrival-date-transport-offer', true))); ?>
                                                         </span>
                                                     </div>
 
                                                     <div class="inline field">
-                                                        <label>Date de limite : </label> 
-                                                        <span>
-                                                            <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'deadline-of-proposition-transport-offer', true))); ?>
+                                                        <span class="span_label">Date limite<i class="help circle green link icon deadline_transport_offer_help_link"></i> : </span> 
+                                                        <span class="span_value">
+                                                            <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_dest_id, 'deadline-of-proposition-transport-offer', true))); ?>
                                                         </span>
                                                     </div>
 
                                                     <div class="inline field">
-                                                        <label>Coût du transport : </label> 
-                                                        <span>
-                                                            <?php echo get_post_meta(get_the_ID(), 'price', true) . " " . get_post_meta(get_the_ID(), 'currency', true); ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="inline field">
-                                                        <label>Objet(s) : </label> 
-                                                        <span>
+                                                        <span class="span_label">Objet(s)<i class="help circle green link icon type_package_transport_offer_help_link"></i> : </span> 
+                                                        <span class="span_value">
                                                             <?php
-                                                            $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
+                                                            $package_type_list = wp_get_post_terms($transport_offer_dest_id, 'type_package', array("fields" => "names"));
                                                             $package_type_list_count = count($package_type_list);
                                                             $j = 0;
                                                             foreach ($package_type_list as $name) :
@@ -232,15 +260,15 @@ get_template_part('top-menu', get_post_format());
                                                         </span>
                                                     </div>
                                                     <div class="inline field">
-                                                        <label>Mode de transport : </label> 
-                                                        <span>
+                                                        <span class="span_label">Mode de transport : </span> 
+                                                        <span class="span_value">
                                                             <?php
-                                                            $tranport_method_list = wp_get_post_terms(get_the_ID(), 'transport-method', array("fields" => "names"));
-                                                            $tranport_method_list_count = count($tranport_method_list);
+                                                            $transport_method_list = wp_get_post_terms($transport_offer_dest_id, 'transport-method', array("fields" => "names"));
+                                                            $transport_method_list_count = count($transport_method_list);
                                                             $i = 0;
-                                                            foreach ($tranport_method_list as $name) :
+                                                            foreach ($transport_method_list as $name) :
                                                                 ?>
-                                                                <?php if ($i < $tranport_method_list_count - 1) : ?>
+                                                                <?php if ($i < $transport_method_list_count - 1) : ?>
                                                                     <span><?php echo $name; ?>, </span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $name; ?></span>
@@ -251,25 +279,21 @@ get_template_part('top-menu', get_post_format());
                                                             ?>
                                                         </span>
                                                     </div>
-                                                    <div class="inline field">
-                                                        <label>Avis et évaluations : </label> 
-                                                        <span> 
-                                                            <a id="show_reviews_evaluations_btn<?php the_ID(); ?>" onclick="show_reviews_evaluations(event, <?php the_ID(); ?>)" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('avis-et-evaluations', 'gpdealdomain'))))) ?>" class="ui blue button">
-                                                                Voir
-                                                            </a>
-                                                        </span>
-                                                    </div>
+
+                                                    <span class="ui blue right ribbon label">
+                                                        <?php echo get_post_meta($transport_offer_dest_id, 'price', true) . " " . get_post_meta($transport_offer_dest_id, 'currency', true); ?>
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div class="extra content">
-                                                <?php if (is_user_logged_in()) : ?>
-                                                    <input id='selected_transport_offer_checkbox<?php the_ID(); ?>' type="checkbox" name="selected_transport_offers[]" value="<?php the_ID(); ?>" style="display: none">
-                                                    <a id='selected_transport_offer<?php the_ID(); ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php the_ID(); ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php the_ID(); ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php the_ID(); ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                                <?php else: ?>
-                                                    <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                                <?php endif ?>
-                                            </div>
+                                            <!--                                            <div class="extra content">
+                                            <?php if (is_user_logged_in()) : ?>
+                                                                                                    <input id='selected_transport_offer_checkbox<?php echo $transport_offer_dest_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_dest_id; ?>" style="display: none">
+                                                                                                    <a id='selected_transport_offer<?php echo $transport_offer_dest_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_dest_id; ?>)"><i class="checkmark icon"></i></a>
+                                                                                                    <a id='unselected_transport_offer<?php echo $transport_offer_dest_id; ?>' class="ui fluid green button" onclick="select_transport_offer(<?php echo $transport_offer_dest_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                            <?php else: ?>
+                                                                                                    <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                            <?php endif ?>
+                                                                                        </div>-->
                                         </div>
                                     </div>
                                     <?php
@@ -281,12 +305,10 @@ get_template_part('top-menu', get_post_format());
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            Nous n'avons trouvé aucune offre de transport valide pour la destination correspondant à vos mots clés de recherche.
+                                            Aucune offre valide à destination de <?php echo $country_region_city['city']; ?>.
                                         </div>
-
                                     </div>
                                 </div>
-                                <!--<h2 class="header">Aucune offre de transport pour la destination ne correspond à vos mots clés de recherches.</h2>-->
                             </div>
                             <?php
                         }
@@ -306,6 +328,7 @@ get_template_part('top-menu', get_post_format());
         </div>
     </div>
 </div>
-<?php
-include(locate_template('content-login-modal-page.php'));
+<?php include(locate_template('content-login-modal-page.php')); ?>
+<div id='main_content_reviews_evaluations'>
+</div>
 

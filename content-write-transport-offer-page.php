@@ -32,23 +32,25 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
             <div class="header"><?php echo __("Saisir une offre de transport", 'gpdealdomain') ?> : </div>
-            <p><?php echo __("Remplissez ci-dessous les informations de votre offre de transport puis enregistrer.", 'gpdealdomain') ?></p>
+            <p class="promo_text_form"><?php echo __("Remplissez les informations ci-dessous puis publier votre offre de transport.", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
+                <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
                 <div class="ui top attached tabular menu">
-                    <a class="item active" data-tab="first">Offre de transport</a>
-                    <a class="item" data-tab="second">Comment ça fonctionnne ?</a>
+                    <div class="item active" data-tab="first">Offre de <br class="mobile_br" style="display: none;">transport</div>
+                    <div class="item" data-tab="second">Comment ça <br class="mobile_br" style="display: none;">fonctionnne ?</div>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
                     <form id='write_transport_offer_form'  method="POST" action="<?php the_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off">
-                        
-                        <h4 class="ui dividing header">DEPART <span style="color:red;">*</span></h4>
+
+                        <h4 class="ui dividing header">Départ <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="start_city" type="text" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
+                                <div class="ui input icon start_city">
+                                    <!--<i class="marker icon start_city" locality_id='start_city'></i>-->
+                                    <i class="remove link icon start_city" style="display: none;" locality_id='start_city'></i>
+                                    <input id="start_city" type="text" class="locality" name='start_city' placeholder="Ville de départ" value="<?php echo $start_city ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -60,13 +62,14 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 </div>
                             </div>      
                         </div>
-                        
-                        <h4 class="ui dividing header">DESTINATION <span style="color:red;">*</span></h4>
+
+                        <h4 class="ui dividing header">Destination <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
-                                <div class="ui input left icon">
-                                    <i class="marker icon"></i>
-                                    <input id="destination_city" type="text" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
+                                <div class="ui input icon destination_city">
+                                    <!--<i class="marker icon destination_city" locality_id='destination_city'></i>-->
+                                    <i class="remove link icon destination_city" style="display: none;" locality_id='destination_city'></i>
+                                    <input id="destination_city" type="text" class="locality" name='destination_city' placeholder="Ville de destination" value="<?php echo $destination_city ?>">
                                 </div>
                             </div>             
                             <div class="field">
@@ -78,7 +81,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 </div>
                             </div>      
                         </div>
-                        <h4 class="ui dividing header">DATE LIMITE DE PROPOSITION <span style="color:red;">*</span></h4>
+                        <h4 class="ui dividing header">Date limite de proposition <span style="color:red;">*</span></h4>
                         <div class="field">
                             <div class="ui calendar" >
                                 <div class="ui input left icon">
@@ -88,7 +91,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                             </div>
                         </div>      
 
-                        <h4 class="ui dividing header"><?php echo __("INFORMATIONS SUR L'OFFRE DE TRANSPORT", 'gpdealdomain') ?></h4>
+                        <h4 class="ui dividing header"><?php echo __("Informations sur l'offre de transport", 'gpdealdomain') ?></h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php echo __("Type de courrier/colis", 'gpdealdomain') ?> <span style="color:red;">*</span></label>
@@ -154,7 +157,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                         <div class="inline field">
                             <div class="ui checkbox">
                                 <input type="checkbox" name="terms" <?php if ($terms == 'on'): ?> checked="checked" <?php endif ?>> 
-                                <label><span style="color:red;">*</span> Je reconnais avoir pris de la liste des <a href="#">objets prohibés au transport</a>.</label>
+                                <label class="label_terms_use"><span style="color:red;">*</span> Je reconnais avoir pris de la liste des <a href="#">objets prohibés au transport</a>.</label>
                             </div
 
                             <div class="field">
@@ -171,7 +174,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 </div>
                             </div>
                             <div class="field">
-                                <button id="submit_transport_offer" class="ui right floated green button" type="submit">Enregistrer l'offre</button>
+                                <button id="submit_transport_offer" class="ui right floated green button" type="submit">Publier l'offre</button>
                             </div>
                     </form>
                 </div>
