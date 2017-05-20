@@ -1,9 +1,10 @@
 <?php
 
-session_start();
 /*
   Template Name: Recapitulative Page
  */
+session_start();
+expire_session();
 if (!is_user_logged_in()) {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         register_user();
@@ -112,7 +113,7 @@ if (!is_user_logged_in()) {
             get_footer();
         }
     } else {
-        wp_safe_redirect(get_permalink(get_page_by_path(__('inscription', 'gpdealdomain'))));
+        wp_safe_redirect(get_permalink(get_page_by_path(__('registration', 'gpdealdomain'))));
     }
 } else {
     $current_user = wp_get_current_user();
@@ -216,7 +217,7 @@ if (!is_user_logged_in()) {
         } elseif (isset($_POST['edit_account']) && removeslashes(esc_attr($_POST['edit_account'])) == 'yes') {
             update_user($current_user->ID);
         } else {
-            wp_safe_redirect(get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))));
+            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain'))));
             exit;
         }
     }

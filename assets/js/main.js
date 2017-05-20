@@ -1,69 +1,63 @@
-function show_password_login() {
-    $('.unhide.link.icon.show_hide_password_login').click(function () {
-        $(this).parents('.ui.form.login_form:first-child').find('input[name="_password"]').showPassword();
-        $(this).removeClass('unhide');
-        $(this).addClass('hide');
-        hide_password_login();
-    });
-}
-function hide_password_login() {
-    $('.hide.link.icon.show_hide_password_login').click(function () {
-        $(this).parents('.ui.form.login_form:first-child').find('input[name="_password"]').hidePassword();
-        $(this).removeClass('hide');
-        $(this).addClass('unhide');
-        show_password_login();
-    });
-}
+//function show_password_login() {
+//    $('.unhide.link.icon.show_hide_password_login').click(function () {
+//        $(this).parents('.ui.form.login_form:first-child').find('input[name="_password"]').showPassword();
+//        $(this).removeClass('unhide');
+//        $(this).addClass('hide');
+//        hide_password_login();
+//    });
+//}
+//function hide_password_login() {
+//    $('.hide.link.icon.show_hide_password_login').click(function () {
+//        $(this).parents('.ui.form.login_form:first-child').find('input[name="_password"]').hidePassword();
+//        $(this).removeClass('hide');
+//        $(this).addClass('unhide');
+//        show_password_login();
+//    });
+//}
 
 $(document).ready(function () {
     $.datetimepicker.setLocale('fr');
-    show_password_login();
-    hide_password_login();
-    var mouseX;
-    var mouseY;
-    $(document).mousemove(function (e) {
-        mouseX = e.pageX;
-        mouseY = e.pageY;
-    });
-    $('i.select_type_package_help_link').hover(function () {
-        //alert(mouseX+" "+mouseY);
-        if (window.matchMedia("(max-width: 800px)").matches) {
-            $('#select_type_package_help_content').css({'top': mouseY-100, 'left': mouseX-78}).transition('fade in');
-        }else{
-            $('#select_type_package_help_content').css({'top': mouseY-150, 'left': mouseX-78}).transition('fade in');
-        }
-        
-    }, function () {
-        $('#select_type_package_help_content').transition('fade out');
-    });
-    
-    
-    $('i.deadline_transport_offer_help_link').hover(function () {
-        //alert(mouseX+" "+mouseY);
-        $('#deadline_transport_offer_help_content').css({'top': mouseY-50, 'left': mouseX-85}).transition('fade in');
-    }, function () {
-        $('#deadline_transport_offer_help_content').transition('fade out');
-    });
-    
-    $('i.type_package_transport_offer_help_link').hover(function () {
-        //alert(mouseX+" "+mouseY);
-        $('#type_package_transport_offer_help_content').css({'top': mouseY-50, 'left': mouseX-85}).transition('fade in');
-    }, function () {
-        $('#type_package_transport_offer_help_content').transition('fade out');
-    });
-    
+//    show_password_login();
+//    hide_password_login();
+//    var mouseX;
+//    var mouseY;
+//    $(document).mousemove(function (e) {
+//        mouseX = e.pageX;
+//        mouseY = e.pageY;
+//    });
+//    $('i.select_type_package_help_link').hover(function () {
+//        //alert(mouseX+" "+mouseY);
+//        if (window.matchMedia("(max-width: 800px)").matches) {
+//            $('#select_type_package_help_content').css({'top': mouseY-100, 'left': mouseX-78}).transition('fade in');
+//        }else{
+//            $('#select_type_package_help_content').css({'top': mouseY-150, 'left': mouseX-78}).transition('fade in');
+//        }
+//        
+//    }, function () {
+//        $('#select_type_package_help_content').transition('fade out');
+//    });
+//    
+//    
+//    $('i.deadline_transport_offer_help_link').hover(function () {
+//        //alert(mouseX+" "+mouseY);
+//        $('#deadline_transport_offer_help_content').css({'top': mouseY-50, 'left': mouseX-85}).transition('fade in');
+//    }, function () {
+//        $('#deadline_transport_offer_help_content').transition('fade out');
+//    });
+//    
+//    $('i.type_package_transport_offer_help_link').hover(function () {
+//        //alert(mouseX+" "+mouseY);
+//        $('#type_package_transport_offer_help_content').css({'top': mouseY-50, 'left': mouseX-85}).transition('fade in');
+//    }, function () {
+//        $('#type_package_transport_offer_help_content').transition('fade out');
+//    });
+
     $('input.locality').on("change paste keyup", function (e) {
         var myclass = $(this).attr('id');
         if ($(this).val() !== "") {
-            $('i.marker.icon.' + myclass).hide();
-//            $('div.ui.input.left.icon.'+myclass).removeClass('left');
-//            $('div.ui.input.icon.'+myclass).addClass('ui input right icon '+myclass);
             $('i.remove.link.icon.' + myclass).show();
         } else {
             $('i.remove.link.icon.' + myclass).hide();
-//            $('div.ui.input.icon.'+myclass).removeClass('left');
-//            $('div.ui.input.icon.'+myclass).addClass('ui input left icon '+myclass);
-            //$('i.marker.icon.'+myclass).show();
         }
     });
 
@@ -71,22 +65,49 @@ $(document).ready(function () {
         var myclass = $(this).attr('id');
         if ($(this).val() === "") {
             $('i.remove.link.icon.' + myclass).hide();
-//            $('div.ui.input.icon.'+myclass).removeClass('left');
-//            $('div.ui.input.icon.'+myclass).addClass('ui input left icon '+myclass);
-            //$('i.marker.icon.'+myclass).show();
         }
     });
-
-
 
     $('i.remove.link.icon').click(function (e) {
         var myid = $(this).attr('locality_id');
         $('#' + myid).val("");
         $('i.remove.link.icon.' + myid).hide();
-//            $('div.ui.input.icon.'+myid).removeClass('left');
-//            $('div.ui.input.icon.'+myid).addClass('ui input left icon '+myid);
-        //$('i.marker.icon.'+myid).show();
     });
+
+    $('input.visible_password').on("change paste keyup", function (e) {
+        var myclass = $(this).attr('id');
+        if ($(this).val() !== "") {
+            $('i.unhide.link.icon.' + myclass).show();
+        } else {
+            $('i.unhide.link.icon.' + myclass).hide();
+        }
+    });
+
+    $('input.visible_password').on("focusout", function (e) {
+        var myclass = $(this).attr('id');
+        if ($(this).val() === "") {
+            $('i.unhide.link.icon.' + myclass).hide();
+        }
+    });
+
+    $('i.unhide.link.icon')
+            .mouseup(function () {
+                var myid = $(this).attr('input_password_id');
+                $('#' + myid).hidePassword();
+            })
+            .mousedown(function () {
+                var myid = $(this).attr('input_password_id');
+                $('#' + myid).showPassword();
+            });
+
+//    $('i.unhide.link.icon').hover(function () {
+//        var myid = $(this).attr('input_password_id');
+//        $('#' + myid).showPassword();
+//    }, function () {
+//        var myid = $(this).attr('input_password_id');
+//        $('#' + myid).hidePassword();
+//    });
+
     /* Navbar animation */
     $(window).bind('mousewheel', function (event) {
         if (event.originalEvent.wheelDelta >= 0) {
@@ -591,6 +612,7 @@ $(document).ready(function () {
             $('#civility_bloc').addClass('inline');
             $('#block_recap_desktop').hide();
             $('#block_recap_mobile').show();
+            $('.float_button.ui.green.button').show();
         } else {
             $('#submit_search_transport_offers').removeClass("fluid");
             $('#submit_create_account_particular').removeClass("fluid");
@@ -605,12 +627,27 @@ $(document).ready(function () {
             $('#edit_account').removeClass('fluid');
             $('#block_recap_mobile').hide();
             $('#block_recap_desktop').show();
+            $('.float_button.ui.green.button').hide();
         }
     });
 
 
     if (window.matchMedia("(max-width: 800px)").matches) {
         $('.ui.form .ui.button').addClass("fluid");
+        var view_password = 0;
+        $('i.unhide.link.icon').click(function (e) {
+            e.preventDefault();
+            if (view_password === 0) {
+                var myid = $(this).attr('input_password_id');
+                $('#' + myid).showPassword();
+                view_password = 1;
+            } else if (view_password === 1) {
+                var myid = $(this).attr('input_password_id');
+                $('#' + myid).hidePassword();
+                view_password = 0;
+            }
+        });
+
     }
 
     $('#search_input_top_form').submit(function () {
@@ -664,8 +701,8 @@ $(document).ready(function () {
                         identifier: '_username',
                         rules: [
                             {
-                                type: 'empty',
-                                //prompt: 'Veuillez saisir votre login'
+                                type: 'empty'
+                                        //prompt: 'Veuillez saisir votre login'
                             }
                         ]
                     },
@@ -720,10 +757,11 @@ $(document).ready(function () {
                         $('#message_error>.header').html(response.data.message);
                         $('#message_error').show();
                     } else {
-                        $('#login_form1.ui.form').removeClass('loading');
-                        $('#submit_login_form1').removeClass('disabled');
-                        $('#message_error>.header').html("Internal server error");
-                        $('#message_error').show();
+//                        $('#login_form1.ui.form').removeClass('loading');
+//                        $('#submit_login_form1').removeClass('disabled');
+//                        $('#message_error>.header').html("Internal server error");
+//                        $('#message_error').show();
+                        window.location.reload();
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -798,10 +836,11 @@ $(document).ready(function () {
                         $('#message_error>.header').html(response.data.message);
                         $('#message_error').show();
                     } else {
-                        $('#login_form1.ui.form').removeClass('loading');
-                        $('#submit_login_form').removeClass('disabled');
-                        $('#message_error>.header').html("Internal server error");
-                        $('#message_error').show();
+//                        $('#login_form1.ui.form').removeClass('loading');
+//                        $('#submit_login_form').removeClass('disabled');
+//                        $('#message_error>.header').html("Internal server error");
+//                        $('#message_error').show();
+                        window.location.reload();
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -936,39 +975,38 @@ $(document).ready(function () {
         }
     });
 
-    $('.disconnected_btn').click(function(e){
-        e.preventDefault();
-        $.ajax({
-                type: 'POST',
-                url: $(this).attr('href'),
-                data: {'logout': 'true'},
-                dataType: 'json',
-                beforeSend: function () {
-                    
-                },
-                statusCode: {
-                    500: function (xhr) {                       
-                        $('#message_error>.header').html("Internal server error");
-                    },
-                    400: function (response, textStatus, jqXHR) {
-                        
-                        $('#message_error>.header').html("Echec de la deconnexion");
-                    }
-                },
-                success: function (response, textStatus, jqXHR) {
-                    if (response.success === true) {
-                        window.location.reload();
-                    } else {
-                        $('#message_error>.header').html("Echec de la deconnexion");
-                        $('#message_error').show();
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $('#message_error').show();
-                }
-            });
-    });
-    //*************************************************ReFresh page every 5 seconds if not focus*******************************
+//    $('.disconnected_btn').click(function (e) {
+//        e.preventDefault();
+//        $.ajax({
+//            type: 'POST',
+//            url: $(this).attr('href'),
+//            data: {'logout': 'true'},
+//            dataType: 'json',
+//            beforeSend: function () {
+//
+//            },
+//            statusCode: {
+//                500: function (xhr) {
+//                    $('#message_error>.header').html("Internal server error");
+//                },
+//                400: function (response, textStatus, jqXHR) {
+//
+//                    $('#message_error>.header').html("Echec de la deconnexion");
+//                }
+//            },
+//            success: function (response, textStatus, jqXHR) {
+//                if (response.success === true) {
+//                    window.location.reload();
+//                } else {
+//                     window.location.reload();
+//                }
+//            },
+//            error: function (jqXHR, textStatus, errorThrown) {
+//                $('#message_error').show();
+//            }
+//        });
+//    });
+    //*************************************************ReFresh page every 1 minute if not focus*******************************
 //    var window_focus;
 //    $(window).focus(function () {
 //        window_focus = true;
@@ -980,8 +1018,24 @@ $(document).ready(function () {
 //            location.reload();  // if not focused, reload
 //        }
 //    }
-//    setInterval(checkReload, 10000);  // check if not focused, every 5 seconds
+//    setInterval(checkReload, 360000);  // check if not focused, every 6 minute
+    //*****************************************************************************************************************************
 
+    //*************************************************SlideShow background homepage*******************************
+    var images = new Array('wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg');
+    var nextimage = 0;
+    doSlideshow();
+
+    function doSlideshow() {
+        if (nextimage >= images.length) {
+            nextimage = 0;
+        }
+        $('#feature_homepage')
+                .css('background-image', 'url("' + images[nextimage++] + '")')
+                .fadeIn(1000, 'linear',  function () {
+                    setTimeout(doSlideshow, 5000);
+                });
+    }
     //*****************************************************************************************************************************
 });
 
@@ -1029,18 +1083,19 @@ function submit_login_modal() {
             success: function (response, textStatus, jqXHR) {
                 if (response.success === true) {
                     //$('#login_form3.ui.form').submit();
-                    location.reload();
+                    window.location.reload();
                 } else if (response.success === false) {
                     $('#login_form3.ui.form').removeClass('loading');
                     $('#submit_login_form3').removeClass('disabled');
                     $('#error_name_list3').html('<li>' + response.data.message + '</li>');
                     $('#error_name_message3').show();
                 } else {
-                    $('#login_form3.ui.form').removeClass('loading');
-                    $('#submit_login_form3').removeClass('disabled');
-                    $('#cancel_login_form3').removeClass('disabled');
-                    $('#error_name_header3').html("Internal server error");
-                    $('#error_name_message3').show();
+//                    $('#login_form3.ui.form').removeClass('loading');
+//                    $('#submit_login_form3').removeClass('disabled');
+//                    $('#cancel_login_form3').removeClass('disabled');
+//                    $('#error_name_header3').html("Internal server error");
+//                    $('#error_name_message3').show();
+                    window.location.reload();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1090,10 +1145,11 @@ function submit_login_form1() {
                     $('#message_error>.header').html(response.data.message);
                     $('#message_error').show();
                 } else {
-                    $('#login_form1.ui.form').removeClass('loading');
-                    $('#submit_login_form1').removeClass('disabled');
-                    $('#message_error>.header').html("Internal server error");
-                    $('#message_error').show();
+                    window.location.reload();
+//                    $('#login_form1.ui.form').removeClass('loading');
+//                    $('#submit_login_form1').removeClass('disabled');
+//                    $('#message_error>.header').html("Internal server error");
+//                    $('#message_error').show();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

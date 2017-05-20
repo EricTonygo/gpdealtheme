@@ -561,15 +561,6 @@ $(function () {
                             }
                         ]
                     },
-//                    company_identity_tva_number: {
-//                        identifier: 'company_identity_tva_number',
-//                        rules: [
-//                            {
-//                                type: 'empty',
-//                                prompt: 'Veuillez saisir votre numéro siren'
-//                            }
-//                        ]
-//                    },
                     function_representative1: {
                         identifier: 'function_representative1',
                         rules: [

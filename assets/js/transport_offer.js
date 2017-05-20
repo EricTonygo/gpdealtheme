@@ -59,7 +59,16 @@ $(function () {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: 'Veuillez préciser le mode de transport'
+                                prompt: 'Veuillez préciser le mode de transport.'
+                            }
+                        ]
+                    },
+                    transport_offer_price_type: {
+                        identifier: 'transport_offer_price_type',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: 'Veuillez préciser le type de coût du tranport.'
                             }
                         ]
                     },

@@ -1,0 +1,1042 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr_FR\n"
+"X-Generator: Poedit 2.0.2\n"
+
+# Translation of gpdealtheme in French (France)
+msgid "Transport offers"
+msgstr "Offres transport"
+
+msgid "home"
+msgstr "accueil"
+
+msgid "reviews-and-evaluations"
+msgstr "avis-et-evaluations"
+
+msgid "Reviews/Evaluations"
+msgstr "Avis/Evaluations"
+
+msgid "terms-of-use"
+msgstr "conditions-dutilisation"
+
+msgid "legal-notices"
+msgstr "mentions-legales"
+
+msgid "contact-us"
+msgstr "nous-contacter"
+
+msgid "registration"
+msgstr "inscription"
+
+msgid "my-account"
+msgstr "mon-compte"
+
+msgid "profile"
+msgstr "profil"
+
+msgid "account-summary"
+msgstr "recapitulatif-du-compte"
+
+msgid "write"
+msgstr "saisir"
+
+msgid "change-the-password"
+msgstr "modifier-le-mot-passe"
+
+msgid "Change your password"
+msgstr "Modifiez votre mot passe"
+
+msgid "transport-offers"
+msgstr "offres-de-transport"
+
+msgid "shipments"
+msgstr "expeditions"
+
+msgid "search-for-unsatisfied-shipments"
+msgstr "rechercher-les-expeditions-non-satisfaites"
+
+msgid "search-for-transport-offers"
+msgstr "rechercher-les-offres-de-transport"
+
+msgid "select-transport-offers"
+msgstr "search-les-offres-de-transport"
+
+msgid "show-carriers-contacts"
+msgstr "visualiser-les-contacts-des-transporteurs"
+
+msgid "forgot-your-password"
+msgstr "mot-de-passe-oublie"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Log in"
+msgstr "Connexion"
+
+msgid "log-in"
+msgstr "connexion"
+
+msgid "Lang title"
+msgstr "Français"
+
+msgid "French"
+msgstr "Français"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "My account"
+msgstr "Mon compte"
+
+msgid "My profile"
+msgstr "Mon profil"
+
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+msgid "Sign in"
+msgstr "Se connecter"
+
+msgid "Sign up"
+msgstr "S'inscrire"
+
+msgid "Email or username"
+msgstr "Email ou pseudo"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+msgid "Forgot your password"
+msgstr "Mot de passe oublié"
+
+msgid "You do not have an account"
+msgstr "Vous n'avez pas un compte"
+
+msgid "Internal server error"
+msgstr "Erreur interne du serveur"
+
+msgid "Ship a package"
+msgstr "Expédier un courrier/colis"
+
+msgid "Carry a package"
+msgstr "Proposer un transport"
+
+msgid "My shipments"
+msgstr "Mes expéditions"
+
+msgid "My transport offers"
+msgstr "Mes offres de transport"
+
+msgid "My transactions"
+msgstr "Mes transactions"
+
+msgid "Transport requests"
+msgstr "Demandes transport"
+
+msgid "Departure city"
+msgstr "Ville de départ"
+
+msgid "Destination city"
+msgstr "Ville de destination"
+
+msgid "Departure date"
+msgstr "Date de départ"
+
+msgid "Destination date"
+msgstr "Date d'arrivée"
+
+msgid "Search carriers"
+msgstr "Rechercher transporteurs"
+
+msgid "Search shippers"
+msgstr "Rechercher expéditeurs"
+
+msgid "Object"
+msgstr "Objet"
+
+msgid "Several possible choices"
+msgstr "Plusieurs choix possible"
+
+msgid "Search by city"
+msgstr "Rechercher en fonction d'une ville"
+
+msgid "Search carriers/shipments"
+msgstr "Rechercher transporteurs/expéditions"
+
+msgid "Search for carriers"
+msgstr "Recherche transporteurs"
+
+msgid "Search results for transport offers"
+msgstr "Resultat de la recherche des offres de transport"
+
+msgid "Carriers departing from"
+msgstr "Transporteurs au départ de"
+
+msgid "Carriers to"
+msgstr "Transporteurs à destination de"
+
+msgid "In progress"
+msgstr "En cours"
+
+msgid "Evaluated/Closed"
+msgstr "Evaluée/Cloturée"
+
+msgid "Expired"
+msgstr "Expirée"
+
+msgid "Canceled"
+msgstr "Annulée"
+
+msgid "Transaction in progress"
+msgstr "Transaction en cours"
+
+msgid "No Status"
+msgstr "Aucun statut"
+
+msgid "All rights reserved"
+msgstr "Tous droits reservés"
+
+msgid "You"
+msgstr "Vous"
+
+msgid "Corresponding offers"
+msgstr "Les offres correspondantes"
+
+msgid "Offers that can interest to you"
+msgstr "Les offres pouvant vous intéressés"
+
+msgid "Selected carriers"
+msgstr "Transporteurs selectionnés"
+
+msgid "Carried shipments"
+msgstr "Expéditions transportées"
+
+msgid "flag_code"
+msgstr "fr"
+
+msgid "Welcome to our website"
+msgstr "Bienvenu sur notre site"
+
+msgid "Register in a few minutes and take full advantage of our services"
+msgstr "Inscrivez-vous en quelques minutes et profitez pleinement de nos services"
+
+msgid "Required informations"
+msgstr "Informations obligatoires"
+
+msgid "Particular"
+msgstr "Particulier"
+
+msgid "Professional"
+msgstr "Professionnel"
+
+msgid "Enterprise"
+msgstr "Entreprise"
+
+msgid "Change your profile picture"
+msgstr "Modifiez votre photo de profil"
+
+msgid "Civil status"
+msgstr "Etat civil"
+
+msgid "Civility"
+msgstr "Civilité"
+
+msgid "Mr."
+msgstr "Mr."
+
+msgid "Mrs"
+msgstr "Mme"
+
+msgid "Ms"
+msgstr "Mlle"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Last name"
+msgstr "Nom"
+
+msgid "Username"
+msgstr "Pseudo"
+
+msgid "Birth date"
+msgstr "Date de naissance"
+
+msgid "You must be major to use our services"
+msgstr "Vous devez être majeur pour utiliser notre services"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Number and Street"
+msgstr "Numéro et rue"
+
+msgid "Additional address"
+msgstr "Complément adresse"
+
+msgid "Not identified"
+msgstr "Non identifié"
+
+msgid "Identified"
+msgstr "Identifié"
+
+msgid "Locality"
+msgstr "Localité"
+
+msgid "Mobile phone"
+msgstr "Téléphone mobile"
+
+msgid "Number in international format with country code"
+msgstr "Numéro au format international avec indicatif du pays"
+
+msgid "Mobile phone number"
+msgstr "Numéro de téléphone mobile"
+
+msgid "Phone number"
+msgstr "Numéro de téléphone fixe"
+
+msgid "Phone Number"
+msgstr "Numéro de téléphone"
+
+msgid "Confirm mobile phone"
+msgstr "Confirmer téléphone mobile"
+
+msgid "Mobile phone confirmation"
+msgstr "Confirmation téléphone mobile"
+
+msgid "Login information"
+msgstr "Informations de connexion"
+
+msgid "E-mail"
+msgstr "Email"
+
+msgid "E-mail address"
+msgstr "Adresse email"
+
+msgid "E-mail confirmation"
+msgstr "Confirmation email"
+
+msgid "E-mail address confirmation"
+msgstr "Confirmation adresse email"
+
+msgid "Password confirmation"
+msgstr "Confirmation mot de passe"
+
+msgid "Confirm password"
+msgstr "Confirmer mot de passe"
+
+msgid "Security information"
+msgstr "Informations sécurité"
+
+msgid "Test question"
+msgstr "Question test"
+
+msgid "Select a test question"
+msgstr "Selectionner une question test"
+
+msgid "I received the registration information"
+msgstr "J'ai reçu les informations sur l'inscription"
+
+msgid "Answer to test question"
+msgstr "Reponse question test"
+
+msgid "I want to check my identity"
+msgstr "Je voudrais\tfaire verifier mon identité"
+
+msgid "Register now"
+msgstr "S'inscrire maintenant"
+
+msgid "I would like to be informed about the products and services of Global Parcel Deal. I can change this setting at any time in the management of my profile information"
+msgstr "Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil"
+
+msgid "terms of use"
+msgstr "les conditions d'utilisation"
+
+msgid "transactions and data protection on this website"
+msgstr "les transactions et la protection des données sur ce site web"
+
+msgid "Download a document to verify your identity"
+msgstr "Télécharger un document permettant de verifier votre identité"
+
+msgid "Download your company logo"
+msgstr "Télécharger le logo de votre entreprise"
+
+msgid "Company information"
+msgstr "Informations sur l'entreprise"
+
+msgid "Company name"
+msgstr "Nom de l'entreprise"
+
+msgid "Legal form"
+msgstr "Forme juridique"
+
+msgid "Legal form of the company"
+msgstr "Forme juridique de l'entreprise"
+
+msgid "Company Identification Number"
+msgstr "Numéro d'identification de l'entreprise"
+
+msgid "Individual VAT identification number"
+msgstr "Numéro individuel d'identification de la TVA"
+
+msgid "Street and number of your address"
+msgstr "Rue et numéro de votre adresse"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Your locality"
+msgstr "Votre localité"
+
+msgid "Zip code"
+msgstr "Code postal"
+
+msgid "Représentative"
+msgstr "Representative"
+
+msgid "Position in the company"
+msgstr "Fonction dans l'entreprise"
+
+msgid "Professional email"
+msgstr "Email professionnel"
+
+msgid "Professional email address"
+msgstr "Adresse email professionnelle"
+
+msgid "Company email"
+msgstr "Email de l'entreprise"
+
+msgid "Company email address"
+msgstr "Adresse email de l'entreprise"
+
+msgid "Confirm company email"
+msgstr "Confirmation email de l'entreprise"
+
+msgid "Confirm company email address"
+msgstr "Confirmation de l'adresse email de l'entreprise"
+
+msgid "Optional"
+msgstr "Facultatif"
+
+msgid "Region"
+msgstr "Région"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Edit your profile"
+msgstr "Modifiez votre profil"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Edit my account"
+msgstr "Modifier mon compte"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgid "Enter Shipment"
+msgstr "Saisir une expédition"
+
+msgid "Fill in the information below to complete your transaction"
+msgstr "Remplissez les informations ci-dessous pour finaliser votre transaction"
+
+msgid "Fill in the information below and search for carriers available for your shipment"
+msgstr "Remplissez  les informations ci-dessous puis rechercher les transporteurs disponibles pour  votre expédition"
+
+msgid "Start"
+msgstr "Commencer"
+
+msgid "shipment"
+msgstr "l'expédition"
+
+msgid "Shipment"
+msgstr "Expédition"
+
+msgid "How it"
+msgstr "Comment ça"
+
+msgid "works"
+msgstr "fonctionne"
+
+msgid "Departure"
+msgstr "Départ"
+
+msgid "Destination"
+msgstr "Destination"
+
+msgid "Information on the item to be shipped"
+msgstr "Informations objet à expédier"
+
+msgid "Object type to be shipped"
+msgstr "Type d'objet à expédier"
+
+msgid "Contents"
+msgstr "Contenu"
+
+msgid "Enter the contents of your shipment here"
+msgstr "Saisir le contenu de votre expédition ici"
+
+msgid "The length, width and height (in cm)"
+msgstr "La longueur, la largeur et la hauteur (en cm)"
+
+msgid "l(cm)"
+msgstr "L(cm)"
+
+msgid "w(cm)"
+msgstr "l(cm)"
+
+msgid "h(cm)"
+msgstr "h(cm)"
+
+msgid "Weight"
+msgstr "Poids"
+
+msgid "The weight of the item to be shipped (in kg)"
+msgstr "Le poids de l'objet à expédier (en kg)"
+
+msgid "Picture"
+msgstr "Illustration"
+
+msgid "I acknowledge having taken the list of"
+msgstr "Je reconnais avoir pris de la liste des"
+
+msgid "objects prohibited for transport"
+msgstr "objets prohibés pour le transport"
+
+msgid "Add an image of your objects"
+msgstr "Ajouter une image de vos objets"
+
+msgid "Finalize transaction"
+msgstr "Finaliser la transaction"
+
+msgid "How it works"
+msgstr "Comment ça fonctionne"
+
+msgid "Modification of the shipment"
+msgstr "Modification de l'expédition"
+
+msgid "Modify the information below and then search again for the carriers available for your shipment"
+msgstr "Modifiez les informations ci-dessous puis rechercher à nouveau les transporteurs disponibles pour votre expédition"
+
+msgid "Cancel change"
+msgstr "Annuler la modification"
+
+msgid "Carrier"
+msgstr "Transporteur"
+
+msgid "Carriers"
+msgstr "Transporteurs"
+
+msgid "Edit shipment"
+msgstr "Modifier l'expédition"
+
+msgid "Fence"
+msgstr "Cloturer"
+
+msgid "Enter a transport offer"
+msgstr "Saisir une offre de transport"
+
+msgid "Fill in the information below and then publish your transport offer"
+msgstr "Remplissez les informations ci-dessous puis publier votre offre de transport"
+
+msgid "transport_offer_str_start"
+msgstr "Offre de"
+
+msgid "transport_offer_str_end"
+msgstr "transport"
+
+msgid "Offer deadline"
+msgstr "Date limite offre"
+
+msgid "Type(s) of object(s) being transported"
+msgstr "Type(s) d'objet(s) transporté(s)"
+
+msgid "Max length, width and height (in cm)"
+msgstr "Longueur, la largeur et la hauteur max (en cm)"
+
+msgid "Max dimensions"
+msgstr "Dimensions max"
+
+msgid "Max weight"
+msgstr "Poids max"
+
+msgid "The maximum weight (in kg)"
+msgstr "Le poids maximal (en kg)"
+
+msgid "Transport information"
+msgstr "Informations transport"
+
+msgid "Cost"
+msgstr "Coût"
+
+msgid "Modification of the transport offer"
+msgstr "Modification de l'offre de transport"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Cancel Edit"
+msgstr "Annuler la modification"
+
+msgid "Object(s) transported"
+msgstr "Objet(s) transporté(s)"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Shipments"
+msgstr "Expéditions"
+
+msgid "No reviews"
+msgstr "Aucun avis"
+
+msgid "Length"
+msgstr "Longueur"
+
+msgid "Width"
+msgstr "Largeur"
+
+msgid "Height"
+msgstr "Hauteur"
+
+msgid "Max length"
+msgstr "Longueur max"
+
+msgid "Max width"
+msgstr "Largeur max"
+
+msgid "Max height"
+msgstr "Hauteur max"
+
+msgid "Give an reviews"
+msgstr "Donner un avis"
+
+msgid "Give your reviews"
+msgstr "Donnez votre avis"
+
+msgid "Update offer"
+msgstr "Modifier l'offre"
+
+msgid "Evaluations of the offer"
+msgstr "Evaluations de l'offre"
+
+msgid "Package_cost"
+msgstr "Forfait"
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Currency"
+msgstr "Dévise"
+
+msgid "Publish offer"
+msgstr "Publier l'offre"
+
+msgid "Confirmation of transaction"
+msgstr "Confirmation de la transaction"
+
+msgid "Do you really want to perform this transaction"
+msgstr "Voulez vous vraiment éffectuer cette transaction"
+
+msgid "Already a member"
+msgstr "Déjà membre"
+
+msgid "Office"
+msgstr "Fonction"
+
+msgid "Social Reasons"
+msgstr "Raisons sociales"
+
+msgid "Enter your message here"
+msgstr "Saisissez votre message ici"
+
+msgid "Enter your comment here"
+msgstr "Saisissez votre commmentaire ici"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Send"
+msgstr "Envoyer"
+
+msgid "Please answer all questions"
+msgstr "Veuillez s'il vous plait répondre à toutes les questions"
+
+msgid "Unsatisfied"
+msgstr "Insatisfait"
+
+msgid "Very satisfied"
+msgstr "Très satisfait"
+
+msgid "Leave a message"
+msgstr "Laisser un commentaire"
+
+msgid "Evaluation globale"
+msgstr "Evaluation globale"
+
+msgid "Expensive"
+msgstr "Onéreux"
+
+msgid "Economic"
+msgstr "Economique"
+
+msgid "Delivery time"
+msgstr "Délai de livraison"
+
+msgid "Délais de livraison"
+msgstr "Délai de livraison"
+
+msgid "State of objects"
+msgstr "Etat des objets"
+
+msgid "Proper"
+msgstr "Conforme"
+
+msgid "Improper"
+msgstr "Non conforme"
+
+msgid "Items delivered"
+msgstr "Objets livrés"
+
+msgid "Item delivered"
+msgstr "Objet livré"
+
+msgid "No evaluation"
+msgstr "Aucune évaluation"
+
+msgid "Add a comment"
+msgstr "Ajouter a commentaire"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Comment evaluation"
+msgstr "Commenter l'évaluation"
+
+msgid "Answer"
+msgstr "Répondre"
+
+msgid "Enter your answer here"
+msgstr "Saisissez votre réponse ici"
+
+msgid "Evaluate/Close"
+msgstr "Evaluer/Cloturer"
+
+msgid "Reviews"
+msgstr "Avis"
+
+msgid "reviews"
+msgstr "avis"
+
+msgid "has evaluated"
+msgstr "a évalué il y a"
+
+msgid "has commented"
+msgstr "a commenté il y a"
+
+msgid "ago"
+msgstr ""
+
+msgid "Comments"
+msgstr "Commentaires"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Deadline"
+msgstr "Date limite"
+
+msgid "Mode of transport"
+msgstr "Mode de transport"
+
+msgid "Types of objects accepted by the carrier"
+msgstr "Types d'objets acceptés par le tranporteur"
+
+msgid "No offers match your criteria"
+msgstr "Aucune offre valide ne correspond à vos critères"
+
+msgid "Validate selection"
+msgstr "Valider la selection"
+
+msgid "Shipments in search of carriers"
+msgstr "Les expéditions en recherche de transporteurs"
+
+msgid "No unsatisfied shipment matches your criteria"
+msgstr "Aucune expédition non satisfaite ne correspond à vos critères"
+
+msgid "Shipments in search of carriers that may interest you"
+msgstr "Les expéditions en recherche de transporteurs pouvant vous intéresser"
+
+msgid "Fill in the information below to obtain your password"
+msgstr "Remplissez les informations ci-dessous nécessaires pour l'obtention de votre mot de passe"
+
+msgid "Your test question"
+msgstr "Votre question test"
+
+msgid "Password send succesfully"
+msgstr "Mot de passe envoyé avec succès"
+
+msgid "We have taken your request for password communication into account"
+msgstr "Nous avons bien pris en compte votre demande de communication de mot de passe"
+
+msgid "Your login credentials have been sent to you by e-mail to the e-mail address of your account"
+msgstr "Vos identifiants de connexion vous ont été envoyés par courrier electronique à l'adresse email de votre compte"
+
+msgid "Send error"
+msgstr "Erreur d'envoi"
+
+msgid "We could not send you your information by e-mail because an error occurred during the process"
+msgstr "Nous n'avons pas pu vous envoyer vos informations par courrier electronique car une erreur est survenue pendant le processus"
+
+msgid "Confirmation of cancellation of the shipment"
+msgstr "Confirmation de l'annulation de l'expédition"
+
+msgid "You are about to cancel your shipment"
+msgstr "Vous êtes sur le point d'annuler votre expédition"
+
+msgid "Do you really want to continue"
+msgstr "Voulez-vous vraiment continuer"
+
+msgid "Confirmation of Expedition Closing"
+msgstr "Confirmation de la cloture de l'expédition"
+
+msgid "You are about to close this expedition"
+msgstr "Vous êtes sur le point de cloturer cette expédition"
+
+msgid "View/Edit"
+msgstr "Consulter/Modifier"
+
+msgid "View/Edit/Close"
+msgstr "Consulter/Modifier/Cloturer"
+
+msgid "View"
+msgstr "Consulter"
+
+msgid "Reset your password"
+msgstr "Modifiez votre mot de passe"
+
+msgid "Fill in the information below to change your password"
+msgstr "Remplissez les informations ci-dessous nécessaires pour modifier votre mot de passe"
+
+msgid "Current Password"
+msgstr "Mot de passe actuel"
+
+msgid "Confirm New Password"
+msgstr "Confirmer nouveau mot de passe"
+
+msgid "Deadline for the validity of the offer"
+msgstr "Date limite de validité de l'offre"
+
+msgid "No valid offer from"
+msgstr "Aucune offre valide au départ de"
+
+msgid "No valid offer to"
+msgstr "Aucune offre valide à destination de"
+
+msgid "Select"
+msgstr "Selectionner"
+
+msgid "Your request has been registered"
+msgstr "Votre demande a été enregistrée"
+
+msgid "You can change it"
+msgstr "Vous pouvez la modifier"
+
+msgid "here"
+msgstr "ici"
+
+msgid "or search again later"
+msgstr "ou effectuer une nouvelle recherche ultérieurement"
+
+msgid "The carriers selected for your shipment"
+msgstr "Les transporteurs sélectionnés pour votre envoi"
+
+msgid "from"
+msgstr "de"
+
+msgid "to"
+msgstr "vers"
+
+msgid "Cost of transport"
+msgstr "Coût du transport"
+
+msgid "Cancel carrier if no transaction with him"
+msgstr "Annuler le transporteur si pas de transaction avec lui"
+
+msgid "Give your reviews if transaction carried out"
+msgstr "Donnez votre avis si transaction effectuée"
+
+msgid "Evaluate"
+msgstr "Evaluer"
+
+msgid "View evaluations"
+msgstr "Consulter les évaluations"
+
+msgid "Verification of Identity in Progress"
+msgstr "Verification de l'identité en cours"
+
+msgid "M"
+msgstr "Mr."
+
+msgid "No carrier selected for the moment"
+msgstr "Aucun transporteur selectionnés pour le moment"
+
+msgid "Confirm transaction closure"
+msgstr "Confirmation de la fermeture de la transaction"
+
+msgid "You are about to terminate the transaction with this carrier"
+msgstr "Vous êtes sur le point de mettre un terme à la transaction avec ce transporteur"
+
+msgid "Unknown user"
+msgstr "Utilisateur inconnu"
+
+msgid "Incorrect password"
+msgstr "Mot de passe incorrect"
+
+msgid "Username or password incorrect"
+msgstr "Pseudo ou mot de passe incorrect"
+
+msgid "Enter your username and your password"
+msgstr "Saisissez votre pseudo et votre mot de passe"
+
+msgid "Unable to cancel your shipment"
+msgstr "Impossible d'annuler votre expédition"
+
+msgid "Shipping canceled successfully"
+msgstr "Expédition annulée avec succès"
+
+msgid "Unable to close your shipment"
+msgstr "Impossible de cloturer votre expédition"
+
+msgid "Shipping successfully closed"
+msgstr "Expédition cloturée avec succès"
+
+msgid "Your message has been send succesfully"
+msgstr "Votre message a été envoyé avec succès"
+
+msgid "Error sending. Verify the information and try again"
+msgstr "Erreur lors de l'envoi. Verifier les informations puis réessayer à nouveau"
+
+msgid "Unable to add evaluation. An error has occurred"
+msgstr "Impossible d'ajouter votre evaluation. Une erreur s'est produite"
+
+msgid "Offer evaluated and successfully closed"
+msgstr "Offre evaluée et cloturée avec succès"
+
+msgid "Unable to add comment to this review"
+msgstr "Impossible d'ajouter le commentaire à cette evaluation"
+
+msgid "Comment added successfully"
+msgstr "Commentaire ajouté avec succès"
+
+msgid "Unable to add response to this comment"
+msgstr "Impossible d'ajouter la réponse à ce commentaire"
+
+msgid "Successfully replied"
+msgstr "Réponse ajoutée avec succès"
+
+msgid "Unable to close transaction"
+msgstr "Impossible de fermer la transaction"
+
+msgid "Transaction close successfully"
+msgstr "Transaction fermer avec succès"
+
+msgid "news"
+msgstr "actualites"
+
+msgid "Activation of your account failed"
+msgstr "L'activation de votre compte a échoué"
+
+msgid "Your account have been succefully activated"
+msgstr "Votre compte a été activé avec succès"
+
+msgid "activate-your-account"
+msgstr "activer-votre-compte"
+
+msgid "Your account is not activated"
+msgstr "Votre compte n'est activé"
+
+msgid "We could not verify your security code. Verify it and try again"
+msgstr "Nous n'avons pas pu verifier votre code de sécurité. Verifiez le puis essayez à nouveau"
+
+msgid "A user with this username already exists, please change it"
+msgstr "Un utilisateur avec ce pseudo existe déjà veuillez le modifier"
+
+msgid "A user with this email already exists please change it"
+msgstr "Un utilisateur avec cet email existe déjà veuillez le modifier"
+
+msgid "Security code not found"
+msgstr "Code de sécurité introuvable"
+
+msgid "The information entered is incorrect(at least one piece of information is erroneous, incomplete or missing). Please try again."
+msgstr "Les informations saisies sont incorrectes (au moins une information est érronée, incomplète ou manquante). Veuillez recommencer votre saisie."
+
+msgid "Login credentials"
+msgstr "Identifiants de connexion"
+
+msgid "Hello"
+msgstr "Bonjour"
+
+msgid "You wish to receive your password, we remind you below your login credentials"
+msgstr "Vous avez souhaité recevoir votre mot de passe, nous vous rappelons ci-dessous vos identifiants de connexion"
+
+msgid "For safety reasons, we advise you to change this regularly"
+msgstr "Pour des raisons de sécurité, nous vous conseillons de changer régulièrement ce dernier"
+
+msgid "Thank you for your confidence, we remain at your disposal for any additional information"
+msgstr "Vous remerciant de votre confiance, nous restons à votre disposition pour toute information complémentaire"
+
+msgid "Cordially"
+msgstr "Cordialement"
+
+msgid "The team"
+msgstr "L'équipe"
+
+msgid "Think about the environment before you print this message"
+msgstr "Pensez à l'environnement avant d'imprimer ce message"
+
+msgid "Unable to change password"
+msgstr "Impossible de modifier le mot de passe"
+
+msgid "Welcome in"
+msgstr "Bienvenue dans"
+
+msgid "Please click on"
+msgstr "Veuillez cliquez sur"
+
+msgid "this link"
+msgstr "ce lien"
+
+msgid "to activate your account"
+msgstr "pour activer votre compte"
+
+msgid "Your account has been successfully created. The activation link was sent to you by e-mail to the email address of this account"
+msgstr "Votre compte a été créé avec succès. Le lien d'activation vous a été envoyé par mail à l'adresse email de ce compte"
+
+msgid "confirmation-registration"
+msgstr "confirmation-inscription"
+
+msgid "ACTIVATION OF ACCOUNT"
+msgstr "ACTIVATION DU COMPTE"

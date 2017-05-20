@@ -5,6 +5,7 @@
  */
 
 session_start();
+expire_session();
 if (is_user_logged_in()) {
     get_header();
 
@@ -13,5 +14,5 @@ if (is_user_logged_in()) {
     get_footer();
 }else{
     $_SESSION['redirect_to'] = get_the_permalink();
-    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
+    wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
 }

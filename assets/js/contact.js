@@ -54,11 +54,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir votre adresse email'
+                                prompt: gpdead_translate('Please enter your email address')
                             },
                             {
                                 type: 'email',
-                                prompt: 'Veuillez saisir une adresse email valide'
+                                prompt: gpdeal_translate('Please enter a valid email address')
                             }
                         ]
                     },
@@ -68,7 +68,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir l'objet de votre message."
+                                prompt: gpdeal_translate("Please enter the subject of your message")
                             }
                         ]
                     },
@@ -77,7 +77,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez saisir votre message."
+                                prompt: gpdeal_translate("Please enter your message")
                             }
                         ]
                     }
@@ -100,7 +100,7 @@ $(function () {
                             500: function (xhr) {
                                 $('#contact_form.ui.form').removeClass('loading');
                                 $('#submit_message').removeClass('disabled');
-                                $('#message_error .header').html("Echec d'envoi du message");
+                                $('#message_error .header').html(gpdeal_translate("Failed to send message"));
                                 $('#message_error').show();
                             },
                             400: function (response, textStatus, jqXHR) {
@@ -134,7 +134,7 @@ $(function () {
                         error: function (jqXHR, textStatus, errorThrown) {
                             $('#contact_form.ui.form').removeClass('loading');
                             $('#submit_message').removeClass('disabled');
-                            $('#message_error .header').html("Echec d'envoi du message");
+                            $('#message_error .header').html(gpdeal_translate("Failed to send message"));
                             $('#message_error').show();
                         }
                     });

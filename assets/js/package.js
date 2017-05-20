@@ -94,7 +94,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez préciser le type'
+                                prompt: "Veuillez préciser le type d'objet de votre expédition"
                             }
                         ]
                     },
@@ -103,7 +103,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez preciser les objets de votre courrier/colis'
+                                prompt: 'Veuillez preciser les objets de votre expédition'
                             }
                         ]
                     },

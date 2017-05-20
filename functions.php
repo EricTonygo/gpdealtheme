@@ -71,25 +71,25 @@ function gpdeal_scripts() {
     wp_enqueue_script('datetimepicker_js');
     wp_enqueue_script('hideShowPassword_js');
     wp_enqueue_style('datetimepicker_css');
-    if (is_page(__('inscription', 'gpdealdomain')) || is_page(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))|| is_page(__('mon-compte', 'gpdealdomain') . '/' .__('modifier-le-mot-de-passe', 'gpdealdomain')))
+    if (is_page(__('registration', 'gpdealdomain')) || is_page(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))|| is_page(__('my-account', 'gpdealdomain') . '/' .__('modifier-le-mot-de-passe', 'gpdealdomain')))
     {
         wp_enqueue_script('register_js');
         //wp_enqueue_script('recaptcha_api');
     }
 
-    if (is_page(__('mon-compte', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_page(__('mon-compte', 'gpdealdomain') . '/' . __('expeditions', 'gpdealdomain')) || is_singular('package')) {
+    if (is_page(__('my-account', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')) || is_singular('package')) {
         wp_enqueue_script('package_js');
     }
 
-    if (is_page(__('mon-compte', 'gpdealdomain') . '/' . __('offres-de-transport', 'gpdealdomain') . '/' . __('saisir', 'gpdealdomain')) || is_singular('transport-offer')) {
+    if (is_page(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')) || is_singular('transport-offer')) {
         wp_enqueue_script('transport_offer_js');
     }
 
-    if (is_page(__('nous-contacter', 'gpdealdomain'))) {
+    if (is_page(__('contact-us', 'gpdealdomain'))) {
         wp_enqueue_script('contact_js');
     }
     
-    //if (is_page(__('selectionner-les-offres-de-transport', 'gpdealdomain'))) {
+    //if (is_page(__('select-transport-offers', 'gpdealdomain'))) {
         wp_enqueue_script('select_transport_offers_js');
     //}
     if (is_home() || is_front_page()) {

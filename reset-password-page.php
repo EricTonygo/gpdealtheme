@@ -4,6 +4,7 @@
   Template Name: Reset Password Page
  */
 session_start();
+expire_session();
 if (is_user_logged_in()) {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         gp_reset_password();
@@ -18,7 +19,7 @@ if (is_user_logged_in()) {
     }
 } else {
     $_SESSION['redirect_to'] = get_the_permalink();
-    wp_safe_redirect(get_permalink(get_page_by_path(__('connexion', 'gpdealdomain'))));
+    wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
 }
 
 

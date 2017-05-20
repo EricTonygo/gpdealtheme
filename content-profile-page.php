@@ -66,9 +66,9 @@ if (in_array("particular", $roles)) {
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
-                <a href="<?php echo home_url('/') ?>" class="section"><?php echo get_page_by_path(__('accueil', 'gpdealdomain'))->post_title ?></a>
+                <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
-                <a href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))) ?>" class="section"><?php echo get_page_by_path(__('mon-compte', 'gpdealdomain'))->post_title ?></a>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                 <i class="right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -82,20 +82,18 @@ if (in_array("particular", $roles)) {
         <div class="ui fluid card">
             <div class="content">
                 <div id="block_form_edit" style="display: none">
-                    <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
+                    <p class="required_infos"><span style="color: red;">*</span> <?php _e("Required informations", "gpdealdomain"); ?></p>
                     <div class="ui top attached tabular menu">
-                        <div class="item <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">Particulier</div>
-                        <div class="item <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second">Professionnel/<br class="mobile_br" style="display: none;">Entreprise</div>
+                        <div class="item <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first"><?php _e("Particular", "gpdealdomain"); ?></div>
+                        <div class="item <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second"><?php _e("Professional", "gpdealdomain"); ?>/<br class="mobile_br" style="display: none;"><?php _e("Enterprise", "gpdealdomain"); ?></div>
                     </div>
                     <div class="ui bottom attached tab segment <?php if (in_array("particular", $roles)): ?> active <?php endif ?>" data-tab="first">
-                        <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
+                        <form id='register_form_particular'  method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
 
                             <input  type="hidden" name="role" value="particular" >
-                            <div  class="fields">
-                                <!--                                <div class="four wide field">
-                                                                    <label>Photo de profil </label>
-                                                                </div>-->
+                            <div  class="fields">                               
                                 <div class="sixteen wide field center aligned">
+                                    <div><i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Change your profile picture", "gpdealdomain") ?></span></i></div>
                                     <div id="profile_picture_dimmer" class="ui tiny image">
                                         <div class="ui dimmer">
                                             <div class="content">
@@ -106,7 +104,7 @@ if (in_array("particular", $roles)) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <img id="profile_picture_img" class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>>
+                                        <img id="profile_picture_img" class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>" <?php else: ?> src="<?php echo wp_make_link_relative(get_template_directory_uri()); ?>/assets/images/avatar.png"<?php endif ?>>
                                     </div>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="profile_picture_file" name="profile_picture_file" accept=".jpg,.png,.gif,.jpeg">
@@ -116,29 +114,29 @@ if (in_array("particular", $roles)) {
                             <?php if ($profile_picture_id): ?>
                                 <input type="hidden" name="profile_picture_id" value="<?php echo $profile_picture_id; ?>">
                             <?php endif ?>
-                            <h4 class="ui dividing header">Etat civil</h4>
+                            <h4 class="ui dividing header"><?php _e("Civil status", "gpdealdomain"); ?></h4>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Civilité <span style="color:red;">*</span> </label>
+                                    <label><?php _e("Civility", "gpdealdomain"); ?> <span style="color:red;">*</span> </label>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="inline fields">
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="gender" value="M" <?php if ($gender == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M.</label>
+                                                <input type="radio" name="gender" value="Mr." <?php if ($gender == "Mr."): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mr.", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="gender" value="Mme" <?php if ($gender == "Mme"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mme</label>
+                                                <input type="radio" name="gender" value="Mrs" <?php if ($gender == "Mrs" || $gender == "Mme"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mrs", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="gender" value="Mlle" <?php if ($gender == "Mlle"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mlle</label>
+                                                <input type="radio" name="gender" value="Ms" <?php if ($gender == "Ms" || $gender == "Mlle"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Ms", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                     </div>
@@ -146,124 +144,127 @@ if (in_array("particular", $roles)) {
                             </div>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Prénom <span style="color:red;">*</span></label>
+                                    <label><?php _e("First name", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="first_name" placeholder="Prénom" value="<?php echo $first_name ?>">
+                                    <input type="text" name="first_name" placeholder="<?php _e("First name", "gpdealdomain"); ?>" value="<?php echo $first_name ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Nom <span style="color:red;">*</span></label>
+                                    <label><?php _e("Last name", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="last_name" placeholder="Nom" value="<?php echo $last_name ?>">
+                                    <input type="text" name="last_name" placeholder="<?php _e("Last name", "gpdealdomain"); ?>" value="<?php echo $last_name ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Pseudo <span style="color:red;">*</span></label>
+                                    <label><?php _e("Username", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="username" placeholder="Pseudo" value="<?php echo $user_login ?>">
+                                    <input type="text" name="username" placeholder="<?php _e("Username", "gpdealdomain"); ?>" value="<?php echo $user_login ?>">
                                 </div>                        
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Date de naissance <span style="color:red;">*</span></label>
-                                    <span style="font-size: 12px; font-style: italic"><?php echo __("Il faut être majeur pour utiliser notre service", "gpdealdomain") ?></span>
+                                    <label><?php _e("Birth date", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
+                                            <span class="tooltiptext"><?php echo __("You must be major to use our services", "gpdealdomain") ?></span>
+                                        </i> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="ui calendar" >
                                         <div class="ui input left icon">
                                             <i class="calendar icon"></i>
-                                            <input id="birthdate" type="text" name='birthdate' placeholder="Date de naissance" value="<?php echo $birthdate ?>">
+                                            <input id="birthdate" type="text" name='birthdate' placeholder="<?php _e("Birth date", "gpdealdomain"); ?>" value="<?php echo $birthdate ?>">
                                         </div>
                                     </div>
                                 </div>      
                             </div>
 
-                            <h4 class="ui dividing header">Adresse</h4>
+                            <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Numéro et rue <span style="color:red;">*</span></label>
+                                    <label><?php _e("Number and Street", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="number_street" placeholder="Rue et numéro de votre adresse" value="<?php echo $number_street ?>">
+                                    <input type="text" name="number_street" placeholder="<?php _e("Street and number of your address", "gpdealdomain"); ?>" value="<?php echo $number_street ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Complément adresse </label>
+                                    <label><?php _e("Additional address", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="complement_address" placeholder="Complément adresse" value="<?php echo $complement_address ?>">
+                                    <input type="text" name="complement_address" placeholder="<?php _e("Additional address", "gpdealdomain"); ?>" value="<?php echo $complement_address ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Localité <span style="color:red;">*</span></label>
+                                    <label><?php _e("Locality", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="ui input icon locality">
                                         <!--<i class="marker icon locality" locality_id='locality'></i>-->
                                         <i class="remove link icon locality" style="display: none;" locality_id='locality'></i>
-                                        <input id="locality" type="text" class="locality" name='locality' placeholder="Votre localité" value="<?php echo $echo_locality ?>">
+                                        <input id="locality" type="text" class="locality" name='locality' placeholder="<?php _e("Your locality", "gpdealdomain"); ?>" value="<?php echo $echo_locality ?>">
                                     </div>
                                 </div>                        
                             </div>                            
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Téléphone mobile <span style="color:red;">*</span></label>
+                                    <label><?php _e("Mobile phone", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
+                                            <span class="tooltiptext"><?php echo __("Number in international format with country code", "gpdealdomain") ?></span>
+                                        </i> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="tel" name="mobile_phone_number" placeholder="Numéro de téléphone mobile" value="<?php echo $mobile_phone_number ?>">
+                                    <input type="tel" name="mobile_phone_number" placeholder="<?php _e("Mobile phone number", "gpdealdomain"); ?>" value="<?php echo $mobile_phone_number ?>">
                                 </div>
                             </div>
 
                             <div  class="fields">
                                 <div class="four wide field">
-                                    <label>Confirmation téléphone mobile <span style="color:red;">*</span></label>
+                                    <label><?php _e("Confirm mobile phone", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="tel" name="mobile_phone_number_confirm" placeholder="Confirmation Numéro de téléphone mobile" value="<?php echo $mobile_phone_number ?>">
+                                    <input type="tel" name="mobile_phone_number_confirm" placeholder="<?php _e("Mobile phone confirmation", "gpdealdomain"); ?>" value="<?php echo $mobile_phone_number ?>">
                                 </div>
                             </div>
-                            <h4 class="ui dividing header">Informations de connexion</h4>
+                            <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Adresse email <span style="color:red;">*</span></label>
+                                    <label><?php _e("E-mail", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email" placeholder="Adresse email" value="<?php echo $user_email ?>">
+                                    <input type="email" name="email" placeholder="<?php _e("E-mail address", "gpdealdomain"); ?>" value="<?php echo $user_email ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Confirmation adresse email <span style="color:red;">*</span></label>
+                                    <label><?php _e("E-mail confirmation", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email_confirm" placeholder="Confirmation de l'adresse email" value="<?php echo $user_email ?>">
+                                    <input type="email" name="email_confirm" placeholder="<?php _e("E-mail address confirmation", "gpdealdomain"); ?>" value="<?php echo $user_email ?>">
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">Informations de sécurité</h4>
+                            <h4 class="ui dividing header"><?php _e("Security information", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Question test <span style="color:red;">*</span></label>
+                                    <label><?php _e("Test question", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <select name="test_question" class="ui search fluid dropdown">
-                                        <option value="">Selectionner une question </option>
+                                        <option value=""><?php _e("Select a test question", "gpdealdomain"); ?> </option>
                                         <?php
                                         $question1s = new WP_Query(array('post_type' => 'question', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'ASC'));
                                         if ($question1s->have_posts()) {
@@ -284,26 +285,26 @@ if (in_array("particular", $roles)) {
                             </div>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Reponse à la question test <span style="color:red;">*</span></label>
+                                    <label><?php _e("Answer to test question", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="answer_test_question" placeholder="Reponse à la question test" value="<?php echo $answer_test_question ?>">
+                                    <input type="text" name="answer_test_question" placeholder="<?php _e("Answer to test question", "gpdealdomain"); ?>" value="<?php echo $answer_test_question ?>">
                                 </div>                              
                             </div>
 
                             <div class="inline field">
                                 <div class="ui checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications == 'yes'): ?> checked="checked" <?php endif ?>>
-                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
+                                    <label class="label_terms_use"><?php _e("I would like to be informed about the products and services of Global Parcel Deal. I can change this setting at any time in the management of my profile information", "gpdealdomain"); ?>.</label>
                                 </div>
                             </div>
                             <div class="fields"> 
                                 <div id="identity_file_bloc" class="seven wide field ">
                                     <?php if ($identity_file_id): ?>
-                                        <div id="identity_file_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_get_attachment_url($identity_file_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
-                                        <div id="identity_file_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                        <div id="identity_file_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php else: ?>
-                                        <div id="identity_file_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php endif ?>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="identity_file" name="identity_file">
@@ -318,7 +319,7 @@ if (in_array("particular", $roles)) {
                                 <div class="field">
                                     <div id="server_error_message" class="ui negative message" style="display:none">
                                         <i class="close icon"></i>
-                                        <div id="server_error_content" class="header">Internal server error</div>
+                                        <div id="server_error_content" class="header"><?php _e("Internal server error", "gpdealdomain"); ?></div>
                                     </div>
                                     <div id="error_name_message" class="ui error message" style="display: none">
                                         <i class="close icon"></i>
@@ -331,15 +332,15 @@ if (in_array("particular", $roles)) {
                             <?php endif ?>
                             <div class="field">                                
                                 <input type="hidden" name='edit_account' value='no'>
-                                <button id="submit_edit_account_particular" class="ui right floated green button" type="submit">Modifier maintenant</button>
+                                <button id="submit_edit_account_particular" class="ui right floated green button" type="submit"><?php _e("Edit now", "gpdealdomain"); ?></button>
                             </div>
                         </form>
                     </div>
                     <div class="ui bottom attached tab segment <?php if (in_array("professional", $roles) || in_array("enterprise", $roles)): ?> active <?php endif ?>" data-tab="second"> 
-                        <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('inscription', 'gpdealdomain') . '/' . __('recapitulatif-du-compte', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data">
+                        <form id='register_form_enterprise' name="register" method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')))); ?>" class="ui form" enctype="multipart/form-data">
                             <div  class="fields">
-                                
                                 <div class="sixteen wide field center aligned">
+                                    <div><i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download your company logo", "gpdealdomain") ?></span></i></div>
                                     <div id="company_logo_dimmer" class="ui tiny image">
                                         <div class="ui dimmer">
                                             <div class="content">
@@ -350,7 +351,7 @@ if (in_array("particular", $roles)) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <img id="company_logo_img" class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_get_attachment_url($company_logo_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/default_logo.png" <?php endif ?>>
+                                        <img id="company_logo_img" class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_make_link_relative(wp_get_attachment_url($company_logo_id)); ?>" <?php else: ?> src="<?php echo wp_make_link_relative(get_template_directory_uri()); ?>/assets/images/default_logo.png" <?php endif ?>>
                                     </div>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="company_logo_file" name="company_logo_file" accept=".jpg,.png,.gif,.jpeg">
@@ -367,118 +368,108 @@ if (in_array("particular", $roles)) {
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input id="checkbox_professional" type="radio" name="role" value="professional" <?php if (in_array("professional", $roles) && !in_array("enterprise", $roles)): ?> checked='checked' <?php endif ?>>
-                                                <label>Professionnel</label>
+                                                <label><?php _e("Professional", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input id="checkbox_enterprise" type="radio" name="role" value="enterprise" <?php if (!in_array("professional", $roles) && in_array("enterprise", $roles)): ?> checked='checked' <?php endif ?>>
-                                                <label>Entreprise</label>
+                                                <label><?php _e("Enterprise", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="ui dividing header">Informations sur l'entreprise </h4>
+                            <h4 class="ui dividing header"><?php _e("Company information", "gpdealdomain"); ?> </h4>
                             <div  class="fields">
                                 <div class="four wide field">
-                                    <label>Nom de la société <span style="color:red;">*</span></label>
+                                    <label><?php _e("Company name", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="company_name" placeholder="Nom de la société" value="<?php echo $company_name_pro ?>">
+                                    <input type="text" name="company_name" placeholder="<?php _e("Company name", "gpdealdomain"); ?>" value="<?php echo $company_name_pro ?>">
                                 </div>                              
                             </div>
 
                             <div  class="fields">
                                 <div class="four wide field">
-                                    <label>Forme juridique <span style="color:red;">*</span></label>
+                                    <label><?php _e("Legal form", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="company_legal_form" placeholder="Forme juridique de la société" value="<?php echo $company_legal_form_pro ?>">
+                                    <input type="text" name="company_legal_form" placeholder="<?php _e("Legal form of the company", "gpdealdomain"); ?>" value="<?php echo $company_legal_form_pro ?>">
                                 </div>                              
                             </div>
 
                             <div  class="fields">
                                 <div class="four wide field">
-                                    <label>Numéro d'identification de la société </label>
+                                    <label><?php _e("Company Identification Number", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="company_identity_number" placeholder="Numéro d'identification de la société" value="<?php echo $company_identity_number_pro ?>">
+                                    <input type="text" name="company_identity_number" placeholder="<?php _e("Company Identification Number", "gpdealdomain"); ?>" value="<?php echo $company_identity_number_pro ?>">
                                 </div>
                             </div>
 
                             <div  class="fields">
                                 <div class="four wide field">
-                                    <label>Numéro individuel d'identification de la TVA </label>
+                                    <label><?php _e("Individual VAT identification number", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="company_identity_tva_number" placeholder="Numéro individuel d'identification de la TVA" value="<?php echo $company_identity_tva_number_pro ?>">
+                                    <input type="text" name="company_identity_tva_number" placeholder="<?php _e("Individual VAT identification number", "gpdealdomain"); ?>" value="<?php echo $company_identity_tva_number_pro ?>">
                                 </div>
                             </div>
-
-
-                            <!--                                                        <div  class="fields">
-                                                                                        <div class="four wide field">
-                                                                                            <label>Pièces Jointes </label>
-                                                                                        </div>
-                                                                                        <div class="twelve wide field">
-                                                                                            <input type="file" name="company_attachements"  multiple="multiple">
-                                                                                        </div>
-                                                                                    </div>-->
-
-                            <h4 class="ui dividing header">Adresse</h4>
+                            <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Numéro et rue <span style="color:red;">*</span></label>
+                                    <label><?php _e("Number and Street", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="number_street" placeholder="Rue et numéro de votre adresse" value="<?php echo $number_street_pro ?>">
+                                    <input type="text" name="number_street" placeholder="<?php _e("Street and number of your address", "gpdealdomain"); ?>" value="<?php echo $number_street_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Complément adresse </label>
+                                    <label><?php _e("Additional address", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="complement_address" placeholder="Complément adresse" value="<?php echo $complement_address_pro ?>">
+                                    <input type="text" name="complement_address" placeholder="<?php _e("Additional address", "gpdealdomain"); ?>" value="<?php echo $complement_address_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Localité <span style="color:red;">*</span></label>
+                                    <label><?php _e("Locality", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="ui input icon locality_pro">
                                         <!--<i class="marker icon locality_pro" locality_id='locality_pro'></i>-->
                                         <i class="remove link icon locality_pro" style="display: none;" locality_id='locality_pro'></i>
-                                        <input id="locality_pro" type="text" class="locality" name='locality_pro' placeholder="Votre localité" value="<?php echo $echo_locality_pro ?>">
+                                        <input id="locality_pro" type="text" class="locality" name='locality_pro' placeholder="<?php _e("Your locality", "gpdealdomain"); ?>" value="<?php echo $echo_locality_pro ?>">
                                     </div>
                                 </div>                        
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Code postal <span style="color:red;">*</span></label>
+                                    <label><?php _e("Zip code", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="postal_code" placeholder="Code postal" value="<?php echo $postal_code_pro ?>">
+                                    <input type="text" name="postal_code" placeholder="<?php _e("Zip code", "gpdealdomain"); ?>" value="<?php echo $postal_code_pro ?>">
                                 </div>                              
                             </div>
 
-
                             <div id="fields_home_phone_number" class="fields">
                                 <div class="four wide field">
-                                    <label>Téléphone fixe <span style="color:red;">*</span></label>
+                                    <label><?php _e("Phone", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
+                                            <span class="tooltiptext"><?php echo __("Number in international format with country code", "gpdealdomain") ?></span>
+                                        </i> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="tel" name="home_phone_number" placeholder="Numéro de téléphone fixe" value="<?php echo $home_phone_number_pro ?>">
+                                    <input type="tel" name="home_phone_number" placeholder="<?php _e("Phone number", "gpdealdomain"); ?>" value="<?php echo $home_phone_number_pro ?>">
                                 </div>                        
                             </div>
 
-                            <h4 class="ui dividing header">Représentant 1 </h4>
+                            <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 1 </h4>
                             <div class="fields">
                                 <div class="four wide field">
                                     <label>Civilité <span style="color:red;">*</span> </label>
@@ -487,20 +478,20 @@ if (in_array("particular", $roles)) {
                                     <div class="inline fields">
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative1_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M.</label>
+                                                <input type="radio" name="civility_representative1" value="Mr." <?php if ($civility_representative1_pro == "Mr."): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mr.", "gpdealdomain"); ?>.</label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mme" <?php if ($civility_representative1_pro == "Mme"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mme</label>
+                                                <input type="radio" name="civility_representative1" value="Mrs" <?php if ($civility_representative1_pro == "Mrs" || $civility_representative1_pro == "Mme"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mrs", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mlle" <?php if ($civility_representative1_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mlle</label>
+                                                <input type="radio" name="civility_representative1" value="Ms" <?php if ($civility_representative1_pro == "Ms" || $civility_representative1_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Ms", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                     </div>
@@ -508,72 +499,74 @@ if (in_array("particular", $roles)) {
                             </div>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Prénom </label>
+                                    <label><?php _e("First name", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="first_name_representative1" placeholder="Prénom" value="<?php echo $first_name_representative1_pro ?>">
+                                    <input type="text" name="first_name_representative1" placeholder="<?php _e("First name", "gpdealdomain"); ?>" value="<?php echo $first_name_representative1_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Nom <span style="color:red;">*</span></label>
+                                    <label><?php _e("Last name", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="last_name_representative1" placeholder="Nom" value="<?php echo $last_name_representative1_pro ?>">
+                                    <input type="text" name="last_name_representative1" placeholder="<?php _e("Last name", "gpdealdomain"); ?>" value="<?php echo $last_name_representative1_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Fonction dans l'entreprise <span style="color:red;">*</span></label>
+                                    <label><?php _e("Position in the company", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="function_representative1" placeholder="Fonction dans l'entreprise" value="<?php echo $function_representative1_pro ?>">
+                                    <input type="text" name="function_representative1" placeholder="F<?php _e("Position in the company", "gpdealdomain"); ?>" value="<?php echo $function_representative1_pro ?>">
                                 </div>                        
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Email professionnel <span style="color:red;">*</span></label>
+                                    <label><?php _e("Professional email", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email_representative1" placeholder="Adresse email professionnelle" value="<?php echo $email_representative1_pro ?>">
+                                    <input type="email" name="email_representative1" placeholder="<?php _e("Professional email professional", "gpdealdomain"); ?>" value="<?php echo $email_representative1_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Téléphone mobile </label>
+                                    <label><?php _e("Mobile phone", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
+                                            <span class="tooltiptext"><?php echo __("Number in international format with country code", "gpdealdomain") ?></span>
+                                        </i> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="tel" name="mobile_phone_number_representative1" placeholder="Numéro de téléphone mobile" value="<?php echo $mobile_phone_number_representative1_pro ?>">
+                                    <input type="tel" name="mobile_phone_number_representative1" placeholder="<?php _e("Mobile phone number", "gpdealdomain"); ?>" value="<?php echo $mobile_phone_number_representative1_pro ?>">
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
+                            <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 2 (<?php _e("Optional", "gpdealdomain"); ?>)</h4>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Civilité </label>
+                                    <label><?php _e("Civility", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
                                     <div class="inline fields">
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="M" <?php if ($civility_representative2_pro == "M"): ?> checked='checked' <?php endif ?>>
-                                                <label>M.</label>
+                                                <input type="radio" name="civility_representative1" value="Mr." <?php if ($civility_representative2_pro == "Mr."): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mr.", "gpdealdomain"); ?>.</label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mme" <?php if ($civility_representative2_pro == "Mme"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mme</label>
+                                                <input type="radio" name="civility_representative1" value="Mrs" <?php if ($civility_representative2_pro == "Mrs" || $civility_representative2_pro == "Mme"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Mrs", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="civility_representative1" value="Mlle" <?php if ($civility_representative2_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
-                                                <label>Mlle</label>
+                                                <input type="radio" name="civility_representative1" value="Ms" <?php if ($civility_representative2_pro == "Mrs" || $civility_representative2_pro == "Mlle"): ?> checked='checked' <?php endif ?>>
+                                                <label><?php _e("Ms", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                     </div>
@@ -581,78 +574,80 @@ if (in_array("particular", $roles)) {
                             </div>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Prénom </label>
+                                    <label><?php _e("First name", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="first_name_representative2" placeholder="Prénom" value="<?php echo $first_name_representative2_pro ?>">
+                                    <input type="text" name="first_name_representative2" placeholder="<?php _e("First name", "gpdealdomain"); ?>" value="<?php echo $first_name_representative2_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Nom </label>
+                                    <label><?php _e("Last name", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="last_name_representative2" placeholder="Nom" value="<?php echo $last_name_representative2_pro ?>">
+                                    <input type="text" name="last_name_representative2" placeholder="<?php _e("Last name", "gpdealdomain"); ?>" value="<?php echo $last_name_representative2_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Fonction dans la société </label>
+                                    <label><?php _e("Position in the company", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="function_representative2" placeholder="Fonction dans la société" value="<?php echo $function_representative2_pro ?>">
+                                    <input type="text" name="function_representative2" placeholder="<?php _e("Position in the company", "gpdealdomain"); ?>" value="<?php echo $function_representative2_pro ?>">
                                 </div>                        
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Email professionnel <span style="color:red;">*</span></label>
+                                    <label><?php _e("Professional email", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email_representative2" placeholder="Adresse email professionnelle" value="<?php echo $email_representative2_pro ?>">
+                                    <input type="email" name="email_representative2" placeholder="<?php _e("Professional email address", "gpdealdomain"); ?>" value="<?php echo $email_representative2_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Téléphone mobile</label>
+                                    <label><?php _e("Mobile phone", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
+                                            <span class="tooltiptext"><?php echo __("Number in international format with country code", "gpdealdomain") ?></span>
+                                        </i></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="tel" name="mobile_phone_number_representative2" placeholder="Numéro de téléphone mobile" value="<?php echo $mobile_phone_number_representative2_pro ?>">
+                                    <input type="tel" name="mobile_phone_number_representative2" placeholder="<?php _e("Mobile phone number", "gpdealdomain"); ?>" value="<?php echo $mobile_phone_number_representative2_pro ?>">
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">Informations de connexion</h4>
+                            <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Email de la société <span style="color:red;">*</span></label>
+                                    <label><?php _e("Company email", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email_pro" placeholder="Adresse email de la société" value="<?php echo $user_email_pro ?>">
+                                    <input type="email" name="email_pro" placeholder="<?php _e("Company email address", "gpdealdomain"); ?>" value="<?php echo $user_email_pro ?>">
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Confirmer email de la société <span style="color:red;">*</span></label>
+                                    <label><?php _e("Confirm company email", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="email" name="email_confirm_pro" placeholder="Adresse email" value="<?php echo $user_email_pro; ?>">
+                                    <input type="email" name="email_confirm_pro" placeholder="<?php _e("Confirm company email address", "gpdealdomain"); ?>" value="<?php echo $user_email_pro; ?>">
                                 </div>
                             </div>
 
-                            <h4 class="ui dividing header">Informations de sécurité</h4>
+                            <h4 class="ui dividing header"><?php _e("Security information", "gpdealdomain"); ?></h4>
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Question test <span style="color:red;">*</span></label>
+                                    <label><?php _e("Test question", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <select name="test_question_pro" class="ui search fluid dropdown">
-                                        <option value="">Selectionner une question </option>
+                                        <option value=""><?php _e("Select a test question", "gpdealdomain"); ?>  </option>
                                         <?php
                                         $question2s = new WP_Query(array('post_type' => 'question', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'ASC'));
                                         if ($question2s->have_posts()) {
@@ -673,33 +668,26 @@ if (in_array("particular", $roles)) {
                             </div>
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label>Reponse à la question test <span style="color:red;">*</span></label>
+                                    <label><?php _e("Answer to test question", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                                 </div>
                                 <div class="twelve wide field">
-                                    <input type="text" name="answer_test_question_pro" placeholder="Reponse à la question test" value="<?php echo $answer_test_question_pro ?>">
+                                    <input type="text" name="answer_test_question_pro" placeholder="<?php _e("Answer to test question", "gpdealdomain"); ?>" value="<?php echo $answer_test_question_pro ?>">
                                 </div>                              
                             </div>
 
                             <div class="inline field">
                                 <div class="ui checkbox">
-                                    <input type="checkbox" name="terms" <?php if ($terms_pro == 'on' || is_user_logged_in()): ?> checked="checked" <?php endif ?>> 
-                                    <label class="label_terms_use"><span style="color:red;">*</span> J'ai reçu les informations sur l'inscription, les <a href="#">conditions d'utilisation</a>, les transactions et la protection des données sur ce site web.</label>
-                                </div>
-                            </div>
-
-                            <div class="inline field">
-                                <div class="ui checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'yes'): ?> checked="checked" <?php endif ?>>
-                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
+                                    <label class="label_terms_use"><?php _e("I would like to be informed about the products and services of Global Parcel Deal. I can change this setting at any time in the management of my profile information", "gpdealdomain"); ?>.</label>
                                 </div>
                             </div>
                             <div class="fields"> 
                                 <div id="identity_file_pro_bloc" class="field ">
                                     <?php if ($identity_file_pro_id): ?>
-                                        <div id="identity_file_pro_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_get_attachment_url($identity_file_pro_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>
-                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                        <div id="identity_file_pro_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_pro_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php else: ?>
-                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> Je souhaite faire verifier mon identité</div>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php endif ?>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="identity_file_pro" name="identity_file_pro">
@@ -714,7 +702,7 @@ if (in_array("particular", $roles)) {
                                 <div class="field">
                                     <div id="server_error_message" class="ui negative message" style="display:none">
                                         <i class="close icon"></i>
-                                        <div id="server_error_content" class="header">Internal server error</div>
+                                        <div id="server_error_content" class="header"><?php _e("Internal server error", "gpdealdomain"); ?></div>
                                     </div>
                                     <div id="error_name_message" class="ui error message" style="display: none">
                                         <i class="close icon"></i>
@@ -726,7 +714,7 @@ if (in_array("particular", $roles)) {
                                 </div>
                             <?php endif ?>
                             <input type="hidden" name='edit_account' value='no'>
-                            <button id="submit_edit_account_enterprise" class="ui right floated green button" type="submit">Modifier maintenant</button>
+                            <button id="submit_edit_account_enterprise" class="ui right floated green button" type="submit"><?php _e("Edit now", "gpdealdomain"); ?></button>
                         </form>
                     </div>
                 </div>
@@ -736,22 +724,22 @@ if (in_array("particular", $roles)) {
                         <div class='ui form recap'>
                             <div  class="fields">
                                 <div class="sixteen wide field center aligned">
-                                    <img  class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>>
+                                    <img  class="ui tiny image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>" <?php else: ?> src="<?php echo wp_make_link_relative(get_template_directory_uri()); ?>/assets/images/avatar.png"<?php endif ?>>
                                 </div>
                             </div>
                             <div id="block_recap_desktop">
-                                <h4 class="ui dividing header">Etat civil</h4>
+                                <h4 class="ui dividing header"><?php _e("Civil status", "gpdealdomain"); ?></h4>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Civilité : </span>
+                                        <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
-                                        <span class="span_value"> <?php echo $gender ?></span>
+                                        <span class="span_value"> <?php _e($gender, "gpdealdomain"); ?></span>
                                     </div>
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Prénom : </span>
+                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"> <?php echo $first_name; ?></span>
@@ -760,7 +748,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Nom :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"> <?php echo $last_name; ?></span>
@@ -769,7 +757,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Pseudo : </span>
+                                        <span class="span_label"><?php _e("Username", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $user_login; ?></span>
@@ -778,18 +766,18 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Date de naissance : </span>
+                                        <span class="span_label"><?php _e("Birth date", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $birthdate ?></span>
                                     </div>      
                                 </div>
 
-                                <h4 class="ui dividing header">Adresse</h4>
+                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?></h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Numéro et rue : </span>
+                                        <span class="span_label"><?php _e("Number and Street", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $number_street; ?></span>
@@ -798,7 +786,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Complément adresse : </span>
+                                        <span class="span_label"><?php _e("Additional address", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $complement_address ?></span>
@@ -807,7 +795,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Pays : </span>
+                                        <span class="span_label"><?php _e("Country", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $country ?></span>
@@ -816,7 +804,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Region : </span>
+                                        <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $region; ?></span>
@@ -825,7 +813,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Ville : </span>
+                                        <span class="span_label"><?php _e("City", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $city; ?></span>
@@ -833,18 +821,18 @@ if (in_array("particular", $roles)) {
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Numéro téléphone mobile : </span>
+                                        <span class="span_label"><?php _e("Mobile phone number", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $mobile_phone_number; ?></span>
                                     </div>       
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de connexion</h4>
+                                <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?> </h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Email : </span>
+                                        <span class="span_label"><?php _e("Email", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $user_email; ?></span>
@@ -853,29 +841,29 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Mot de passe : </span>
+                                        <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value">*********</span>
                                     </div>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de sécurité</h4>
+                                <h4 class="ui dividing header"><?php _e("Security information", "gpdealdomain"); ?></h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Question test : </span>
+                                        <span class="span_label"><?php _e("Test question", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php
-                                            $test_question = get_post((int) $test_question_ID);
+                                            $test_question = get_post(intval($test_question_ID));
                                             echo $test_question->post_title
                                             ?></span>
                                     </div>                        
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Reponse à la question test : </span>
+                                        <span class="span_label"><?php _e("Answer to test question", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $answer_test_question; ?></span>
@@ -884,98 +872,98 @@ if (in_array("particular", $roles)) {
                             </div>
 
                             <div id="block_recap_mobile" style="display: none">
-                                <h4 class="ui dividing header">Etat civil</h4>
+                                <h4 class="ui dividing header"><?php _e("Civil status", "gpdealdomain"); ?></h4>
                                 <div class="inline field">
-                                    <span class="span_label">Civilité : </span>
-                                    <span class="span_value"> <?php echo $gender ?></span>
+                                    <span class="span_label"><?php _e("civility", "gpdealdomain"); ?> : </span>
+                                    <span class="span_value"> <?php _e($gender, "gpdealdomain"); ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label">Prénom : </span>
+                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"> <?php echo $first_name; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Nom :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"> <?php echo $last_name; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Pseudo : </span>
+                                    <span class="span_label"><?php _e("Username", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $user_login; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Date de naissance : </span>
+                                    <span class="span_label"><?php _e("Birth date", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $birthdate ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Adresse</h4>
+                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Numéro et rue : </span>
+                                    <span class="span_label"><?php _e("Number and Street", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $number_street; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Complément adresse : </span>
+                                    <span class="span_label"><?php _e("Additional address", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $complement_address ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Pays : </span>
+                                    <span class="span_label"><?php _e("Country", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $country ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Region : </span>
+                                    <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $region; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Ville : </span>
+                                    <span class="span_label"><?php _e("City", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $city; ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label">Numéro téléphone mobile : </span>
+                                    <span class="span_label"><?php _e("Mobile phone number", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $mobile_phone_number; ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de connexion</h4>
+                                <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Email : </span>
+                                    <span class="span_label"><?php _e("Email", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $user_email; ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Mot de passe : </span>
+                                    <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value">*********</span>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de sécurité</h4>
+                                <h4 class="ui dividing header"><?php _e("Security information", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Question test : </span>
+                                    <span class="span_label"><?php _e("Test question", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php
-                                        $test_question = get_post((int) $test_question_ID);
+                                        $test_question = get_post(intval($test_question_ID));
                                         echo $test_question->post_title
                                         ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label">Reponse à la question test : </span>
+                                    <span class="span_label"><?php _e("Answer to test question", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $answer_test_question; ?></span>
                                 </div>
@@ -984,7 +972,7 @@ if (in_array("particular", $roles)) {
                             <div class="inline field">
                                 <div class="ui disabled checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications == 'yes'): ?> checked="checked" <?php endif ?> disabled="disabled">
-                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
+                                    <label class="label_terms_use"><?php _e("I would like to be informed about the products and services of Global Parcel Deal. I can change this setting at any time in the management of my profile information", "gpdealdomain"); ?>.</label>
                                 </div>
                             </div>
                             <div class="fields">
@@ -1001,21 +989,21 @@ if (in_array("particular", $roles)) {
                             <?php if ($identity_file_id): ?>
                                 <div class="fields"> 
                                     <div  class="field">
-                                        <div class="ui message"><a  href="<?php echo wp_get_attachment_url($identity_file_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
+                                        <div class="ui message"><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
                                     </div>
                                 </div>
                             <?php endif ?>
 
                             <div class="field">
-                                <button id="edit_account" class="ui right floated green icon button"  style="min-width: 12em;" ><i class="edit icon"></i> Modifier le profil</button>
-                                <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('modifier-le-mot-de-passe', 'gpdealdomain'))); ?>"><i class="edit icon"></i> Modifier le mot de passe</a>
+                                <button id="edit_account" class="ui right floated green icon button"  style="min-width: 12em;" ><i class="edit icon"></i> <?php _e("Edit your profile", "gpdealdomain"); ?></button>
+                                <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('change-the-password', 'gpdealdomain'))); ?>"><i class="edit icon"></i> <?php _e("Change your password", "gpdealdomain"); ?></a>
                             </div>
                         </div>
                     <?php elseif (in_array('professional', $roles) || in_array('enterprise', $roles)): ?>
                         <div class='ui form recap'>
                             <div  class="fields">
                                 <div class="sixteen wide field center aligned">
-                                    <img  class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_get_attachment_url($company_logo_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/default_logo.png" <?php endif ?>>
+                                    <img  class="ui tiny image" <?php if ($company_logo_id): ?> src= "<?php echo wp_make_link_relative(wp_get_attachment_url($company_logo_id)); ?>" <?php else: ?> src="<?php echo wp_make_link_relative(get_template_directory_uri()); ?>/assets/images/default_logo.png" <?php endif ?>>
                                 </div>
                             </div>
                             <div class="fields">
@@ -1028,10 +1016,10 @@ if (in_array("particular", $roles)) {
                             </div>
 
                             <div id="block_recap_desktop">
-                                <h4 class="ui dividing header">Informations sur l'entreprise </h4>
+                                <h4 class="ui dividing header"><?php _e("Company information", "gpdealdomain"); ?> </h4>
                                 <div  class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Nom de la société </span>
+                                        <span class="span_label"><?php _e("Company name", "gpdealdomain"); ?> </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $company_name_pro ?></span>
@@ -1040,7 +1028,7 @@ if (in_array("particular", $roles)) {
 
                                 <div  class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Forme juridique </span>
+                                        <span class="span_label"><?php _e("Legal form", "gpdealdomain"); ?> </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $company_legal_form_pro ?></span>
@@ -1049,7 +1037,7 @@ if (in_array("particular", $roles)) {
 
                                 <div  class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Numéro d'identification de la société </span>
+                                        <span class="span_label"><?php _e("Company Identification Number", "gpdealdomain"); ?> </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $company_identity_number_pro ?></span>
@@ -1058,7 +1046,7 @@ if (in_array("particular", $roles)) {
 
                                 <div  class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Numéro individuel d'identification de la TVA </label>
+                                        <span class="span_label"><?php _e("Individual VAT identification number", "gpdealdomain"); ?> </label>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
@@ -1066,11 +1054,11 @@ if (in_array("particular", $roles)) {
                                 </div>
 
 
-                                <h4 class="ui dividing header">Adresse</h4>
+                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?></h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Numéro et rue </span>
+                                        <span class="span_label"><?php _e("Numero and Street", "gpdealdomain"); ?> </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $number_street_pro ?></span>
@@ -1079,7 +1067,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Complément adresse : </span>
+                                        <span class="span_label"><?php _e("Additional address", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $complement_address_pro ?></span>
@@ -1088,7 +1076,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Pays : </span>
+                                        <span class="span_label"><?php _e("Country", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"> <?php echo $country_pro ?></span>
@@ -1097,7 +1085,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Region :</span>
+                                        <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="twelve wide field">
                                         <span class="span_value"><?php echo $region_pro ?></span>
@@ -1106,7 +1094,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Ville : </span>
+                                        <span class="span_label"><?php _e("City", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $city_pro ?></span>
@@ -1115,7 +1103,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Code postal : </span>
+                                        <span class="span_label"><?php _e("Zip code", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $postal_code_pro ?></span>
@@ -1125,26 +1113,26 @@ if (in_array("particular", $roles)) {
 
                                 <div id="fields_home_phone_number" class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Téléphone fixe : </span>
+                                        <span class="span_label"><?php _e("Phone number", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $home_phone_number_pro ?></span>
                                     </div>                        
                                 </div>
 
-                                <h4 class="ui dividing header">Représentant 1 </h4>
+                                <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 1 </h4>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Civilité : </span>
+                                        <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
-                                        <span class="span_value"><?php echo $civility_representative1_pro ?></span>
+                                        <span class="span_value"><?php _e($civility_representative1_pro, "gpdealdomain"); ?></span>
 
                                     </div>
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Prénom :</label>
+                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</label>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
@@ -1153,7 +1141,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Nom :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
@@ -1162,7 +1150,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Fonction dans l'entreprise : </span>
+                                        <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $function_representative1_pro ?></span>
@@ -1171,7 +1159,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Email professionnel : </span>
+                                        <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $email_representative1_pro ?></span>
@@ -1180,25 +1168,25 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Téléphone mobile : </span>
+                                        <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $mobile_phone_number_representative1_pro ?></span>
                                     </div>
                                 </div>
 
-                                <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
+                                <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 2 (<?php _e("Optional", "gpdealdomain"); ?>)</h4>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Civilité :</span>
+                                        <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
-                                        <span class="span_value"><?php echo $civility_representative2_pro ?></span>
+                                        <span class="span_value"><?php _e($civility_representative2_pro, "gpdealdomain"); ?></span>
                                     </div>
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Prénom :</span>
+                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
@@ -1207,7 +1195,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Nom :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
@@ -1216,7 +1204,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Fonction dans la société :</span>
+                                        <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $function_representative2_pro ?></span>
@@ -1225,7 +1213,7 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Email professionnel :</span>
+                                        <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $email_representative2_pro ?></span>
@@ -1234,18 +1222,18 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Téléphone mobile :</span>
+                                        <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $mobile_phone_number_representative2_pro ?></span>
                                     </div>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de connexion</h4>
+                                <h4 class="ui dividing header"><?php _e("Login informations", "gpdealdomain"); ?></h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Email de la société :</span>
+                                        <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $user_email_pro ?></span>
@@ -1254,29 +1242,29 @@ if (in_array("particular", $roles)) {
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Mot de passe :</span>
+                                        <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value">*******</span>
                                     </div>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de sécurité</h4>
+                                <h4 class="ui dividing header"><?php _e("Security informations", "gpdealdomain"); ?>é</h4>
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Question test :</span>
+                                        <span class="span_label"><?php _e("Test question", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php
-                                            $test_question = get_post((int) $test_question_ID_pro);
+                                            $test_question = get_post(intval($test_question_ID_pro));
                                             echo $test_question->post_title
                                             ?></span>
                                     </div>                        
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label">Reponse à la question test :</span>
+                                        <span class="span_label"><?php _e("Answer to test question", "gpdealdomain"); ?> :</span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"> <?php echo $answer_test_question_pro ?> </span>
@@ -1284,65 +1272,65 @@ if (in_array("particular", $roles)) {
                                 </div>
                             </div>
                             <div id="block_recap_mobile" style="display: none">
-                                <h4 class="ui dividing header">Informations sur l'entreprise </h4>
+                                <h4 class="ui dividing header"><?php _e("Company information", "gpdealdomain"); ?> </h4>
                                 <div  class="inline field">
-                                    <span class="span_label">Nom de la société </span>
+                                    <span class="span_label"><?php _e("Company name", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $company_name_pro ?></span>
                                 </div>
 
                                 <div  class="inline field">
-                                    <span class="span_label">Forme juridique </span>
+                                    <span class="span_label"><?php _e("Legal form", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $company_legal_form_pro ?></span>
                                 </div>
 
                                 <div  class="inline field">
-                                    <span class="span_label">Numéro d'identification de la société </span>
+                                    <span class="span_label"><?php _e("Company Identification Number", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $company_identity_number_pro ?></span>
                                 </div>
 
                                 <div  class="inline field">
-                                    <span class="span_label">Numéro individuel d'identification de la TVA </label>
+                                    <span class="span_label"><?php _e("Individual VAT identification number", "gpdealdomain"); ?> :</span>
 
-                                        <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
+                                    <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Adresse</h4>
+                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?> :</h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Numéro et rue </span>
+                                    <span class="span_label"><?php _e("Number and Street", "gpdealdomain"); ?> </span>
 
                                     <span class="span_value"><?php echo $number_street_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Complément adresse : </span>
+                                    <span class="span_label"><?php _e("Additional address", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $complement_address_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Pays : </span>
+                                    <span class="span_label"><?php _e("Country", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"> <?php echo $country_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Region :</span>
+                                    <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $region_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Ville : </span>
+                                    <span class="span_label"><?php _e("City", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $city_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Code postal : </span>
+                                    <span class="span_label"><?php _e("Zip code", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $postal_code_pro ?></span>
                                 </div>
@@ -1353,105 +1341,105 @@ if (in_array("particular", $roles)) {
                                     <span class="span_value"><?php echo $home_phone_number_pro ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Représentant 1 </h4>
+                                <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 1 </h4>
                                 <div class="inline field">
-                                    <span class="span_label">Civilité : </span>
+                                    <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $civility_representative1_pro ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label">Prénom :</label>
+                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</label>
 
                                         <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Nom :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Fonction dans l'entreprise : </span>
+                                    <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $function_representative1_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Email professionnel : </span>
+                                    <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $email_representative1_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Téléphone mobile : </span>
+                                    <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $mobile_phone_number_representative1_pro ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Représentant 2 (Facultatif)</h4>
+                                <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 2 (<?php _e("Optional", "gpdealdomain"); ?>)</h4>
                                 <div class="inline field">
-                                    <span class="span_label">Civilité :</span>
+                                    <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $civility_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Prénom :</span>
+                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Nom :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Fonction dans la société :</span>
+                                    <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $function_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Email professionnel :</span>
+                                    <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?>l :</span>
 
                                     <span class="span_value"><?php echo $email_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Téléphone mobile :</span>
+                                    <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $mobile_phone_number_representative2_pro ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de connexion</h4>
+                                <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Email de la société :</span>
+                                    <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php echo $user_email_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label">Mot de passe :</span>
+                                    <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value">*******</span>
                                 </div>
 
-                                <h4 class="ui dividing header">Informations de sécurité</h4>
+                                <h4 class="ui dividing header"><?php _e("Security information", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label">Question test :</span>
+                                    <span class="span_label"><?php _e("Test question", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"><?php
-                                        $test_question = get_post((int) $test_question_ID_pro);
+                                        $test_question = get_post(intval($test_question_ID_pro));
                                         echo $test_question->post_title
                                         ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label">Reponse à la question test :</span>
+                                    <span class="span_label"><?php _e("Answer to test question", "gpdealdomain"); ?> :</span>
 
                                     <span class="span_value"> <?php echo $answer_test_question_pro ?> </span>
                                 </div>
@@ -1459,7 +1447,7 @@ if (in_array("particular", $roles)) {
                             <div class="inline field">
                                 <div class="ui disabled checkbox">
                                     <input type="checkbox" name="receive_notifications" <?php if ($receive_notifications_pro == 'yes'): ?> checked="checked" <?php endif ?> disabled="disabled">
-                                    <label class="label_terms_use">Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil.</label>
+                                    <label class="label_terms_use"><?php _e("I would like to be informed about the products and services of Global Parcel Deal. I can change this setting at any time in the management of my profile information", "gpdealdomain"); ?>.</label>
                                 </div>
                             </div>
                             <div class="fields">
@@ -1476,14 +1464,14 @@ if (in_array("particular", $roles)) {
                             <?php if ($identity_file_pro_id): ?>
                                 <div class="fields"> 
                                     <div  class="field">                                   
-                                        <div class="ui message"><a  href="<?php echo wp_get_attachment_url($identity_file_pro_id); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>                                  
+                                        <div class="ui message"><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_pro_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>                                  
                                     </div>
                                 </div>
                             <?php endif ?>
                             
                                 <div class="field "> 
-                                    <button id="edit_account" class="ui right floated green button"  style="min-width: 12em;" ><i class="edit icon"></i> Modifier</button>
-                                    <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain') . '/' . __('modifier-le-mot-de-passe', 'gpdealdomain'))); ?>"><i class="edit icon"></i> Modifier le mot de passe</a>
+                                    <button id="edit_account" class="ui right floated green button"  style="min-width: 12em;" ><i class="edit icon"></i> <?php _e("Edit your profile", "gpdealdomain"); ?></button>
+                                    <a  class="ui right floated green icon button"  style="min-width: 12em;" href="<?php echo get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('change-the-password', 'gpdealdomain'))); ?>"><i class="edit icon"></i> <?php _e("Change your password", "gpdealdomain"); ?></a>
                                 </div>
                         </div>
                     <?php endif ?>

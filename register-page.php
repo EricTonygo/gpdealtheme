@@ -10,6 +10,6 @@ if (!is_user_logged_in()) {
 
     get_footer();
 }else{
-    wp_safe_redirect(get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))));
+    wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain'))));
     exit;
 }

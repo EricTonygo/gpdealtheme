@@ -8,7 +8,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir votre pseudo ou votre email'
+                                prompt: gpdeal_translate('Please enter your username or email')
                             }
                         ]
                     },
@@ -17,7 +17,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir votre mot de passe'
+                                prompt: 'Please enter your password'
                             }
                         ]
                     }

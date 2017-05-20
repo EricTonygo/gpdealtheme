@@ -4,6 +4,7 @@
   Template Name: Forget Password Page
  */
 session_start();
+expire_session();
 if (!is_user_logged_in()) {
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
     get_password();
@@ -20,7 +21,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
     get_footer();
 }
 }else{
-    wp_safe_redirect(get_permalink(get_page_by_path(__('mon-compte', 'gpdealdomain'))));
+    wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain'))));
 }
 
 

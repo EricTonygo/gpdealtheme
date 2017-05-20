@@ -27,7 +27,8 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 .masthead.segment {
-    min-height: 0px;
+    min-height: 350px;
+    padding: 1em 0em;
 }
 
 .second-nav.menu {
@@ -51,10 +52,15 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     display: none;
 }
 
-.masthead.segment {
-    min-height: 500px;
+#feature_homepage.masthead.segment {
+    min-height: 580px;
     padding: 1em 0em;
 }
+
+/*#feature_homepage.masthead.segment {
+    min-height: 580px!important;
+}*/
+
 .masthead .logo.item img {
     margin-right: 1em;
 }
@@ -143,12 +149,12 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         margin-right: auto!important;
     }
 
-/*    #select_type_package_help_content.ui.green.basic.label {
-        right: 29em!important;
-        top: 26.7em!important;
-        background-color: white;
-        color: #16ab39;
-    }*/
+    /*    #select_type_package_help_content.ui.green.basic.label {
+            right: 29em!important;
+            top: 26.7em!important;
+            background-color: white;
+            color: #16ab39;
+        }*/
 }
 
 @media only screen and (max-width: 700px) {
@@ -159,14 +165,14 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     #block_recap_desktop{
         display:none!important;
     }
-    
+
     #block_recap_mobile{
         display:block!important;
     }
     .mobile_label.hidden{
         display: block!important;
     }
-    
+
     .title_gpdeal.item{
         display: none!important;
     }
@@ -174,7 +180,11 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         display: block;
     }
     .masthead.segment {
-        min-height: 350px;
+        min-height: 350px!important;
+    }
+    
+    #feature_homepage.masthead.segment {
+        min-height: 350px!important;
     }
     .masthead h1.ui.header {
         font-size: 2em;
@@ -232,10 +242,10 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         right: 1em!important;
         bottom: 1em!important;
     }
-/*    #select_type_package_help_content.ui.green.basic.label {
-        right: 16em!important;
-        top: 26.7em!important;
-    }*/
+    /*    #select_type_package_help_content.ui.green.basic.label {
+            right: 16em!important;
+            top: 26.7em!important;
+        }*/
     #sidebar_mobile_menu_item, #remove_mobile_menu_item{
         display: none;
     }
@@ -252,14 +262,30 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     .column_signup_login_modal{
         margin-top: 2em;
     }
-    
+
     .mobile_br{
         display: block!important;
     }
-    
+
     #message_error, #message_loading, #message_success{
         top: 5em!important;
         right: 1em!important;
+    }
+
+    .dim_field_input{
+        max-width: 5em!important;
+    }
+
+    .dim_field_time{
+        max-width: 1.5em;
+    }
+
+    .center_time_symbol{
+        margin-left: 50%!important;
+    }
+
+    .ui.form textarea[name="package_content"]{
+        height: 1.5em!important;
     }
 }
 
@@ -278,7 +304,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }*/
 
 .ui.tiny.image{
-    width: 115px;
+    width: 100px;
 }
 
 .ui.vertical.stripe p {
@@ -343,6 +369,10 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 
 #search_input_top{
     /*width: 35em;*/
+}
+
+.content_transactions_card{
+    box-shadow: none!important;
 }
 
 #content_search_carrier_form{
@@ -410,21 +440,18 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 
 #feature_homepage{
     position: relative; 
-    /*height: 40rem; 
-    width: 1140px; 
-    background-repeat: repeat-y; */
     background-attachment: fixed;  
     background-position: center;
     background-size: cover;
-    margin-top: 7em;
+    margin-top: 6.89em;
 }
 
 .ui.large.borderless.second-nav.menu{
-    margin-top: 7em;
+    margin-top: 6.5em;
 }
 
 .ui.container.top-nav .ui.dropdown.top.right.pointing.item .menu{
-    top: 70px;
+    top: 66px;
 }
 
 .ui.container.top-nav .ui.dropdown.item #main_dropdown_menu.menu{
@@ -437,7 +464,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 
 
 .right.menu .ui.dropdown.top.right.pointing.item .menu {
-    top: 43px;
+    top: 47px;
 }
 
 .left.menu .ui.dropdown.top.left.pointing.item .menu{
@@ -525,7 +552,7 @@ tlbs-flux{
         /*margin-left: 10em !important;*/
         margin-left: auto !important;
         margin-right: auto !important;
-        padding-top: 5em;
+        padding-top: 8em;
     }
 
 }
@@ -557,7 +584,7 @@ tlbs-flux{
 }
 
 #sub_main_menu.ui.fixed.menu{
-    top: 7em;
+    top: 6.8em;
     background-color: rgba(143, 199, 66, 0.98);
 }
 #sub_main_menu.ui.fixed.menu .ui.container{
@@ -685,7 +712,7 @@ span.locality_name{
 }
 
 
-#select_type_package_help_content.ui.green.basic.label {
+/*#select_type_package_help_content.ui.green.basic.label {
     z-index: 2;
     border-radius: 0;
     position: absolute;
@@ -706,7 +733,7 @@ span.locality_name{
     position: absolute;
     font-weight: normal!important;
     width: 15em;
-}
+}*/
 
 .ui.top.attached.tabular.menu .item{
     cursor: pointer;
@@ -728,13 +755,13 @@ span.locality_name{
 
 }
 
-.icon {
+/*.icon {
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;
-    /*    -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;*/
-}
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+}*/
 
 #profile_picture_img{
     cursor: pointer;
@@ -759,7 +786,7 @@ span.locality_name{
     margin: 0;
 }
 
-.ui.warning.message .header{
+.ui.warning.message .header, .ui.success.message .header, .ui.error.message .header{
     font-size: 10pt;
 }
 
@@ -822,4 +849,95 @@ span.locality_name{
 .profile_name{
     color: #8ec641;
     font-weight: bold;
+}
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    /*border-bottom: 1px dotted black;  If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    min-width: 150px;
+    background-color: #fff!important;
+    color: #21BA45!important;
+    border: 1px solid #21BA45;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 0;
+    font-size: 9pt;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -75px;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;  /*At the bottom of the tooltip*/ 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #21BA45 transparent transparent transparent;
+}
+
+/*.tooltip .tooltiptext {
+    top: 131%;
+    left: 50%; 
+    margin-left: -74px;  Use half of the width (120/2 = 60), to center the tooltip 
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;   At the top of the tooltip 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #21BA45 transparent;
+}*/
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.dim_field_input{
+    max-width: 14em;
+}
+
+.dim_field_time{
+    max-width: 1.5em;
+}
+
+.ui.styled.accordion{
+    border-radius: 0;
+}
+
+.ui.form textarea[name="package_content"]{
+    height: 3em;
+}
+
+.small_breadcumb, .small_breadcumb .section{
+    font-size: 10pt;
+}
+
+.small_breadcumb i{
+    font-size: 7pt;
+}
+
+form{
+    margin-bottom: 0;
 }
