@@ -141,7 +141,7 @@ global $current_user;
         ?>
     </div>
     <div class="actions">
-        <div class="ui red deny button">
+        <div id="close_modal_reviews_carriers" class="ui red deny button">
             <?php _e("Close", "gpdealdomain"); ?>
         </div>
     </div>

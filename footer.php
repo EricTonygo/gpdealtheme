@@ -1,4 +1,4 @@
-<div class="ui vertical footer segment" style="margin-top: 3em">
+<div class="ui vertical footer segment">
     <div class="ui container">
         <div class="ui stackable inverted divided equal height stackable grid">
             <div class="five wide column center aligned">

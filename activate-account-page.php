@@ -19,12 +19,12 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && 
         if (false == $user_id) {
             $activation_message = __("Your account is already activated", "gpdealdomain");
         } else {
-            // Set the global user object
-            $current_user = get_user_by('id', $user_id);
-
-            // set the WP login cookie
-            $secure_cookie = is_ssl() ? true : false;
-            wp_set_auth_cookie($user_id, true, $secure_cookie);
+//            // Set the global user object
+//            $current_user = get_user_by('id', $user->ID);
+//
+//            // set the WP login cookie
+//            $secure_cookie = is_ssl() ? true : false;
+//            wp_set_auth_cookie($user->ID, true, $secure_cookie);
             $activation_message = __("Your account have been succefully activated", "gpdealdomain");
         }
     }

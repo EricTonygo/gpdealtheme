@@ -48,20 +48,20 @@ $post_author = get_post_field('post_author', get_the_ID());
 <div class="ui large borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
-            
-            <div class="item <?php if($post_author != $current_user->ID): ?>small_breadcumb<?php endif ?>">
+
+            <div class="item <?php if ($post_author != $current_user->ID): ?>small_breadcumb<?php endif ?>">
                 <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
-                <?php if($post_author == $current_user->ID): ?>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('My transport offers', 'gpdealdomain') ?></a>
+                <?php if ($post_author == $current_user->ID): ?>
+                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
                 <?php else: ?>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('My shipments', 'gpdealdomain'); ?></a>
-                <i class="right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(get_the_permalink($package_id)); ?>" class="section"><?php echo get_post_field('post_title', $package_id); ?></a>
-                <i class="right chevron icon divider"></i>
-                <a href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), wp_make_link_relative(get_the_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))))); ?>" class="section"><?php echo __('Selected carriers', 'gpdealdomain'); ?></a>
+                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
+                    <i class="right chevron icon divider"></i>
+                    <a href="<?php echo wp_make_link_relative(get_the_permalink($package_id)); ?>" class="section"><?php echo get_post_field('post_title', $package_id); ?></a>
+                    <i class="right chevron icon divider"></i>
+                    <a href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), wp_make_link_relative(get_the_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))))); ?>" class="section"><?php echo __('Selected carriers', 'gpdealdomain'); ?></a>
                 <?php endif ?>
                 <i class="right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
@@ -72,7 +72,7 @@ $post_author = get_post_field('post_author', get_the_ID());
 <div class="ui vertical masthead  segment container">
     <div id='edit_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none" <?php endif ?>>
         <div class="ui attached message">
-            <div class="header"><?php echo __("Modification of the transport offer", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php echo __("Edit Transport Offer", 'gpdealdomain') ?> : </div>
             <p class="promo_text_form"><?php echo __("Edit the information below to update your transportation offer", 'gpdealdomain') ?>.</p>
         </div>
         <div class="ui fluid card">
@@ -296,7 +296,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <h4 class="ui dividing header"><?php echo __("Departure", 'gpdealdomain') ?> </h4>
                         <div class="fields">
                             <div class="field">
-                                <span class="span_value"><?php echo $start_city; ?></span> (<span class="span_value"><?php echo $start_state; ?></span>, <span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
+                                <span class="span_value"><?php echo $start_city; ?></span> (<?php if ($start_state != ""): ?><span class="span_value"><?php echo $start_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
                             </div>   
                         </div>
 
@@ -304,7 +304,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <h4 class="ui dividing header"><?php echo __("Destination", 'gpdealdomain') ?> </h4>
                         <div class="fields">
                             <div class="field">
-                                <span class="span_value"><?php echo $destination_city; ?></span> (<span class="span_value"><?php echo $destination_state; ?></span>, <span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
+                                <span class="span_value"><?php echo $destination_city; ?></span> (<?php if ($destination_state != ""): ?><span class="span_value"><?php echo $destination_state; ?></span>, <?php endif; ?><span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
                             </div>   
                         </div>
 
@@ -464,12 +464,12 @@ $post_author = get_post_field('post_author', get_the_ID());
                     <div id="block_recap_mobile" style="display: none">
                         <h4 class="ui dividing header"><?php echo __("Departure", 'gpdealdomain') ?> </h4>
                         <div class="inline field">
-                            <span class="span_value"><?php echo $start_city; ?></span> (<span class="span_value"><?php echo $start_state; ?></span>, <span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
+                            <span class="span_value"><?php echo $start_city; ?></span> (<?php if ($start_state != ""): ?><span class="span_value"><?php echo $start_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
                         </div>
 
                         <h4 class="ui dividing header"><?php echo __("Destination", 'gpdealdomain') ?> </h4>
                         <div class="inline field">
-                            <span class="span_value"><?php echo $destination_city; ?></span> (<span class="span_value"><?php echo $destination_state; ?></span>, <span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
+                            <span class="span_value"><?php echo $destination_city; ?></span> (<?php if ($destination_state != ""): ?><span class="span_value"><?php echo $destination_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
                         </div>
 
                         <h4 class="ui dividing header"><?php echo __("Offer deadline", 'gpdealdomain') ?> </h4>
@@ -609,10 +609,10 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 <span><i class="star icon"></i><a href="#evaluations" > <?php echo __("No reviews", "gpdealdomain"); ?></a></span>
                             <?php endif ?>
                         </div>
-                        <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID && !$evaluations->have_posts() && get_post_meta(get_the_ID(), 'transport-status', true)== 1): ?>
+                        <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID && !$evaluations->have_posts() && get_post_meta(get_the_ID(), 'transport-status', true) == 1): ?>
                             <button id="edit_transport_offer_infos_btn" class="ui right floated green button" ><?php echo __("Update offer", "gpdealdomain"); ?></button>
                         <?php endif ?>
-                        <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts() && !$current_user_evaluations->have_posts() && $action != null && $action == "evaluate" && $package_id &&  get_post_meta($package_id, 'package-status', true) == 2): ?>
+                        <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts() && !$current_user_evaluations->have_posts() && $action != null && $action == "evaluate" && $package_id && get_post_meta($package_id, 'package-status', true) == 2): ?>
                             <a id="show_block_evaluation_form_top" <?php if ($current_user_evaluations->have_posts()): ?> href="#action_evaluate_down"<?php else: ?> href="#block_evaluation_form" <?php endif ?> onclick="show_block_evaluation_form_top()" class="ui green basic button right floated"><?php echo __("Give an reviews", "gpdealdomain") ?></a>
                         <?php endif ?>
 
@@ -624,7 +624,7 @@ $post_author = get_post_field('post_author', get_the_ID());
         <!--        <div id="action_evaluate_top" class="ui fluid card" style="margin-bottom: 1em; box-shadow: none">
                     <div class="field">
         <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts() && !$current_user_evaluations->have_posts()): ?>
-                                                                        <a id="show_block_evaluation_form_top" <?php if ($current_user_evaluations->have_posts()): ?> href="#action_evaluate_down"<?php else: ?> href="#block_evaluation_form" <?php endif ?> onclick="show_block_evaluation_form_top()" class="ui green basic button right floated"><?php echo __("Give an reviews", "gpdealdomain") ?></a>
+                                                                            <a id="show_block_evaluation_form_top" <?php if ($current_user_evaluations->have_posts()): ?> href="#action_evaluate_down"<?php else: ?> href="#block_evaluation_form" <?php endif ?> onclick="show_block_evaluation_form_top()" class="ui green basic button right floated"><?php echo __("Give an reviews", "gpdealdomain") ?></a>
         <?php endif ?>
                     </div>
                 </div>-->
@@ -654,7 +654,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                             <div class="ui huge star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></div>
                                             <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Very satisfied", "gpdealdomain") ?></span></div>
                                         </div>
-                                        <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$current_user_evaluations->have_posts()  && $package_id &&  get_post_meta($package_id, 'package-status', true) == 2): ?>
+                                        <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$current_user_evaluations->have_posts() && $package_id && get_post_meta($package_id, 'package-status', true) == 2): ?>
                                             <div class="four wide field">
                                                 <a id="show_block_evaluation_form_top"  href="#block_evaluation_form"  onclick="show_block_evaluation_form_top()" class="ui green basic button right floated"><?php echo __("Evaluate/Close", "gpdealdomain") ?></a>
                                             </div>
@@ -678,7 +678,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                             <div class="ui fluid card">
                                 <div onclick="show_user_evaluation(<?php the_ID(); ?>)" class="content" style="cursor: pointer;">
                                     <div class=""><img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>><span style="font-weight: bold"><a><?php echo $evaluate_user->user_login ?></a></span>
-                                        <span class="meta"><?php echo __("has evaluated", "gpdealdomain")." " . human_time_diff(get_the_time('U'), current_time('timestamp')); ?> <?php _e("ago", "gpdealdomain"); ?></span>
+                                        <span class="meta"><?php echo __("has evaluated", "gpdealdomain") . " " . human_time_diff(get_the_time('U'), current_time('timestamp')); ?> <?php _e("ago", "gpdealdomain"); ?></span>
                                     </div>
                                 </div>
                                 <?php
@@ -738,7 +738,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                                 <div class="metadata">
                                                     <div class="date"><?php
                                                         $date = apply_filters('get_comment_time', $comment->comment_date, 'U', false, true, $comment);
-                                                        echo __("has commented", "gpdealdomain")." " . human_time_diff(strtotime($date), current_time('timestamp'));
+                                                        echo __("has commented", "gpdealdomain") . " " . human_time_diff(strtotime($date), current_time('timestamp'));
                                                         ?> <?php _e("ago", "gpdealdomain"); ?></div>
                                                 </div>
                                                 <div class="text">

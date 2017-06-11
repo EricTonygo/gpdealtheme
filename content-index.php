@@ -9,6 +9,10 @@ $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
 $submit_search_transport_offers = $_POST["submit_search_transport_offers"];
 $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages"];
 ?>
+<div  style="background-image: url('wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg'); display: none; "></div>
+<div  style="background-image: url('wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg'); display: none;"></div>
+<div  style="background-image: url('wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg'); display: none;"></div>
+<div  style="background-image: url('wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg'); display: none;"></div>
 <div id='feature_homepage' class="ui vertical feature_homepage masthead segment" style="background-image: url('wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg'); ">
     <div  class="ui container">
         <div class="ui top attached tabular menu">

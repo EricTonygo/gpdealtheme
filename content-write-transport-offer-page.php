@@ -24,7 +24,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                 <i class="right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __("Mes offres de transport", "gpdealdomain"); ?></a>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __("Transport offers", "gpdealdomain"); ?></a>
                 <i class="right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -36,7 +36,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Enter a transport offer", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php echo __("Publish Transport Offer", 'gpdealdomain') ?> : </div>
             <p class="promo_text_form"><?php echo __("Fill in the information below and then publish your transport offer", 'gpdealdomain') ?>.</p>
         </div>
         <div class="ui fluid card">

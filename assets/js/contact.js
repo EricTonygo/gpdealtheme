@@ -54,7 +54,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: gpdead_translate('Please enter your email address')
+                                prompt: gpdeal_translate('Please enter your email address')
                             },
                             {
                                 type: 'email',

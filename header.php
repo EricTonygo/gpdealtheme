@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" lang="<?php echo get_locale(); ?>">
+<html xmlns="http://www.w3.org/1999/html" lang="<?php echo pll_current_language('slug'); ?>">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -10,7 +10,8 @@
         <title><?php if (is_search()) echo __("Recherche des transporteurs", "gpdealdomain");
         else the_title(); ?> - Global Parcel Deal</title>
         <link rel="shortcut icon" href="<?php echo auto_version("/favicon.ico") ?>">
-        <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->
+        <!--<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">-->
+
         <?php
         if (is_page(__("my-account", "gpdealdomain"))) {
             header('Cache-Control: no-cache, must-revalidate');
@@ -36,13 +37,13 @@
                 var verifyCallback_particular = function (response) {
                     //alert(grecaptcha.getResponse(widgetId_particular));
                     $('#register_form_particular.ui.form input[name="g-recaptcha-response-register"]').val(grecaptcha.getResponse(widgetId_particular));
-                    $('#submit_create_account_particular').removeClass('disabled');
+                    $('#confirm_save_account_particular').removeClass('disabled');
                 };
 
                 var expCallback_particular = function (response) {
                     grecaptcha.reset(widgetId_particular);
                     $('#register_form_particular.ui.form input[name="g-recaptcha-response-register"]').val("");
-                    $('#submit_create_account_particular').addClass('disabled');
+                    $('#confirm_save_account_particular').addClass('disabled');
                 };
                 var onloadCallback = function () {
                     widgetId_particular = grecaptcha.render('recaptcha_register_particular', {
@@ -86,17 +87,17 @@
 
         <!-- Page Contents -->
         <div class="pusher">
-            <div id="message_success" class="ui success message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <div id="message_success" class="ui success message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; min-width: 25em; display: none">
                 <i class="close icon"></i>
                 <div class="header"></div>
             </div>
 
-            <div id="message_error" class="ui error message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 25em; display: none">
+            <div id="message_error" class="ui error message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; min-width: 25em; display: none">
                 <i class="close icon"></i>
                 <div class="header"> </div>
             </div>
 
-            <div id="message_loading" class="ui icon message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; width: 20em; display: none;">
+            <div id="message_loading" class="ui icon message" style="position: fixed; top: 9em; right: 40em; left: auto; z-index: 5; min-width: 20em; display: none;">
                 <i class="notched circle loading icon"></i>
                 <div class="content">
                     <div class="header">Traitement encours... </div>

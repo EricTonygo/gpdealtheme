@@ -151,7 +151,7 @@
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            <?php echo __("No offers match your criteria", "gpdealdomain") ?>. <?php echo __("Your request has been registered", "gpdealdomain") ?>.<br>
+                                            <?php echo __("No valid offer match your criteria", "gpdealdomain") ?>. <?php echo __("Your request has been registered", "gpdealdomain") ?>.<br>
                                             <?php _e("You can change it", "gpdealdomain"); ?> <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), wp_make_link_relative(get_permalink($package_id)))); ?>"><?php _e("here", "gpdealdomain"); ?></a> <?php _e("or search again later", "gpdealdomain"); ?>.<br>
                                             <?php _e("You will be automatically notified (email or sms) when an offer you may be interested in will be registered", "gpdealdomain"); ?>.
                                         </div>

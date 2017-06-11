@@ -61,6 +61,7 @@ function gpdeal_scripts() {
     wp_enqueue_script('owl.carousel.js', get_template_directory_uri() . '/assets/js/owl.carousel.js', array(), false, true);
     wp_register_script('hideShowPassword_js', get_template_directory_uri() . '/assets/js/hideShowPassword.min.js', array(), false, true);
     wp_enqueue_script('main', get_template_directory_uri() . '/assets/js/main.js', array(), false, true);
+    wp_enqueue_script('translations_js', get_template_directory_uri() . '/assets/js/translations.js', array(), false, true);
     wp_register_script('register_js', get_template_directory_uri() . '/assets/js/register.js', array(), false, true);
     wp_register_script('contact_js', get_template_directory_uri() . '/assets/js/contact.js', array(), false, true);
     wp_register_script('package_js', get_template_directory_uri() . '/assets/js/package.js', array(), false, true);
@@ -71,7 +72,7 @@ function gpdeal_scripts() {
     wp_enqueue_script('datetimepicker_js');
     wp_enqueue_script('hideShowPassword_js');
     wp_enqueue_style('datetimepicker_css');
-    if (is_page(__('registration', 'gpdealdomain')) || is_page(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain')) || is_page(__('mot-de-passe-oublie', 'gpdealdomain'))|| is_page(__('my-account', 'gpdealdomain') . '/' .__('modifier-le-mot-de-passe', 'gpdealdomain')))
+    if (is_page(__('registration', 'gpdealdomain')) || is_page(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' .__('profile', 'gpdealdomain')) || is_page(__('forgot-your-password', 'gpdealdomain'))|| is_page(__('change-the-password', 'gpdealdomain')))
     {
         wp_enqueue_script('register_js');
         //wp_enqueue_script('recaptcha_api');

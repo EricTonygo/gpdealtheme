@@ -41,12 +41,12 @@ function close_transport_offer(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
 
                 },
                 404: function (response, textStatus, jqXHR) {
-                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error>div.header').html(gpdeal_translate("Failed to validate"));
                     $('#message_error').show();
                 }
             },
@@ -62,7 +62,7 @@ function close_transport_offer(id) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
                 } else {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 }
                 $('#close_transport_offer_btn' + id).removeClass("loading");

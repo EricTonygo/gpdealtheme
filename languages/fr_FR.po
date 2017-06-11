@@ -49,7 +49,7 @@ msgid "write"
 msgstr "saisir"
 
 msgid "change-the-password"
-msgstr "modifier-le-mot-passe"
+msgstr "modifier-le-mot-de-passe"
 
 msgid "Change your password"
 msgstr "Modifiez votre mot passe"
@@ -67,7 +67,7 @@ msgid "search-for-transport-offers"
 msgstr "rechercher-les-offres-de-transport"
 
 msgid "select-transport-offers"
-msgstr "search-les-offres-de-transport"
+msgstr "selectionner-les-offres-de-transport"
 
 msgid "show-carriers-contacts"
 msgstr "visualiser-les-contacts-des-transporteurs"
@@ -186,7 +186,7 @@ msgstr "Recherche transporteurs"
 msgid "Search results for transport offers"
 msgstr "Resultat de la recherche des offres de transport"
 
-msgid "Carriers departing from"
+msgid "Carriers from"
 msgstr "Transporteurs au départ de"
 
 msgid "Carriers to"
@@ -259,7 +259,7 @@ msgid "Civility"
 msgstr "Civilité"
 
 msgid "Mr."
-msgstr "Mr."
+msgstr "M."
 
 msgid "Mrs"
 msgstr "Mme"
@@ -299,6 +299,9 @@ msgstr "Identifié"
 
 msgid "Locality"
 msgstr "Localité"
+
+msgid "Phone"
+msgstr "Téléphone fixe"
 
 msgid "Mobile phone"
 msgstr "Téléphone mobile"
@@ -355,7 +358,7 @@ msgid "I received the registration information"
 msgstr "J'ai reçu les informations sur l'inscription"
 
 msgid "Answer to test question"
-msgstr "Reponse question test"
+msgstr "Réponse question test"
 
 msgid "I want to check my identity"
 msgstr "Je voudrais\tfaire verifier mon identité"
@@ -408,8 +411,8 @@ msgstr "Votre localité"
 msgid "Zip code"
 msgstr "Code postal"
 
-msgid "Représentative"
-msgstr "Representative"
+msgid "Representative"
+msgstr "Représentant"
 
 msgid "Position in the company"
 msgstr "Fonction dans l'entreprise"
@@ -452,6 +455,9 @@ msgstr "Modifier mon compte"
 
 msgid "Edit"
 msgstr "Modifier"
+
+msgid "Edit now"
+msgstr "Modifier maintenant"
 
 msgid "Save"
 msgstr "Sauvegarder"
@@ -757,7 +763,7 @@ msgid "has commented"
 msgstr "a commenté il y a"
 
 msgid "ago"
-msgstr ""
+msgstr " "
 
 msgid "Comments"
 msgstr "Commentaires"
@@ -774,7 +780,7 @@ msgstr "Mode de transport"
 msgid "Types of objects accepted by the carrier"
 msgstr "Types d'objets acceptés par le tranporteur"
 
-msgid "No offers match your criteria"
+msgid "No valid offer match your criteria"
 msgstr "Aucune offre valide ne correspond à vos critères"
 
 msgid "Validate selection"
@@ -873,6 +879,9 @@ msgstr "ou effectuer une nouvelle recherche ultérieurement"
 msgid "The carriers selected for your shipment"
 msgstr "Les transporteurs sélectionnés pour votre envoi"
 
+msgid "Subject"
+msgstr "Objet"
+
 msgid "from"
 msgstr "de"
 
@@ -898,7 +907,7 @@ msgid "Verification of Identity in Progress"
 msgstr "Verification de l'identité en cours"
 
 msgid "M"
-msgstr "Mr."
+msgstr "M."
 
 msgid "No carrier selected for the moment"
 msgstr "Aucun transporteur selectionnés pour le moment"
@@ -1040,3 +1049,105 @@ msgstr "confirmation-inscription"
 
 msgid "ACTIVATION OF ACCOUNT"
 msgstr "ACTIVATION DU COMPTE"
+
+msgid "Identity status"
+msgstr "Status de l'identité"
+
+msgid "Identity information"
+msgstr "Informations sur l'identité"
+
+msgid "Link of identity file"
+msgstr "Lien du fichier d'identité"
+
+msgid "No identity file"
+msgstr "Aucun fichier d'identité"
+
+msgid "Packages"
+msgstr "Expéditions"
+
+msgid "Tranport offer"
+msgstr "Offre de transport"
+
+msgid "Package"
+msgstr "Expédition"
+
+msgid "Terms of use"
+msgstr "Conditions d'utilisation"
+
+msgid "You will be automatically notified (email or sms) when an offer you may be interested in will be registered"
+msgstr "Vous serez automatiquement notifié(e) (email ou sms) lorsqu'une offre correspondante ou pouvant vous intéresser sera enregistrée"
+
+msgid "City/Country"
+msgstr "Ville/Pays"
+
+msgid "Select your city and country"
+msgstr "Selectionner votre ville et pays"
+
+msgid "Send Password Reset Link"
+msgstr "Envoyer Lien Modification Mot de passe"
+
+msgid "Fill your email below to obtain a password reset link"
+msgstr "Saisisez ci-dessous votre email pour obtenir le lien de modification de votre mot de passe"
+
+msgid "If you don't see our email, check your spam folder"
+msgstr "Si vous ne voyez pas notre courrier électronique, vérifiez votre dossier de spam"
+
+msgid "Please check your inbox and click on the secure link"
+msgstr "Veuillez vérifier votre boîte de réception et cliquez sur le lien sécurisé"
+
+msgid "We sent you a link"
+msgstr "Nous vous avons envoyé un lien"
+
+msgid "Resend the link"
+msgstr "Reenvoyer le lien"
+
+msgid "Try different email"
+msgstr "Essayer un autre email"
+
+msgid "Try again"
+msgstr "Essayer encore"
+
+msgid "Modify your password and you can continue"
+msgstr "Modifiez votre mot de passe et vous pouvez poursuivre"
+
+msgid "To change your GPDEAL password"
+msgstr "Pour modifier votre mot de passe GPDEAL"
+
+msgid "click"
+msgstr "cliquez"
+
+msgid "or paste the following link into your browser"
+msgstr "ou collez le lien suivant dans vote navigateur"
+
+msgid "This link will expire in 24 hours, be sure to use it soon"
+msgstr "Ce lien expirera dans 24 heures, assurez-vous de l'utiliser bientôt"
+
+msgid "Thank you for using GPDEAL"
+msgstr "Merci d'utiliser GPDEAL"
+
+msgid "Publish new"
+msgstr "Publier nouvelle"
+
+msgid "Incomplete registration"
+msgstr "Inscription incomplete"
+
+msgid "You must complete your registration to be able to publish a shipment"
+msgstr "Vous devez completer votre inscription pour etre capable de publier une expédition"
+
+msgid "You must complete your registration to be able to publish a transport offer"
+msgstr "Vous devez completer votre inscription pour etre capable de publier une offre de transport"
+
+msgid "Account Type"
+msgstr "Type de compte"
+
+msgid "Publish Shipment"
+msgstr "Publier une expédition"
+
+msgid "Publish Transport Offer"
+msgstr "Publier offre de transport"
+
+msgid "Edit Shipment"
+msgstr "Modifier l'expédition"
+
+msgid "Edit Transport Offer"
+msgstr "Modifier offre de transport"

@@ -59,7 +59,7 @@ $(function () {
         previewPackagePicture();
     });
 
-    $.datetimepicker.setLocale('fr');
+    $.datetimepicker.setLocale($('html').attr('lang'));
     $('input[name="start_date"]').datetimepicker({
         timepicker: false,
         minDate: '0',
@@ -94,16 +94,16 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez préciser le type d'objet de votre expédition"
+                                prompt: gpdeal_translate("Please specify the item type of your shipment")
                             }
                         ]
                     },
                     content: {
-                        identifier: 'portable_objects',
+                        identifier: 'package_content',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez preciser les objets de votre expédition'
+                                prompt: gpdeal_translate("Please specify the contents of your shipment")
                             }
                         ]
                     },
@@ -112,11 +112,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la largeur'
+                                prompt: gpdeal_translate("Please specify width")
                             },
                             {
                                 type: 'number',
-                                prompt: 'Veuillez saisir un nombre valide'
+                                prompt: gpdeal_translate("Please enter a valid number")
                             }
                         ]
                     },
@@ -125,11 +125,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la longueur'
+                                prompt: gpdeal_translate("Please specify length")
                             },
                             {
                                 type: 'number',
-                                prompt: 'Veuillez saisir un nombre valide'
+                                prompt: gpdeal_translate("Please enter a valid number")
                             }
                         ]
                     },
@@ -138,11 +138,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir la hauteur'
+                                prompt: gpdeal_translate("Please specify height")
                             },
                             {
                                 type: 'number',
-                                prompt: 'Veuillez saisir un nombre valide'
+                                prompt: gpdeal_translate("Please enter a valid number")
                             }
                         ]
                     },
@@ -151,11 +151,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le poids'
+                                prompt: gpdeal_translate("Please specify weight")
                             },
                             {
                                 type: 'number',
-                                prompt: 'Veuillez saisir un nombre valide'
+                                prompt: gpdeal_translate("Please enter a valid number")
                             }
                         ]
                     },
@@ -164,26 +164,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez renseigner la date de départ'
-                            }
-                        ]
-                    },
-
-                    start_country: {
-                        identifier: 'start_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner le pays de départ'
-                            }
-                        ]
-                    },
-                    start_state: {
-                        identifier: 'start_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner la  Région, Province ou Etat de départ.'
+                                prompt: gpdeal_translate("Please enter the departure date")
                             }
                         ]
                     },
@@ -192,7 +173,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner la ville de départ.'
+                                prompt: gpdeal_translate("Please enter the departure city")
                             }
                         ]
                     },
@@ -201,26 +182,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez renseigner la date d'arrivée."
-                            }
-                        ]
-                    },
-
-                    destination_country: {
-                        identifier: 'destination_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner le pays de destination.'
-                            }
-                        ]
-                    },
-                    destionation_state: {
-                        identifier: 'destination_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner la  Région, Province ou Etat de destionation.'
+                                prompt: gpdeal_translate("Please enter the arrival date")
                             }
                         ]
                     },
@@ -229,7 +191,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner la ville de destination.'
+                                prompt: gpdeal_translate("Please enter the destination city")
                             }
                         ]
                     },
@@ -238,7 +200,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: "Vous devez accepter ces conditions d'utilisation."
+                                prompt: gpdeal_translate("You must agree to these Terms of Use")
                             }
                         ]
                     }
@@ -271,23 +233,23 @@ $(function () {
                     if (today.getTime() > start_date.getTime()) {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header').html(gpdeal_translate("Error"));
+                        $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                         valid = false;
                     }
 
                     if (today.getTime() > destination_date.getTime()) {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date d'arrivée ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header').html(gpdeal_translate("Error"));
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                     if (start_date.getTime() > destination_date.getTime()) {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date d'arrivée ne peut pas être inférieure à la date de départ</li>");
+                        $('#error_name_header').html(gpdeal_translate("Error"));
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
                         valid = false;
                     }
 
@@ -301,59 +263,6 @@ $(function () {
                 }
             }
             );
-
-//    $('#submit_send_package').click(function (e) {
-//        e.preventDefault();
-//        $('#server_error_message').hide();
-//        //$('#forgot_password_form.ui.form').form('validate form');
-//        if ($('#send_package_form.ui.form').form('is valid')) {
-//            $.ajax({
-//                type: 'post',
-//                url: $('#send_package_form.ui.form').attr('action'),
-//                data: $('#send_package_form.ui.form').serialize(),
-//                dataType: 'json',
-//                beforeSend: function () {
-//                    $('#send_package_form.ui.form').addClass('loading');
-//                    $('#submit_send_package').addClass('disabled');
-//                },
-//                statusCode: {
-//                    500: function (xhr) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#server_error_message').show();
-//                    },
-//                    400: function (response, textStatus, jqXHR) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Echec de la validation");
-//                        $('#error_name_message').show();
-//                    }
-//                },
-//                success: function (response, textStatus, jqXHR) {
-//                    if (response.success === true) {
-//                        $('#forgot_password_form.ui.form').submit();
-//                    } else if (response.success === false) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Echec de la validation");
-//                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
-//                        $('#error_name_message').show();
-//                    } else {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Internal server error");
-//                        $('#error_name_message').show();
-//                    }
-//                },
-//                error: function (jqXHR, textStatus, errorThrown) {
-//                    $('#forgot_password_form.ui.form').removeClass('loading');
-//                    $('#submit_forgot_password').removeClass('disabled');
-//                    $('#server_error_message').show();
-//                }
-//            });
-//        }
-//    });
-
 });
 
 function cancel_send_package(id) {
@@ -376,12 +285,12 @@ function cancel_send_package(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
 
                 },
                 404: function (response, textStatus, jqXHR) {
-                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error>div.header').html(gpdeal_translate("Failed to validate"));
                     $('#message_error').show();
                 }
             },
@@ -398,7 +307,7 @@ function cancel_send_package(id) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
                 } else {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 }
                 $('#single_package_content_form' + id).removeClass("ui form loading");
@@ -432,12 +341,12 @@ function fence_send_package(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
 
                 },
                 404: function (response, textStatus, jqXHR) {
-                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error>div.header').html(gpdeal_translate("Failed to validate"));
                     $('#message_error').show();
                 }
             },
@@ -454,7 +363,7 @@ function fence_send_package(id) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
                 } else {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 }
                 $('#single_package_content_form' + id).removeClass("ui form loading");
@@ -488,11 +397,11 @@ function fence_send_package_on_single_page(id) {
             },
             statusCode: {
                 500: function (xhr) {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 },
                 404: function (response, textStatus, jqXHR) {
-                    $('#message_error>div.header').html("Echec de la validation");
+                    $('#message_error>div.header').html(gpdeal_translate("Failed to validate"));
                     $('#message_error').show();
                 }
             },
@@ -508,7 +417,7 @@ function fence_send_package_on_single_page(id) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
                 } else {
-                    $('#message_error>div.header').html("Erreur s'est produite au niveau du serveur");
+                    $('#message_error>div.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 }
                 $('#fence_package_btn').removeClass("loading");

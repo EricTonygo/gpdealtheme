@@ -235,7 +235,7 @@ get_template_part('top-menu', get_post_format());
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            <?php _e("No offers match your criteria", "gpdealdomain"); ?>.
+                                            <?php _e("No valid offer match your criteria", "gpdealdomain"); ?>.
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +252,7 @@ get_template_part('top-menu', get_post_format());
                     ?>
                     <div  class="ui content_packages_transports fluid card">
                         <div class="content center aligned">
-                            <div class="header"><?php echo __('Offer that can interest you', 'gpdealdomain'); ?></div>
+                            <div class="header"><?php echo __('Offers that can interest you', 'gpdealdomain'); ?></div>
                         </div>
                         <div class="content content_packages_transports">
 

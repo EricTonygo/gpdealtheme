@@ -1,5 +1,6 @@
 body, div, p, a, h1, h2, h3, span, input, textarea label{
-    font-family: "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif!important;
+    /*font-family: 'Montserrat', sans-serif;*/
+    font-family: 'Montserrat', "Segoe UI", Tahoma, Arial, "Helvetica Neue", Helvetica, Sans-Serif!important;
     /*font-family: "Whitney SSm A","Whitney SSm B","Helvetica Neue",Helvetica,Arial,sans-serif !important;*/
 }
 
@@ -19,7 +20,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 .top-nav{
-    margin-top: 1em;
+    /*margin-top: 1em;*/
 }
 
 .top.menu{
@@ -53,13 +54,27 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
 }
 
 #feature_homepage.masthead.segment {
-    min-height: 580px;
-    padding: 1em 0em;
+    min-height: 66.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+/*    min-height: 580px!important;
+    padding: 1em 0em;*/
 }
 
-/*#feature_homepage.masthead.segment {
-    min-height: 580px!important;
-}*/
+#feature_homepage .ui.container {
+    width: 0;
+    flex: 0 0 850px;
+    margin: 0!important
+}
+
+#feature_homepage{
+    position: relative; 
+    background-attachment: fixed;  
+    background-position: center;
+    background-size: cover;
+    margin-top: 5.89em;
+}
 
 .masthead .logo.item img {
     margin-right: 1em;
@@ -114,13 +129,13 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     /*display: none;*/
 }
 
-@media only screen and (max-width: 1200px) {
+/*@media only screen and (max-width: 1200px) {
     #search_input_top{
         width: 25em!important;
     }
-}
+}*/
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1250px) {
     .main.menu{
         display: none;
     }
@@ -134,7 +149,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     }
 
     .ui.large.borderless.second-nav.menu{
-        margin-top: 4.5em!important;
+        margin-top: 4.1em!important;
     }
 
     #sub_main_menu.ui.fixed.menu {
@@ -144,17 +159,27 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     #feature_homepage {
         margin-top: 4.5em!important;
     }
-    #dropdow_menu_search_mobile{
+    #dropdown_menu_search_mobile{
         margin-left: -8em!important;
         margin-right: auto!important;
     }
+    
+    .masthead.segment {
+        min-height: 400px!important;
+    }
+    
+    #feature_homepage.masthead.segment {
+        min-height: 400px!important;
+        
+    }
 
-    /*    #select_type_package_help_content.ui.green.basic.label {
-            right: 29em!important;
-            top: 26.7em!important;
-            background-color: white;
-            color: #16ab39;
-        }*/
+    #sidebar_mobile_menu_item, #remove_mobile_menu_item{
+        display: none;
+    }
+    
+    .left.menu .toc.item{
+        display:flex!important;
+    }
 }
 
 @media only screen and (max-width: 700px) {
@@ -185,6 +210,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     
     #feature_homepage.masthead.segment {
         min-height: 350px!important;
+        padding: 1em 0em;
     }
     .masthead h1.ui.header {
         font-size: 2em;
@@ -250,7 +276,7 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
         display: none;
     }
 
-    #dropdow_menu_search_mobile{
+    #dropdown_menu_search_mobile{
         margin-left: -12em!important;
         margin-right: auto!important;
     }
@@ -395,6 +421,10 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     width: 60em;
 }
 
+.ui.signup_contenair.first_signup_contenair.segment{
+    width: 55em;
+}
+
 .ui.signup_contenair .ui.card{
     margin-top: 0px;
 }
@@ -438,16 +468,8 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     background: #b5da82;
 }
 
-#feature_homepage{
-    position: relative; 
-    background-attachment: fixed;  
-    background-position: center;
-    background-size: cover;
-    margin-top: 6.89em;
-}
-
 .ui.large.borderless.second-nav.menu{
-    margin-top: 6.5em;
+    margin-top: 5.567em;
 }
 
 .ui.container.top-nav .ui.dropdown.top.right.pointing.item .menu{
@@ -547,13 +569,13 @@ tlbs-flux{
 }
 
 @media only screen and (min-width: 1200px){
-    #feature_homepage .ui.container {
+/*    #feature_homepage .ui.container {
         width: 850px;
-        /*margin-left: 10em !important;*/
+        //margin-left: 10em !important;
         margin-left: auto !important;
         margin-right: auto !important;
         padding-top: 8em;
-    }
+    }*/
 
 }
 
@@ -584,7 +606,7 @@ tlbs-flux{
 }
 
 #sub_main_menu.ui.fixed.menu{
-    top: 6.8em;
+    top: 5.8em;
     background-color: rgba(143, 199, 66, 0.98);
 }
 #sub_main_menu.ui.fixed.menu .ui.container{
@@ -940,4 +962,49 @@ span.locality_name{
 
 form{
     margin-bottom: 0;
+}
+
+#forgot_password_response_card{
+    width: 80%;
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+#forgot_password_response_card .content .header{
+    text-align: center;
+}
+
+#forgot_password_response_card .content{
+    padding-bottom: 2em;
+}
+
+#forgot_password_response_card .content .description{
+   margin-top: 2em;
+   margin-bottom: 2em;
+   
+   background-color: white
+}
+
+#content_account{
+    padding-top: 2em;
+}
+
+#left_content_account .vertical.menu{
+    border:none;
+}
+
+#left_content_account .vertical.menu .item{
+    border:none;
+    font-weight: normal;
+}
+
+#left_content_account .vertical.menu .item.active{
+    background: #b5da82;
+    color: rgb(25, 136, 66);
+    font-weight: bold;
+    border-radius: 0!important;
+}
+
+#right_content_account .ui.fluid.card.main_right_content{
+    box-shadow: none;
 }

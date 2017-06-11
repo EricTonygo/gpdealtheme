@@ -23,7 +23,7 @@ if (isset($_POST['selected_transport_offers'])) {
                 <i class="right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>" class="section"><?php echo __('My shipments', 'gpdealdomain'); ?></a>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
                 <i class="right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -35,7 +35,7 @@ if (isset($_POST['selected_transport_offers'])) {
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Enter Shipment", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php echo __("Publish Shipment", 'gpdealdomain') ?> : </div>
             <?php if (isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?>
                 <p class="promo_text_form"><?php echo __("Fill in the information below to complete your transaction", 'gpdealdomain') ?>.</p>
             <?php else: ?>
@@ -120,7 +120,7 @@ if (isset($_POST['selected_transport_offers'])) {
 
                             <div class="fields">
                                 <div class="four wide field dim_max_label">
-                                    <label><?php echo __("Dimensions", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                    <label><?php echo __("Dimensions", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
                                             <span class="tooltiptext"><?php echo __("The length, width and height (in cm)", "gpdealdomain") ?></span>
                                         </i></label>
                                 </div>
@@ -148,7 +148,7 @@ if (isset($_POST['selected_transport_offers'])) {
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label><?php echo __("Weight", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                    <label><?php echo __("Weight", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
                                             <span class="tooltiptext"><?php echo __("The weight of the item to be shipped (in kg)", "gpdealdomain") ?></span>
                                         </i> </label>
                                 </div>

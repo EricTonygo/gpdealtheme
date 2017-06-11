@@ -30,9 +30,9 @@ $post_author = get_post_field('post_author', get_the_ID());
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                 <i class="right chevron icon divider"></i>
                 <?php if($post_author == $current_user->ID): ?>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('My shipments', 'gpdealdomain'); ?></a>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
                 <?php else: ?>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('My transport offers', 'gpdealdomain') ?></a>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
                 <i class="right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_the_permalink($transport_offer_id)); ?>" class="section"><?php echo get_post_field('post_title', $transport_offer_id); ?></a>
                 <i class="right chevron icon divider"></i>
@@ -47,7 +47,7 @@ $post_author = get_post_field('post_author', get_the_ID());
 <div class="ui vertical masthead  segment container">
     <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
-            <div class="header"><?php  _e("Modification of the shipment", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php  _e("Edit Shipment", 'gpdealdomain') ?> : </div>
             <p class="promo_text_form"><?php _e("Modify the information below and then search again for the carriers available for your shipment", 'gpdealdomain') ?>.</p>
         </div>
         <div class="ui fluid card">
@@ -124,7 +124,7 @@ $post_author = get_post_field('post_author', get_the_ID());
 
                         <div class="fields">
                             <div class="four wide field dim_max_label">
-                                <label><?php echo __("Dimensions", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                <label><?php echo __("Dimensions", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
                                         <span class="tooltiptext"><?php echo __("The length, width and height (in cm)", "gpdealdomain") ?></span>
                                     </i></label>
                             </div>
@@ -152,7 +152,7 @@ $post_author = get_post_field('post_author', get_the_ID());
 
                         <div class="fields">
                             <div class="four wide field">
-                                <label><?php echo __("Weight", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                <label><?php echo __("Weight", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
                                         <span class="tooltiptext"><?php echo __("The weight of the item to be shipped (in kg)", "gpdealdomain") ?></span>
                                     </i> </label>
                             </div>
@@ -214,7 +214,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <div class="field">
                             <input type="hidden" name='action' value='edit'>
                             <input type="hidden" name='package_id' value='<?php the_ID() ?>'>
-                            <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;">Rechercher transporteur</button>
+                            <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search carriers", "gpdealdomain"); ?></button>
                             <button id="cancel_edit_package_infos_btn" class="ui right floated red button" style="min-width: 12em;"><?php _e("Cancel change", "gpdealdomain"); ?></button>
                         </div>
                     </form>
@@ -233,7 +233,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <h4 class="ui dividing header"><?php echo __("Departure", 'gpdealdomain') ?> </h4>
                         <div class="fields">
                             <div class="field">
-                                <span class="span_value"><?php echo $start_city; ?></span> (<span class="span_value"><?php echo $start_state; ?></span>, <span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
+                                <span class="span_value"><?php echo $start_city; ?></span> (<?php if($start_state!=""): ?><span class="span_value"><?php echo $start_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
                             </div>   
                         </div>
 
@@ -241,7 +241,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <h4 class="ui dividing header"><?php echo __("Destination", 'gpdealdomain') ?> </h4>
                         <div class="fields">
                             <div class="field">
-                                <span class="span_value"><?php echo $destination_city; ?></span> (<span class="span_value"><?php echo $destination_state; ?></span>, <span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
+                                <span class="span_value"><?php echo $destination_city; ?></span> (<?php if($destination_state!=""): ?><span class="span_value"><?php echo $destination_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
                             </div>   
                         </div>
                         <h4 class="ui dividing header"><?php echo __("Information on the item to be shipped", "gpdealdomain"); ?></h4>
@@ -309,12 +309,12 @@ $post_author = get_post_field('post_author', get_the_ID());
                     <div id="block_recap_mobile" style="display: none">
                         <h4 class="ui dividing header"><?php echo __("Departure", 'gpdealdomain') ?> </h4>
                         <div class="inline field">
-                            <span class="span_value"><?php echo $start_city; ?></span> (<span class="span_value"><?php echo $start_state; ?></span>, <span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
+                            <span class="span_value"><?php echo $start_city; ?></span> (<?php if($start_state!=""): ?><span class="span_value"><?php echo $start_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $start_country; ?></span>), <span class="span_value"><?php echo $start_date; ?></span>
                         </div>
 
                         <h4 class="ui dividing header"><?php echo __("Destination", 'gpdealdomain') ?> </h4>
                         <div class="inline field">
-                            <span class="span_value"><?php echo $destination_city; ?></span> (<span class="span_value"><?php echo $destination_state; ?></span>, <span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
+                            <span class="span_value"><?php echo $destination_city; ?></span> (<?php if($destination_state!=""): ?><span class="span_value"><?php echo $destination_state; ?></span>, <?php endif ?><span class="span_value"><?php echo $destination_country; ?></span>), <span class="span_value"><?php echo $destination_date; ?></span>
                         </div>
                         <div class="inline field">
                             <span class="span_label">Date : </span>

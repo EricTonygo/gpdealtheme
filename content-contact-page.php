@@ -30,14 +30,8 @@
                                         </div>
                                         <div class="field myrole">
                                             <div class="ui radio checkbox">
-                                                <input id="redacteur" type="radio" name="role" value="professional">
+                                                <input type="radio" name="role" value="professional">
                                                 <label for="redacteur"><?php _e("Professional", "gpdealdomain"); ?></label>
-                                            </div>
-                                        </div>
-                                        <div class="field myrole">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="role" value="enterprise">
-                                                <label><?php _e("Enterprise", "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                         <div class="field">
@@ -61,14 +55,14 @@
                                     <div id='block_visitor'>
                                         <div class="fields">
                                             <div class="four wide field">
-                                                <label><?php _e("Civility", "gpdealdomain"); ?> <span style="color:red;">*</span> </label>
+                                                <label><?php _e("Civility", "gpdealdomain"); ?> </label>
                                             </div>
                                             <div class="twelve wide field">
                                                 <div class="inline fields">
                                                     <div class="field">
                                                         <div class="ui radio checkbox">
                                                             <input type="radio" name="civility" value="Mr.">
-                                                            <label><?php _e("Mr.", "gpdealdomain"); ?>.</label>
+                                                            <label><?php _e("Mr.", "gpdealdomain"); ?></label>
                                                         </div>
                                                     </div>
                                                     <div class="field">
@@ -89,19 +83,19 @@
                                         <div class="two fields">
                                             <div class="field">
                                                 <label><?php _e("First name", "gpdealdomain"); ?></label>
-                                                <input type="text" placeholder="Prenom" name="firstname">
+                                                <input type="text" placeholder="<?php _e("First name", "gpdealdomain"); ?>" name="firstname">
                                             </div>
 
                                             <div class="field">
-                                                <label><?php _e("Last name", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
-                                                <input type="text" placeholder="Nom" name="lastname">
+                                                <label><?php _e("Last name", "gpdealdomain"); ?></label>
+                                                <input type="text" placeholder="<?php _e("Last name", "gpdealdomain"); ?>" name="lastname">
                                             </div>
                                         </div>
 
                                         <div class="two fields">
                                             <div class="field">
                                                 <label><?php _e("Office", "gpdealdomain"); ?></label>
-                                                <input type="text" placeholder="Fonction" name="function">
+                                                <input type="text" placeholder="<?php _e("Office", "gpdealdomain"); ?>" name="function">
                                             </div>
 
                                             <div class="eight wide field">
@@ -113,14 +107,16 @@
                                         <div class="field">
                                             <label><?php _e("Phone Number", "gpdealdomain"); ?></label>
                                             <div class="fields">
-                                                <div class="three wide field">
-                                                    <select name="country_code" class="ui fluid normal selection dropdown">
-                                                        <option value="+33">+33</option>
-                                                        <option value="+237">+237</option>
-                                                    </select>
+                                                <div class="five wide field">
+                                                    <div class="ui fluid search selection dropdown">
+                                                        <input type="hidden" name="country_code">
+                                                        <i class="dropdown icon"></i>
+                                                        <div class="default text"><?php _e("Select Country Code", "gpdealdomain"); ?></div>
+                                                        <?php include(locate_template('content-select-country.php')); ?>
+                                                    </div>
                                                 </div>
-                                                <div class="thirteen wide field">
-                                                    <input type="text" name="phone_number" placeholder="<?php _e("Phone Number", "gpdealdomain"); ?>">
+                                                <div class="eleven wide field">
+                                                    <input type="tel" name="phone_number" placeholder="<?php _e("Phone Number", "gpdealdomain"); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -135,8 +131,8 @@
                                     <input type="text" placeholder="<?php _e("Social Reasons", "gpdealdomain"); ?>" name="social_reasons">
                                 </div>
                                 <div class="field">
-                                    <label><?php _e("Object", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
-                                    <input type="text" placeholder="Objet" name="subject">
+                                    <label><?php _e("Subject", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                                    <input type="text" placeholder="<?php _e("Subject", "gpdealdomain"); ?>" name="subject">
                                 </div>
 
                                 <div class="field">
@@ -180,5 +176,7 @@
                 </div>
             </div>
         </div>
-        <?php
-    endwhile; endif; ?>
+    <?php
+    endwhile;
+endif;
+?>

@@ -16,7 +16,7 @@
 //}
 
 $(document).ready(function () {
-    $.datetimepicker.setLocale('fr');
+    $.datetimepicker.setLocale($('html').attr('lang'));
 //    show_password_login();
 //    hide_password_login();
 //    var mouseX;
@@ -347,7 +347,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez renseigner la date de départ'
+                        prompt: gpdeal_translate("Please enter the departure date")
                     }
                 ]
             },
@@ -356,7 +356,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez saisir la ville de départ.'
+                        prompt: gpdeal_translate("Please enter the departure city")
                     }
                 ]
             },
@@ -366,7 +366,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: "Veuillez renseigner la date d'arrivée"
+                        prompt: gpdeal_translate("Please enter the destination date")
                     }
                 ]
             },
@@ -375,7 +375,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez sasir la ville de destination.'
+                        prompt: gpdeal_translate("Please enter the destination city")
                     }
                 ]
             }
@@ -409,22 +409,22 @@ $(document).ready(function () {
                 if (today.getTime() > start_date.getTime()) {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
-                    $('#error_name_header').html("Erreur(s)");
-                    $('#error_name_list').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                    $('#error_name_header').html(gpdeal_translate("Error"));
+                    $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                     valid = false;
                 }
                 if (today.getTime() > destination_date.getTime()) {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
-                    $('#error_name_header').html("Erreur(s)");
-                    $('#error_name_list').append("<li>La date de destination ne peut pas être inférieure à la date du jour</li>");
+                    $('#error_name_header').html(gpdeal_translate("Error"));
+                    $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                     valid = false;
                 }
                 if (start_date.getTime() > destination_date.getTime()) {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
-                    $('#error_name_header').html("Erreur(s)");
-                    $('#error_name_list').append("<li>La date de destination ne peut pas être inférieure à la date de départ</li>");
+                    $('#error_name_header').html(gpdeal_translate("Error"));
+                    $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
                     valid = false;
                 }
             } else {
@@ -437,8 +437,8 @@ $(document).ready(function () {
                     if (today.getTime() > start_date.getTime()) {
                         $('#search_transport_offers_form.ui.form').removeClass('loading');
                         $('#submit_search_transport_offers').removeClass('disabled');
-                        $('#error_name_header').html("Erreur");
-                        $('#error_name_list').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header').html(gpdeal_translate("Error"));
+                        $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                 } else if ($('#search_transport_offers_form.ui.form input[name="destination_date"]').val() !== "") {
@@ -451,8 +451,8 @@ $(document).ready(function () {
                     if (today.getTime() > destination_date.getTime()) {
                         $('#search_transport_offers_form.ui.form').removeClass('loading');
                         $('#submit_search_transport_offers').removeClass('disabled');
-                        $('#error_name_header').html("Erreur");
-                        $('#error_name_list').html("<li>La date de destination ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header').html(gpdeal_translate("Error"));
+                        $('#error_name_list').html("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                 }
@@ -476,7 +476,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez renseigner la date de départ'
+                        prompt: gpdeal_translate("Please enter the departure date")
                     }
                 ]
             },
@@ -486,7 +486,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez saisir la ville de départ.'
+                        prompt: gpdeal_translate("Please enter the departure city")
                     }
                 ]
             },
@@ -496,7 +496,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: "Veuillez renseigner la date d'arrivée"
+                        prompt: gpdeal_translate("Please enter the destination date")
                     }
                 ]
             },
@@ -506,7 +506,7 @@ $(document).ready(function () {
                 rules: [
                     {
                         type: 'empty',
-                        prompt: 'Veuillez saisir la ville de destination.'
+                        prompt: gpdeal_translate("Please enter the destination city")
                     }
                 ]
             }
@@ -540,22 +540,22 @@ $(document).ready(function () {
                 if (today.getTime() > start_date.getTime()) {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
-                    $('#error_name_header_package').html("Erreur(s)");
-                    $('#error_name_list_package').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                    $('#error_name_header_package').html(gpdeal_translate("Error"));
+                    $('#error_name_list_package').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                     valid = false;
                 }
                 if (today.getTime() > destination_date.getTime()) {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
-                    $('#error_name_header_package').html("Erreur(s)");
-                    $('#error_name_list_package').append("<li>La date de destination ne peut pas être inférieure à la date du jour</li>");
+                    $('#error_name_header_package').html(gpdeal_translate("Error"));
+                    $('#error_name_list_package').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                     valid = false;
                 }
                 if (start_date.getTime() > destination_date.getTime()) {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
-                    $('#error_name_header_package').html("Erreur(s)");
-                    $('#error_name_list_package').append("<li>La date de destination ne peut pas être inférieure à la date de départ</li>");
+                    $('#error_name_header_package').html(gpdeal_translate("Error"));
+                    $('#error_name_list_package').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
                     valid = false;
                 }
             } else {
@@ -568,8 +568,8 @@ $(document).ready(function () {
                     if (today.getTime() > start_date.getTime()) {
                         $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                         $('#submit_search_unsatisfied_packages').removeClass('disabled');
-                        $('#error_name_header_package').html("Erreur");
-                        $('#error_name_list_package').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header_package').html(gpdeal_translate("Error"));
+                        $('#error_name_list_package').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                 } else if ($('#search_unsatisfied_packages_form.ui.form input[name="destination_date"]').val() !== "") {
@@ -582,8 +582,8 @@ $(document).ready(function () {
                     if (today.getTime() > destination_date.getTime()) {
                         $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                         $('#submit_search_unsatisfied_packages').removeClass('disabled');
-                        $('#error_name_header_package').html("Erreur");
-                        $('#error_name_list_package').html("<li>La date de destination ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_header_package').html(gpdeal_translate("Error"));
+                        $('#error_name_list_package').html("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                 }
@@ -710,7 +710,7 @@ $(document).ready(function () {
                         identifier: '_password',
                         rules: [
                             {
-                                type: 'empty',
+                                type: 'empty'
                                 //prompt: 'Veuillez saisir votre mot de passe'
                             }
                         ]
@@ -817,13 +817,13 @@ $(document).ready(function () {
                 statusCode: {
                     500: function (xhr) {
                         $('#login_form.ui.form').removeClass('loading');
-                        $('#message_error>.header').html("Internal server error");
+                        $('#message_error>.header').html(gpdeal_translate("Internal server error"));
                         $('#message_error').show();
                     },
                     400: function (response, textStatus, jqXHR) {
                         $('#login_form.ui.form').removeClass('loading');
                         $('#submit_login_form').removeClass('disabled');
-                        $('#message_error>.header').html("Echec de la validation");
+                        $('#message_error>.header').html(gpdeal_translate("Failed to validate"));
                     }
                 },
                 success: function (response, textStatus, jqXHR) {
@@ -902,7 +902,7 @@ $(document).ready(function () {
                     400: function (response, textStatus, jqXHR) {
                         $('#login_form2.ui.form').removeClass('loading');
                         $('#submit_login_form2').removeClass('disabled');
-                        $('#error_name_header2').html("Echec de la validation");
+                        $('#error_name_header2').html(gpdeal_translate("Failed to validate"));
                         $('#error_name_message2').show();
                     }
                 },
@@ -917,7 +917,7 @@ $(document).ready(function () {
                     } else {
                         $('#login_form2.ui.form').removeClass('loading');
                         $('#submit_login_form2').removeClass('disabled');
-                        $('#error_name_header2').html("Internal server error");
+                        $('#error_name_header2').html(gpdeal_translate("Internal server error"));
                         $('#error_name_message2').show();
                     }
                 },
@@ -1022,7 +1022,7 @@ $(document).ready(function () {
     //*****************************************************************************************************************************
 
     //*************************************************SlideShow background homepage*******************************
-    var images = new Array('wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg', 'wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg');
+    var images = new Array('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg');
     var nextimage = 0;
     doSlideshow();
 
@@ -1032,7 +1032,7 @@ $(document).ready(function () {
         }
         $('#feature_homepage')
                 .css('background-image', 'url("' + images[nextimage++] + '")')
-                .fadeIn(1000, 'linear',  function () {
+                .fadeIn('1000', 'swing',  function () {
                     setTimeout(doSlideshow, 5000);
                 });
     }
@@ -1076,7 +1076,7 @@ function submit_login_modal() {
                     $('#login_form3.ui.form').removeClass('loading');
                     $('#submit_login_form3').removeClass('disabled');
                     $('#cancel_login_form3').removeClass('disabled');
-                    $('#error_name_header3').html("Echec de la validation");
+                    $('#error_name_header3').html(gpdeal_translate("Failed to validate"));
                     $('#error_name_message3').show();
                 }
             },
@@ -1126,13 +1126,13 @@ function submit_login_form1() {
             statusCode: {
                 500: function (xhr) {
                     $('#login_form1.ui.form').removeClass('loading');
-                    $('#message_error>.header').html("Internal server error");
+                    $('#message_error>.header').html(gpdeal_translate("Internal server error"));
                     $('#message_error').show();
                 },
                 400: function (response, textStatus, jqXHR) {
                     $('#login_form1.ui.form').removeClass('loading');
                     $('#submit_login_form1').removeClass('disabled');
-                    $('#message_error>.header').html("Echec de la validation");
+                    $('#message_error>.header').html(gpdeal_translate("Failed to validate"));
                 }
             },
             success: function (response, textStatus, jqXHR) {

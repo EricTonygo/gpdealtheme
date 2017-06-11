@@ -8,7 +8,7 @@ get_template_part('top-menu', get_post_format());
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>                
                 <i class="right arrow icon divider"></i>
-                <div class="active section"><?php echo __('Search results for transport offers'); ?></div>
+                <div class="active section"><?php echo __('Search results for transport offers', 'gpdealdomain'); ?></div>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@ get_template_part('top-menu', get_post_format());
             <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>">
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Carriers departing from', 'gpdealdomain'); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
+                        <div class="header"><?php echo __('Carriers from', 'gpdealdomain'); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
                     </div>
                     <div class="content">
                         <?php
@@ -178,7 +178,7 @@ get_template_part('top-menu', get_post_format());
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            <?php echo __("No offers valid from", 'gpdealdomain') ?> <?php echo $country_region_city['city']; ?>.
+                                            <?php echo __("No valid offer from", 'gpdealdomain') ?> <?php echo $country_region_city['city']; ?>.
                                         </div>
 
                                     </div>
@@ -193,7 +193,7 @@ get_template_part('top-menu', get_post_format());
 
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Carriers to'); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
+                        <div class="header"><?php echo __("Carriers to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $locality_name ?></span></div>
                     </div>
                     <div class="content">
                         <?php

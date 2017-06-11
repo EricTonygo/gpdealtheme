@@ -648,7 +648,7 @@
                     <div class="ui list">
                         <div class="header"><strong><?php echo __("My transactions", "gpdealdomain"); ?></strong></div>
                         <div class="item" ><i class="minus icon"></i><a class="content" href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>"><?php echo __('My shipments', 'gpdealdomain') ?></a></div>
-                        <div class="item" ><i class="minus icon"></i><a class="content"href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>'><?php echo __('My transport offers', 'gpdealdomain') ?> </a></div>
+                        <div class="item" ><i class="minus icon"></i><a class="content" href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>'><?php echo __('My transport offers', 'gpdealdomain') ?> </a></div>
                     </div>
                 </div>
             </div>

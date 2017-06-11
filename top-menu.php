@@ -14,9 +14,9 @@
         <div class="center menu">           
         </div>
         <div class="right menu">
-            <div id="dropdow_search_mobile" class="ui dropdown item">
+            <div id="dropdown_search_mobile" class="ui dropdown item">
                 <i class="search icon"></i>
-                <div id='dropdow_menu_search_mobile' class="menu" style="padding: 0.3em; border-radius: 0px;">
+                <div id='dropdown_menu_search_mobile' class="menu" style="padding: 0.3em; border-radius: 0px;">
                     <div class="item" style="display: none">test value</div>
                     <form id="mobile_search_input_top_form" action="<?php echo wp_make_link_relative(get_site_url().'/') ?>" method="GET" >
                         <div class="ui action input">
@@ -56,13 +56,13 @@
                         <h2 class="header"><?php echo $current_user->user_login ?></h2>
                         <div class="divider"></div>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>' class="ui item">
-                            <i class="setting icon"></i>
+                            <i class="user icon"></i>
                             <?php _e('My account', 'gpdealdomain') ?>                         
                         </a>
-                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
+<!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
                             <i class="user icon"></i>
                             <?php echo __("My profile", "gpdealdomain"); ?>                         
-                        </a>
+                        </a>-->
                         <div class="divider"></div>
                         <a  href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="ui item disconnected_btn">
                             <i class="sign out icon"></i>
@@ -185,13 +185,13 @@
                     <?php echo $current_user->user_login ?>
                     <div class="menu">
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>' class="ui item">
-                            <i class="setting icon"></i>
+                            <i class="user icon"></i>
                             <?php echo _e('My account', 'gpdealdomain');?>                         
                         </a>
-                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
+<!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
                             <i class="user icon"></i>
                             <?php echo __("My profile", "gpdealdomain"); ?>                         
-                        </a>
+                        </a>-->
                         <div class="divider"></div>
                         <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="ui item disconnected_btn">
                             <i class="sign out icon"></i>

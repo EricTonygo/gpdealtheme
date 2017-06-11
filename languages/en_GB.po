@@ -151,10 +151,16 @@ msgid "Transport requests"
 msgstr "Transport requests"
 
 msgid "Departure city"
-msgstr "Departure city"
+msgstr "From/City"
+
+msgid "Departure"
+msgstr "From"
 
 msgid "Destination city"
-msgstr "Destination city"
+msgstr "To/City"
+
+msgid "Destination"
+msgstr "To"
 
 msgid "Departure date"
 msgstr "Departure date"
@@ -284,3 +290,9 @@ msgstr "No"
 
 msgid "M"
 msgstr "Mr."
+
+msgid "Packages"
+msgstr "Shipments"
+
+msgid "Package"
+msgstr "Shipment"

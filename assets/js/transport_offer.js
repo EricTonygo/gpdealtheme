@@ -1,5 +1,5 @@
 $(function () {
-    $.datetimepicker.setLocale('fr');
+    $.datetimepicker.setLocale($('html').attr('lang'));
     $('input[name="start_date"]').datetimepicker({
         timepicker: false,
         minDate: '0',
@@ -50,7 +50,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez préciser le type de courrier/colis'
+                                prompt: gpdeal_translate("Please specify the type of shipments")
                             }
                         ]
                     },
@@ -59,7 +59,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: 'Veuillez préciser le mode de transport.'
+                                prompt: gpdeal_translate("Please specify the mode of transport")
                             }
                         ]
                     },
@@ -68,7 +68,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: 'Veuillez préciser le type de coût du tranport.'
+                                prompt: gpdeal_translate("Please specify a type of transport cost")
                             }
                         ]
                     },
@@ -77,11 +77,11 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez saisir le coût du transport.'
+                                prompt: gpdeal_translate("Please enter the cost of transport")
                             },
                             {
                                 type: 'number',
-                                prompt: 'Veuillez saisir un nombre valide.'
+                                prompt: gpdeal_translate("Please enter a valid number")
                             }
                         ]
                     },
@@ -90,7 +90,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez préciser la dévise.'
+                                prompt: gpdeal_translate("Please specify the currency")
                             }
                         ]
                     },
@@ -99,35 +99,17 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez renseigner la date de départ'
+                                prompt: gpdeal_translate("Please enter the departure date")
                             }
                         ]
                     },
 
-                    start_country: {
-                        identifier: 'start_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner le pays de départ'
-                            }
-                        ]
-                    },
-                    start_state: {
-                        identifier: 'start_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner la  Région, Province ou Etat de départ.'
-                            }
-                        ]
-                    },
                     start_city: {
                         identifier: 'start_city',
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner la ville de départ.'
+                                prompt: gpdeal_translate("Please enter the departure city")
                             }
                         ]
                     },
@@ -136,7 +118,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez renseigner la date limite de proposition'
+                                prompt: gpdeal_translate("Please enter the deadline of the offer")
                             }
                         ]
                     },
@@ -145,26 +127,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez renseigner la date d'arrivée"
-                            }
-                        ]
-                    },
-
-                    destination_country: {
-                        identifier: 'destination_country',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner le pays de destination.'
-                            }
-                        ]
-                    },
-                    destionation_state: {
-                        identifier: 'destination_state',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: 'Veuillez selectionner la  Région, Province ou Etat de destionation.'
+                                prompt: gpdeal_translate("Please enter the arrival date")
                             }
                         ]
                     },
@@ -173,7 +136,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: 'Veuillez selectionner la ville de destination.'
+                                prompt: gpdeal_translate("Please enter the destination city")
                             }
                         ]
                     },
@@ -182,7 +145,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: "Vous devez accepter ces conditions d'utilisation."
+                                prompt: gpdeal_translate("You must agree to these Terms of Use")
                             }
                         ]
                     }
@@ -221,14 +184,14 @@ $(function () {
                         $('#write_transport_offer_form.ui.form').removeClass('loading');
                         $('#submit_transport_offer').removeClass('disabled');
                         $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').html("<li>La date de départ ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                     if (today.getTime() > start_deadline.getTime()) {
                         $('#write_transport_offer_form.ui.form').removeClass('loading');
                         $('#submit_transport_offer').removeClass('disabled');
                         $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date limite des propositions ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The deadline of the offer can not be less than the current date")+"</li>");
                         valid = false;
                     }
 
@@ -236,7 +199,7 @@ $(function () {
                         $('#write_transport_offer_form.ui.form').removeClass('loading');
                         $('#submit_transport_offer').removeClass('disabled');
                         $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date de départ ne peut pas être inférieure à la date limite des proposition </li>");
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The departure date can not be less than the deadline of the offer")+"</li>");
                         valid = false;
                     }
 
@@ -244,14 +207,14 @@ $(function () {
                         $('#write_transport_offer_form.ui.form').removeClass('loading');
                         $('#submit_transport_offer').removeClass('disabled');
                         $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date d'arrivée ne peut pas être inférieure à la date du jour</li>");
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                     if (start_date.getTime() > destination_date.getTime()) {
                         $('#write_transport_offer_form.ui.form').removeClass('loading');
                         $('#submit_transport_offer').removeClass('disabled');
                         $('#error_name_header').html("Erreur(s)");
-                        $('#error_name_list').append("<li>La date d'arrivée ne peut pas être inférieure à la date de départ</li>");
+                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
                         valid = false;
                     }
 
@@ -264,57 +227,7 @@ $(function () {
             }
             );
 
-//    $('#submit_send_package').click(function (e) {
-//        e.preventDefault();
-//        $('#server_error_message').hide();
-//        //$('#forgot_password_form.ui.form').form('validate form');
-//        if ($('#send_package_form.ui.form').form('is valid')) {
-//            $.ajax({
-//                type: 'post',
-//                url: $('#send_package_form.ui.form').attr('action'),
-//                data: $('#send_package_form.ui.form').serialize(),
-//                dataType: 'json',
-//                beforeSend: function () {
-//                    $('#send_package_form.ui.form').addClass('loading');
-//                    $('#submit_send_package').addClass('disabled');
-//                },
-//                statusCode: {
-//                    500: function (xhr) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#server_error_message').show();
-//                    },
-//                    400: function (response, textStatus, jqXHR) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Echec de la validation");
-//                        $('#error_name_message').show();
-//                    }
-//                },
-//                success: function (response, textStatus, jqXHR) {
-//                    if (response.success === true) {
-//                        $('#forgot_password_form.ui.form').submit();
-//                    } else if (response.success === false) {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Echec de la validation");
-//                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
-//                        $('#error_name_message').show();
-//                    } else {
-//                        $('#forgot_password_form.ui.form').removeClass('loading');
-//                        $('#submit_forgot_password').removeClass('disabled');
-//                        $('#error_name_header').html("Internal server error");
-//                        $('#error_name_message').show();
-//                    }
-//                },
-//                error: function (jqXHR, textStatus, errorThrown) {
-//                    $('#forgot_password_form.ui.form').removeClass('loading');
-//                    $('#submit_forgot_password').removeClass('disabled');
-//                    $('#server_error_message').show();
-//                }
-//            });
-//        }
-//    });
+
 
 
 
@@ -339,7 +252,7 @@ $(function () {
                 400: function (response, textStatus, jqXHR) {
                     $('#evaluation_form.ui.form').removeClass('loading');
                     $('#submit_evaluation_form').removeClass('disabled');
-                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_header').html(gpdeal_translate("Failed to validate"));
                     $('#error_name_message').show();
                 }
             },
@@ -350,13 +263,13 @@ $(function () {
                 } else if (response.success === false) {
                     $('#evaluation_form.ui.form').removeClass('loading');
                     $('#submit_evaluation_form').removeClass('disabled');
-                    $('#error_name_header').html("Echec de la validation");
+                    $('#error_name_header').html(gpdeal_translate("Failed to validate"));
                     $('#error_name_list').html('<li>' + response.data.message + '</li>');
                     $('#error_name_message').show();
                 } else {
                     $('#evaluation_form.ui.form').removeClass('loading');
                     $('#submit_evaluation_form').removeClass('disabled');
-                    $('#error_name_header').html("Internal server error");
+                    $('#error_name_header').html(gpdeal_translate("Internal server error"));
                     $('#error_name_message').show();
                 }
             },
@@ -376,7 +289,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez s'il vous plait saisir votre commentaire"
+                                prompt: gpdeal_translate("Please enter your comment")
                             }
                         ]
                     }
@@ -394,7 +307,7 @@ $(function () {
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: "Veuillez s'il vous plait saisir votre réponse"
+                                prompt: gpdeal_translate("Please enter your reply")
                             }
                         ]
                     }
@@ -458,7 +371,7 @@ function add_evaluation_comment(event, id) {
                 },
                 400: function (response, textStatus, jqXHR) {
                     $('#evaluation_comment_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_header' + id).html(gpdeal_translate("Failed to validate"));
                     $('#error_name_message' + id).show();
                 }
             },
@@ -467,12 +380,12 @@ function add_evaluation_comment(event, id) {
                     window.location.reload();
                 } else if (response.success === false) {
                     $('#evaluation_comment_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_header' + id).html(gpdeal_translate("Failed to validate"));
                     $('#error_name_list' + id).html('<li>' + response.data.message + '</li>');
                     $('#error_name_message' + id).show();
                 } else {
                     $('#evaluation_comment_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Internal server error");
+                    $('#error_name_header' + id).html(gpdeal_translate("Internal server error"));
                     $('#error_name_message' + id).show();
                 }
             },
@@ -505,7 +418,7 @@ function add_comment_reply(event, id) {
                 },
                 400: function (response, textStatus, jqXHR) {
                     $('#comment_reply_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_header' + id).html(gpdeal_translate("Failed to validate"));
                     $('#error_name_message' + id).show();
                 }
             },
@@ -514,12 +427,12 @@ function add_comment_reply(event, id) {
                     window.location.reload();
                 } else if (response.success === false) {
                     $('#comment_reply_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Echec de la validation");
+                    $('#error_name_header' + id).html(gpdeal_translate("Failed to validate"));
                     $('#error_name_list' + id).html('<li>' + response.data.message + '</li>');
                     $('#error_name_message' + id).show();
                 } else {
                     $('#comment_reply_form' + id).removeClass('loading');
-                    $('#error_name_header' + id).html("Internal server error");
+                    $('#error_name_header' + id).html(gpdeal_translate("Internal server error"));
                     $('#error_name_message' + id).show();
                 }
             },
