@@ -15,16 +15,16 @@ if (isset($_POST['selected_transport_offers'])) {
     $selected_transport_offers = array_map('intval', $_POST['selected_transport_offers']);
 }
 ?>
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
+                <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
+                <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
-                <i class="right arrow icon divider"></i>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>
@@ -35,7 +35,7 @@ if (isset($_POST['selected_transport_offers'])) {
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Publish Shipment", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php echo __("Publish Shipment", 'gpdealdomain') ?> </div>
             <?php if (isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?>
                 <p class="promo_text_form"><?php echo __("Fill in the information below to complete your transaction", 'gpdealdomain') ?>.</p>
             <?php else: ?>
@@ -104,7 +104,7 @@ if (isset($_POST['selected_transport_offers'])) {
                                         $type_packages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                         foreach ($type_packages as $type_package):
                                             ?>
-                                            <option value="<?php echo $type_package->term_id; ?>" <?php if ($type == $type_package->term_id): ?> selected="selected" <?php endif ?>><?php echo $type_package->name; ?></option>
+                                            <option value="<?php echo $type_package->term_id; ?>" <?php if ($type == $type_package->term_id): ?> selected="selected" <?php endif ?>><?php echo __($type_package->name, "gpdealdomain"); ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>

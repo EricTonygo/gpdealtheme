@@ -5,14 +5,14 @@
  */
 session_start();
 expire_session();
-if (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+if (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
     $search_data = null;
-    if (isset($_POST["submit_search_unsatisfied_packages"]) && removeslashes(esc_attr(trim($_POST["submit_search_unsatisfied_packages"] = "yes")))) {
-        $package_type = array_map('intval', isset($_POST['package_type']) ? $_POST['package_type'] : array());
-        $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
-        $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-        $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
-        $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
+    if (isset($_GET['start-city']) && isset($_GET['start-date']) && isset($_GET['destination-city']) && isset($_GET['destination-date'])) {
+        $package_type = array_map('intval', isset($_GET['package-type']) ? $_GET['package-type'] : array());
+        $start_city = removeslashes(esc_attr(trim($_GET['start-city'])));
+        $start_date = removeslashes(esc_attr(trim($_GET['start-date'])));
+        $destination_city = removeslashes(esc_attr(trim($_GET['destination-city'])));
+        $destination_date = removeslashes(esc_attr(trim($_GET['destination-date'])));
         $country_region_city_start = getCountryRegionCityInformations($start_city);
         $country_region_city_destination = getCountryRegionCityInformations($destination_city);
         $search_data = array(

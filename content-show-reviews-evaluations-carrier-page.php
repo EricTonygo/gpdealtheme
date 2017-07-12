@@ -3,7 +3,7 @@ global $current_user;
 ?>
 <div id="show-reviews-evaluations-carrier" class="ui modal">
     <i class="close icon"></i>
-    <div class="header">
+    <div class="header search_result_header">
         <?php echo __("Reviews/Evaluations", "gpdealdomain"); ?>
     </div>
     <div class="content">
@@ -22,7 +22,7 @@ global $current_user;
                                 <div class="five wide field"><span style="font-weight: bold"><?php echo $stat_key; ?> <span style="color:#4183C4;; font-weight: bold"><?php echo $stat_value["vote_count"]; ?> avis</span> :</span></div>
                                 <div class="eleven wide field disable">
                                     <div class="ui huge star rating" data-rating="<?php echo __($stat_value["weighted_average"], "gpdealdomain"); ?>" data-max-rating="5"></div>
-                                    <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php echo __("Satisfied", "gpdealdomain"); ?></span></div>
+                                    <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php echo __("Very satisfied", "gpdealdomain"); ?></span></div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -40,11 +40,11 @@ global $current_user;
                 ?>
                 <div class="ui form">
                     <div class="ui fluid card">
-                        
+
                         <div onclick="show_user_evaluation(<?php the_ID(); ?>)" class="content" style="cursor: pointer;">
                             <div class=""><img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>><span style="font-weight: bold"><a><?php echo $evaluate_user->user_login ?></a></span>
 
-                                <span class="meta"><?php echo __("has evaluated", "gpdealdomain")." " . human_time_diff(get_the_time('U'), current_time('timestamp')); ?> <?php _e("ago", "gpdealdomain"); ?></span>
+                                <span class="meta"><?php echo __("has evaluated", "gpdealdomain") . " " . human_time_diff(get_the_time('U'), current_time('timestamp')); ?> <?php _e("ago", "gpdealdomain"); ?></span>
 
                             </div>
                         </div>
@@ -52,38 +52,40 @@ global $current_user;
                         if (is_array($questions) && is_array($responses) && count($questions) == 5 && count($responses) == 5):
                             ?>
                             <div id="content_evaluation_<?php the_ID(); ?>" class="content ui form" style="display: none;">
-                                <?php for ($i = 0; $i < 2; $i++): ?>
-                                    <div class="two fields" >
-                                        <div class="four wide field"><label><?php _e($questions[$i], "gpdealdomain"); ?> :</label></div>
-                                        <div class="twelve wide field">
-                                            <label style="margin-left: 7em;"><?php _e($responses[$i], "gpdealdomain"); ?></label>
-                                        </div>
-                                    </div>
-                                <?php endfor ?>
+                                <table class="ui celled unstackable table evaluation_table">
+                                    <?php for ($i = 0; $i < 2; $i++): ?>
+                                        <tr >
+                                            <td><label class="span_label"><?php _e($questions[$i], "gpdealdomain"); ?></label></td>
+                                            <td>
+                                                <label class="answer_eval_question"><?php _e($responses[$i], "gpdealdomain"); ?></label>
+                                            </td>
+                                        </tr>
+                                    <?php endfor ?>
 
-                                <div class="fields">
-                                    <div class="four wide field"><label><?php _e($questions[2], "gpdealdomain"); ?> :</label></div>
-                                    <div class="twelve wide field disable">
-                                        <div class="ui huge star rating" data-rating="<?php _e($responses[2], "gpdealdomain"); ?>" data-max-rating="5"></div>
-                                        <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Very satisfied", "gpdealdomain"); ?></span></div>
-                                    </div>
-                                </div>
+                                    <tr>
+                                        <td ><label class="span_label"><?php _e($questions[2], "gpdealdomain"); ?></label></td>
+                                        <td class="field disable">
+                                            <div class="ui huge star rating ratint_image" data-rating="<?php _e($responses[2], "gpdealdomain"); ?>" data-max-rating="5"></div>
+                                            <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Very satisfied", "gpdealdomain"); ?></span></div>
+                                        </td>
+                                    </tr>
 
-                                <div class="fields">
-                                    <div class="four wide field"><label><?php _e($questions[3], "gpdealdomain"); ?> :</label></div>
-                                    <div class="twelve wide field disable">
-                                        <div class="ui huge star rating" data-rating="<?php _e($responses[3], "gpdealdomain"); ?>" data-max-rating="5"></div>
-                                        <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Expensive", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Economic", "gpdealdomain"); ?></span></div>
-                                    </div>
-                                </div>
+                                    <tr>
+                                        <td><label class="span_label"><?php _e($questions[3], "gpdealdomain"); ?></label></td>
+                                        <td class="field disable">
+                                            <div class="ui huge star rating ratint_image" data-rating="<?php _e($responses[3], "gpdealdomain"); ?>" data-max-rating="5"></div>
+                                            <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Expensive", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Economic", "gpdealdomain"); ?></span></div>
+                                        </td>
+                                    </tr>
 
-                                <div class="fields">
-                                    <div class="four wide field"><label><?php echo __($questions[4], "gpdealdomain"); ?> :</label></div>
-                                    <div class="twelve wide field disable">
-                                        <div class="ui huge star rating" data-rating="<?php echo __($responses[4], "gpdealdomain"); ?>" data-max-rating="5"></div>
-                                        <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Very satisfied", "gpdealdomain"); ?></span></div>
-                                    </div>
-                                </div>
+                                    <tr>
+                                        <td><label class="span_label"><?php echo __($questions[4], "gpdealdomain"); ?></label></td>
+                                        <td class="field disable">
+                                            <div class="ui huge star rating ratint_image" data-rating="<?php echo __($responses[4], "gpdealdomain"); ?>" data-max-rating="5"></div>
+                                            <div class="sub-title-rating"><span class="left-sub-title-rating"><?php _e("Unsatisfied", "gpdealdomain"); ?></span> <span class="right-sub-title-rating"><?php _e("Very satisfied", "gpdealdomain"); ?></span></div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         <?php endif ?>
                     </div>
@@ -106,7 +108,7 @@ global $current_user;
                                         <div class="metadata">
                                             <div class="date"><?php
                                                 $date = apply_filters('get_comment_time', $comment->comment_date, 'U', false, true, $comment);
-                                                echo __("has commented", "gpdealdomain")." " . human_time_diff(strtotime($date), current_time('timestamp'));
+                                                echo __("has commented", "gpdealdomain") . " " . human_time_diff(strtotime($date), current_time('timestamp'));
                                                 ?> <?php _e("ago", "gpdealdomain"); ?></div>
                                         </div>
                                         <div class="text">
@@ -120,7 +122,7 @@ global $current_user;
                         <?php endif ?>
                     </div>   
                 </div>
-        <div class="ui fitted divider" style="margin-bottom: 1em"></div>
+                <div class="ui fitted divider" style="margin-bottom: 1em"></div>
                 <?php
             endwhile;
         } else {

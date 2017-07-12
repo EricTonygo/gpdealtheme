@@ -17,6 +17,9 @@
 
 $(document).ready(function () {
     $.datetimepicker.setLocale($('html').attr('lang'));
+//    $(this).bind("contextmenu", function (e) {
+//        e.preventDefault();
+//    });
 //    show_password_login();
 //    hide_password_login();
 //    var mouseX;
@@ -293,7 +296,7 @@ $(document).ready(function () {
         on: 'click'
     });
 
-    $("#dropdow_search_mobile.ui.dropdown.item").dropdown({
+    $("#dropdown_search_mobile.ui.dropdown.item").dropdown({
         on: 'click',
         onHide: function () {
             if ($('#s_mobile').val() !== "") {
@@ -324,14 +327,14 @@ $(document).ready(function () {
         return false;
     });
 
-    $('input[name="start_date"]').datetimepicker({
+    $('input[name="start-date"]').datetimepicker({
         timepicker: false,
         minDate: '0',
         format: 'd-m-Y',
         lang: 'fr',
         scrollInput: false
     });
-    $('input[name="destination_date"]').datetimepicker({
+    $('input[name="destination-date"]').datetimepicker({
         timepicker: false,
         minDate: '0',
         format: 'd-m-Y',
@@ -341,9 +344,8 @@ $(document).ready(function () {
 
     $('#search_transport_offers_form.ui.form').form({
         fields: {
-
             start_date: {
-                identifier: 'start_date',
+                identifier: 'start-date',
                 rules: [
                     {
                         type: 'empty',
@@ -352,7 +354,7 @@ $(document).ready(function () {
                 ]
             },
             start_city: {
-                identifier: 'start_city',
+                identifier: 'start-city',
                 rules: [
                     {
                         type: 'empty',
@@ -361,25 +363,25 @@ $(document).ready(function () {
                 ]
             },
 
-            destination_date: {
-                identifier: 'destination_date',
-                rules: [
-                    {
-                        type: 'empty',
-                        prompt: gpdeal_translate("Please enter the destination date")
-                    }
-                ]
-            },
-            destionation_city: {
-                identifier: 'destination_city',
+            destination_city: {
+                identifier: 'destination-city',
                 rules: [
                     {
                         type: 'empty',
                         prompt: gpdeal_translate("Please enter the destination city")
                     }
                 ]
+            },
+            destination_date: {
+                identifier: 'destination-date',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: gpdeal_translate("Please enter the arrival date")
+                    }
+                ]
             }
-
+            
         },
         inline: true,
         on: 'change',
@@ -395,9 +397,9 @@ $(document).ready(function () {
             today.setMinutes(0);
             today.setSeconds(0);
             today.setMilliseconds(0);
-            if ($('#search_transport_offers_form.ui.form input[name="start_date"]').val() !== "" && $('#search_transport_offers_form.ui.form input[name="destination_date"]').val() !== "") {
-                var start_date = $('#search_transport_offers_form.ui.form input[name="start_date"]').datetimepicker('getValue');
-                var destination_date = $('#search_transport_offers_form.ui.form input[name="destination_date"]').datetimepicker('getValue');
+            if ($('#search_transport_offers_form.ui.form input[name="start-date"]').val() !== "" && $('#search_transport_offers_form.ui.form input[name="destination-date"]').val() !== "") {
+                var start_date = $('#search_transport_offers_form.ui.form input[name="start-date"]').datetimepicker('getValue');
+                var destination_date = $('#search_transport_offers_form.ui.form input[name="destination-date"]').datetimepicker('getValue');
                 start_date.setHours(0);
                 start_date.setMinutes(0);
                 start_date.setSeconds(0);
@@ -410,26 +412,26 @@ $(document).ready(function () {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
                     $('#error_name_header').html(gpdeal_translate("Error"));
-                    $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
+                    $('#error_name_list').html("<li>" + gpdeal_translate("The departure date can not be less than the current date") + "</li>");
                     valid = false;
                 }
                 if (today.getTime() > destination_date.getTime()) {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
                     $('#error_name_header').html(gpdeal_translate("Error"));
-                    $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
+                    $('#error_name_list').append("<li>" + gpdeal_translate("The arrival date can not be less than the current date") + "</li>");
                     valid = false;
                 }
                 if (start_date.getTime() > destination_date.getTime()) {
                     $('#search_transport_offers_form.ui.form').removeClass('loading');
                     $('#submit_search_transport_offers').removeClass('disabled');
                     $('#error_name_header').html(gpdeal_translate("Error"));
-                    $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
+                    $('#error_name_list').append("<li>" + gpdeal_translate("The arrival date can not be less than the departure date") + "</li>");
                     valid = false;
                 }
             } else {
-                if ($('#search_transport_offers_form.ui.form input[name="start_date"]').val() !== "") {
-                    var start_date = $('#search_transport_offers_form.ui.form input[name="start_date"]').datetimepicker('getValue');
+                if ($('#search_transport_offers_form.ui.form input[name="start-date"]').val() !== "") {
+                    var start_date = $('#search_transport_offers_form.ui.form input[name="start-date"]').datetimepicker('getValue');
                     start_date.setHours(0);
                     start_date.setMinutes(0);
                     start_date.setSeconds(0);
@@ -438,11 +440,11 @@ $(document).ready(function () {
                         $('#search_transport_offers_form.ui.form').removeClass('loading');
                         $('#submit_search_transport_offers').removeClass('disabled');
                         $('#error_name_header').html(gpdeal_translate("Error"));
-                        $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
+                        $('#error_name_list').html("<li>" + gpdeal_translate("The departure date can not be less than the current date") + "</li>");
                         valid = false;
                     }
-                } else if ($('#search_transport_offers_form.ui.form input[name="destination_date"]').val() !== "") {
-                    var destination_date = $('#search_transport_offers_form.ui.form input[name="destination_date"]').datetimepicker('getValue');
+                } else if ($('#search_transport_offers_form.ui.form input[name="destination-date"]').val() !== "") {
+                    var destination_date = $('#search_transport_offers_form.ui.form input[name="destination-date"]').datetimepicker('getValue');
                     destination_date.setHours(0);
                     destination_date.setMinutes(0);
                     destination_date.setSeconds(0);
@@ -452,7 +454,7 @@ $(document).ready(function () {
                         $('#search_transport_offers_form.ui.form').removeClass('loading');
                         $('#submit_search_transport_offers').removeClass('disabled');
                         $('#error_name_header').html(gpdeal_translate("Error"));
-                        $('#error_name_list').html("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
+                        $('#error_name_list').html("<li>" + gpdeal_translate("The arrival date can not be less than the current date") + "</li>");
                         valid = false;
                     }
                 }
@@ -472,7 +474,7 @@ $(document).ready(function () {
         fields: {
 
             start_date: {
-                identifier: 'start_date',
+                identifier: 'start-date',
                 rules: [
                     {
                         type: 'empty',
@@ -482,7 +484,7 @@ $(document).ready(function () {
             },
 
             start_city: {
-                identifier: 'start_city',
+                identifier: 'start-city',
                 rules: [
                     {
                         type: 'empty',
@@ -492,17 +494,17 @@ $(document).ready(function () {
             },
 
             destination_date: {
-                identifier: 'destination_date',
+                identifier: 'destination-date',
                 rules: [
                     {
                         type: 'empty',
-                        prompt: gpdeal_translate("Please enter the destination date")
+                        prompt: gpdeal_translate("Please enter the arrival date")
                     }
                 ]
             },
 
-            destionation_city: {
-                identifier: 'destination_city',
+            destination_city: {
+                identifier: 'destination-city',
                 rules: [
                     {
                         type: 'empty',
@@ -526,9 +528,9 @@ $(document).ready(function () {
             today.setMinutes(0);
             today.setSeconds(0);
             today.setMilliseconds(0);
-            if ($('#search_unsatisfied_packages_form.ui.form input[name="start_date"]').val() !== "" && $('#search_transport_offers_form.ui.form input[name="destination_date"]').val() !== "") {
-                var start_date = $('#search_unsatisfied_packages_form.ui.form input[name="start_date"]').datetimepicker('getValue');
-                var destination_date = $('#search_unsatisfied_packages_form.ui.form input[name="destination_date"]').datetimepicker('getValue');
+            if ($('#search_unsatisfied_packages_form.ui.form input[name="start-date"]').val() !== "" && $('#search_transport_offers_form.ui.form input[name="destination-date"]').val() !== "") {
+                var start_date = $('#search_unsatisfied_packages_form.ui.form input[name="start-date"]').datetimepicker('getValue');
+                var destination_date = $('#search_unsatisfied_packages_form.ui.form input[name="destination-date"]').datetimepicker('getValue');
                 start_date.setHours(0);
                 start_date.setMinutes(0);
                 start_date.setSeconds(0);
@@ -541,26 +543,26 @@ $(document).ready(function () {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
                     $('#error_name_header_package').html(gpdeal_translate("Error"));
-                    $('#error_name_list_package').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
+                    $('#error_name_list_package').html("<li>" + gpdeal_translate("The departure date can not be less than the current date") + "</li>");
                     valid = false;
                 }
                 if (today.getTime() > destination_date.getTime()) {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
                     $('#error_name_header_package').html(gpdeal_translate("Error"));
-                    $('#error_name_list_package').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
+                    $('#error_name_list_package').append("<li>" + gpdeal_translate("The arrival date can not be less than the current date") + "</li>");
                     valid = false;
                 }
                 if (start_date.getTime() > destination_date.getTime()) {
                     $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                     $('#submit_search_unsatisfied_packages').removeClass('disabled');
                     $('#error_name_header_package').html(gpdeal_translate("Error"));
-                    $('#error_name_list_package').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
+                    $('#error_name_list_package').append("<li>" + gpdeal_translate("The arrival date can not be less than the departure date") + "</li>");
                     valid = false;
                 }
             } else {
-                if ($('#search_unsatisfied_packages_form.ui.form input[name="start_date"]').val() !== "") {
-                    var start_date = $('#search_unsatisfied_packages_form.ui.form input[name="start_date"]').datetimepicker('getValue');
+                if ($('#search_unsatisfied_packages_form.ui.form input[name="start-date"]').val() !== "") {
+                    var start_date = $('#search_unsatisfied_packages_form.ui.form input[name="start-date"]').datetimepicker('getValue');
                     start_date.setHours(0);
                     start_date.setMinutes(0);
                     start_date.setSeconds(0);
@@ -569,11 +571,11 @@ $(document).ready(function () {
                         $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                         $('#submit_search_unsatisfied_packages').removeClass('disabled');
                         $('#error_name_header_package').html(gpdeal_translate("Error"));
-                        $('#error_name_list_package').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
+                        $('#error_name_list_package').html("<li>" + gpdeal_translate("The departure date can not be less than the current date") + "</li>");
                         valid = false;
                     }
-                } else if ($('#search_unsatisfied_packages_form.ui.form input[name="destination_date"]').val() !== "") {
-                    var destination_date = $('#search_unsatisfied_packages_form.ui.form input[name="destination_date"]').datetimepicker('getValue');
+                } else if ($('#search_unsatisfied_packages_form.ui.form input[name="destination-date"]').val() !== "") {
+                    var destination_date = $('#search_unsatisfied_packages_form.ui.form input[name="destination-date"]').datetimepicker('getValue');
                     destination_date.setHours(0);
                     destination_date.setMinutes(0);
                     destination_date.setSeconds(0);
@@ -583,7 +585,7 @@ $(document).ready(function () {
                         $('#search_unsatisfied_packages_form.ui.form').removeClass('loading');
                         $('#submit_search_unsatisfied_packages').removeClass('disabled');
                         $('#error_name_header_package').html(gpdeal_translate("Error"));
-                        $('#error_name_list_package').html("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
+                        $('#error_name_list_package').html("<li>" + gpdeal_translate("The arrival date can not be less than the current date") + "</li>");
                         valid = false;
                     }
                 }
@@ -610,9 +612,9 @@ $(document).ready(function () {
             $('#submit_forgot_password').addClass('fluid');
             $('#edit_account').addClass('fluid');
             $('#civility_bloc').addClass('inline');
-            $('#block_recap_desktop').hide();
-            $('#block_recap_mobile').show();
-            $('.float_button.ui.green.button').show();
+            $('.block_recap_desktop').hide();
+            $('.block_recap_mobile').show();
+            $('.float_button.ui.button').show();
         } else {
             $('#submit_search_transport_offers').removeClass("fluid");
             $('#submit_create_account_particular').removeClass("fluid");
@@ -625,9 +627,9 @@ $(document).ready(function () {
             $('#submit_forgot_password').removeClass('fluid');
             $('#submit_search_unsatisfied_packages').removeClass("fluid");
             $('#edit_account').removeClass('fluid');
-            $('#block_recap_mobile').hide();
-            $('#block_recap_desktop').show();
-            $('.float_button.ui.green.button').hide();
+            $('.block_recap_mobile').hide();
+            $('.block_recap_desktop').show();
+            $('.float_button.ui.button').hide();
         }
     });
 
@@ -711,7 +713,7 @@ $(document).ready(function () {
                         rules: [
                             {
                                 type: 'empty'
-                                //prompt: 'Veuillez saisir votre mot de passe'
+                                        //prompt: 'Veuillez saisir votre mot de passe'
                             }
                         ]
                     }
@@ -1022,22 +1024,57 @@ $(document).ready(function () {
     //*****************************************************************************************************************************
 
     //*************************************************SlideShow background homepage*******************************
-    var images = new Array('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg');
-    var nextimage = 0;
-    doSlideshow();
+//    $("#feature_homepage").backgroundCycle({
+//        imageUrls: [
+//            '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg',
+//            '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg',
+//            '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg',
+//            '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg'
+//        ],
+//        fadeSpeed: 2000,
+//        duration: 5000,
+//        backgroundSize: SCALING_MODE_COVER
+//    });
 
-    function doSlideshow() {
-        if (nextimage >= images.length) {
-            nextimage = 0;
-        }
-        $('#feature_homepage')
-                .css('background-image', 'url("' + images[nextimage++] + '")')
-                .fadeIn('1000', 'swing',  function () {
-                    setTimeout(doSlideshow, 5000);
-                });
-    }
+//    var images = new Array('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-1.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg', '/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg');
+//    var nextimage = 0;
+//    doSlideshow();
+//
+//    function doSlideshow() {
+//        if (nextimage >= images.length) {
+//            nextimage = 0;
+//        }
+//        $('#feature_homepage')
+//                .css('background-image', 'url("' + images[nextimage++] + '")')
+//                .fadeIn('1000', false,  function () {
+//                    setTimeout(doSlideshow, 5000);
+//                });
+//    }
     //*****************************************************************************************************************************
+
+    var imageIds = new Array("bgImage0", "bgImage1", "bgImage2", "bgImage3");
+    setInterval(cycleToNextImage, 5000);
+    var currentImageIndex = 0;
+    function cycleToNextImage() {
+        var previousImageId = imageIds[currentImageIndex];
+
+        currentImageIndex++;
+
+        if (currentImageIndex >= imageIds.length) {
+            currentImageIndex = 0;
+        }
+
+        var options = {
+            duration: 2000,
+            queue: false
+        };
+
+        $('#' + previousImageId).fadeOut(options);
+        $('#' + imageIds[currentImageIndex]).fadeIn(options);
+    }
 });
+
+
 
 function signin() {
     $('#login_modal.ui.modal').modal('setting', {

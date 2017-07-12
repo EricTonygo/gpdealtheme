@@ -16,16 +16,16 @@ $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
 $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
 $terms = removeslashes(esc_attr(trim($_POST['terms'])));
 ?>
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
+                <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
+                <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __("Transport offers", "gpdealdomain"); ?></a>
-                <i class="right arrow icon divider"></i>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>
@@ -36,7 +36,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
     </div-->
     <div class="ui signup_contenair basic segment container">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Publish Transport Offer", 'gpdealdomain') ?> : </div>
+            <div class="header"><?php echo __("Publish Transport Offer", 'gpdealdomain') ?> </div>
             <p class="promo_text_form"><?php echo __("Fill in the information below and then publish your transport offer", 'gpdealdomain') ?>.</p>
         </div>
         <div class="ui fluid card">
@@ -96,19 +96,19 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                             </div>
                         </div>      
 
-                        <h4 class="ui dividing header"><?php echo __("Type(s) of object(s) being transported", 'gpdealdomain') ?></h4>
+                        <h4 class="ui dividing header"><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?></h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php echo __("Object", 'gpdealdomain') ?>(s) <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
                                 <select name="transport_offer_package_type[]" class="ui fluid multiple normal selection dropdown" multiple="" data-validate='transport_offer_package_type'>
-                                    <option value=""><?php echo __("Type(s) of object(s) being transported", 'gpdealdomain') ?> </option>
+                                    <option value=""><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?> </option>
                                     <?php
                                     $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                     foreach ($typePackages as $typePackage):
                                         ?>
-                                        <option value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> selected="selected" <?php endif ?>><?php echo $typePackage->name; ?></option>
+                                        <option value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> selected="selected" <?php endif ?>><?php echo __($typePackage->name, "gpdealdomain"); ?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
@@ -210,7 +210,7 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input type="radio" name="transport_offer_transport_method" value="<?php echo $transportMethod->term_id; ?>" <?php if (in_array($transportMethod->term_id, $transport_method, true)): ?> checked="checked" <?php endif ?>>
-                                                <label><?php echo $transportMethod->name; ?></label>
+                                                <label><?php echo __($transportMethod->name, "gpdealdomain"); ?></label>
                                             </div>
                                         </div>
                                     <?php endforeach ?>

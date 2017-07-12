@@ -4,10 +4,6 @@ body, div, p, a, h1, h2, h3, span, input, textarea label{
     /*font-family: "Whitney SSm A","Whitney SSm B","Helvetica Neue",Helvetica,Arial,sans-serif !important;*/
 }
 
-body.pushable>.pusher {
-    background: rgb(247, 241, 242);
-}
-
 .main.menu {
     margin-top: 4em;
     border-radius: 0;
@@ -54,7 +50,7 @@ body.pushable>.pusher {
 
 .second-nav.menu .center.menu .item{
     font-weight: normal;
-    /*margin-top: 0.1em;*/
+    margin-top: 0.2em;
 }
 
 .hidden.menu {
@@ -162,7 +158,7 @@ body.pushable>.pusher {
     }
 }*/
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1250px) {
     .main.menu{
         display: none;
     }
@@ -175,8 +171,8 @@ body.pushable>.pusher {
         display: none;
     }
 
-    .ui.tiny.borderless.second-nav.menu{
-        margin-top: 5.1em!important;
+    .ui.large.borderless.second-nav.menu{
+        margin-top: 4.1em!important;
     }
 
     #sub_main_menu.ui.fixed.menu {
@@ -208,7 +204,7 @@ body.pushable>.pusher {
     }
     .cycle_bg_image{
         top: 4em!important;
-        height: 66.5vh!important;
+        height: 62.5vh!important;
         bottom: 7em!important;
     }
     #dropdown_menu_search_mobile{
@@ -268,7 +264,7 @@ body.pushable>.pusher {
     }
     .cycle_bg_image{
         top: 4em!important;
-        height: 79.5vh!important;
+        height: 68.5vh!important;
         bottom: 7em!important;
     }
     .masthead h1.ui.header {
@@ -386,7 +382,7 @@ body.pushable>.pusher {
 
 @media only screen and (max-width: 350px) {
     .cycle_bg_image{
-        height: 79.5vh!important;
+        height: 73.5vh!important;
         padding: 1em 0em;
     }
 }
@@ -497,17 +493,13 @@ body.pushable>.pusher {
 
 .ui.segment{
     border: none;
-    border-radius: 0px;
 }
-
-
 .ui.content_steps_select_transport_offer{
     width: 60em;
 }
 
 .ui.signup_contenair.segment{
     width: 60em;
-    background-color: white;
 }
 
 .ui.signup_contenair.first_signup_contenair.segment{
@@ -538,7 +530,7 @@ body.pushable>.pusher {
     width: 4.5em;
 }
 
-.ui.tiny.borderless.second-nav.menu a{
+.ui.large.borderless.second-nav.menu a{
     color: #198842;
 }
 
@@ -557,8 +549,8 @@ body.pushable>.pusher {
     background: #b5da82;
 }
 
-.ui.tiny.borderless.second-nav.menu{
-    margin-top: 6.5789999975em;
+.ui.large.borderless.second-nav.menu{
+    margin-top: 5.29999975em;
 }
 
 .ui.container.top-nav .ui.dropdown.top.right.pointing.item .menu{
@@ -1065,10 +1057,6 @@ span.locality_name{
 .small_breadcumb i.icon{
     margin-top: 0.3em!important;
 }
-
-.tiny.borderless.menu i.icon{
-    margin-top: 0.3em!important;
-}
 form{
     margin-bottom: 0;
 }
@@ -1100,13 +1088,11 @@ form{
 
 #left_content_account .vertical.menu{
     border:none;
-    background-color: white;
 }
 
 #left_content_account .vertical.menu .item{
     border:none;
     font-weight: normal;
-    border-bottom: 1px solid #dbdbdd;
 }
 
 #left_content_account .vertical.menu .item.active{
@@ -1185,7 +1171,7 @@ form{
 }
 
 .ui.fluid.card.transport_offer_card .image .content_image, .ui.fluid.card.package_card .image .content_image{
-    width: 100% !important;
+    width: 100px !important;
     height: 100px !important;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1225,7 +1211,6 @@ form{
 .header.search_result_header{
     text-transform: uppercase;
     font-weight: normal!important;
-    font-size: 11pt!important;
 }
 
 .ui.table.evaluation_table td .ratint_image{
@@ -1265,12 +1250,6 @@ form{
     border-radius: .28571429rem;
 }
 
-#show_package_infos, #edit_package_infos, #show_transport_offer_infos, #edit_transport_offer_infos{
-    margin-top: 0px!important;
-    padding-top: 0px!important;
-}
-
-
 #show_transport_offer_infos .five.wide.column .ui.fluid.card {
     box-shadow: none;
 }
@@ -1279,16 +1258,4 @@ form{
     text-align: left;
     margin-bottom: 1em;
     border-radius: .28571429rem;
-}
-
-.content_without_white{
-    background-color: #f7f1f2!important;
-}
-
-.ui.table{
-    border-radius: 0px;
-}
-
-.ui.card>.content>.header, .ui.cards>.card>.content>.header, .header {
-    color: rgba(56, 53, 53, 0.85);
 }

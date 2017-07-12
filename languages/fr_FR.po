@@ -15,6 +15,9 @@ msgstr ""
 msgid "Transport offers"
 msgstr "Offres transport"
 
+msgid "Transport offer"
+msgstr "Offre transport"
+
 msgid "home"
 msgstr "accueil"
 
@@ -142,7 +145,7 @@ msgid "My shipments"
 msgstr "Mes expéditions"
 
 msgid "My transport offers"
-msgstr "Mes offres de transport"
+msgstr "Mes offres transport"
 
 msgid "My transactions"
 msgstr "Mes transactions"
@@ -219,8 +222,8 @@ msgstr "Vous"
 msgid "Corresponding offers"
 msgstr "Les offres correspondantes"
 
-msgid "Offers that can interest to you"
-msgstr "Les offres pouvant vous intéressés"
+msgid "Offers that can interest you"
+msgstr "Les offres pouvant vous intéresser"
 
 msgid "Selected carriers"
 msgstr "Transporteurs selectionnés"
@@ -360,8 +363,8 @@ msgstr "J'ai reçu les informations sur l'inscription"
 msgid "Answer to test question"
 msgstr "Réponse question test"
 
-msgid "I want to check my identity"
-msgstr "Je voudrais\tfaire verifier mon identité"
+msgid "I want to verify my identity"
+msgstr "Je voudrais faire verifier mon identité"
 
 msgid "Register now"
 msgstr "S'inscrire maintenant"
@@ -450,8 +453,8 @@ msgstr "Modifiez votre profil"
 msgid "Error"
 msgstr "Erreur"
 
-msgid "Edit my account"
-msgstr "Modifier mon compte"
+msgid "Edit my profile"
+msgstr "Modifier mon profil"
 
 msgid "Edit"
 msgstr "Modifier"
@@ -576,7 +579,7 @@ msgstr "transport"
 msgid "Offer deadline"
 msgstr "Date limite offre"
 
-msgid "Type(s) of object(s) being transported"
+msgid "Type(s) of object(s) transported"
 msgstr "Type(s) d'objet(s) transporté(s)"
 
 msgid "Max length, width and height (in cm)"
@@ -639,10 +642,10 @@ msgstr "Hauteur max"
 msgid "Give an reviews"
 msgstr "Donner un avis"
 
-msgid "Give your reviews"
-msgstr "Donnez votre avis"
+msgid "Publish your reviews"
+msgstr "Publiez votre avis"
 
-msgid "Update offer"
+msgid "Edit offer"
 msgstr "Modifier l'offre"
 
 msgid "Evaluations of the offer"
@@ -679,7 +682,7 @@ msgid "Enter your message here"
 msgstr "Saisissez votre message ici"
 
 msgid "Enter your comment here"
-msgstr "Saisissez votre commmentaire ici"
+msgstr "Saisissez votre commentaire ici"
 
 msgid "Message"
 msgstr "Message"
@@ -696,10 +699,13 @@ msgstr "Insatisfait"
 msgid "Very satisfied"
 msgstr "Très satisfait"
 
-msgid "Leave a message"
+msgid "Leave a comment"
 msgstr "Laisser un commentaire"
 
-msgid "Evaluation globale"
+msgid "Leave a message"
+msgstr "Laisser un message"
+
+msgid "Global evaluation"
 msgstr "Evaluation globale"
 
 msgid "Expensive"
@@ -778,7 +784,7 @@ msgid "Mode of transport"
 msgstr "Mode de transport"
 
 msgid "Types of objects accepted by the carrier"
-msgstr "Types d'objets acceptés par le tranporteur"
+msgstr "Objet(s) accepté(s) par le tranporteur"
 
 msgid "No valid offer match your criteria"
 msgstr "Aucune offre valide ne correspond à vos critères"
@@ -910,10 +916,10 @@ msgid "M"
 msgstr "M."
 
 msgid "No carrier selected for the moment"
-msgstr "Aucun transporteur selectionnés pour le moment"
+msgstr "Aucun transporteur selectionné pour le moment"
 
 msgid "Confirm transaction closure"
-msgstr "Confirmation de la fermeture de la transaction"
+msgstr "Confirmation fermeture transaction"
 
 msgid "You are about to terminate the transaction with this carrier"
 msgstr "Vous êtes sur le point de mettre un terme à la transaction avec ce transporteur"
@@ -1117,7 +1123,7 @@ msgid "click"
 msgstr "cliquez"
 
 msgid "or paste the following link into your browser"
-msgstr "ou collez le lien suivant dans vote navigateur"
+msgstr "ou collez le lien suivant dans votre navigateur"
 
 msgid "This link will expire in 24 hours, be sure to use it soon"
 msgstr "Ce lien expirera dans 24 heures, assurez-vous de l'utiliser bientôt"
@@ -1126,7 +1132,13 @@ msgid "Thank you for using GPDEAL"
 msgstr "Merci d'utiliser GPDEAL"
 
 msgid "Publish new"
-msgstr "Publier nouvelle"
+msgstr "Nouvelle expédition"
+
+msgid "New Shipment"
+msgstr "Nouvelle expédition"
+
+msgid "New Transport Offer"
+msgstr "Nouvelle Offre"
 
 msgid "Incomplete registration"
 msgstr "Inscription incomplete"
@@ -1134,7 +1146,7 @@ msgstr "Inscription incomplete"
 msgid "You must complete your registration to be able to publish a shipment"
 msgstr "Vous devez completer votre inscription pour etre capable de publier une expédition"
 
-msgid "You must complete your registration to be able to publish a transport offer"
+msgid "You must complete your registration to be able to publish a new transport offer"
 msgstr "Vous devez completer votre inscription pour etre capable de publier une offre de transport"
 
 msgid "Account Type"
@@ -1151,3 +1163,198 @@ msgstr "Modifier l'expédition"
 
 msgid "Edit Transport Offer"
 msgstr "Modifier offre de transport"
+
+msgid "payment"
+msgstr "payement"
+
+msgid "Letter"
+msgstr "Courrier"
+
+msgid "Parcel"
+msgstr "Colis"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Water"
+msgstr "Mer"
+
+msgid "Earth"
+msgstr "Terre"
+
+msgid "Air"
+msgstr "Air"
+
+msgid "abrev_length"
+msgstr "L"
+
+msgid "abrev_width"
+msgstr "l"
+
+msgid "abrev_height"
+msgstr "h"
+
+msgid "Offer Information"
+msgstr "Informations Offre"
+
+msgid "Carrier Contact"
+msgstr "Contacts Transporteur"
+
+msgid "Card Identity Number"
+msgstr "Numéro Carte Identité"
+
+msgid "Company Ident Number"
+msgstr "Numéro Ident Entreprise"
+
+msgid "Transaction Fees"
+msgstr "Frais de transaction"
+
+msgid "Transaction Amount"
+msgstr "Montant Transaction"
+
+msgid "Billing Information"
+msgstr "Informations Facturation"
+
+msgid "Card Number"
+msgstr "Numéro Carte"
+
+msgid "Choose your payment method then pay your transaction fees"
+msgstr "Choisissez votre méthode de paiement puis payer vos frais de transaction"
+
+msgid "Pay with Credit Card"
+msgstr "Payer avec carte credit"
+
+msgid "Pay with PayPal"
+msgstr "Payer avec PayPal"
+
+msgid "Credit Card Number"
+msgstr "Numéro carte de credit"
+
+msgid "CVC"
+msgstr "CVC"
+
+msgid "Expiration"
+msgstr "Expiration"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "First Name"
+msgstr "Prénom"
+
+msgid "Last Name"
+msgstr "Nom"
+
+msgid "Billing Country"
+msgstr "Pays Facturation"
+
+msgid "Select Country"
+msgstr "Selectionner Pays"
+
+msgid "Having trouble making a payment? Please contact us at"
+msgstr "Vous avez du mal à effectuer un paiement? Contactez-nous à"
+
+msgid "review"
+msgstr "compte-rendu"
+
+msgid "Review"
+msgstr "Compte rendu"
+
+msgid "Confirm Transaction"
+msgstr "Confirmer Transaction"
+
+msgid "Continue to confirm transaction"
+msgstr "Continuer à confirmer transaction"
+
+msgid "User profile"
+msgstr "Profil"
+
+msgid "Your account is already activated"
+msgstr "Votre compte est déjà activé"
+
+msgid "Enterprise profile"
+msgstr "Profil entreprise"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "View my shipments"
+msgstr "Voir mes expéditions"
+
+msgid "View my transport offers"
+msgstr "Voir mes offres de transport"
+
+msgid "Publish a shipment"
+msgstr "Publier une expédition"
+
+msgid "Publish a transport offer"
+msgstr "Publier une offre transport"
+
+msgid "Overview"
+msgstr "Vue d'ensemble"
+
+msgid "View/Edit Profile"
+msgstr "Consulter/Modifier Profil"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Account Information"
+msgstr "Informations du compte"
+
+msgid "Finalize Registration"
+msgstr "Finaliser Inscription"
+
+msgid "Resetting your password"
+msgstr "Reinitialisation de votre mot de passe"
+
+msgid "The offers that can interest you for your shipment"
+msgstr "Les offres pouvant vous intéresser pour votre envoi"
+
+msgid "The corresponding offers for your shipment"
+msgstr "Les offres correspondantes pour votre envoi"
+
+msgid "Send your message"
+msgstr "Envoyer votre message"
+
+msgid "Name or Campany name"
+msgstr "Nom ou Nom entreprise"
+
+msgid "The dates of your shipments are exceeded"
+msgstr "Les dates de votre expédition sont dépassées"
+
+msgid "No shipment for the moment"
+msgstr "Aucune expédition pour le moment"
+
+msgid "No carrier for the moment"
+msgstr "Aucun transporteur pour le moment"
+
+msgid "You are a"
+msgstr "Vous êtes un"
+
+msgid "find_TO_form_title"
+msgstr "J'expédie"
+
+msgid "find_package_form_title"
+msgstr "Je transporte"
+
+msgid "Your name or campany name"
+msgstr "Votre nom ou nom entreprise"
+
+msgid "Share on Facebook"
+msgstr "Partager sur Facebook"
+
+msgid "Share on Twitter"
+msgstr "Partager sur Twitter"
+
+msgid "on"
+msgstr "sur"
+
+msgid "View/Evaluate"
+msgstr "Consulter/Evaluer"

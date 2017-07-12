@@ -1,12 +1,12 @@
 <?php get_template_part('top-menu', get_post_format()); ?>
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
+                <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
-                <i class="right arrow icon divider"></i>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>

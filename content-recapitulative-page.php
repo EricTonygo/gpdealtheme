@@ -1,13 +1,13 @@
 <?php get_template_part('top-menu', get_post_format()); ?>
 <?php ?>  
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain')))) ?>" class="section"><?php echo get_page_by_path(__('registration', 'gpdealdomain'))->post_title ?></a>
-                <i class="right arrow icon divider"></i>
+                <i class="small right chevron icon divider"></i>
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>" class="section"><?php echo __("Profile", "gpdealdomain"); ?></a>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>
@@ -22,10 +22,11 @@
                 <div id="block_form_edit" <?php if (!isset($_SESSION['error_message'])): ?> style="display: none"<?php endif ?>>  
                     <p class="required_infos"><span style="color: red;">*</span> <?php _e("Required informations", "gpdealdomain"); ?></p>
                     <div class="ui top attached tabular menu">
-                        <div class="item <?php if ($role == "particular"): ?> active <?php endif ?>" data-tab="first"><?php _e("Particular", "gpdealdomain"); ?></div>
-                        <div class="item <?php if ($role == "professional" || $role == "enterprise"): ?> active <?php endif ?>" data-tab="second"><?php _e("Professional", "gpdealdomain"); ?></div>
+                        <?php if ($role == "particular"): ?> <div class="item active" data-tab="first"><?php _e("Particular", "gpdealdomain"); ?></div>
+                        <?php elseif ($role == "professional" || $role == "enterprise"): ?><div class="item active" data-tab="second"><?php _e("Professional", "gpdealdomain"); ?></div><?php endif ?>
                     </div>
-                    <div class="ui bottom attached tab segment <?php if ($role == 'particular'): ?> active <?php endif ?>" data-tab="first">
+                    <?php if ($role == 'particular'): ?>
+                    <div class="ui bottom attached tab segment active" data-tab="first">
                         <form id='register_form_particular'  method="POST" action="<?php the_permalink(get_page_by_path(__('account-summary', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data">
                             <input  type="hidden" name="role" value="particular" >
                             <div  class="fields">                               
@@ -140,7 +141,7 @@
                             </div> 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label><?php _e("Zip code", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                                    <label><?php _e("Zip code", "gpdealdomain"); ?> </label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="text" name="postal_code" placeholder="<?php _e("Zip code", "gpdealdomain"); ?>" value="<?php echo $postal_code ?>">
@@ -243,9 +244,9 @@
                                 <div id="identity_file_bloc" class="field ">
                                     <?php if ($identity_file_id): ?>
                                         <div id="identity_file_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_id)); ?> </a></div>
-                                        <div id="identity_file_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to verify my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php else: ?>
-                                        <div id="identity_file_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
+                                        <div id="identity_file_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to verify my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php endif ?>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="identity_file" name="identity_file">
@@ -282,14 +283,15 @@
                                     <input type="hidden" name='save_account' value='no'>
                                 <?php endif ?>
                                 <?php if (is_user_logged_in()): ?>
-                                    <button id="submit_edit_account_particular" class="ui right floated green button" type="submit"><?php _e("Edit my account", "gpdealdomain") ?></button>
+                                    <button id="submit_edit_account_particular" class="ui right floated green button" type="submit"><?php _e("Edit my profile", "gpdealdomain") ?></button>
                                 <?php else: ?>
                                     <button id="submit_create_account_particular" class="ui right floated green disabled button" type="submit"><?php _e("Register now", "gpdealdomain") ?></button>
                                 <?php endif ?>
                             </div>
                         </form>
                     </div>
-                    <div class="ui bottom attached tab segment <?php if ($role == 'enterprise' || $role == "professional"): ?> active <?php endif ?>" data-tab="second"> 
+                    <?php elseif ($role == 'enterprise' || $role == "professional"): ?>
+                    <div class="ui bottom attached tab segment active" data-tab="second"> 
                         <form id='register_form_enterprise' name="register" method="POST" action="<?php the_permalink(get_page_by_path(__('account-summary', 'gpdealdomain'))); ?>" class="ui form" enctype="multipart/form-data">
                             <input  type="hidden" name="role" value="professional" >
                             <div  class="fields">
@@ -376,7 +378,7 @@
 
                             <div class="fields">
                                 <div class="four wide field">
-                                    <label><?php _e("Zip code", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                                    <label><?php _e("Zip code", "gpdealdomain"); ?></label>
                                 </div>
                                 <div class="twelve wide field">
                                     <input type="text" name="postal_code" placeholder="<?php _e("Zip code", "gpdealdomain"); ?>" value="<?php echo $postal_code_pro ?>">
@@ -552,7 +554,7 @@
 
                                     <div class="fields">
                                         <div class="four wide field">
-                                            <label><?php _e("Professional email", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                                            <label><?php _e("Professional email", "gpdealdomain"); ?></label>
                                         </div>
                                         <div class="twelve wide field">
                                             <input type="email" name="email_representative2" placeholder="<?php _e("Professional email address", "gpdealdomain"); ?>" value="<?php echo $email_representative2_pro ?>">
@@ -658,9 +660,9 @@
                                 <div id="identity_file_pro_bloc" class="field ">
                                     <?php if ($identity_file_pro_id): ?>
                                         <div id="identity_file_pro_preview" class="ui message"><i class="close icon"></i><a  href="<?php echo wp_make_link_relative(wp_get_attachment_url($identity_file_pro_id)); ?>" class="header"><?php echo basename(get_attached_file($identity_file_pro_id)); ?> </a></div>
-                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" style="display: none"><i class="attach icon"></i> <?php _e("I want to verify my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php else: ?>
-                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to check my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
+                                        <div id="identity_file_pro_link" class="ui green basic icon fluid button" ><i class="attach icon"></i> <?php _e("I want to verify my identity", "gpdealdomain"); ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Download a document to verify your identity", "gpdealdomain") ?></span></i></div>
                                     <?php endif ?>
                                     <div style="height:0px;overflow:hidden">
                                         <input type="file" id="identity_file_pro" name="identity_file_pro">
@@ -696,12 +698,13 @@
                                 <input type="hidden" name='save_account' value='no'>
                             <?php endif ?>
                             <?php if (is_user_logged_in()): ?>
-                                <button id="submit_edit_account_enterprise" class="ui right floated green button" type="submit"<?php _e("Edit my account", "gpdealdomain"); ?></button>
+                                <button id="submit_edit_account_enterprise" class="ui right floated green button" type="submit"<?php _e("Edit my profile", "gpdealdomain"); ?></button>
                             <?php else: ?>
                                 <button id="submit_create_account_enterprise" class="ui right floated green disabled button" type="submit"><?php _e("Register now", "gpdealdomain"); ?></button>
                             <?php endif ?>        
                         </form>
                     </div>
+                    <?php endif ?>
                 </div>
 
                 <div id="block_recap" <?php if (isset($_SESSION['error_message'])): ?>style="display: none" <?php endif ?>> 
@@ -734,7 +737,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"> <?php echo $last_name; ?></span>
@@ -851,7 +854,7 @@
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"> <?php echo $last_name; ?></span>
                                 </div>
@@ -1020,9 +1023,9 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> : </span>
                                     </div>
-                                    <div class="twelve wide field">
+                                    <div class="eleven wide field">
                                         <span class="span_value"><?php echo $region_pro ?></span>
                                     </div>             
                                 </div>
@@ -1067,7 +1070,7 @@
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</label>
+                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </label>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
@@ -1076,7 +1079,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
@@ -1113,7 +1116,7 @@
                                 <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 2 (<?php _e("Optional", "gpdealdomain"); ?>)</h4>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php _e($civility_representative2_pro, "gpdealdomain"); ?></span>
@@ -1121,7 +1124,7 @@
                                 </div>
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
@@ -1130,7 +1133,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
@@ -1139,7 +1142,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $function_representative2_pro ?></span>
@@ -1148,7 +1151,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $email_representative2_pro ?></span>
@@ -1157,7 +1160,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $mobile_phone_country_code_representative2 . '' . $mobile_phone_number_representative2_pro ?></span>
@@ -1168,7 +1171,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value"><?php echo $user_email_pro ?></span>
@@ -1177,7 +1180,7 @@
 
                                 <div class="fields">
                                     <div class="five wide field">
-                                        <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> :</span>
+                                        <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> : </span>
                                     </div>
                                     <div class="eleven wide field">
                                         <span class="span_value">*******</span>
@@ -1187,24 +1190,24 @@
                             <div id="block_recap_mobile" style="display: none">
                                 <h4 class="ui dividing header"><?php _e("Company information", "gpdealdomain"); ?> </h4>
                                 <div  class="inline field">
-                                    <span class="span_label"><?php _e("Company name", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Company name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $company_name_pro ?></span>
                                 </div>
 
                                 <div  class="inline field">
-                                    <span class="span_label"><?php _e("Company Identification Number", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Company Identification Number", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $company_identity_number_pro ?></span>
                                 </div>
 
                                 <div  class="inline field">
-                                    <span class="span_label"><?php _e("Individual VAT identification number", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Individual VAT identification number", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $company_identity_tva_number_pro ?></span>
                                 </div>
 
-                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?> :</h4>
+                                <h4 class="ui dividing header"><?php _e("Address", "gpdealdomain"); ?> : </h4>
 
                                 <div class="inline field">
                                     <span class="span_label"><?php _e("Number and Street", "gpdealdomain"); ?> </span>
@@ -1225,7 +1228,7 @@
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Region", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $region_pro ?></span>
                                 </div>
@@ -1255,13 +1258,13 @@
                                     <span class="span_value"><?php echo $civility_representative1_pro ?></span>
                                 </div>
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</label>
+                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </span>>
 
                                         <span class="span_value"><?php echo $first_name_representative1_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $last_name_representative1_pro ?></span>
                                 </div>
@@ -1286,37 +1289,37 @@
 
                                 <h4 class="ui dividing header"><?php _e("Representative", "gpdealdomain"); ?> 2 (<?php _e("Optional", "gpdealdomain"); ?>)</h4>
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Civility", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $civility_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("First name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $first_name_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Last name", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $last_name_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Position in the company", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $function_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?>l :</span>
+                                    <span class="span_label"><?php _e("Professional email", "gpdealdomain"); ?>l : </span>
 
                                     <span class="span_value"><?php echo $email_representative2_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Mobile phone", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $mobile_phone_country_code_representative2 . '' . $mobile_phone_number_representative2_pro ?></span>
                                 </div>
@@ -1324,13 +1327,13 @@
                                 <h4 class="ui dividing header"><?php _e("Login information", "gpdealdomain"); ?></h4>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Company email", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value"><?php echo $user_email_pro ?></span>
                                 </div>
 
                                 <div class="inline field">
-                                    <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> :</span>
+                                    <span class="span_label"><?php _e("Password", "gpdealdomain"); ?> : </span>
 
                                     <span class="span_value">*******</span>
                                 </div>

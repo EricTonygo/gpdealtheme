@@ -1,10 +1,10 @@
 <?php get_template_part('top-menu', get_post_format()); ?>
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="right arrow icon divider"></i>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>
@@ -22,7 +22,7 @@
             <div class="content">
                 <!--<p class="required_infos"><span style="color: red;">*</span> <?php _e("Required informations", "gpdealdomain"); ?></p>-->
                 <form id='register_form'  method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain') . "/" . __('account-summary', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
-                    <h4 class="ui dividing header"><?php _e("Account Type", "gpdealdomain"); ?></h4>
+                    <h4 class="ui dividing header"><?php _e("You are a", "gpdealdomain"); ?>?</h4>
                     <div id='civility_bloc' class="fields">
                         <div class="four wide field">
                         </div>
@@ -94,14 +94,14 @@
                         <div class="four wide field">
                             <!--<label>Code de sécurité <span style="color:red;">*</span></label>-->
                         </div>
-                        <div class="twelve wide field" id="recaptcha_register_particular">
+                        <div class="twelve wide field" id="recaptcha_register">
                         </div>                              
                     </div>
 
                     <div class="inline field">
                         <div class="ui checkbox">
                             <input type="checkbox" name="terms"> 
-                            <label class="label_terms_use"><span style="color:red;">*</span> <?php _e("I received the registration information", "gpdealdomain"); ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('terms-of-use', 'gpdealdomain')))); ?>"><?php _e("terms of use", "gpdealdomain"); ?></a>, <?php _e("transactions and data protection on this website", "gpdealdomain") ?>.</label>
+                            <label class="label_terms_use"><span style="color:red;">*</span> <?php _e("I received the registration information", "gpdealdomain"); ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('terms-of-use', 'gpdealdomain')))); ?>" target="_blank"><?php _e("terms of use", "gpdealdomain"); ?></a>, <?php _e("transactions and data protection on this website", "gpdealdomain") ?>.</label>
                         </div>
                     </div>
 

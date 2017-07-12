@@ -69,6 +69,7 @@ function gpdeal_scripts() {
     wp_register_script('select_transport_offers_js', get_template_directory_uri() . '/assets/js/select_transport_offers.js', array(), false, true);
     wp_register_script('home_js', get_template_directory_uri() . '/assets/js/home.js', array(), false, true);
     wp_register_script('datetimepicker_js', get_template_directory_uri() . '/assets/js/jquery.datetimepicker.full.min.js', array(), false, true);
+    wp_register_script('background_cycle_js', get_template_directory_uri() . '/assets/js/background.cycle.js', array(), false, true);
     wp_enqueue_script('datetimepicker_js');
     wp_enqueue_script('hideShowPassword_js');
     wp_enqueue_style('datetimepicker_css');
@@ -95,6 +96,7 @@ function gpdeal_scripts() {
     //}
     if (is_home() || is_front_page()) {
         wp_enqueue_script('home_js');
+        wp_enqueue_script('background_cycle_js');
     }
 }
 

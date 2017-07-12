@@ -58,6 +58,7 @@ function close_transport_offer(id) {
                     setTimeout(function () {
                         $('#message_success').hide();
                     }, 4000);
+                    window.location.reload();
                 } else if (response.success === false) {
                     $('#message_error>div.header').html(response.data.message);
                     $('#message_error').show();
@@ -105,9 +106,199 @@ $(function () {
         });
     });
 
-    $('#selected_transport_offers_form').submit(function () {
+    $('#selected_transport_offers_form').submit(function (e) {        
         $('#selected_transport_offers_form').addClass('ui form loading');
     });
+    $('#submit_selected_transport_offers').click(function(e){
+        $('#selected_transport_offers_form').submit();
+    });
+    
+    $('#payment_gateway_visa').change(function(){
+        if ($(this).is(':checked')) {
+            $('#paypal_process').hide();
+            $('#stripe_process').hide();
+            $('#creditcard_process').show();
+            $('#creditCard_payment_form').show();
+            $('#creditCard_payment_form input[name="card_type"]').val($(this).val());
+        }
+    });
+    $('#payment_gateway_mastercard').change(function(){
+        if ($(this).is(':checked')) {
+            $('#paypal_process').hide();
+            $('#stripe_process').hide();
+            $('#creditcard_process').show();
+            $('#creditCard_payment_form').show();
+            $('#creditCard_payment_form input[name="card_type"]').val($(this).val());
+        }
+    });
+    $('#payment_gateway_paypal').change(function(){
+        if ($(this).is(':checked')) {            
+            $('#stripe_process').hide();
+            $('#creditcard_process').hide();
+            $('#creditCard_payment_form').hide();
+            $('#paypal_process').show();
+        }
+    });
+    $('#payment_gateway_stripe').change(function(){
+        if ($(this).is(':checked')) {            
+            $('#creditcard_process').hide();
+            $('#creditCard_payment_form').hide();
+            $('#paypal_process').hide();
+            $('#stripe_process').show();
+        }
+    });
+    $('#creditCard_payment_form.ui.form')
+            .form({
+                fields: {
+                    card_number: {
+                        identifier: 'card-number',
+                        rules: [
+                            {
+                                type: 'creditCard',
+                                prompt: gpdeal_translate("Please enter a correct card number")
+                            }
+                        ]
+                    },
+                    cvc: {
+                        identifier: 'card-cvc',
+                        rules: [
+                            {
+                                type: 'integer',
+                                prompt: gpdeal_translate("Please enter a correct card verification code")
+                            }
+                        ]
+                    },
+                    card_expiration_month: {
+                        identifier: 'card-expire-month',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please select month of your card expiration date")
+                            }
+                        ]
+                    },
+                    card_expiration_year: {
+                        identifier: 'card-expire-year',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter your card expiration year")
+                            }
+                        ]
+                    },
+                    first_name: {
+                        identifier: 'first-name',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter a first name of card owner")
+                            }
+                        ]
+                    },
+                    last_name: {
+                        identifier: 'last-name',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter a last name of card owner")
+                            }
+                        ]
+                    },
+                    billing_country_code: {
+                        identifier: 'billing-country-code',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please select a billing country of your card")
+                            }
+                        ]
+                    }
+                },
+                inline: true,
+                on: 'blur'
+            }
+            );
+    
+    $('#creditCard_payment_form').submit(function(e){
+        $('#creditCard_payment_form').addClass("loading");
+        $('#creditcard_process').addClass('disabled');
+    });
+    
+    $('#creditcard_process').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        if ($('#creditCard_payment_form').form('is valid')) {
+            $('#creditCard_payment_form').submit();
+//            $.ajax({
+//                type: 'post',
+//                url: $('#payment_form').attr('action'),
+//                data: $('#payment_form').serialize(),
+//                dataType: 'json',
+//                beforeSend: function () {
+//                    $('#payment_form').addClass('loading');
+//                    $(this).addClass('disabled');
+//                    $('#cancel_payment').addClass('disabled');
+//                },
+//                statusCode: {
+//                    500: function (xhr) {
+//                        $('#payment_form').removeClass('loading');
+//                        $(this).removeClass('disabled');
+//                        $('#cancel_payment').removeClass('disabled');
+//                        $('#server_error_message').show();
+//                    },
+//                    400: function (response, textStatus, jqXHR) {
+//                        $('#payment_form').removeClass('loading');
+//                        $(this).removeClass('disabled');
+//                        $('#cancel_payment').removeClass('disabled');
+//                        $('#error_name_header').html(gpdeal_translate("Failed to validate"));
+//                        $('#error_name_message').show();
+//                    }
+//                },
+//                success: function (response, textStatus, jqXHR) {
+//                    if (response.success === true) {
+//                        //$('#payment_form').submit();
+//                        $('#selected_transport_offers_form input[name="payment_completed"]').val("true");
+//                        $('#selected_transport_offers_form input[name="payment_method"]').val("creditCard");
+//                        $('#payment_form').removeClass('loading');
+//                        $(this).removeClass('disabled');
+//                        $('#cancel_payment').removeClass('disabled');
+//                        $('#payment_modal').modal('hide');
+//                        $('#selected_transport_offers_form').addClass('ui form loading');
+//                        $('#selected_transport_offers_form').submit();
+//                        alert(response.data.message);
+//                    } else if (response.success === false) {
+//                        $('#payment_form').removeClass('loading');
+//                        $(this).removeClass('disabled');
+//                        $('#cancel_payment').removeClass('disabled');
+//                        $('#error_name_header').html(gpdeal_translate("Failed to validate"));
+//                        $('#error_name_list').html('<li>' + response.data.message + '</li>');
+//                        $('#error_name_message').show();
+//                    } else {
+//                        $('#payment_form').removeClass('loading');
+//                        $(this).removeClass('disabled');
+//                        $('#cancel_payment').removeClass('disabled');
+//                        $('#error_name_header').html(gpdeal_translate("Internal server error"));
+//                        $('#error_name_message').show();
+//                    }
+//                },
+//                error: function (jqXHR, textStatus, errorThrown) {
+//                    $('#payment_form').removeClass('loading');
+//                    $(this).removeClass('disabled');
+//                    $('#cancel_payment').removeClass('disabled');
+//                    $('#server_error_message').show();
+//                }
+//            });
+        }
+    });
+    
+    $('#paypal_process').click(function(){
+        $(this).addClass('loading');
+    });
+    
+    $('#continue_to_confirm_transaction').click(function (){
+        $(this).addClass('loading');
+    });
+    
 });
 
 function show_user_evaluation(id){
@@ -116,6 +307,15 @@ function show_user_evaluation(id){
         
     }else{
         $('#content_evaluation_'+id).hide();
+    }
+}
+
+function show_user_evaluation_single(id){
+    if($('#content_evaluation_single_'+id).css('display')==="none"){
+        $('#content_evaluation_single_'+id).show();
+        
+    }else{
+        $('#content_evaluation_single_'+id).hide();
     }
 }
 

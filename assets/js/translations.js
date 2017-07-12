@@ -77,7 +77,14 @@ var lang = {
         "Please enter a current password" : "Veuillez saisir le mot de passe actuel",
         "Please enter the new password" : "Veuillez saisir le nouveau mot de passe",
         "Invalid email address": "Adresse email invalide",
-        "Please select your account type": "Veuillez selectionner votre type de compte"
+        "Please select your account type": "Veuillez selectionner votre type de compte",
+        "Please enter a correct card number": "Veuillez saisir un numéro de carte correct",
+        "Please enter a correct card verification code": "Veuillez saisir le code de verification de votre carte",
+        "Please select month of your card expiration date": "Veuillez selectionner le mois d'expiration de votre carte",
+        "Please enter your card expiration year": "Veuillez saisir l'année d'expiration de votre carte",
+        "Please enter a first name of card owner": "Vueillez saisir le prenom du propriétaire de la carte",
+        "Please enter a last name of card owner": "Veuillez saisir le nom du propriétaire de la carte",
+        "Please select a billing country of your card": "Veuillez selectionner le pays de facturation de la carte"
     }
     
 };

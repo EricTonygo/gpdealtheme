@@ -1,11 +1,11 @@
 <?php get_template_part('top-menu', get_post_format()); ?>
 <?php if (have_posts()): while (have_posts()): the_post(); ?>
-        <div class="ui large borderless second-nav menu">
+        <div class="ui tiny borderless second-nav menu">
             <div class="ui container center aligned">
                 <div class="center menu">
                     <div class="item">
                         <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                        <i class="right arrow icon divider"></i>
+                        <i class="small right arrow icon divider"></i>
                         <div class="active section"><?php the_title(); ?></div>
                     </div>
                 </div>

@@ -296,3 +296,36 @@ msgstr "Shipments"
 
 msgid "Package"
 msgstr "Shipment"
+
+msgid "Courrier"
+msgstr "Letter"
+
+msgid "Colis"
+msgstr "Parcel"
+
+msgid "Autre"
+msgstr "Other"
+
+msgid "Mer"
+msgstr "Water"
+
+msgid "Terre"
+msgstr "Earth"
+
+msgid "Air"
+msgstr "Air"
+
+msgid "abrev_length"
+msgstr "l"
+
+msgid "abrev_width"
+msgstr "w"
+
+msgid "abrev_height"
+msgstr "h"
+
+msgid "find_TO_form_title"
+msgstr "I ship"
+
+msgid "find_package_form_title"
+msgstr "I carry"

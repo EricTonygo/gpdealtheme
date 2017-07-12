@@ -7,12 +7,12 @@
 session_start();
 expire_session();
 if (is_user_logged_in()) {
-//    get_header();
-//
-//    get_template_part('content-my-account-page', get_post_format());
-//
-//    get_footer();
-    wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain'))));
+    get_header();
+
+    get_template_part('content-my-account-page', get_post_format());
+
+    get_footer();
+//    wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain'))));
 }else{
     $_SESSION['redirect_to'] = get_the_permalink();
     wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));

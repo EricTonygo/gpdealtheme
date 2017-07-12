@@ -56,15 +56,23 @@
                         <h2 class="header"><?php echo $current_user->user_login ?></h2>
                         <div class="divider"></div>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>' class="ui item">
-                            <i class="user icon"></i>
-                            <?php _e('My account', 'gpdealdomain') ?>                         
+                            <i class="setting icon"></i>
+                            <?php echo __("Account", "gpdealdomain"); ?>                         
                         </a>
-<!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
                             <i class="user icon"></i>
-                            <?php echo __("My profile", "gpdealdomain"); ?>                         
-                        </a>-->
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>' class="ui item">
+                            <i class="travel icon"></i>
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>' class="ui item">
+                            <i class="shipping icon"></i>
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain'))->post_title ?>                         
+                        </a>
                         <div class="divider"></div>
-                        <a  href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="ui item disconnected_btn">
+                        <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="ui item disconnected_btn">
                             <i class="sign out icon"></i>
                             <?php echo __('Sign out', 'gpdealdomain') ?>
                         </a>
@@ -76,8 +84,7 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form id="login_form" method="POST" class="ui form login_form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain')))); ?>" style="margin-bottom: 1em" autocomplete="off">
-                                    <!--<p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>-->
+                                <form id="login_form" method="POST" class="ui form login_form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain')))); ?>" style="margin-bottom: 1em">
                                     <div class="field">
                                         <label><?php _e('Email or username', 'gpdealdomain'); ?> <span style="color: red;">*</span></label>
                                         <div class="ui input left icon">
@@ -95,7 +102,7 @@
                                     <div class="inline field">
                                         <div class="ui checkbox">
                                             <input type="checkbox" name="_remember">
-                                            <label><?php _e('Remember me', 'gpdealdomain'); ?></label>
+                                            <label class="normal_font_weight"><?php _e('Remember me', 'gpdealdomain'); ?></label>
                                         </div>
                                     </div>
                                     
@@ -104,7 +111,7 @@
                                         <button id="submit_login_form"  class="ui green fluid button submit_login_form"><?php _e('Sign in', 'gpdealdomain'); ?></button>
                                     </div> 
                                     <div class="field center aligned">
-                                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('forgot-your-password', 'gpdealdomain')))); ?>" ><?php _e('Forgot your password', 'gpdealdomain'); ?> ?</a>
+                                        <a class="normal_font_weight" href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('forgot-your-password', 'gpdealdomain')))); ?>" ><?php _e('Forgot your password', 'gpdealdomain'); ?> ?</a>
                                     </div>
                                 </form>
                             </div>
@@ -185,13 +192,25 @@
                     <?php echo $current_user->user_login ?>
                     <div class="menu">
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))) ?>' class="ui item">
-                            <i class="user icon"></i>
+                            <i class="setting icon"></i>
                             <?php echo _e('My account', 'gpdealdomain');?>                         
                         </a>
 <!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
                             <i class="user icon"></i>
                             <?php echo __("My profile", "gpdealdomain"); ?>                         
                         </a>-->
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
+                            <i class="user icon"></i>
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>' class="ui item">
+                            <i class="travel icon"></i>
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))->post_title ?>                         
+                        </a>
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>' class="ui item">
+                            <i class="shipping icon"></i>
+                            <?php echo get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain'))->post_title ?>                         
+                        </a>
                         <div class="divider"></div>
                         <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="ui item disconnected_btn">
                             <i class="sign out icon"></i>
@@ -206,8 +225,7 @@
                     <div class="menu signin_dropdown_menu">
                         <div class="ui fluid card" style="margin-bottom: 0;">
                             <div class="content">
-                                <form id="login_form1"  method="POST" class="ui form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain')))); ?>" style="margin-bottom: 1em" autocomplete="off">
-                                    <!--<p style="font-size: 12px"><span style="color: red;">*</span> Informations obligatoires</p>-->
+                                <form id="login_form1"  method="POST" class="ui form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain')))); ?>" style="margin-bottom: 1em">
                                     <div class="field">
                                         <label><?php _e('Email or username', 'gpdealdomain'); ?> <span style="color: red;">*</span></label>
                                         <div class="ui input left icon">
@@ -225,7 +243,7 @@
                                     <div class="inline field">
                                         <div class="ui checkbox">
                                             <input type="checkbox" name="_remember">
-                                            <label><?php _e('Remember me', 'gpdealdomain') ?></label>
+                                            <label class="normal_font_weight"><?php _e('Remember me', 'gpdealdomain') ?></label>
                                         </div>
                                     </div>
                                     <input type="hidden" name='no_redirect' value="true" >
@@ -234,7 +252,7 @@
                                         <button id="submit_login_form1" class="ui green fluid button submit_login_form" type="submit"><?php echo __('Sign in', 'gpdealdomain'); ?></button>
                                     </div> 
                                     <div class="field center aligned">
-                                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('forgot-your-password', 'gpdealdomain')))); ?>" ><?php _e('Forgot your password', 'gpdealdomain') ?> ?</a>
+                                        <a class="normal_font_weight" href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('forgot-your-password', 'gpdealdomain')))); ?>" ><?php _e('Forgot your password', 'gpdealdomain') ?> ?</a>
                                     </div>
                                 </form>
                             </div>
@@ -260,10 +278,10 @@
                         <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain')))); ?>" class="item"><?php echo __("Sign up", 'gpdealdomain') ?></a>
                     <?php else : ?>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>' class="item">
-                            <?php _e('My account', 'gpdealdomain') ?>                         
+                            <?php _e('Account', 'gpdealdomain') ?>                         
                         </a>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="item">
-                            <?php _e('My profile', 'gpdealdomain') ?>                         
+                            <?php _e('Profile', 'gpdealdomain') ?>                         
                         </a>
                         <a href="<?php echo esc_url(add_query_arg(array('logout' => 'true'), wp_make_link_relative(home_url('/')))) ?>" class="item">
                             <?php echo __('Sign out', 'gpdealdomain') ?>
@@ -282,10 +300,10 @@
                     </a>
                     <?php if (is_user_logged_in()): ?>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>' class="item">
-                            <?php echo __('My shipments', 'gpdealdomain') ?>                         
+                            <?php echo __('Shipments', 'gpdealdomain') ?>                         
                         </a>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>' class="item">
-                            <?php echo __('My transport offers', 'gpdealdomain') ?>                         
+                            <?php echo __('Transport offers', 'gpdealdomain') ?>                         
                         </a>
                     <?php endif ?>
                 </div>
@@ -298,7 +316,6 @@
                     <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('contact-us', 'gpdealdomain')))); ?>" class="item"><?php echo get_page_by_path(__('contact-us', 'gpdealdomain'))->post_title ?></a>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

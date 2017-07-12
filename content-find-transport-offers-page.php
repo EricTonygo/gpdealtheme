@@ -2,12 +2,12 @@
 global $current_user;
 get_template_part('top-menu', get_post_format());
 ?>
-<div class="ui large borderless second-nav menu">
+<div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>                
-                <i class="right arrow icon divider"></i>
+                <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
         </div>
@@ -25,7 +25,7 @@ get_template_part('top-menu', get_post_format());
                         <div class="two wide fields">
                             <div class="field">
                                 <div class="ui input left icon">
-                                    <i class="marker icon"></i>
+                                    <i class="blue marker icon"></i>
                                     <input id="start_city_transport" type="text" name='start_city' placeholder="<?php _e("Departure city", "gpdealdomain"); ?>" value="<?php echo $start_city ?>">
                                 </div>
                             </div>             
@@ -42,7 +42,7 @@ get_template_part('top-menu', get_post_format());
                         <div class="two wide fields">
                             <div class="field">
                                 <div class="ui input left icon">
-                                    <i class="marker icon"></i>
+                                    <i class="blue marker icon"></i>
                                     <input id="destination_city_transport" type="text" name='destination_city' placeholder="<?php _e("Destination city", "gpdealdomain"); ?>" value="<?php echo $destination_city ?>">
                                 </div>
                             </div>             
@@ -77,9 +77,9 @@ get_template_part('top-menu', get_post_format());
 
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Corresponding offers', 'gpdealdomain'); ?></div>
+                        <div class="header"><?php _e("The corresponding offers for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                     </div>
-                    <div class="content content_packages_transports">
+                    <div class="content content_packages_transports content_without_white">
                         <?php
                         $transport_offers = new WP_Query(getWPQueryArgsForCarrierSearch($search_data));
                         $exclude_ids = array();
@@ -92,7 +92,7 @@ get_template_part('top-menu', get_post_format());
                                     $exclude_ids[] = $transport_offer_id;
                                     ?>
                                     <div class="column">
-                                        <div class="ui fluid card">
+                                        <div class="ui fluid card transport_offer_card">
                                             <?php
                                             $post_author = get_post_field('post_author', $transport_offer_id);
                                             $carrier_name = $current_user->ID == $post_author ? __("You", "gpdealdomain") : get_the_author_meta('user_login');
@@ -102,114 +102,189 @@ get_template_part('top-menu', get_post_format());
                                             $max_height = get_post_meta($transport_offer_id, 'package-height-max', true);
                                             $max_weight = get_post_meta($transport_offer_id, 'package-weight-max', true);
                                             ?>
-                                            <div class="content">
-                                                <?php
-                                                $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
-                                                wp_reset_postdata();
-                                                ?>
-                                                <div class="right floated meta">
-                                                    <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                            <div class="image">
+                                                <div class="content_image_profilename">
+        <!--                                                    <div class="content_image" <?php if ($profile_picture_id): ?> style="background-image: url(<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>);" <?php else: ?> style="background-image: url(<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/avatar.png);" <?php endif ?>>
+
+                                                    </div>-->
+                                                    <div><span class='profile_name'><?php echo $carrier_name; ?></span></div>
+                                                    <div class="meta">
                                                         <?php
-                                                        foreach ($statistics as $stat_key => $stat_value):
-                                                            ?>
-                                                            <div class="ui form">
-                                                                <div class="field disable">
-                                                                    <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
-                                                                    <a id="<?php echo $transport_offer_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), wp_make_link_relative(get_permalink(get_page_by_path(__('reviews-and-evaluations', 'gpdealdomain')))))); ?>" class="show_reviews_evaluations">
-                                                                        <?php echo $stat_value["vote_count"]; ?> <?php echo __("reviews", "gpdealdomain"); ?>
-                                                                    </a>
+                                                        $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
+                                                        wp_reset_postdata();
+                                                        ?>
+                                                        <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                                            <?php
+                                                            foreach ($statistics as $stat_key => $stat_value):
+                                                                ?>
+                                                                <div class="ui form">
+                                                                    <div class="field disable">
+                                                                        <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
+                                                                        <a id="<?php echo $transport_offer_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), wp_make_link_relative(get_permalink(get_page_by_path(__('reviews-and-evaluations', 'gpdealdomain')))))); ?>" class="show_reviews_evaluations">
+                                                                            <?php echo $stat_value["vote_count"]; ?> <?php _e("reviews", "gpdealdomain"); ?>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    <?php else: ?>
-                                                        <span id="<?php echo $transport_offer_id; ?>"  ><i class="star icon"></i> <?php echo __("No reviews", "gpdealdomain"); ?></span>
-                                                    <?php endif ?>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <span id="<?php echo $transport_offer_id; ?>"  ><i class="star icon"></i> <?php echo __("No reviews", "gpdealdomain"); ?></span>
+                                                        <?php endif ?>
+                                                    </div>
                                                 </div>
-                                                <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>" <?php else: ?> src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/avatar.png"<?php endif ?>> <span class='profile_name'><?php echo $carrier_name; ?></span> (<strong><?php echo get_user_role_by_user_id($post_author) ?></strong>)
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Departur", "gpdealdomain"); ?> : </span>
-                                                        <span class="span_value">
-                                                            <?php echo get_post_meta($transport_offer_id, 'departure-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_id, 'departure-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'date-of-departure-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="inline field"> 
-                                                        <span class="span_label"><?php _e("Destination", "gpdealdomain"); ?> : </span>
-                                                        <span class="span_value">
-                                                            <?php echo get_post_meta($transport_offer_id, 'destination-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_id, 'destination-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'arrival-date-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Deadline", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
-                                                                <span class="tooltiptext"><?php echo __("Date limite de validité de l'offre", "gpdealdomain") ?></span>
-                                                            </i> : </span> 
-                                                        <span class="span_value">
-                                                            <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'deadline-of-proposition-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-
-
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Object", "gpdealdomain"); ?>(s)<i class="help circle green link icon tooltip">
-                                                                <span class="tooltiptext"><?php echo __("Types of objects accepted by the carrier", "gpdealdomain") ?></span>
-                                                            </i> : </span> 
-                                                        <span class="span_value">
-                                                            <?php
-                                                            $package_type_list = wp_get_post_terms($transport_offer_id, 'type_package', array("fields" => "names"));
-                                                            $package_type_list_count = count($package_type_list);
-                                                            $j = 0;
-                                                            foreach ($package_type_list as $name) :
-                                                                ?>
-                                                                <?php if ($j < $package_type_list_count - 1) : ?>
-                                                                    <span><?php echo $name; ?>, </span>
-                                                                <?php else: ?>
-                                                                    <span><?php echo $name; ?></span>
-                                                                <?php endif ?>
-                                                                <?php
-                                                                $j++;
-                                                            endforeach
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <?php if ($max_length || $max_width || $max_height || $max_weight) : ?>
-                                                        <div class="inline field">
-                                                            <span class="span_label"><?php _e("Max dimensions", "gpdealdomain"); ?>(cm) : </span> 
-                                                            <span class="span_value">
-                                                                <?php if ($max_length) : ?>L= <?php echo $max_length; ?>,<?php endif ?>  <?php if ($max_width) : ?>l= <?php echo $max_width; ?>,<?php endif ?>  <?php if ($max_height) : ?>h= <?php echo $max_height; ?><?php endif ?>
-                                                            </span>
-                                                        </div>
-                                                        <?php if ($max_weight) : ?>
-                                                            <div class="inline field">
-                                                                <span class="span_label"><?php _e("Max weight", "gpdealdomain"); ?>(kg) : </span> 
-                                                                <span class="span_value">
-                                                                    <?php echo $max_weight; ?>
-                                                                </span>
+                                                    <div class="field">
+                                                        <div class="ui grid">
+                                                            <div class="seven wide column">
+                                                                <i class="large blue marker icon"></i>
+                                                                <div class="inline field">
+                                                                    <span class="span_value">
+                                                                        <?php echo get_post_meta($transport_offer_id, 'departure-city-transport-offer', true) ?> 
+                                                                    </span><br>
+                                                                    <span class="span_value">
+                                                                        (<?php echo get_post_meta($transport_offer_id, 'departure-country-transport-offer', true) ?>)
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        <?php endif ?>
-                                                    <?php endif ?>
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Mode of transport", "gpdealdomain"); ?> : </span> 
-                                                        <span class="span_value">
-                                                            <?php
-                                                            $transport_method_list = wp_get_post_terms($transport_offer_id, 'transport-method', array("fields" => "names"));
-                                                            $transport_method_list_count = count($transport_method_list);
-                                                            $i = 0;
-                                                            foreach ($transport_method_list as $name) :
-                                                                ?>
-                                                                <?php if ($i < $transport_method_list_count - 1) : ?>
-                                                                    <span><?php echo $name; ?>, </span>
-                                                                <?php else: ?>
-                                                                    <span><?php echo $name; ?></span>
-                                                                <?php endif ?>
-                                                                <?php
-                                                                $i++;
-                                                            endforeach
-                                                            ?>
-                                                        </span>
+                                                            <div class="two wide column">
+                                                                <i class="large blue long arrow right icon"></i>
+                                                            </div>
+                                                            <div class="seven wide column">
+                                                                <i class="large blue flag checkered icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo get_post_meta($transport_offer_id, 'destination-city-transport-offer', true) ?>
+                                                                    </span><br>
+                                                                    <span class="span_value">
+                                                                        (<?php echo get_post_meta($transport_offer_id, 'destination-country-transport-offer', true) ?>)
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <div class="field">
+                                                        <div class="ui grid">
+                                                            <div class="seven wide column">
+                                                                <i class="large blue calendar icon"></i>
+                                                                <div class="inline field">
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'date-of-departure-transport-offer', true))); ?>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="two wide column">
+                                                                <i class="large blue long arrow right icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo gpdeal_date_diff(date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'date-of-departure-transport-offer', true))), date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'arrival-date-transport-offer', true)))) ?>j
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="seven wide column">
+                                                                <i class="large blue calendar icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'arrival-date-transport-offer', true))); ?>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <div class="ui form description">
+                                                    <table class="ui celled unstackable table transport_offer_table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Deadline", 'gpdealdomain') ?><i class="help circle green link icon tooltip">
+                                                                            <span class="tooltiptext"><?php echo __("Deadline for the validity of the offer", "gpdealdomain") ?></span>
+                                                                        </i> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'deadline-of-proposition-transport-offer', true))); ?>
+                                                                    </span> 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Object", 'gpdealdomain') ?>(s)<i class="help circle green link icon tooltip">
+                                                                            <span class="tooltiptext"><?php echo __("Types of objects accepted by the carrier", "gpdealdomain") ?></span>
+                                                                        </i> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php
+                                                                        $package_type_list = wp_get_post_terms($transport_offer_id, 'type_package', array("fields" => "names"));
+                                                                        $package_type_list_count = count($package_type_list);
+                                                                        $j = 0;
+                                                                        foreach ($package_type_list as $name) :
+                                                                            ?>
+                                                                            <?php if ($j < $package_type_list_count - 1) : ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?>, </span>
+                                                                            <?php else: ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?></span>
+                                                                            <?php endif ?>
+                                                                            <?php
+                                                                            $j++;
+                                                                        endforeach
+                                                                        ?>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <?php if ($max_length || $max_width || $max_height || $max_weight) : ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="span_label"><?php echo __("Max dimensions", 'gpdealdomain') ?>(cm) </span> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="span_value">
+                                                                            <?php if ($max_length) : ?><?php _e("abrev_length", "gpdealdomain"); ?>= <?php echo $max_length; ?>,<?php endif ?>  <?php if ($max_width) : ?><?php _e("abrev_width", "gpdealdomain"); ?>= <?php echo $max_width; ?>,<?php endif ?>  <?php if ($max_height) : ?><?php _e("abrev_height", "gpdealdomain"); ?>= <?php echo $max_height; ?><?php endif ?>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php if ($max_weight) : ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span class="span_label"><?php echo __("Max weight", 'gpdealdomain') ?>(kg) </span> 
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="span_value">
+                                                                                <?php echo $max_weight; ?>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php endif ?>
+                                                            <?php endif ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Mode of transport", 'gpdealdomain') ?> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php
+                                                                        $transport_method_list = wp_get_post_terms($transport_offer_id, 'transport-method', array("fields" => "names"));
+                                                                        $transport_method_list_count = count($transport_method_list);
+                                                                        $i = 0;
+                                                                        foreach ($transport_method_list as $name) :
+                                                                            ?>
+                                                                            <?php if ($i < $transport_method_list_count - 1) : ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?>, </span>
+                                                                            <?php else: ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?></span>
+                                                                            <?php endif ?>
+                                                                            <?php
+                                                                            $i++;
+                                                                        endforeach
+                                                                        ?>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                     <span class="ui blue right ribbon label">
                                                         <?php echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                     </span>
@@ -217,11 +292,11 @@ get_template_part('top-menu', get_post_format());
                                             </div>
                                             <!--                                            <div class="extra content">
                                             <?php if (is_user_logged_in()) : ?>
-                                                                                                                        <input id='selected_transport_offer_checkbox<?php echo $transport_offer_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_id; ?>" style="display: none">
-                                                                                                                        <a id='selected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_id; ?>)"><i class="checkmark icon"></i></a>
-                                                                                                                        <a id='unselected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                                                                                                                <input id='selected_transport_offer_checkbox<?php echo $transport_offer_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_id; ?>" style="display: none">
+                                                                                                                                                <a id='selected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_id; ?>)"><i class="checkmark icon"></i></a>
+                                                                                                                                                <a id='unselected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             <?php else: ?>
-                                                                                                                        <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                                                                                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             <?php endif ?>
                                                                                         </div>-->
                                         </div>
@@ -252,17 +327,16 @@ get_template_part('top-menu', get_post_format());
                     ?>
                     <div  class="ui content_packages_transports fluid card">
                         <div class="content center aligned">
-                            <div class="header"><?php echo __('Offers that can interest you', 'gpdealdomain'); ?></div>
+                            <div class="header"><?php _e("The offers that can interest you for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                         </div>
-                        <div class="content content_packages_transports">
-
+                        <div class="content content_packages_transports content_without_white">
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                 <?php
                                 while ($transport_offers_which_can_interest->have_posts()): $transport_offers_which_can_interest->the_post();
                                     $transport_offer_wci_id = get_the_ID();
                                     ?>
                                     <div class="column">
-                                        <div class="ui fluid card">
+                                        <div class="ui fluid card transport_offer_card">
                                             <?php
                                             $post_author = get_post_field('post_author', $transport_offer_wci_id);
                                             $carrier_name = $current_user->ID == $post_author ? __("You", "gpdealdomain") : get_the_author_meta('user_login');
@@ -272,114 +346,189 @@ get_template_part('top-menu', get_post_format());
                                             $max_height = get_post_meta($transport_offer_wci_id, 'package-height-max', true);
                                             $max_weight = get_post_meta($transport_offer_wci_id, 'package-weight-max', true);
                                             ?>
-                                            <div class="content">
-                                                <?php
-                                                $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
-                                                wp_reset_postdata();
-                                                ?>
-                                                <div class="right floated meta">
-                                                    <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                            <div class="image">
+                                                <div class="content_image_profilename">
+        <!--                                                    <div class="content_image" <?php if ($profile_picture_id): ?> style="background-image: url(<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>);" <?php else: ?> style="background-image: url(<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/avatar.png);" <?php endif ?>>
+
+                                                    </div>-->
+                                                    <div><span class='profile_name'><?php echo $carrier_name; ?></span></div>
+                                                    <div class="meta">
                                                         <?php
-                                                        foreach ($statistics as $stat_key => $stat_value):
-                                                            ?>
-                                                            <div class="ui form">
-                                                                <div class="field disable">
-                                                                    <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
-                                                                    <a id="<?php echo $transport_offer_wci_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), the_permalink(get_page_by_path(__('reviews-and-evaluations', 'gpdealdomain'))))); ?>" class="show_reviews_evaluations">
-                                                                        <?php echo $stat_value["vote_count"]; ?> <?php _e("reviews", "gpdealdomain"); ?>
-                                                                    </a>
+                                                        $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
+                                                        wp_reset_postdata();
+                                                        ?>
+                                                        <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                                            <?php
+                                                            foreach ($statistics as $stat_key => $stat_value):
+                                                                ?>
+                                                                <div class="ui form">
+                                                                    <div class="field disable">
+                                                                        <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
+                                                                        <a id="<?php echo $transport_offer_wci_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), wp_make_link_relative(get_permalink(get_page_by_path(__('reviews-and-evaluations', 'gpdealdomain')))))); ?>" class="show_reviews_evaluations">
+                                                                            <?php echo $stat_value["vote_count"]; ?> <?php _e("reviews", "gpdealdomain"); ?>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    <?php else: ?>
-                                                        <span id="<?php echo $transport_offer_wci_id; ?>"  ><i class="star icon"></i> <?php echo __("No reviews", "gpdealdomain"); ?></span>
-                                                    <?php endif ?>
+                                                            <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                            <span id="<?php echo $transport_offer_wci_id; ?>"  ><i class="star icon"></i> <?php echo __("No reviews", "gpdealdomain"); ?></span>
+                                                        <?php endif ?>
+                                                    </div>
                                                 </div>
-                                                <img  class="ui avatar image" <?php if ($profile_picture_id): ?> src= "<?php echo wp_get_attachment_url($profile_picture_id); ?>" <?php else: ?> src="<?php echo get_template_directory_uri() ?>/assets/images/avatar.png"<?php endif ?>> <span class='profile_name'><?php echo $carrier_name; ?></span> (<strong><?php echo get_user_role_by_user_id($post_author) ?></strong>)
                                             </div>
                                             <div class="content">
                                                 <div class="ui form description">
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Departure", "gpdealdomain"); ?> : </span>
-                                                        <span class="span_value">
-                                                            <?php echo get_post_meta($transport_offer_wci_id, 'departure-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_wci_id, 'departure-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'date-of-departure-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-                                                    <div class="inline field"> 
-                                                        <span class="span_label"><?php _e("Destination", "gpdealdomain"); ?> : </span>
-                                                        <span class="span_value">
-                                                            <?php echo get_post_meta($transport_offer_wci_id, 'destination-city-transport-offer', true) ?> (<?php echo get_post_meta($transport_offer_wci_id, 'destination-country-transport-offer', true) ?>), <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'arrival-date-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Deadline", "gpdealdomain"); ?><i class="help circle green link icon tooltip">
-                                                                <span class="tooltiptext"><?php echo __("Date limite de validité de l'offre", "gpdealdomain") ?></span>
-                                                            </i> : </span> 
-                                                        <span class="span_value">
-                                                            <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'deadline-of-proposition-transport-offer', true))); ?>
-                                                        </span>
-                                                    </div>
-
-
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Object", "gpdealdomain"); ?>(s)<i class="help circle green link icon tooltip">
-                                                                <span class="tooltiptext"><?php echo __("Types of objects accepted by the carrier", "gpdealdomain") ?></span>
-                                                            </i> : </span> 
-                                                        <span class="span_value">
-                                                            <?php
-                                                            $package_type_list = wp_get_post_terms($transport_offer_wci_id, 'type_package', array("fields" => "names"));
-                                                            $package_type_list_count = count($package_type_list);
-                                                            $j = 0;
-                                                            foreach ($package_type_list as $name) :
-                                                                ?>
-                                                                <?php if ($j < $package_type_list_count - 1) : ?>
-                                                                    <span><?php echo $name; ?>, </span>
-                                                                <?php else: ?>
-                                                                    <span><?php echo $name; ?></span>
-                                                                <?php endif ?>
-                                                                <?php
-                                                                $j++;
-                                                            endforeach
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                    <?php if ($max_length || $max_width || $max_height || $max_weight) : ?>
-                                                        <div class="inline field">
-                                                            <span class="span_label"><?php _e("Max dimensions", "gpdealdomain"); ?>(cm) : </span> 
-                                                            <span class="span_value">
-                                                                <?php if ($max_length) : ?>L= <?php echo $max_length; ?>,<?php endif ?>  <?php if ($max_width) : ?>l= <?php echo $max_width; ?>,<?php endif ?>  <?php if ($max_height) : ?>h= <?php echo $max_height; ?><?php endif ?>
-                                                            </span>
-                                                        </div>
-                                                        <?php if ($max_weight) : ?>
-                                                            <div class="inline field">
-                                                                <span class="span_label"><?php _e("Max weight", "gpdealdomain"); ?>(kg) : </span> 
-                                                                <span class="span_value">
-                                                                    <?php echo $max_weight; ?>
-                                                                </span>
+                                                    <div class="field">
+                                                        <div class="ui grid">
+                                                            <div class="seven wide column">
+                                                                <i class="large blue marker icon"></i>
+                                                                <div class="inline field">
+                                                                    <span class="span_value">
+                                                                        <?php echo get_post_meta($transport_offer_wci_id, 'departure-city-transport-offer', true) ?>
+                                                                    </span><br>
+                                                                    <span class="span_value">
+                                                                        (<?php echo get_post_meta($transport_offer_wci_id, 'departure-country-transport-offer', true) ?>)
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        <?php endif ?>
-                                                    <?php endif ?>
-                                                    <div class="inline field">
-                                                        <span class="span_label"><?php _e("Mode of transport", "gpdealdomain"); ?> : </span> 
-                                                        <span class="span_value">
-                                                            <?php
-                                                            $transport_method_list = wp_get_post_terms($transport_offer_wci_id, 'transport-method', array("fields" => "names"));
-                                                            $transport_method_list_count = count($transport_method_list);
-                                                            $i = 0;
-                                                            foreach ($transport_method_list as $name) :
-                                                                ?>
-                                                                <?php if ($i < $transport_method_list_count - 1) : ?>
-                                                                    <span><?php echo $name; ?>, </span>
-                                                                <?php else: ?>
-                                                                    <span><?php echo $name; ?></span>
-                                                                <?php endif ?>
-                                                                <?php
-                                                                $i++;
-                                                            endforeach
-                                                            ?>
-                                                        </span>
+                                                            <div class="two wide column">
+                                                                <i class="large blue long arrow right icon"></i>
+                                                            </div>
+                                                            <div class="seven wide column">
+                                                                <i class="large blue flag checkered icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo get_post_meta($transport_offer_wci_id, 'destination-city-transport-offer', true) ?>
+                                                                    </span><br>
+                                                                    <span class="span_value">
+                                                                        (<?php echo get_post_meta($transport_offer_wci_id, 'destination-country-transport-offer', true) ?>)
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <div class="field">
+                                                        <div class="ui grid">
+                                                            <div class="seven wide column">
+                                                                <i class="large blue calendar icon"></i>
+                                                                <div class="inline field">
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'date-of-departure-transport-offer', true))); ?>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="two wide column">
+                                                                <i class="large blue long arrow right icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo gpdeal_date_diff(date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'date-of-departure-transport-offer', true))), date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'arrival-date-transport-offer', true)))) ?>j
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="seven wide column">
+                                                                <i class="large blue calendar icon"></i>
+                                                                <div class="inline field"> 
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'arrival-date-transport-offer', true))); ?>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <div class="ui form description">
+                                                    <table class="ui celled unstackable table transport_offer_table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Deadline", 'gpdealdomain') ?><i class="help circle green link icon tooltip">
+                                                                            <span class="tooltiptext"><?php echo __("Deadline for the validity of the offer", "gpdealdomain") ?></span>
+                                                                        </i> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'deadline-of-proposition-transport-offer', true))); ?>
+                                                                    </span> 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Object", 'gpdealdomain') ?>(s)<i class="help circle green link icon tooltip">
+                                                                            <span class="tooltiptext"><?php echo __("Types of objects accepted by the carrier", "gpdealdomain") ?></span>
+                                                                        </i> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php
+                                                                        $package_type_list = wp_get_post_terms($transport_offer_wci_id, 'type_package', array("fields" => "names"));
+                                                                        $package_type_list_count = count($package_type_list);
+                                                                        $j = 0;
+                                                                        foreach ($package_type_list as $name) :
+                                                                            ?>
+                                                                            <?php if ($j < $package_type_list_count - 1) : ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?>, </span>
+                                                                            <?php else: ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?></span>
+                                                                            <?php endif ?>
+                                                                            <?php
+                                                                            $j++;
+                                                                        endforeach
+                                                                        ?>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <?php if ($max_length || $max_width || $max_height || $max_weight) : ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="span_label"><?php echo __("Max dimensions", 'gpdealdomain') ?>(cm) </span> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="span_value">
+                                                                            <?php if ($max_length) : ?><?php _e("abrev_length", "gpdealdomain"); ?>= <?php echo $max_length; ?>,<?php endif ?>  <?php if ($max_width) : ?><?php _e("abrev_width", "gpdealdomain"); ?>= <?php echo $max_width; ?>,<?php endif ?>  <?php if ($max_height) : ?><?php _e("abrev_height", "gpdealdomain"); ?>= <?php echo $max_height; ?><?php endif ?>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php if ($max_weight) : ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span class="span_label"><?php echo __("Max weight", 'gpdealdomain') ?>(kg) </span> 
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="span_value">
+                                                                                <?php echo $max_weight; ?>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php endif ?>
+                                                            <?php endif ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="span_label"><?php echo __("Mode of transport", 'gpdealdomain') ?> </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="span_value">
+                                                                        <?php
+                                                                        $transport_method_list = wp_get_post_terms($transport_offer_wci_id, 'transport-method', array("fields" => "names"));
+                                                                        $transport_method_list_count = count($transport_method_list);
+                                                                        $i = 0;
+                                                                        foreach ($transport_method_list as $name) :
+                                                                            ?>
+                                                                            <?php if ($i < $transport_method_list_count - 1) : ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?>, </span>
+                                                                            <?php else: ?>
+                                                                                <span><?php echo __($name, "gpdealdomain"); ?></span>
+                                                                            <?php endif ?>
+                                                                            <?php
+                                                                            $i++;
+                                                                        endforeach
+                                                                        ?>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
 
                                                     <span class="ui blue right ribbon label">
                                                         <?php echo get_post_meta($transport_offer_wci_id, 'price', true) . " " . get_post_meta($transport_offer_wci_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_wci_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
@@ -388,11 +537,11 @@ get_template_part('top-menu', get_post_format());
                                             </div>
                                             <!--                                            <div class="extra content">
                                             <?php if (is_user_logged_in()) : ?>
-                                                                                                                        <input id='selected_transport_offer_checkbox<?php echo $transport_offer_wci_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_wci_id; ?>" style="display: none">
-                                                                                                                        <a id='selected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><i class="checkmark icon"></i></a>
-                                                                                                                        <a id='unselected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                                                                                                                <input id='selected_transport_offer_checkbox<?php echo $transport_offer_wci_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_wci_id; ?>" style="display: none">
+                                                                                                                                                <a id='selected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><i class="checkmark icon"></i></a>
+                                                                                                                                                <a id='unselected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             <?php else: ?>
-                                                                                                                        <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
+                                                                                                                                                <a class="ui fluid grey button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
                                             <?php endif ?>
                                                                                         </div>-->
                                         </div>
