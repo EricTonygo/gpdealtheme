@@ -1,20 +1,5 @@
 <?php
 get_template_part('top-menu', get_post_format());
-$package_type = array_map('intval', isset($_POST['transport_offer_package_type']) ? $_POST['transport_offer_package_type'] : array());
-$transport_method = array_map('intval', array(removeslashes(esc_attr(trim($_POST['transport_offer_transport_method'])))));
-$transport_offer_price = removeslashes(esc_attr(trim($_POST['transport_offer_price'])));
-$transport_offer_price_type = removeslashes(esc_attr(trim($_POST['transport_offer_price_type'])));
-$transport_offer_currency = removeslashes(esc_attr(trim($_POST['transport_offer_currency'])));
-$max_length = removeslashes(esc_attr(trim($_POST['package_length_max'])));
-$max_width = removeslashes(esc_attr(trim($_POST['package_width_max'])));
-$max_height = removeslashes(esc_attr(trim($_POST['package_height_max'])));
-$max_weight = removeslashes(esc_attr(trim($_POST['package_weight_max'])));
-$start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
-$start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-$deadline_proposition = removeslashes(esc_attr(trim($_POST['start_deadline'])));
-$destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
-$destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
-$terms = removeslashes(esc_attr(trim($_POST['terms'])));
 ?>
 <div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
@@ -34,14 +19,15 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
 <div class="ui vertical masthead  segment container">
     <!--div class="ui text container">
     </div-->
-    <div class="ui signup_contenair basic segment container">
+    <div class="ui signup_contenair basic segment container content_without_white">
         <div class="ui attached message">
-            <div class="header"><?php echo __("Publish Transport Offer", 'gpdealdomain') ?> </div>
-            <p class="promo_text_form"><?php echo __("Fill in the information below and then publish your transport offer", 'gpdealdomain') ?>.</p>
+            <div class="header"><?php echo __("Enter your transport offer informations", 'gpdealdomain') ?> </div>
+            <!--<p class="promo_text_form"><?php echo __("Fill in the information below and then publish your transport offer", 'gpdealdomain') ?>.</p>-->
+            <p class="promo_text_form"><span style="color: red;">*</span> <?php echo __("Required information", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
-                <p class="required_infos"><span style="color: red;">*</span> <?php echo __("Required informations", 'gpdealdomain') ?></p>
+                <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                 <div class="ui top attached tabular menu">
                     <div class="item active" data-tab="first"><?php echo __("transport_offer_str_start", 'gpdealdomain') ?> <br class="mobile_br" style="display: none;"><?php echo __("transport_offer_str_end", 'gpdealdomain') ?></div>
                     <div class="item" data-tab="second"><?php echo __("How it", 'gpdealdomain') ?> <br class="mobile_br" style="display: none;"><?php echo __("works", 'gpdealdomain') ?> ?</div>
@@ -96,29 +82,52 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                             </div>
                         </div>      
 
-                        <h4 class="ui dividing header"><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?></h4>
+                        <h4 class="ui dividing header"><?php echo __("Object(s) transported", 'gpdealdomain') ?></h4>
                         <div class="fields">
                             <div class="four wide field">
-                                <label><?php echo __("Object", 'gpdealdomain') ?>(s) <span style="color:red;">*</span></label>
+                                <label><?php echo __("Type", 'gpdealdomain') ?>(s) <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <select name="transport_offer_package_type[]" class="ui fluid multiple normal selection dropdown" multiple="" data-validate='transport_offer_package_type'>
-                                    <option value=""><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?> </option>
+                                <div style="margin-left: 0.6em" class="inline fields checkbox_with_icones">
                                     <?php
                                     $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                     foreach ($typePackages as $typePackage):
                                         ?>
-                                        <option value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> selected="selected" <?php endif ?>><?php echo __($typePackage->name, "gpdealdomain"); ?></option>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="transport_offer_package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $typePackages, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __($typePackage->name, "gpdealdomain"); ?>
+                                                    <?php if ($typePackage->slug == "colis"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                                    <?php elseif ($typePackage->slug == "autre"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                                    <?php elseif ($typePackage->slug == "mail"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                                    <?php endif ?>                                           
+                                                </label>
+                                            </div>
+                                        </div>
                                     <?php endforeach ?>
-                                </select>
+                                </div>
                             </div>
                         </div>
 
-
+                        <div class="fields">
+                            <div class="four wide field">
+                                <label><?php echo __("Description", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                        <span class="tooltiptext"><?php echo __("Example of object that you can to carry", "gpdealdomain") ?></span>
+                                    </i></label>
+                            </div>
+                            <div class="twelve wide field">
+                                <textarea placeholder="<?php echo __("Enter the description of object that you can to carry", "gpdealdomain"); ?>" name="transport_offer_portable_objects" cols="30" rows="5"><?php echo $transport_offer_portable_objects; ?></textarea>
+                            </div>
+                        </div>
+                        
                         <div class="fields">
                             <div class="four wide field dim_max_label">
                                 <label><?php echo __("Max dimensions", 'gpdealdomain') ?> <i class="help circle green link icon tooltip">
-                                        <span class="tooltiptext"><?php echo __("Max length, width and height (in cm)", "gpdealdomain") ?></span>
+                                        <span class="tooltiptext"><?php echo __("Max length, width and height (in cm)", "gpdealdomain") ?>.<br>
+                                            <?php echo __("Use \".\" For decimal numbers. Ex: 1.5", "gpdealdomain") ?></span>
                                     </i></label>
                             </div>
                             <div class="six wide field">
@@ -146,7 +155,8 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php echo __("Max weight", 'gpdealdomain') ?><i class="help circle green link icon tooltip">
-                                        <span class="tooltiptext"><?php echo __("The maximum weight (in kg)", "gpdealdomain") ?></span>
+                                        <span class="tooltiptext"><?php echo __("The maximum weight (in kg)", "gpdealdomain") ?>.<br>
+                                            <?php echo __("Use \".\" For decimal numbers. Ex: 1.5", "gpdealdomain") ?></span>
                                     </i> </label>
                             </div>
                             <div class="two wide field">
@@ -202,15 +212,17 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                                 <label><?php echo __("Mode", 'gpdealdomain') ?> <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <div class="inline fields">
+                                <div class="inline fields checkbox_with_icones">
                                     <?php
                                     $transportMethods = get_terms(array('taxonomy' => 'transport-method', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                     foreach ($transportMethods as $transportMethod):
                                         ?>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="transport_offer_transport_method" value="<?php echo $transportMethod->term_id; ?>" <?php if (in_array($transportMethod->term_id, $transport_method, true)): ?> checked="checked" <?php endif ?>>
-                                                <label><?php echo __($transportMethod->name, "gpdealdomain"); ?></label>
+                                                <input type="radio" name="transport_offer_transport_method" value="<?php echo $transportMethod->term_id; ?>" <?php if (in_array($transportMethod->term_id, $transportMethods, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __($transportMethod->name, "gpdealdomain"); ?>
+                                                    <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_<?php echo __($transportMethod->slug, "gpdealdomain"); ?>.png"></i>
+                                                </label>
                                             </div>
                                         </div>
                                     <?php endforeach ?>
@@ -243,10 +255,9 @@ $terms = removeslashes(esc_attr(trim($_POST['terms'])));
                         </div>
                     </form>
                 </div>
-                <div class="ui bottom attached tab segment" data-tab="second"> 
-                    <?php _e("How it works", "gpdealdomain"); ?>
+                <div class="ui bottom attached tab segment how_it_works" data-tab="second"> 
+                    <?php include(locate_template("content-how-it-works-transport-offer.php")); ?>
                 </div>
-
             </div>
         </div>
     </div>

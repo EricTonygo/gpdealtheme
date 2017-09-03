@@ -17,19 +17,23 @@ if (is_user_logged_in()) {
             $billing_country_code = removeslashes(esc_attr(trim($_POST['billing-country-code'])));
             $first_name = removeslashes(esc_attr(trim($_POST['first-name'])));
             $last_name = removeslashes(esc_attr(trim($_POST['last-name'])));
-            $result = executePaypalPaymentWithCreditCard($card_type, $card_number, $card_cvc, $card_expire_month, $card_expire_year, $billing_country_code, $first_name, $last_name);
+            $package_id = $_SESSION['package_id'];
+            $amount = get_post_meta($package_id, 'insurance-cost', true);
+            $currency = get_post_meta($package_id, 'package-currency', true);
+            $result = executePaypalPaymentWithCreditCard($amount, $currency, "GPDEAL Amount transaction", $card_type, $card_number, $card_cvc, $card_expire_month, $card_expire_year, $billing_country_code, $first_name, $last_name);
             if ($result) {
                 wp_safe_redirect(esc_url(add_query_arg(array('payment-completed' => 'true'), get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain'))))));
                 exit;
             } else {
                 /****************************Pensez à changer cette redirection en cas d'echec du paiement par carte de credit renvoyer à la page payement avec une erreur definie en session***********************************************************/
-                wp_safe_redirect(esc_url(add_query_arg(array('payment-completed' => 'true'), get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain'))))));
-                exit;
-//                wp_safe_redirect(get_permalink());
+                $_SESSION["faillure_process"] = __("Your payment could not be saved. Please change payment method or try again later", "gpdealdomain");
+//                wp_safe_redirect(esc_url(add_query_arg(array('payment-completed' => 'true'), get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain'))))));
 //                exit;
+                wp_safe_redirect(get_permalink());
+                exit;
             }
         } else {
-            $_SESSION["faillure_process"] = __("Some data is missing", "gpdealdomain");
+            $_SESSION["faillure_process"] = __("Some data is missing. Please check and try again", "gpdealdomain");
             wp_safe_redirect(esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))));
             exit;
         }
@@ -43,22 +47,32 @@ if (is_user_logged_in()) {
                 exit;
             }
         } elseif (isset($_GET['success']) && $_GET['success'] == "false") {
-            $cancel_redirect_urls = $_SESSION['error_cancel_redirect_url'] != null ? $_SESSION['error_cancel_redirect_url'] : home_url('/');
-            $_SESSION['faillure_process'] = __("Payment process was cancelled", "gpdealdomain");
+            $cancel_redirect_urls = get_permalink();
+            $_SESSION['faillure_process'] = __("Payment has been cancelled", "gpdealdomain");
             wp_safe_redirect($cancel_redirect_urls);
             exit;
-        } elseif (isset($_GET['payment-method']) && $_GET['payment-method'] == "paypal") {
-            executePaypalPaymentUsingPaypalAccount();
+        } elseif (isset($_GET['payment-method']) && $_GET['payment-method'] == "paypal" && isset($_SESSION['selected_transport_offers']) && isset($_SESSION['package_id'])) {
+            $package_id = $_SESSION['package_id'];
+            $amount = get_post_meta($package_id, 'insurance-cost', true);
+            $currency = get_post_meta($package_id, 'package-currency', true);
+            $return_paypal_url = esc_url(add_query_arg(array('success' => 'true'), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'). '/' . __('insure-shipment', 'gpdealdomain') . '/' .__('payment', 'gpdealdomain')))));
+            $cancel_paypal_url = esc_url(add_query_arg(array('success' => 'false'),get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'). '/' . __('insure-shipment', 'gpdealdomain') . '/' .__('payment', 'gpdealdomain')))));
+            $faillure_paypal_url = get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'). '/' . __('insure-shipment', 'gpdealdomain') . '/' .__('payment', 'gpdealdomain')));
+            executePaypalPaymentUsingPaypalAccount($amount, $currency, "GPDEAL Insurance Fees", $return_paypal_url, $cancel_paypal_url, $faillure_paypal_url);
         } else {
+            $selected_transport_offers = $_SESSION['selected_transport_offers'];
+            $package_id = $_SESSION['package_id'];
             get_header();
-            get_template_part('content-payment-page', get_post_format());
+            include(locate_template('content-payment-page.php'));
             get_footer();
         }
     }else{
+        $_SESSION['warning_process'] = __("Please select a valid transport offer for a valid shipment", "gpdealdomain");
         wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));
         exit;
     }
 } else {
     $_SESSION['redirect_to'] = get_the_permalink();
     wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
+    exit;
 }

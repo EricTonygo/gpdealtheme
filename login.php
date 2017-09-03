@@ -28,33 +28,28 @@ if (!is_user_logged_in()) {
                     $json = array("message" => __("Incorrect password", "gpdealdomain"));
                     return wp_send_json_error($json);
                 } else {
-                   if(get_user_meta($user_login->ID, 'activate', true)== 1){
-                       $json = array("message" => __("Your account is not activated", "gpdealdomain"));
-                       return wp_send_json_error($json);
-                   }
-                    if (isset($_POST['no_redirect']) && $_POST['no_redirect'] == "true") {
-                        
-                        $remember = removeslashes(esc_attr(trim($_POST['_remember'])));
-                        if ($remember == 'on') {
-                            $remember = true;
-                        } else {
-                            $remember = false;
-                            
-                        }
-                        $creds = array('user_login' => $user_login->data->user_login, 'user_password' => $password, 'remember' => $remember);
-                        $secure_cookie = is_ssl() ? true : false;
-                        $user = wp_signon($creds, $secure_cookie);
-                        $_SESSION['REMEMBER_ME'] = $remember;
-                        if (!$remember) {
-                            $_SESSION['LAST_ACTIVITY'] = time();
-                        }
+                    if (get_user_meta($user_login->ID, 'activate', true) == 1) {
+                        $json = array("message" => __("You have not activated your account yet", "gpdealdomain")." !<br>".__("To sign in, please activate it via the link sent in your email address", "gpdealdomain").".");
+                        return wp_send_json_error($json);
+                    } else {
+                        if (isset($_POST['no_redirect']) && $_POST['no_redirect'] == "true") {
+                            $remember = removeslashes(esc_attr(trim($_POST['_remember'])));
+                            if ($remember == 'on') {
+                                $remember = true;
+                            } else {
+                                $remember = false;
+                            }
+                            $creds = array('user_login' => $user_login->data->user_login, 'user_password' => $password, 'remember' => $remember);
+                            $secure_cookie = is_ssl() ? true : false;
+                            $user = wp_signon($creds, $secure_cookie);
+                            $_SESSION['REMEMBER_ME'] = $remember;
+                            if (!$remember) {
+                                $_SESSION['LAST_ACTIVITY'] = time();
+                            }
+                        } 
+                        $json = array("message" => "Connect is possible");
+                        return wp_send_json_success($json);
                     }
-                    $json = array("message" => "Add is possible");
-                    return wp_send_json_success($json);
-//                   }else{
-//                       $json = array("message" => __("Your account is not activated", "gpdealdomain"));
-//                       return wp_send_json_error($json);
-//                   }
                 }
             } else {
                 $json = array("message" => __("Enter your username and your password", "gpdealdomain"));

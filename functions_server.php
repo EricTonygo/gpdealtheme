@@ -44,12 +44,12 @@ function hide_admin_bar_from_front_end() {
 add_filter('show_admin_bar', 'hide_admin_bar_from_front_end');
 
 function gpdeal_scripts() {
+    wp_enqueue_style('reset', auto_version(wp_make_link_relative(get_template_directory_uri() . '/assets/css/reset.css')));
     wp_register_style('semantic_ui_css', 'https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css', array(), '2.2.6');
     //wp_register_style( 'semantic_ui_css', 'https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css');
     wp_enqueue_style('semantic_ui_css');
     wp_register_style('font-awesone', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
     wp_enqueue_style('font-awesone');
-    wp_enqueue_style('reset', auto_version(wp_make_link_relative(get_template_directory_uri() . '/assets/css/reset.css')));
     wp_enqueue_style('owl.carousel.css', auto_version(wp_make_link_relative(get_template_directory_uri() . '/assets/css/owl.carousel.css')));
     wp_register_style('datetimepicker_css', auto_version(wp_make_link_relative(get_template_directory_uri() . '/assets/css/jquery.datetimepicker.min.css')));
     wp_enqueue_script('jquery.min', auto_version(wp_make_link_relative(get_template_directory_uri() . '/assets/js/jquery.min.js')), array(), false);

@@ -2,32 +2,13 @@
 global $current_user;
 $transport_offer_id = get_the_ID();
 get_template_part('top-menu', get_post_format());
-
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $package_type = array_map('intval', isset($_POST['transport_offer_package_type']) ? $_POST['transport_offer_package_type'] : array());
-    $transport_method = array_map('intval', array(removeslashes(esc_attr(trim($_POST['transport_offer_transport_method'])))));
-    $transport_offer_price = removeslashes(esc_attr(trim($_POST['transport_offer_price'])));
-    $transport_offer_price_type = removeslashes(esc_attr(trim($_POST['transport_offer_price_type'])));
-    $transport_offer_currency = removeslashes(esc_attr(trim($_POST['transport_offer_currency'])));
-    $max_length = removeslashes(esc_attr(trim($_POST['package_length_max'])));
-    $max_width = removeslashes(esc_attr(trim($_POST['package_width_max'])));
-    $max_height = removeslashes(esc_attr(trim($_POST['package_height_max'])));
-    $max_weight = removeslashes(esc_attr(trim($_POST['package_weight_max'])));
-    $start_city = removeslashes(esc_attr(trim($_POST['start_city'])));
-    $start_date = removeslashes(esc_attr(trim($_POST['start_date'])));
-    $deadline_proposition = removeslashes(esc_attr(trim($_POST['start_deadline'])));
-    $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
-    $destination_date = removeslashes(esc_attr(trim($_POST['destination_date'])));
-    $terms = removeslashes(esc_attr(trim($_POST['terms'])));
-    $action = removeslashes(esc_attr(trim($_POST['action'])));
-    $echo_start_city = $start_city;
-    $echo_destination_city = $destination_city;
-} else {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $package_type = array_map('intval', wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids")));
     $transport_method = array_map('intval', wp_get_post_terms(get_the_ID(), 'transport-method', array("fields" => "ids")));
     $transport_offer_price = get_post_meta(get_the_ID(), 'price', true);
     $transport_offer_currency = get_post_meta(get_the_ID(), 'currency', true);
     $transport_offer_price_type = get_post_meta(get_the_ID(), 'price-type', true);
+    $portable_objects = get_post_meta(get_the_ID(), 'portable-objects', true);
     $max_length = get_post_meta(get_the_ID(), 'package-length-max', true);
     $max_width = get_post_meta(get_the_ID(), 'package-width-max', true);
     $max_height = get_post_meta(get_the_ID(), 'package-height-max', true);
@@ -44,7 +25,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = removeslashes(esc_attr(trim($_GET['action'])));
     $echo_start_city = $start_state != "" ? $start_city . ", " . $start_state . ", " . $start_country : $start_city . ", " . $start_country;
     $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $destination_state . ", " . $destination_country : $destination_city . ", " . $destination_country;
-    $share_title = __("Transport offer", "gpdealdomain") . " " . __("from", "gpdealdomain") . " " . $start_city . "(" . $start_date . ") " . __("to", "gpdealdomain") . " " . $destination_city . "(" . $destination_date . ")"." ".__("on", "gpdealdomain")." Global Parcel Deal";
+    $share_title = __("Transport offer", "gpdealdomain") . " " . __("from", "gpdealdomain") . " " . $start_city . "(" . $start_date . ") " . __("to", "gpdealdomain") . " " . $destination_city . "(" . $destination_date . ")" . " " . __("on", "gpdealdomain") . " Global Parcel Deal";
     $share_link = esc_url(add_query_arg(array('start-city' => $echo_start_city, "start-date" => $start_date, "destination-city" => $echo_destination_city, "destination-date" => $destination_date), get_permalink(get_page_by_path(__('search-for-transport-offers', 'gpdealdomain')))));
 }
 $post_author = get_post_field('post_author', get_the_ID());
@@ -73,14 +54,15 @@ $post_author = get_post_field('post_author', get_the_ID());
     </div>
 </div>
 <div class="ui vertical masthead  segment container">
-    <div id='edit_transport_offer_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
+    <div id='edit_transport_offer_infos' class="ui signup_contenair basic segment container content_without_white" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
-            <div class="header"><?php echo __("Edit Transport Offer", 'gpdealdomain') ?> </div>
-            <p class="promo_text_form"><?php echo __("Edit the information below to update your transportation offer", 'gpdealdomain') ?>.</p>
+            <div class="header"><?php echo __("Edit your transport offer informations", 'gpdealdomain') ?> </div>
+            <!--<p class="promo_text_form"><?php echo __("Edit the information below to update your transport offer", 'gpdealdomain') ?>.</p>-->
+            <p class="promo_text_form"><span style="color: red;">*</span> <?php echo __("Required information", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
-                <p class="required_infos"><span style="color: red;">*</span> <?php echo __("Required information", 'gpdealdomain') ?></p>
+                <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                 <div class="ui top attached tabular menu">
                     <div class="item active" data-tab="first"><?php echo __("transport_offer_str_start", 'gpdealdomain') ?> <br class="mobile_br" style="display: none;"><?php echo __("transport_offer_str_end", 'gpdealdomain') ?></div>
                     <div class="item" data-tab="second"><?php echo __("How it", 'gpdealdomain') ?> <br class="mobile_br" style="display: none;"><?php echo __("works", 'gpdealdomain') ?> ?</div>
@@ -134,29 +116,52 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </div>
                             </div>
                         </div>      
-                        <h4 class="ui dividing header"><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?></h4>
+                        <h4 class="ui dividing header"><?php echo __("Object(s) transported", 'gpdealdomain') ?></h4>
                         <div class="fields">
                             <div class="four wide field">
-                                <label><?php echo __("Object", 'gpdealdomain') ?>(s) <span style="color:red;">*</span></label>
+                                <label><?php echo __("Type", 'gpdealdomain') ?>(s) <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <select name="transport_offer_package_type[]" class="ui fluid multiple normal selection dropdown" multiple="" data-validate='transport_offer_package_type'>
-                                    <option value=""><?php echo __("Type(s) of object(s) transported", 'gpdealdomain') ?></option>
+                                <div style="margin-left: 0.6em" class="inline fields checkbox_with_icones">
                                     <?php
                                     $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                     foreach ($typePackages as $typePackage):
                                         ?>
-                                        <option value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> selected="selected" <?php endif ?>><?php echo __($typePackage->name, "gpdealdomain"); ?></option>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="transport_offer_package_type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __($typePackage->name, "gpdealdomain"); ?>
+                                                    <?php if ($typePackage->slug == "colis"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                                    <?php elseif ($typePackage->slug == "autre"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                                    <?php elseif ($typePackage->slug == "mail"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                                    <?php endif ?>                                           
+                                                </label>
+                                            </div>
+                                        </div>
                                     <?php endforeach ?>
-                                </select>
+                                </div>
                             </div>
                         </div>
 
+                        <div class="fields">
+                            <div class="four wide field">
+                                <label><?php echo __("Description", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                        <span class="tooltiptext"><?php echo __("Example of object that you can to carry", "gpdealdomain") ?></span>
+                                    </i></label>
+                            </div>
+                            <div class="twelve wide field">
+                                <textarea placeholder="<?php echo __("Enter the description of object that you can to carry", "gpdealdomain"); ?>" name="transport_offer_portable_objects" cols="30" rows="5"><?php echo $portable_objects; ?></textarea>
+                            </div>
+                        </div>
 
                         <div class="fields">
                             <div class="four wide field dim_max_label">
                                 <label><?php echo __("Max dimensions", 'gpdealdomain') ?> <i class="help circle green link icon tooltip">
-                                        <span class="tooltiptext"><?php echo __("Max length, width and height (in cm)", "gpdealdomain") ?></span>
+                                        <span class="tooltiptext"><?php echo __("Max length, width and height (in cm)", "gpdealdomain") ?>.<br>
+                                            <?php echo __("Use \".\" For decimal numbers. Ex: 1.5", "gpdealdomain") ?></span>
                                     </i></label>
                             </div>
                             <div class="six wide field">
@@ -248,7 +253,9 @@ $post_author = get_post_field('post_author', get_the_ID());
                                         <div class="field">
                                             <div class="ui radio checkbox">
                                                 <input type="radio" name="transport_offer_transport_method" value="<?php echo $transportMethod->term_id; ?>" <?php if (in_array($transportMethod->term_id, $transport_method, true)): ?> checked="checked" <?php endif ?>>
-                                                <label><?php echo __($transportMethod->name, "gpdealdomain"); ?></label>
+                                                <label><?php echo __($transportMethod->name, "gpdealdomain"); ?>
+                                                    <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_<?php echo __($transportMethod->slug, "gpdealdomain"); ?>.png"></i>
+                                                </label>
                                             </div>
                                         </div>
                                     <?php endforeach ?>
@@ -278,14 +285,14 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <?php if (get_post_meta(get_the_ID(), 'transport-status', true) != 2 || get_post_meta(get_the_ID(), 'package-status', true) != 3): ?>
                             <div class="field">
                                 <input type="hidden" name='action' value='edit'>                                
-                                <button id="submit_send_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Edit now!", "gpdealdomain"); ?></button>
-                                <button id="cancel_edit_transport_offer_infos_btn" class="ui right floated red button" style="min-width: 12em;" ><?php _e("Cancel Edit", "gpdealdomain"); ?></button>
+                                <button id="submit_send_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Edit now", "gpdealdomain"); ?> !</button>
+                                <button id="cancel_edit_transport_offer_infos_btn" class="ui right floated black button" style="min-width: 12em;" ><?php _e("Cancel Edit", "gpdealdomain"); ?></button>
                             </div>
                         <?php endif ?>
                     </form>
                 </div>
                 <div class="ui bottom attached tab segment" data-tab="second"> 
-                    <?php _e("How it works", "gpdealdomain"); ?>
+                    <?php include(locate_template("content-how-it-works-transport-offer.php")); ?>
                 </div>
             </div>
         </div>
@@ -307,7 +314,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 <div><span class='profile_name'><?php echo $carrier_name; ?></span></div>
                                 <div class="meta">
                                     <?php
-                                    $user_statistics = getTotalStatistiticsEvaluationsOfCarrier(get_current_user_id());
+                                    $user_statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
                                     wp_reset_postdata();
                                     ?>
                                     <?php if ($user_statistics["Evaluation globale"]["vote_count"] > 0): ?>
@@ -518,14 +525,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                             </tr>
                                         <?php endif ?>
                                     <?php endif ?>
-                                    <tr>                          
-                                        <td>
-                                            <span class="span_label"><?php echo __("Cost", 'gpdealdomain') ?> </span>
-                                        </td>
-                                        <td>
-                                            <span class="span_value"><?php echo $transport_offer_price . " " . $transport_offer_currency; ?><?php if ($transport_offer_price_type == 1): ?>/kg<?php endif ?></span>
-                                        </td>
-                                    </tr>
+
                                     <tr>
                                         <td>
                                             <span class="span_label"><?php echo __("Mode of transport", 'gpdealdomain') ?> </span>
@@ -548,6 +548,19 @@ $post_author = get_post_field('post_author', get_the_ID());
                                                 endforeach
                                                 ?>
                                             </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="span_label"><?php echo __("Cost of transport", 'gpdealdomain') ?>
+                                        </td>
+                                        <td>
+                                            <span class="span_value">
+
+                                                <?php
+                                                echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true);
+                                                ?><?php if (get_post_meta($transport_offer_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
+                                            </span> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -900,19 +913,19 @@ $post_author = get_post_field('post_author', get_the_ID());
 
                                                                     </ul>
                                                                 </div>
-                                                            </div>
+                                                            </div>                                                           
+                                                            <div id="hide_evaluation_comment_form<?php the_ID(); ?>" onclick="hide_evaluation_comment_form(<?php echo the_ID(); ?>)" class="ui black button"><?php echo __("Cancel", "gpdealdomain") ?></div>
                                                             <button type="submit" class="ui primary submit icon button">
                                                                 <i class="icon edit"></i>
                                                                 <?php _e("Add a comment", "gpdealdomain") ?>
                                                             </button>
-                                                            <div id="hide_evaluation_comment_form<?php the_ID(); ?>" onclick="hide_evaluation_comment_form(<?php echo the_ID(); ?>)" class="ui black button"><?php echo __("Cancel", "gpdealdomain") ?></div>
                                                         </form>
                                                     <?php endif ?>
                                                 </div>
                                                 <?php if ($current_user_comments_count == 0): ?>
-                                                <div class="actions" style="margin-bottom: 1em">
-                                                    <a id="show_evaluation_comment_form<?php the_ID(); ?>" onclick="show_evaluation_comment_form(<?php echo the_ID(); ?>)" class="ui green button"><?php echo __("Comment evaluation", "gpdealdomain") ?></a>
-                                                </div>
+                                                    <div class="actions" style="margin-bottom: 1em">
+                                                        <a id="show_evaluation_comment_form<?php the_ID(); ?>" onclick="show_evaluation_comment_form(<?php echo the_ID(); ?>)" class="ui green button"><?php echo __("Comment evaluation", "gpdealdomain") ?></a>
+                                                    </div>
                                                 <?php endif ?>
 
                                             </div>
@@ -939,65 +952,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                             <?php if ($package_id): ?>           
                                 <?php if (get_post_field('post_author', $transport_offer_id) != $current_user->ID && !$current_user_evaluations->have_posts()): ?>
                                     <div id="block_evaluation_form" class="ui fluid card" style="display: none">
-                                        <div class="content">
+                                        <div class="content">                                            
                                             <form id="evaluation_form" class="ui form" action="<?php echo wp_make_link_relative(get_the_permalink($transport_offer_id)) ?>" method="POST">
-                                                <div class="fields">
-                                                    <div class="four wide field"><label><?php _e("Item delivered", "gpdealdomain") ?> ? :</label></div>
-                                                    <div class="twelve wide field">
-                                                        <div class="inline fields">
-                                                            <div class="field">
-                                                                <div class="ui radio checkbox">
-                                                                    <input type="radio" name="item_delivred" value="Yes">
-                                                                    <label><?php echo __("Yes", "gpdealdomain") ?></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="field">
-                                                                <div class="ui radio checkbox">
-                                                                    <input type="radio" name="item_delivred" value="No">
-                                                                    <label><?php echo __("No", "gpdealdomain") ?></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="fields">
-                                                    <div class="four wide field"><label><?php echo __("State of objects", "gpdealdomain") ?> :</label></div>
-                                                    <div class="twelve wide field">
-                                                        <div class="inline fields">                        
-                                                            <div class="field">
-                                                                <div class="ui radio checkbox">
-                                                                    <input type="radio" name="item_state" value="Proper">
-                                                                    <label><?php echo __("Proper", "gpdealdomain") ?></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="field">
-                                                                <div class="ui radio checkbox">
-                                                                    <input type="radio" name="item_state" value="Improper">
-                                                                    <label><?php echo __("Improper", "gpdealdomain") ?></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="fields">
-                                                    <div class="four wide field"><label><?php echo __("Delivery time", "gpdealdomain") ?>  :</label></div>
-                                                    <div class="twelve wide field">
-                                                        <input type="hidden" name="delivry_time" value="0">
-                                                        <div id="delivry_time" class="ui huge star rating" data-max-rating="5"></div>
-                                                        <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Very satisfied", "gpdealdomain") ?></span></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="fields">
-                                                    <div class="four wide field"><label><?php echo __("Cost", "gpdealdomain") ?> :</label></div>
-                                                    <div class="twelve wide field">
-                                                        <input type="hidden" name="cost" value="0">
-                                                        <div id="cost" class="ui huge star rating" data-max-rating="5"></div>
-                                                        <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Expensive", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Economic", "gpdealdomain") ?></span></div>
-                                                    </div>
-                                                </div>
 
                                                 <div class="fields">
                                                     <div class="four wide field"><label><?php echo __("Global evaluation", "gpdealdomain") ?> :</label></div>
@@ -1007,7 +963,71 @@ $post_author = get_post_field('post_author', get_the_ID());
                                                         <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Very satisfied", "gpdealdomain") ?></span></div>
                                                     </div>
                                                 </div>
+                                                <div class="fields">
+                                                    <div class="sixteen wide field">
+                                                        <a id="show_more_details_evaluations_link"><?php _e("Give more details for your review", "gpdealdomain") ?></a>
+                                                        <a id="hide_more_details_evaluations_link" style="display: none"><?php _e("Cancel details for review", "gpdealdomain") ?></a>
+                                                    </div>
+                                                </div>
+                                                <div id="content_details_evaluations_form" style="display:none;">
+                                                    <div class="fields">
+                                                        <div class="four wide field"><label><?php _e("Item delivered", "gpdealdomain") ?> ? :</label></div>
+                                                        <div class="twelve wide field">
+                                                            <div class="inline fields">
+                                                                <div class="field">
+                                                                    <div class="ui radio checkbox">
+                                                                        <input type="radio" name="item_delivred" value="Yes">
+                                                                        <label><?php echo __("Yes", "gpdealdomain") ?></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="field">
+                                                                    <div class="ui radio checkbox">
+                                                                        <input type="radio" name="item_delivred" value="No">
+                                                                        <label><?php echo __("No", "gpdealdomain") ?></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
+                                                    <div class="fields">
+                                                        <div class="four wide field"><label><?php echo __("State of objects", "gpdealdomain") ?> :</label></div>
+                                                        <div class="twelve wide field">
+                                                            <div class="inline fields">                        
+                                                                <div class="field">
+                                                                    <div class="ui radio checkbox">
+                                                                        <input type="radio" name="item_state" value="Proper">
+                                                                        <label><?php echo __("Proper", "gpdealdomain") ?></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="field">
+                                                                    <div class="ui radio checkbox">
+                                                                        <input type="radio" name="item_state" value="Improper">
+                                                                        <label><?php echo __("Improper", "gpdealdomain") ?></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fields">
+                                                        <div class="four wide field"><label><?php echo __("Delivery time", "gpdealdomain") ?>  :</label></div>
+                                                        <div class="twelve wide field">
+                                                            <input type="hidden" name="delivry_time" value="0">
+                                                            <div id="delivry_time" class="ui huge star rating" data-max-rating="5"></div>
+                                                            <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Unsatisfied", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Very satisfied", "gpdealdomain") ?></span></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fields">
+                                                        <div class="four wide field"><label><?php echo __("Cost", "gpdealdomain") ?> :</label></div>
+                                                        <div class="twelve wide field">
+                                                            <input type="hidden" name="cost" value="0">
+                                                            <div id="cost" class="ui huge star rating" data-max-rating="5"></div>
+                                                            <div class="sub-title-rating"><span class="left-sub-title-rating"><?php echo __("Expensive", "gpdealdomain") ?></span> <span class="right-sub-title-rating"><?php echo __("Economic", "gpdealdomain") ?></span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <h4 class="ui dividing header"><?php echo __("Leave a comment", "gpdealdomain") ?> </h4>
                                                 <div class="field">
                                                     <textarea name="comment_content" placeholder="<?php _e("Enter your comment here", "gpdealdomain"); ?>"></textarea>
@@ -1041,34 +1061,100 @@ $post_author = get_post_field('post_author', get_the_ID());
                         </a>
                     </div>
                 </div>
-
                 <?php
-                $latest_news = new WP_Query(array('post_type' => 'post', 'post_per_page' => 5, "post_status" => 'publish', 'category_name' => __('news', 'gpdealdomain'), 'orderby' => 'post_date', 'order' => 'DESC'));
-                if ($latest_news->have_posts()) :
+                $search_data = array(
+                    "package_type" => $package_type,
+                    "start_country" => $start_country,
+                    "start_state" => $start_state,
+                    "start_city" => $start_city,
+                    'start_date' => $start_date,
+                    "destination_country" => $destination_country,
+                    "destination_state" => $destination_state,
+                    "destination_city" => $destination_city,
+                    "destination_date" => $destination_date
+                );
+                $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, array_map('intval', get_post_meta(get_the_ID(), "packages-IDs", true))));
+                if ($packages->have_posts()):
                     ?>
-                    <div class="ui segment">
-                        <div class="owl-carousel" id="single-second-slider">
-                            <?php
-                            while ($latest_news->have_posts()): $latest_news->the_post()
-                                ?>
-                                <div class="item">
-                                    <p>
-                                        <?php if (has_post_thumbnail()): ?>
-                                            <img class="ui rounded image" src="<?php the_post_thumbnail_url('full'); ?>">
-                                        <?php endif ?>
-                                    </p>
-                                    <div align="center">
-                                        <div class="ui header"><?php the_title() ?></div>
-                                        <p><?php the_content() ?></p>
+                    <div class="ui fluid card right_content_unsatisfied_shipments">
+                        <div class="content">
+                            <div class="header"><?php _e("Unsatisfied Shipments", "gpdealdomain"); ?></div>
+                        </div>
+                        <?php
+                        while ($packages->have_posts()): $packages->the_post()
+                            ?>
+                            <div class="item">
+                                <div class="ui fluid card package_card">
+                                    <div class="content">
+                                        <div class="ui form description">
+                                            <div class="field">
+                                                <div class="ui grid">
+                                                    <div class="seven wide column">
+                                                        <i class="blue marker icon"></i>
+                                                        <div class="inline field">
+                                                            <span class="span_value">
+                                                                <?php echo get_post_meta(get_the_ID(), 'departure-city-package', true) ?>
+                                                            </span><br>
+                                                            <span class="span_value">
+                                                                (<?php echo get_post_meta(get_the_ID(), 'departure-country-package', true) ?>)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="two wide column">
+                                                        <i class="blue long arrow right icon"></i>
+                                                    </div>
+                                                    <div class="seven wide column">
+                                                        <i class="blue marker icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo get_post_meta(get_the_ID(), 'destination-city-package', true) ?>
+                                                            </span><br>
+                                                            <span class="span_value">
+                                                                (<?php echo get_post_meta(get_the_ID(), 'destination-country-package', true) ?>)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="ui grid">
+                                                    <div class="seven wide column">
+                                                        <i class="blue calendar icon"></i>
+                                                        <div class="inline field">
+                                                            <span class="span_value">
+                                                                <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="two wide column">
+                                                        <i class="blue long arrow right icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo gpdeal_date_diff(date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))), date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)))) ?>j
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="seven wide column">
+                                                        <i class="blue calendar icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <?php
-                            endwhile;
-                            wp_reset_postdata();
-                            ?>
-                        </div>
+                            </div>
+                            <?php
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
                     </div>
                 <?php endif ?>
+                <?php include(locate_template("content-aside-news.php")); ?>
             </div>
         </div>
     </div>

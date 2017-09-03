@@ -381,7 +381,7 @@ $(document).ready(function () {
                     }
                 ]
             }
-            
+
         },
         inline: true,
         on: 'change',
@@ -599,6 +599,16 @@ $(document).ready(function () {
     });
 
     $(window).on('resize', function () {
+        if (window.matchMedia("(max-width: 767px)").matches) {
+            $('#insure_shimpent_yes').addClass('fluid');
+            $('#insure_shimpent_no').addClass('fluid');
+        } else {
+            $('#insure_shimpent_yes').removeClass('fluid');
+            $('#insure_shimpent_no').removeClass('fluid');
+        }
+    });
+
+    $(window).on('resize', function () {
         if (window.matchMedia("(max-width: 800px)").matches) {
             $('#submit_search_transport_offers').addClass("fluid");
             $('#submit_create_account_particular').addClass("fluid");
@@ -650,6 +660,11 @@ $(document).ready(function () {
             }
         });
 
+    }
+
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        $('#insure_shimpent_yes').addClass('fluid');
+        $('#insure_shimpent_no').addClass('fluid');
     }
 
     $('#search_input_top_form').submit(function () {

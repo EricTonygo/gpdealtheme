@@ -1,26 +1,32 @@
 <?php
 get_template_part('top-menu', get_post_format());
-global $current_user;
-$type = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids"));
-$package_content = get_post_meta(get_the_ID(), 'package-content', true);
-$length = get_post_meta(get_the_ID(), 'length', true);
-$width = get_post_meta(get_the_ID(), 'width', true);
-$height = get_post_meta(get_the_ID(), 'height', true);
-$weight = get_post_meta(get_the_ID(), 'weight', true);
-$start_country = get_post_meta(get_the_ID(), 'departure-country-package', true);
-$start_state = get_post_meta(get_the_ID(), 'departure-state-package', true);
-$start_city = get_post_meta(get_the_ID(), 'departure-city-package', true);
-$start_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
-$destination_country = get_post_meta(get_the_ID(), 'destination-country-package', true);
-$destination_state = get_post_meta(get_the_ID(), 'destination-state-package', true);
-$destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
-$destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
-$package_picture_id = get_post_meta(get_the_ID(), 'package-picture-ID', true);
-$action = removeslashes(esc_attr(trim($_GET['action'])));
-$echo_start_city = $start_state != "" ? $start_city . ", " . $start_state . ", " . $start_country : $start_city . ", " . $start_country;
-$echo_destination_city = $destination_state != "" ? $destination_city . ", " . $destination_state . ", " . $destination_country : $destination_city . ", " . $destination_country;
-$share_title = __("Transport offer", "gpdealdomain")." ".__("from", "gpdealdomain")." ".$start_city."(".$start_date.") ".__("to", "gpdealdomain")." ".$destination_city."(".$destination_date.")"." ".__("on", "gpdealdomain")." Global Parcel Deal";
-$share_link = esc_url(add_query_arg(array('start-city' => $echo_start_city, "start-date"=> $start_date, "destination-city" => $echo_destination_city, "destination-date"=> $destination_date), get_permalink(get_page_by_path(__('search-for-transport-offers', 'gpdealdomain')))));
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    global $current_user;
+    $type = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids"));
+    $package_content = get_post_meta(get_the_ID(), 'package-content', true);
+    $length = get_post_meta(get_the_ID(), 'length', true);
+    $width = get_post_meta(get_the_ID(), 'width', true);
+    $height = get_post_meta(get_the_ID(), 'height', true);
+    $weight = get_post_meta(get_the_ID(), 'weight', true);
+    $package_currency = get_post_meta(get_the_ID(), 'package-currency', true);
+    $package_insured = get_post_meta(get_the_ID(), 'package-insured', true);
+    $property_value = get_post_meta(get_the_ID(), 'property-value', true);
+    $insurance_cost = get_post_meta(get_the_ID(), 'insurance-cost', true);
+    $start_country = get_post_meta(get_the_ID(), 'departure-country-package', true);
+    $start_state = get_post_meta(get_the_ID(), 'departure-state-package', true);
+    $start_city = get_post_meta(get_the_ID(), 'departure-city-package', true);
+    $start_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));
+    $destination_country = get_post_meta(get_the_ID(), 'destination-country-package', true);
+    $destination_state = get_post_meta(get_the_ID(), 'destination-state-package', true);
+    $destination_city = get_post_meta(get_the_ID(), 'destination-city-package', true);
+    $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));
+    $package_picture_id = get_post_meta(get_the_ID(), 'package-picture-ID', true);
+    $action = removeslashes(esc_attr(trim($_GET['action'])));
+    $echo_start_city = $start_state != "" ? $start_city . ", " . $start_state . ", " . $start_country : $start_city . ", " . $start_country;
+    $echo_destination_city = $destination_state != "" ? $destination_city . ", " . $destination_state . ", " . $destination_country : $destination_city . ", " . $destination_country;
+    $share_title = __("Transport offer", "gpdealdomain") . " " . __("from", "gpdealdomain") . " " . $start_city . "(" . $start_date . ") " . __("to", "gpdealdomain") . " " . $destination_city . "(" . $destination_date . ")" . " " . __("on", "gpdealdomain") . " Global Parcel Deal";
+    $share_link = esc_url(add_query_arg(array('start-city' => $echo_start_city, "start-date" => $start_date, "destination-city" => $echo_destination_city, "destination-date" => $destination_date), get_permalink(get_page_by_path(__('search-for-transport-offers', 'gpdealdomain')))));
+}
 $post_author = get_post_field('post_author', get_the_ID());
 ?>
 <div class="ui tiny borderless second-nav menu">
@@ -47,20 +53,21 @@ $post_author = get_post_field('post_author', get_the_ID());
     </div>
 </div>
 <div class="ui vertical masthead segment container">
-    <div id='edit_package_infos' class="ui signup_contenair basic segment container" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
+    <div id='edit_package_infos' class="ui signup_contenair basic segment container content_without_white" <?php if ($action == null || $action != 'edit'): ?> style="display: none;" <?php endif ?>>
         <div class="ui attached message">
-            <div class="header"><?php _e("Edit Shipment", 'gpdealdomain') ?> </div>
-            <p class="promo_text_form"><?php _e("Modify the information below and then search again for the carriers available for your shipment", 'gpdealdomain') ?>.</p>
+            <div class="header"><?php _e("Edit your shipment informations", 'gpdealdomain') ?> </div>
+            <!--<p class="promo_text_form"><?php _e("Modify the information below and then search again for the carriers available for your shipment", 'gpdealdomain') ?>.</p>-->
+            <p class="promo_text_form"><span style="color: red;">*</span> <?php echo __("Required information", 'gpdealdomain') ?></p>
         </div>
         <div class="ui fluid card">
             <div class="content">
-                <p class="required_infos"><span style="color: red;">*</span> Informations obligatoires</p>
+                <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                 <div class="ui top attached tabular menu">
                     <div class="item active" data-tab="first"><?php _e("Start", 'gpdealdomain') ?> <br class="mobile_br" style="display: none;"><?php _e("shipment", 'gpdealdomain') ?></div>
                     <div class="item" data-tab="second"><?php _e("How it", "gpdealdomain"); ?> <br class="mobile_br" style="display: none;"><?php _e("works", "gpdealdomain"); ?> ?</div>
                 </div>
                 <div class="ui bottom attached tab segment active" data-tab="first">
-                    <form id='send_package_form'  method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
+                    <form id='send_package_form'  method="POST" action="<?php echo wp_make_link_relative(get_permalink()); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
                         <h4 class="ui dividing header"><?php _e("Departure", "gpdealdomain"); ?> <span style="color:red;">*</span></h4>
                         <div class="two wide fields">
                             <div class="field">
@@ -98,36 +105,57 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </div>
                             </div>      
                         </div>
-                        <h4 class="ui dividing header"><?php echo __("Information on the item to be shipped", "gpdealdomain"); ?></h4>
+                        <h4 class="ui dividing header"><?php echo __("Object to be shipped", "gpdealdomain"); ?></h4>
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php _e("Type", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <select name="package_type" class="ui search fluid dropdown" data-validate="package_type">
-                                    <option value=""><?php echo __("Object type to be shipped", "gpdealdomain"); ?></option>
+<!--                                <select name="package_type" class="ui search fluid dropdown" data-validate="package_type">
+                                    <option value=""><?php //echo __("Object type to be shipped", "gpdealdomain");   ?></option>
+                                <?php
+                                //$type_packages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
+                                //foreach ($type_packages as $type_package):
+                                ?>
+                                        <option value="<?php //echo $type_package->term_id;   ?>" <?php //if (in_array($type_package->term_id, $type, true)):   ?> selected="selected" <?php //endif   ?>><?php //echo __($type_package->name, "gpdealdomain");   ?></option>
+                                <?php //endforeach ?>
+                                </select>-->
+                                <div class="inline fields checkbox_with_icones">
                                     <?php
                                     $type_packages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                     foreach ($type_packages as $type_package):
                                         ?>
-                                        <option value="<?php echo $type_package->term_id; ?>" <?php if (in_array($type_package->term_id, $type, true)): ?> selected="selected" <?php endif ?>><?php echo __($type_package->name, "gpdealdomain"); ?></option>
+                                        <div class="field">
+                                            <div class="ui radio checkbox">
+                                                <input type="radio" name="package_type" value="<?php echo $type_package->term_id; ?>" <?php if (in_array($type_package->term_id, $type, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __($type_package->name, "gpdealdomain"); ?>
+                                                    <?php if ($type_package->slug == "colis"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                                    <?php elseif ($type_package->slug == "autre"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                                    <?php elseif ($type_package->slug == "mail"): ?>
+                                                        <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                                    <?php endif ?>
+                                                </label>
+                                            </div>
+                                        </div>
                                     <?php endforeach ?>
-                                </select>
+                                </div>
                             </div>
                         </div>
                         <div class="fields">
                             <div class="four wide field">
-                                <label><?php echo __("Contents", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                                <label><?php echo __("Description", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                             </div>
                             <div class="twelve wide field">
-                                <textarea placeholder="<?php echo __("Enter the contents of your shipment here", "gpdealdomain"); ?>" name="package_content" cols="50"><?php echo $package_content; ?></textarea>
+                                <textarea placeholder="<?php echo __("Describe a content of your shipment here", "gpdealdomain"); ?>" name="package_content" cols="50"><?php echo $package_content; ?></textarea>
                             </div>
                         </div>
 
                         <div class="fields">
                             <div class="four wide field dim_max_label">
                                 <label><?php echo __("Dimensions", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
-                                        <span class="tooltiptext"><?php echo __("The length, width and height (in cm)", "gpdealdomain") ?></span>
+                                        <span class="tooltiptext"><?php echo __("The length, width and height (in cm)", "gpdealdomain") ?>.<br> <?php echo __("Use \".\" For decimal numbers. Ex: 1.5", "gpdealdomain") ?></span>
                                     </i></label>
                             </div>
                             <div class="six wide field">
@@ -155,7 +183,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php echo __("Weight", "gpdealdomain"); ?> <span style="color:red;">*</span> <i class="help circle green link icon tooltip">
-                                        <span class="tooltiptext"><?php echo __("The weight of the item to be shipped (in kg)", "gpdealdomain") ?></span>
+                                        <span class="tooltiptext"><?php echo __("The weight of the item to be shipped (in kg)", "gpdealdomain") ?>.<br>
+                                            <?php echo __("Use \".\" For decimal numbers. Ex: 1.5", "gpdealdomain") ?></span>
                                     </i> </label>
                             </div>
                             <div class="two wide field">
@@ -166,6 +195,69 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </div>
                             </div>
                         </div>
+
+                        <!--                        <div class="fields fields_bottom_space">
+                                                    <div class="four wide field">
+                                                        <label><?php echo __("Currency", "gpdealdomain"); ?> <i class="help circle green link icon tooltip">
+                                                                <span class="tooltiptext"><?php echo __("The currency to use for display the cost of transport offer", "gpdealdomain") ?></span>
+                                                            </i> </label>
+                                                    </div>
+                                                    <div class="twelve wide field">
+                                                        <select id="package_currency" name="package_currency" class="ui search fluid dropdown">
+                                                            <option value=""><?php echo __("Currency", 'gpdealdomain') ?></option>
+                        <?php
+                        $currencies = getCurrenciesList();
+                        foreach ($currencies as $currency) :
+                            ?>
+                                                                        <option value="<?php echo $currency['code'] ?>" <?php if ($currency['code'] == $package_currency): ?> selected="selected" <?php endif ?>><?php echo $currency['name'] . " - " . $currency['code']; ?></option>
+                        <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="fields fields_bottom_space">
+                                                    <div class="four wide field">
+                                                    </div>
+                                                    <div class="twelve wide field">
+                                                        <div class="inline field">
+                                                            <div class="ui checkbox">
+                                                                <input id="package_insured" type="checkbox" name="package_insured" <?php if ($package_insured == 'yes'): ?> checked="checked" <?php endif ?>> 
+                                                                <label> <img class="ui mini image insurance_logo" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/insurance_logo.jpg"><?php _e("I would like to ensure my shipment", "gpdealdomain"); ?>.</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div id="property_value_fields" class="fields" <?php if (!$package_insured || $package_insured == 'no'): ?> style="display: none;" <?php endif ?>>
+                                                    <div class="four wide field">
+                                                        <label><?php echo __("Value of your property", "gpdealdomain"); ?> </label>
+                                                    </div>
+                                                    <div class="eight wide field">
+                                                        <div class="ui right labeled input">
+                                                            <input id="property_value" type="text" name='property_value' placeholder="<?php _e("Enter the value of your property", "gpdealdomain"); ?>" value="<?php echo $property_value; ?>">
+                                                            <div id="property_value_currency" class="ui basic label">
+                        <?php if ($package_currency): ?> <?php echo $package_currency; ?> <?php else: ?> USD <?php endif ?>
+                                                            </div>
+                                                        </div>                                     
+                                                    </div>
+                                                    <div class="four wide field">
+                                                        <button id="calculate_insurance_cost" class="ui primary button" name="calculate_ensurance_cost" ><?php _e("Get insurance cost", "gpdealdomain"); ?></button>
+                                                    </div>
+                                                </div>
+                                                <div id="insurance_cost_fields" class="fields" <?php if (!$package_insured || $package_insured == 'no'): ?> style="display: none;" <?php endif ?>>
+                                                    <div class="four wide field">
+                                                        <label><?php echo __("Insurance cost", "gpdealdomain"); ?> </label>
+                                                    </div>
+                                                    <div class="eight disabled wide field">
+                                                        <div class="ui right labeled input">
+                                                            <input id="insurance_cost" type="text" name='insurance_cost' placeholder="<?php _e("Get insurance cost", "gpdealdomain"); ?>" value="<?php echo $insurance_cost; ?>">
+                                                            <div id="insurance_cost_currency" class="ui basic label">
+                        <?php if ($package_currency): ?> <?php echo $package_currency; ?> <?php else: ?> USD <?php endif ?>
+                                                            </div>
+                                                        </div>                     
+                                                    </div>
+                                                    <div class="four wide field">
+                                                    </div>
+                                                </div>-->
 
                         <h4 class="ui dividing header"><?php echo __("Picture", "gpdealdomain"); ?></h4>
                         <div  class="fields">
@@ -217,12 +309,12 @@ $post_author = get_post_field('post_author', get_the_ID());
                             <input type="hidden" name='action' value='edit'>
                             <input type="hidden" name='package_id' value='<?php the_ID() ?>'>
                             <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search carriers", "gpdealdomain"); ?></button>
-                            <button id="cancel_edit_package_infos_btn" class="ui right floated red button" style="min-width: 12em;"><?php _e("Cancel change", "gpdealdomain"); ?></button>
+                            <button id="cancel_edit_package_infos_btn" class="ui right floated black button" style="min-width: 12em;"><?php _e("Cancel change", "gpdealdomain"); ?></button>
                         </div>
                     </form>
                 </div>
-                <div class="ui bottom attached tab segment" data-tab="second"> 
-                    <?php _e("How it works", "gpdealdomain"); ?>
+                <div class="ui bottom attached tab segment how_it_works" data-tab="second"> 
+                    <?php include(locate_template("content-how-it-works-shipment.php")); ?>
                 </div>
             </div>
         </div>
@@ -445,14 +537,12 @@ $post_author = get_post_field('post_author', get_the_ID());
                             <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID): ?>
                                 <div class="field" style="margin-top: 2em">
 
-                                    <?php //if (get_post_meta(get_the_ID(), 'carrier-ID', true) == -1): ?>
-                                    <a class="ui right floated basic green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))) ?>" type="submit"><?php _e("Search carriers", "gpdealdomain"); ?></a>
-                                    <?php //else: ?>
-                                    <!--<a class="ui right floated green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))) ?>" type="submit">Enregistrer la transaction</a>-->
-                                    <?php //endif ?>
+                                    <?php if (get_post_meta(get_the_ID(), 'package-status', true) != 3): ?>
+                                        <a class="ui right floated basic green button" name="search_transport_offers" href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))) ?>" type="submit"><?php _e("Search carriers", "gpdealdomain"); ?></a>
+                                    <?php endif ?>
                                     <?php if (get_post_meta(get_the_ID(), 'package-status', true) == 2): ?>
                                         <input type='hidden' id='fence_package_url' value="<?php echo wp_make_link_relative(get_the_permalink()); ?>" >
-                                        <button id='fence_package_btn' onclick="fence_send_package_on_single_page(<?php the_ID() ?>)" class="ui right floated basic red icon button" style="min-width: 12em;"><i class="checkmark icon"></i> <?php echo __("Fence", "gpdealdomain"); ?></button>
+                                        <button id='fence_package_btn' onclick="fence_send_package_on_single_page(<?php the_ID() ?>)" class="ui right floated green icon button" style="min-width: 12em;"><i class="checkmark icon"></i> <?php echo __("Fence", "gpdealdomain"); ?></button>
                                     <?php endif ?>
                                     <?php if (get_post_meta(get_the_ID(), 'package-status', true) != 3 && get_post_meta(get_the_ID(), 'package-status', true) != 4 && get_post_meta(get_the_ID(), 'package-status', true) != 5): ?>
                                         <button id="edit_package_infos_btn" class="ui right floated green button"><?php echo __("Edit shipment", "gpdealdomain"); ?></button>
@@ -557,7 +647,15 @@ $post_author = get_post_field('post_author', get_the_ID());
                                                             </span>
                                                         </div>
                                                         <span class="ui blue right ribbon label">
-                                                            <?php echo get_post_meta($id, 'price', true) . " " . get_post_meta($id, 'currency', true); ?><?php if (get_post_meta($id, 'price-type', true) == 1): ?>/kg<?php endif ?>
+                                                            <?php
+//                                                            $transport_method_list = wp_get_post_terms($id, 'transport-method', array("fields" => "names"));
+//                                                            $transport_method = $transport_method_list[0];                                                            
+//                                                            $price = getCostOfTransportOffer(get_post_meta($id, 'distance-between-departure-arrival', true), $length, $width, $height, $weight, strtolower($transport_method), 0.001844748, $package_currency);
+                                                            ?>
+                                                            <?php
+                                                            echo get_post_meta($id, 'price', true) . " " . get_post_meta($id, 'currency', true);
+//                                                                          echo $price." ".$package_currency;
+                                                            ?><?php if (get_post_meta($id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -586,7 +684,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 <div class="ui warning message">
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
-                                            <?php echo __("No carrier for the moment", "gpdealdomain") ?>.
+                                            <?php echo __("No selected carrier", "gpdealdomain") ?>.
                                         </div>
                                     </div>
                                 </div>
@@ -608,34 +706,140 @@ $post_author = get_post_field('post_author', get_the_ID());
                         </a>
                     </div>
                 </div>
-
                 <?php
-                $latest_news = new WP_Query(array('post_type' => 'post', 'post_per_page' => 5, "post_status" => 'publish', 'category_name' => __('news', 'gpdealdomain'), 'orderby' => 'post_date', 'order' => 'DESC'));
-                if ($latest_news->have_posts()) :
+                $search_data = array(
+                    "package_type" => $type,
+                    "start_country" => $start_country,
+                    "start_state" => $start_state,
+                    "start_city" => $start_city,
+                    'start_date' => $start_date,
+                    "destination_country" => $destination_country,
+                    "destination_state" => $destination_state,
+                    "destination_city" => $destination_city,
+                    "destination_date" => $destination_date
+                );
+                $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, array_map('intval', get_post_meta(get_the_ID(), "carrier-ID", true))));
+                if ($transport_offers_which_can_interest->have_posts()):
                     ?>
-                    <div class="ui segment">
-                        <div class="owl-carousel" id="single-second-slider">
+                    <div class="ui fluid card right_content_unsatisfied_shipments">
+                        <div class="content">
+                            <div class="header"><?php _e("Transport offers", "gpdealdomain"); ?></div>
+                        </div>
+                        <?php
+                        while ($transport_offers_which_can_interest->have_posts()): $transport_offers_which_can_interest->the_post();
+                            $transport_offer_wci_id = get_the_ID();
+                            ?>
                             <?php
-                            while ($latest_news->have_posts()): $latest_news->the_post()
-                                ?>
-                                <div class="item">
-                                    <p>
-                                        <?php if (has_post_thumbnail()): ?>
-                                            <img class="ui rounded image" src="<?php the_post_thumbnail_url('full'); ?>">
-                                        <?php endif ?>
-                                    </p>
-                                    <div align="center">
-                                        <div class="ui header"><?php the_title() ?></div>
-                                        <p><?php the_content() ?></p>
+                            $post_author = get_post_field('post_author', $transport_offer_wci_id);
+                            $carrier_name = $current_user->ID == $post_author ? __("You", "gpdealdomain") : get_the_author_meta('user_login');
+                            $profile_picture_id = get_user_meta($post_author, 'profile-picture-ID', true) ? get_user_meta($post_author, 'profile-picture-ID', true) : get_user_meta($post_author, 'company-logo-ID', true);
+                            $max_length = get_post_meta($transport_offer_wci_id, 'package-length-max', true);
+                            $max_width = get_post_meta($transport_offer_wci_id, 'package-width-max', true);
+                            $max_height = get_post_meta($transport_offer_wci_id, 'package-height-max', true);
+                            $max_weight = get_post_meta($transport_offer_wci_id, 'package-weight-max', true);
+                            ?>
+                            <div class="item">
+                                <div class="ui fluid card package_card">
+                                    <div class="image">
+                                        <div class="content_image_profilename">
+        <!--                                                    <div class="content_image" <?php if ($profile_picture_id): ?> style="background-image: url(<?php echo wp_make_link_relative(wp_get_attachment_url($profile_picture_id)); ?>);" <?php else: ?> style="background-image: url(<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/avatar.png);" <?php endif ?>>
+
+                                            </div>-->
+                                            <div><span class='profile_name'><?php echo $carrier_name; ?></span></div>
+                                            <div class="meta">
+                                                <?php
+                                                $statistics = getTotalStatistiticsEvaluationsOfCarrier($post_author);
+                                                wp_reset_postdata();
+                                                ?>
+                                                <?php if ($statistics["Evaluation globale"]["vote_count"] > 0): ?>
+                                                    <?php
+                                                    foreach ($statistics as $stat_key => $stat_value):
+                                                        ?>
+                                                        <div class="ui form">
+                                                            <div class="field disable">
+                                                                <span class="ui mini star rating" data-rating="<?php echo $stat_value["weighted_average"]; ?>" data-max-rating="5"></span>
+                                                                <a id="<?php echo $transport_offer_wci_id ?>" href="<?php echo esc_url(add_query_arg(array('carrier_id' => $post_author), wp_make_link_relative(get_permalink(get_page_by_path(__('reviews-and-evaluations', 'gpdealdomain')))))); ?>" class="show_reviews_evaluations">
+                                                                    <?php echo $stat_value["vote_count"]; ?> <?php _e("reviews", "gpdealdomain"); ?>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <span id="<?php echo $transport_offer_wci_id; ?>"  ><i class="star icon"></i> <?php echo __("No reviews", "gpdealdomain"); ?></span>
+                                                <?php endif ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="ui form description">
+                                            <div class="field">
+                                                <div class="ui grid">
+                                                    <div class="seven wide column">
+                                                        <i class="blue marker icon"></i>
+                                                        <div class="inline field">
+                                                            <span class="span_value">
+                                                                <?php echo get_post_meta($transport_offer_wci_id, 'departure-city-transport-offer', true) ?>
+                                                            </span><br>
+                                                            <span class="span_value">
+                                                                (<?php echo get_post_meta($transport_offer_wci_id, 'departure-country-transport-offer', true) ?>)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="two wide column">
+                                                        <i class="blue long arrow right icon"></i>
+                                                    </div>
+                                                    <div class="seven wide column">
+                                                        <i class="blue flag checkered icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo get_post_meta($transport_offer_wci_id, 'destination-city-transport-offer', true) ?>
+                                                            </span><br>
+                                                            <span class="span_value">
+                                                                (<?php echo get_post_meta($transport_offer_wci_id, 'destination-country-transport-offer', true) ?>)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="ui grid">
+                                                    <div class="seven wide column">
+                                                        <i class="blue calendar icon"></i>
+                                                        <div class="inline field">
+                                                            <span class="span_value">
+                                                                <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'date-of-departure-transport-offer', true))); ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="two wide column">
+                                                        <i class="blue long arrow right icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo gpdeal_date_diff(date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'date-of-departure-transport-offer', true))), date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'arrival-date-transport-offer', true)))) ?>j
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="seven wide column">
+                                                        <i class="blue calendar icon"></i>
+                                                        <div class="inline field"> 
+                                                            <span class="span_value">
+                                                                <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_wci_id, 'arrival-date-transport-offer', true))); ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <?php
-                            endwhile;
-                            wp_reset_postdata();
-                            ?>
-                        </div>
+                            </div>
+                            <?php
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
                     </div>
                 <?php endif ?>
+                <?php include(locate_template("content-aside-news.php")); ?>
             </div>
         </div>
     </div>

@@ -76,8 +76,9 @@ get_template_part('top-menu', get_post_format());
                 <?php endif ?>
 
                 <div  class="ui content_packages_transports fluid card">
+                    <?php //var_dump(gpdealDistanceBetweenTwoCities($start_city, $destination_city)); ?>
                     <div class="content center aligned">
-                        <div class="header"><?php _e("The corresponding offers for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
+                        <div class="header"><?php _e("Corresponding transport offers for", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                     </div>
                     <div class="content content_packages_transports content_without_white">
                         <?php
@@ -327,7 +328,7 @@ get_template_part('top-menu', get_post_format());
                     ?>
                     <div  class="ui content_packages_transports fluid card">
                         <div class="content center aligned">
-                            <div class="header"><?php _e("The offers that can interest you for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
+                            <div class="header"><?php _e("Transport offers that can interest you for", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                         </div>
                         <div class="content content_packages_transports content_without_white">
                             <div id='list_as_grid_content' class="ui three column doubling stackable grid">
@@ -530,9 +531,9 @@ get_template_part('top-menu', get_post_format());
                                                         </tbody>
                                                     </table>
 
-                                                    <span class="ui blue right ribbon label">
-                                                        <?php echo get_post_meta($transport_offer_wci_id, 'price', true) . " " . get_post_meta($transport_offer_wci_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_wci_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
-                                                    </span>
+<!--                                                    <span class="ui blue right ribbon label">
+                                                        <?php //echo get_post_meta($transport_offer_wci_id, 'price', true) . " " . get_post_meta($transport_offer_wci_id, 'currency', true); ?><?php //if (get_post_meta($transport_offer_wci_id, 'price-type', true) == 1): ?>/kg<?php //endif ?>
+                                                    </span>-->
                                                 </div>
                                             </div>
                                             <!--                                            <div class="extra content">

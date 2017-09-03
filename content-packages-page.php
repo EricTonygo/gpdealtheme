@@ -15,6 +15,7 @@
     </div>
 </div>
 <div class="ui vertical masthead segment container">
+
     <div class="ui stackable grid">
         <div id="left_content_account" class="four wide column">
             <?php get_template_part('content-vertical-menu-account-page', get_post_format()); ?>
@@ -25,16 +26,26 @@
                     <div class="ui content_packages_transports main_right_content fluid card">
                         <div class="content">
                             <span class="header left floated" style="text-transform: uppercase; font-weight: normal; margin-top: 0.5em;"><?php echo __('My shipments', 'gpdealdomain') ?></span>
-                            <?php //if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2): ?>    
-                                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui right floated green button" ><?php echo __('New Shipment', 'gpdealdomain') ?></a>
-                            <?php //endif ?>
+                            <?php //if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2):  ?>    
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui right floated green button" ><?php echo __('New Shipment', 'gpdealdomain') ?></a>
+                            <?php //endif  ?>
                         </div>
                         <div class="content content_packages_transports">
-                            
+                            <?php include(locate_template("content_success_or_faillure_message.php")); ?>
+                            <?php if (get_user_meta(get_current_user_id(), "registration-completed", true) != 2): ?>
+                                <div class="ui warning message">
+                                    <div class="header">
+                                        <?php _e("Incomplete registration", "gpdealdomain"); ?>
+                                    </div>
+                                    <p>
+                                        <?php _e("You must complete the missing information in your profile in order to be able to search for carriers", "gpdealdomain"); ?>.
+                                    </p>
+                                </div>
+                            <?php endif ?>
                             <div class="ui styled fluid accordion">
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'package-status', 'value' => 1, 'compare' => '='), array('key' => 'package-status', 'value' => -1, 'compare' => '='))));
+                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'package-status', 'value' => 1, 'compare' => '='), array('key' => 'package-status', 'value' => -1, 'compare' => '='))));
                                 if ($packages->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php _e("Search for carriers", "gpdealdomain"); ?> </div>
@@ -84,7 +95,7 @@
                                                                                 <i class="blue large calendar icon"></i>
                                                                                 <div class="inline field">
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -100,7 +111,7 @@
                                                                                 <i class="blue large calendar icon"></i>
                                                                                 <div class="inline field"> 
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -109,6 +120,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="extra content">
+                                                                <?php if (get_post_meta(get_the_ID(), 'transport-offer-alert', true) == 2): ?>
+                                                                    <span class="left floated like">
+                                                                        <i class="alarm green link icon tooltip">
+                                                                            <span class="tooltiptext"><?php _e("An alert has been activated for this shipment", "gpdealdomain") ?></span>
+                                                                        </i>
+                                                                    </span>
+                                                                <?php endif ?>
                                                                 <div class="right floated">
                                                                     <div class="ui right pointing dropdown item">
                                                                         <i class="ellipsis vertical icon"></i>
@@ -144,7 +162,7 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 2, 'compare' => '='))));
+                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 2, 'compare' => '='))));
                                 if ($packages->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php _e("In progress", "gpdealdomain"); ?> </div>
@@ -194,7 +212,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field">
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -210,7 +228,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field"> 
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -230,7 +248,7 @@
 
                                                                             <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), wp_make_link_relative(get_the_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))))); ?>" class="item">
                                                                                 <i class="shipping icon"></i>
-                                                                                <?php _e("Selected carriers", "gpdealdomain"); ?>
+                                                                                <?php _e("Selected carrier", "gpdealdomain"); ?>
                                                                             </a>
                                                                             <a href="<?php echo esc_url(add_query_arg(array('package-id' => get_the_ID()), wp_make_link_relative(get_the_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))); ?>" class="item">
                                                                                 <i class="search icon"></i>
@@ -255,7 +273,7 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 3, 'compare' => '='))));
+                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 3, 'compare' => '='))));
                                 if ($packages->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php _e("Evaluated/Closed", "gpdealdomain"); ?> </div>
@@ -305,7 +323,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field">
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -321,7 +339,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field"> 
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -357,7 +375,7 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 4, 'compare' => '='))));
+                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 4, 'compare' => '='))));
                                 if ($packages->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php _e("Expired", "gpdealdomain"); ?> </div>
@@ -409,7 +427,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field">
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -425,7 +443,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field"> 
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -461,7 +479,7 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 5, 'compare' => '='))));
+                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 5, 'compare' => '='))));
                                 if ($packages->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php _e("Canceled", "gpdealdomain"); ?> </div>
@@ -511,7 +529,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field">
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
@@ -527,7 +545,7 @@
                                                                                 <i class="large blue calendar icon"></i>
                                                                                 <div class="inline field"> 
                                                                                     <span class="span_value">
-                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true)));?>
+                                                                                        <?php echo date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))); ?>
                                                                                     </span>
                                                                                 </div>
                                                                             </div>

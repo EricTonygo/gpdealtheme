@@ -39,7 +39,7 @@ $(function () {
             }, false);
 
             reader.addEventListener("loadend", function () {
-                
+
                 $('#package_picture_loader').hide();
                 $('#package_picture_link').hide();
                 $('#package_picture_dimmer.image .dimmer').dimmer('hide');
@@ -86,6 +86,39 @@ $(function () {
         $('#show_package_infos').show();
     });
 
+    $('#package_insured').change(function () {
+        if ($(this).is(':checked')) {
+            $('#property_value_fields').show();
+            if($('#insurance_cost').val() !== ""){
+                $('#insurance_cost_fields').show();
+            }
+        } else {
+            $('#property_value_fields').hide();            
+            $('#insurance_cost_fields').hide();
+        }
+    });
+
+    $('#calculate_insurance_cost').click(function (e) {
+        e.preventDefault();
+        if ($('#property_value').val() !== "") {
+            $('#insurance_cost').val('');
+            $(this).addClass("loading");
+            setTimeout(function () {
+                $('#insurance_cost').val(parseInt($('#property_value').val())/10);
+                $('#calculate_insurance_cost').removeClass("loading");
+                $('#insurance_cost_fields').show();
+            }, 1000);
+        }
+    });
+
+    $('#package_currency').change(function(){
+        var currency = $('select#package_currency option:selected').val();
+        if(currency !== ""){
+            $('#property_value_currency').text(currency);
+            $('#insurance_cost_currency').text(currency);
+        }
+    });
+    
     $('#send_package_form.ui.form')
             .form({
                 fields: {
@@ -93,7 +126,7 @@ $(function () {
                         identifier: 'package_type',
                         rules: [
                             {
-                                type: 'empty',
+                                type: 'checked',
                                 prompt: gpdeal_translate("Please specify the item type of your shipment")
                             }
                         ]
@@ -234,7 +267,7 @@ $(function () {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
                         $('#error_name_header').html(gpdeal_translate("Error"));
-                        $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
+                        $('#error_name_list').html("<li>" + gpdeal_translate("The departure date can not be less than the current date") + "</li>");
                         valid = false;
                     }
 
@@ -242,14 +275,14 @@ $(function () {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
                         $('#error_name_header').html(gpdeal_translate("Error"));
-                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
+                        $('#error_name_list').append("<li>" + gpdeal_translate("The arrival date can not be less than the current date") + "</li>");
                         valid = false;
                     }
                     if (start_date.getTime() > destination_date.getTime()) {
                         $('#send_package_form.ui.form').removeClass('loading');
                         $('#submit_send_package').removeClass('disabled');
                         $('#error_name_header').html(gpdeal_translate("Error"));
-                        $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
+                        $('#error_name_list').append("<li>" + gpdeal_translate("The arrival date can not be less than the departure date") + "</li>");
                         valid = false;
                     }
 

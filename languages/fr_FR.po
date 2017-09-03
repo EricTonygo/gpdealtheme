@@ -9,11 +9,11 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr_FR\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.3\n"
 
 # Translation of gpdealtheme in French (France)
 msgid "Transport offers"
-msgstr "Offres transport"
+msgstr "Offres de transport"
 
 msgid "Transport offer"
 msgstr "Offre transport"
@@ -84,8 +84,11 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-msgid "Log in"
+msgid "Login"
 msgstr "Connexion"
+
+msgid "Log_in_plural_second_person"
+msgstr "Connectez vous"
 
 msgid "log-in"
 msgstr "connexion"
@@ -114,8 +117,8 @@ msgstr "Se connecter"
 msgid "Sign up"
 msgstr "S'inscrire"
 
-msgid "Email or username"
-msgstr "Email ou pseudo"
+msgid "E-mail or username"
+msgstr "E-mail ou pseudo"
 
 msgid "Home"
 msgstr "Accueil"
@@ -228,6 +231,9 @@ msgstr "Les offres pouvant vous intéresser"
 msgid "Selected carriers"
 msgstr "Transporteurs selectionnés"
 
+msgid "Selected carrier"
+msgstr "Transporteur selectionné"
+
 msgid "Carried shipments"
 msgstr "Expéditions transportées"
 
@@ -235,13 +241,13 @@ msgid "flag_code"
 msgstr "fr"
 
 msgid "Welcome to our website"
-msgstr "Bienvenu sur notre site"
+msgstr "Bienvenue sur notre site"
 
 msgid "Register in a few minutes and take full advantage of our services"
 msgstr "Inscrivez-vous en quelques minutes et profitez pleinement de nos services"
 
-msgid "Required informations"
-msgstr "Informations obligatoires"
+msgid "Required information"
+msgstr "Information obligatoire"
 
 msgid "Particular"
 msgstr "Particulier"
@@ -331,16 +337,16 @@ msgid "Login information"
 msgstr "Informations de connexion"
 
 msgid "E-mail"
-msgstr "Email"
+msgstr "E-mail"
 
 msgid "E-mail address"
-msgstr "Adresse email"
+msgstr "Adresse e-mail"
 
-msgid "E-mail confirmation"
-msgstr "Confirmation email"
+msgid "Confirm e-mail"
+msgstr "Confirmer e-mail"
 
 msgid "E-mail address confirmation"
-msgstr "Confirmation adresse email"
+msgstr "Confirmation adresse e-mail"
 
 msgid "Password confirmation"
 msgstr "Confirmation mot de passe"
@@ -357,14 +363,14 @@ msgstr "Question test"
 msgid "Select a test question"
 msgstr "Selectionner une question test"
 
-msgid "I received the registration information"
-msgstr "J'ai reçu les informations sur l'inscription"
+msgid "I received and accepted the registration information"
+msgstr "J'ai reçu et accepte, les informations sur l'inscription"
 
 msgid "Answer to test question"
 msgstr "Réponse question test"
 
 msgid "I want to verify my identity"
-msgstr "Je voudrais faire verifier mon identité"
+msgstr "Je voudrais faire vérifier mon identité"
 
 msgid "Register now"
 msgstr "S'inscrire maintenant"
@@ -375,11 +381,11 @@ msgstr "Je souhaite être informé(e) des produits et des services du site Globa
 msgid "terms of use"
 msgstr "les conditions d'utilisation"
 
-msgid "transactions and data protection on this website"
-msgstr "les transactions et la protection des données sur ce site web"
+msgid "transactions and data protection on the site gpdeal.com"
+msgstr "les transactions et la protection des données du site gpdeal.com"
 
 msgid "Download a document to verify your identity"
-msgstr "Télécharger un document permettant de verifier votre identité"
+msgstr "Télécharger un document permettant de vérifier votre identité"
 
 msgid "Download your company logo"
 msgstr "Télécharger le logo de votre entreprise"
@@ -420,23 +426,23 @@ msgstr "Représentant"
 msgid "Position in the company"
 msgstr "Fonction dans l'entreprise"
 
-msgid "Professional email"
-msgstr "Email professionnel"
+msgid "Professional e-mail"
+msgstr "E-mail professionnel"
 
-msgid "Professional email address"
-msgstr "Adresse email professionnelle"
+msgid "Professional e-mail address"
+msgstr "Adresse e-mail professionnelle"
 
-msgid "Company email"
-msgstr "Email de l'entreprise"
+msgid "Company e-mail"
+msgstr "E-mail de l'entreprise"
 
-msgid "Company email address"
-msgstr "Adresse email de l'entreprise"
+msgid "Company e-mail address"
+msgstr "Adresse e-mail de l'entreprise"
 
-msgid "Confirm company email"
-msgstr "Confirmation email de l'entreprise"
+msgid "Confirm company e-mail"
+msgstr "Confirmation e-mail de l'entreprise"
 
-msgid "Confirm company email address"
-msgstr "Confirmation de l'adresse email de l'entreprise"
+msgid "Confirm company e-mail address"
+msgstr "Confirmation de l'adresse e-mail de l'entreprise"
 
 msgid "Optional"
 msgstr "Facultatif"
@@ -643,7 +649,7 @@ msgid "Give an reviews"
 msgstr "Donner un avis"
 
 msgid "Publish your reviews"
-msgstr "Publiez votre avis"
+msgstr "Publier votre avis"
 
 msgid "Edit offer"
 msgstr "Modifier l'offre"
@@ -807,14 +813,14 @@ msgstr "Remplissez les informations ci-dessous nécessaires pour l'obtention de 
 msgid "Your test question"
 msgstr "Votre question test"
 
-msgid "Password send succesfully"
+msgid "Password send successfully"
 msgstr "Mot de passe envoyé avec succès"
 
 msgid "We have taken your request for password communication into account"
 msgstr "Nous avons bien pris en compte votre demande de communication de mot de passe"
 
 msgid "Your login credentials have been sent to you by e-mail to the e-mail address of your account"
-msgstr "Vos identifiants de connexion vous ont été envoyés par courrier electronique à l'adresse email de votre compte"
+msgstr "Vos identifiants de connexion vous ont été envoyés par courrier electronique à l'adresse e-mail de votre compte"
 
 msgid "Send error"
 msgstr "Erreur d'envoi"
@@ -855,6 +861,9 @@ msgstr "Remplissez les informations ci-dessous nécessaires pour modifier votre 
 msgid "Current Password"
 msgstr "Mot de passe actuel"
 
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
 msgid "Confirm New Password"
 msgstr "Confirmer nouveau mot de passe"
 
@@ -882,8 +891,8 @@ msgstr "ici"
 msgid "or search again later"
 msgstr "ou effectuer une nouvelle recherche ultérieurement"
 
-msgid "The carriers selected for your shipment"
-msgstr "Les transporteurs sélectionnés pour votre envoi"
+msgid "A carrier selected for your shipment"
+msgstr "Le transporteur sélectionné pour votre envoi"
 
 msgid "Subject"
 msgstr "Objet"
@@ -909,8 +918,8 @@ msgstr "Evaluer"
 msgid "View evaluations"
 msgstr "Consulter les évaluations"
 
-msgid "Verification of Identity in Progress"
-msgstr "Verification de l'identité en cours"
+msgid "Verification in Progress"
+msgstr "Verification en cours"
 
 msgid "M"
 msgstr "M."
@@ -948,7 +957,7 @@ msgstr "Impossible de cloturer votre expédition"
 msgid "Shipping successfully closed"
 msgstr "Expédition cloturée avec succès"
 
-msgid "Your message has been send succesfully"
+msgid "Your message has been send successfully"
 msgstr "Votre message a été envoyé avec succès"
 
 msgid "Error sending. Verify the information and try again"
@@ -984,23 +993,23 @@ msgstr "actualites"
 msgid "Activation of your account failed"
 msgstr "L'activation de votre compte a échoué"
 
-msgid "Your account have been succefully activated"
+msgid "Your account has been activated successfully"
 msgstr "Votre compte a été activé avec succès"
 
 msgid "activate-your-account"
 msgstr "activer-votre-compte"
 
 msgid "Your account is not activated"
-msgstr "Votre compte n'est activé"
+msgstr "Votre compte n'est pas activé"
 
 msgid "We could not verify your security code. Verify it and try again"
-msgstr "Nous n'avons pas pu verifier votre code de sécurité. Verifiez le puis essayez à nouveau"
+msgstr "Nous n'avons pas pu vérifier votre code de sécurité. Vérifiez le puis essayez à nouveau"
 
 msgid "A user with this username already exists, please change it"
 msgstr "Un utilisateur avec ce pseudo existe déjà veuillez le modifier"
 
-msgid "A user with this email already exists please change it"
-msgstr "Un utilisateur avec cet email existe déjà veuillez le modifier"
+msgid "A user with this e-mail already exists please change it"
+msgstr "Un utilisateur avec cet e-mail existe déjà veuillez le modifier"
 
 msgid "Security code not found"
 msgstr "Code de sécurité introuvable"
@@ -1035,8 +1044,20 @@ msgstr "Pensez à l'environnement avant d'imprimer ce message"
 msgid "Unable to change password"
 msgstr "Impossible de modifier le mot de passe"
 
-msgid "Welcome in"
-msgstr "Bienvenue dans"
+msgid "Welcome to Global Parcel Deal"
+msgstr "Bienvenue sur Global Parcel Deal"
+
+msgid "You have just registered on our site and we thank you for your confidence"
+msgstr "Vous venez de vous inscrire sur notre site et nous vous remercions de votre confiance"
+
+msgid "For security reasons, you must activate your account by clicking on the activation link opposite"
+msgstr "Pour des raisons de sécurité, vous devez activer votre compte en cliquant sur le lien d'activation ci-contre"
+
+msgid "activate my global parcel deal account"
+msgstr "activer mon compte global parcel deal"
+
+msgid "Do not hesitate to <a href='mailto:contact@gpdeal.com'>contact us</a> if you encounter difficulties during this activation"
+msgstr "N'hésitez pas à <a href='mailto:contact@gpdeal.com'>nous contacter</a> si vous rencontrez des difficultés lors de cette activation"
 
 msgid "Please click on"
 msgstr "Veuillez cliquez sur"
@@ -1047,17 +1068,20 @@ msgstr "ce lien"
 msgid "to activate your account"
 msgstr "pour activer votre compte"
 
-msgid "Your account has been successfully created. The activation link was sent to you by e-mail to the email address of this account"
-msgstr "Votre compte a été créé avec succès. Le lien d'activation vous a été envoyé par mail à l'adresse email de ce compte"
+msgid "Your account has been created successfully"
+msgstr "Votre compte a été créé avec succès"
+
+msgid "The activation link was sent to you by e-mail to the e-mail address of this account"
+msgstr "Le lien d'activation vous a été envoyé par mail à l'adresse e-mail de ce compte"
 
 msgid "confirmation-registration"
 msgstr "confirmation-inscription"
 
-msgid "ACTIVATION OF ACCOUNT"
-msgstr "ACTIVATION DU COMPTE"
+msgid "Activation of account"
+msgstr "Activation du compte"
 
 msgid "Identity status"
-msgstr "Status de l'identité"
+msgstr "Statut identité"
 
 msgid "Identity information"
 msgstr "Informations sur l'identité"
@@ -1080,8 +1104,8 @@ msgstr "Expédition"
 msgid "Terms of use"
 msgstr "Conditions d'utilisation"
 
-msgid "You will be automatically notified (email or sms) when an offer you may be interested in will be registered"
-msgstr "Vous serez automatiquement notifié(e) (email ou sms) lorsqu'une offre correspondante ou pouvant vous intéresser sera enregistrée"
+msgid "You will be automatically notified (e-mail or sms) when an offer you may be interested in will be registered"
+msgstr "Vous serez automatiquement notifié(e) (e-mail ou sms) lorsqu'une offre correspondante ou pouvant vous intéresser sera enregistrée"
 
 msgid "City/Country"
 msgstr "Ville/Pays"
@@ -1089,13 +1113,13 @@ msgstr "Ville/Pays"
 msgid "Select your city and country"
 msgstr "Selectionner votre ville et pays"
 
-msgid "Send Password Reset Link"
-msgstr "Envoyer Lien Modification Mot de passe"
+msgid "Send Link"
+msgstr "Envoyer le lien"
 
-msgid "Fill your email below to obtain a password reset link"
-msgstr "Saisisez ci-dessous votre email pour obtenir le lien de modification de votre mot de passe"
+msgid "Fill your e-mail below to obtain a password reset link"
+msgstr "Saisissez ci-dessous votre e-mail pour obtenir le lien de modification de votre mot de passe"
 
-msgid "If you don't see our email, check your spam folder"
+msgid "If you don't see our e-mail, check your spam folder"
 msgstr "Si vous ne voyez pas notre courrier électronique, vérifiez votre dossier de spam"
 
 msgid "Please check your inbox and click on the secure link"
@@ -1107,8 +1131,8 @@ msgstr "Nous vous avons envoyé un lien"
 msgid "Resend the link"
 msgstr "Reenvoyer le lien"
 
-msgid "Try different email"
-msgstr "Essayer un autre email"
+msgid "Try different e-mail"
+msgstr "Essayer un autre e-mail"
 
 msgid "Try again"
 msgstr "Essayer encore"
@@ -1148,6 +1172,12 @@ msgstr "Vous devez completer votre inscription pour etre capable de publier une 
 
 msgid "You must complete your registration to be able to publish a new transport offer"
 msgstr "Vous devez completer votre inscription pour etre capable de publier une offre de transport"
+
+msgid "You must complete the missing information in your profile in order to be able to publish a transport offer"
+msgstr "Vous devez compléter les informations manquantes dans votre profil pour pouvoir publier une offre de transport"
+
+msgid "You must complete the missing information in your profile in order to be able to search for carriers"
+msgstr "Vous devez compléter les informations manquantes dans votre profil pour pouvoir rechercher des transporteurs"
 
 msgid "Account Type"
 msgstr "Type de compte"
@@ -1209,6 +1239,12 @@ msgstr "Numéro Ident Entreprise"
 msgid "Transaction Fees"
 msgstr "Frais de transaction"
 
+msgid "Insurance Fees"
+msgstr "Frais d'assurance"
+
+msgid "Insurance payment"
+msgstr "Paiement assurance"
+
 msgid "Transaction Amount"
 msgstr "Montant Transaction"
 
@@ -1220,6 +1256,9 @@ msgstr "Numéro Carte"
 
 msgid "Choose your payment method then pay your transaction fees"
 msgstr "Choisissez votre méthode de paiement puis payer vos frais de transaction"
+
+msgid "Choose your payment method then pay your insurance fees"
+msgstr "Choisissez votre méthode de paiement puis payer vos frais d'assurance"
 
 msgid "Pay with Credit Card"
 msgstr "Payer avec carte credit"
@@ -1255,7 +1294,7 @@ msgid "Select Country"
 msgstr "Selectionner Pays"
 
 msgid "Having trouble making a payment? Please contact us at"
-msgstr "Vous avez du mal à effectuer un paiement? Contactez-nous à"
+msgstr "Vous avez du mal à effectuer un paiement ? Contactez-nous à"
 
 msgid "review"
 msgstr "compte-rendu"
@@ -1274,6 +1313,12 @@ msgstr "Profil"
 
 msgid "Your account is already activated"
 msgstr "Votre compte est déjà activé"
+
+msgid "You have not activated your account yet"
+msgstr "Vous n'avez pas encore activé votre compte"
+
+msgid "To sign in, please activate it via the link sent in your e-mail address"
+msgstr "Pour vous connecter, veuillez l'activer via le lien envoyé dans votre adresse mail"
 
 msgid "Enterprise profile"
 msgstr "Profil entreprise"
@@ -1335,6 +1380,9 @@ msgstr "Aucune expédition pour le moment"
 msgid "No carrier for the moment"
 msgstr "Aucun transporteur pour le moment"
 
+msgid "No selected carrier"
+msgstr "Aucun transporteur selectionné"
+
 msgid "You are a"
 msgstr "Vous êtes un"
 
@@ -1358,3 +1406,279 @@ msgstr "sur"
 
 msgid "View/Evaluate"
 msgstr "Consulter/Evaluer"
+
+msgid "Unsatisfied Shipments"
+msgstr "Expéditions non satisfaites"
+
+msgid "This password reset link is invalid"
+msgstr "Ce lien de reinitialisation du mot de passe n'est pas valide"
+
+msgid "This password reset link is expired"
+msgstr "Ce lien de reinitialisation du mot de passe a expiré"
+
+msgid "I ship"
+msgstr "J'expédie"
+
+msgid "I carry"
+msgstr "Je transporte"
+
+msgid "Log in now to start using our services"
+msgstr "Connectez vous tout de suite pour commencer à utiliser nos services"
+
+msgid "You have just registered on our site and we thank you for your trust"
+msgstr "Vous venez de vous inscrire sur notre site et nous vous remerçions de votre confiance"
+
+msgid "For security reasons, you must activate your account by clicking on"
+msgstr "Pour des raisons de sécurité, vous devez activer votre compte en cliquant sur"
+
+msgid "this activation link"
+msgstr "ce lien d'activation"
+
+msgid "Best regards"
+msgstr "Bien cordialement"
+
+msgid "Thank you for your loyalty"
+msgstr "Merci de votre fidélité"
+
+msgid "Notification of change of e-mail address"
+msgstr "Notification d'un changement d'adresse e-mail"
+
+msgid "The modification of your e-mail address has been taken into account on our Global Parcel Deal website"
+msgstr "La modification de votre adresse de messagerie a bien été prise en compte sur notre site Global Parcel Deal"
+
+msgid "If you are not the owner of this action, please contact the site administrator at"
+msgstr "Si vous n'êtes pas à l'origine de cette action, veuillez svp contacter l'administrateur du site à l'adresse"
+
+msgid "We have a valid transport offer corresponding to your shipment"
+msgstr "Nous avons une offre de transport valide correspondant à votre expédition"
+
+msgid "to search for the offer"
+msgstr "pour rechercher l'offre"
+
+msgid "New transport offer"
+msgstr "Nouvelle offre de transport"
+
+msgid "Value of your property"
+msgstr "Valeur de votre bien"
+
+msgid "I would like to ensure my shipment"
+msgstr "Je voudrais assurer mon expédition"
+
+msgid "Enter the value of your property"
+msgstr "Saisir la valeur de votre bien"
+
+msgid "Get insurance cost"
+msgstr "Coût assurance"
+
+msgid "Insurance cost"
+msgstr "Coût assurance"
+
+msgid "Continue to pay insurance"
+msgstr "Continuer à payer assurance"
+
+msgid "Search for carriers from and to"
+msgstr "Rechercher les tranporteurs au depart et à destination de"
+
+msgid "For security reasons, an activation link has been sent to the e-mail address indicated. Click on this link to log in"
+msgstr "Pour des raisons de sécurité, un lien d'activation a été envoyé à l'adresse mail indiqué. Cliquez sur ce lien pour vous connecter"
+
+msgid "Edit the information below to update your transport offer"
+msgstr "Modifiez les informations ci-dessous pour mettre à jour votre offre de transport"
+
+msgid "Insure shipment"
+msgstr "Assurer expédition"
+
+msgid "insure-shipment"
+msgstr "assurer-expedition"
+
+msgid "day_abrev"
+msgstr "j"
+
+msgid "Do you want to insure your shipment"
+msgstr "Voulez-vous assurer votre expédition"
+
+msgid "Enter the value of your property then get the cost of insurance"
+msgstr "Saissez la valeur de votre bien puis obtenez le coût de l'assurance"
+
+msgid "Insurance"
+msgstr "Assurance"
+
+msgid "To be informed by SMS and E-mail when an corresponding transport offer is published"
+msgstr "Pour être informé par SMS et E-mail lorsqu'une offre de transport correspondante sera publiée"
+
+msgid "If you want to be informed by e-mail and SMS once a corresponding offer has been published"
+msgstr "Si vous souhaitez être informé(e) par SMS et E-mail dès qu'une offre correspondante sera publiée"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "create-alert-for-transport-offers"
+msgstr "creer-alerte-pour-offres-de-transport"
+
+msgid "Create an alert for transport offers"
+msgstr "Créer une alerte pour les offres de transport"
+
+msgid "Create an alert here"
+msgstr "Créez une alerte ici"
+
+msgid "Transport offers alerts fees"
+msgstr "Frais alertes offres transport"
+
+msgid "Choose your payment method then pay your transport offers alerts fees"
+msgstr "Choisissez votre méthode de paiement puis payer vos frais d'alertes offres transport"
+
+msgid "Transport offers alerts cost"
+msgstr "Coût alertes offres de transport"
+
+msgid "City, Country"
+msgstr "Ville, Pays"
+
+msgid "Country code"
+msgstr "Indicatif pays"
+
+msgid "Select Country code"
+msgstr "Selectionner Indicatif pays"
+
+msgid "Number without country code"
+msgstr "Numero sans indicatif pays"
+
+msgid "Update profile"
+msgstr "Actualiser profil"
+
+msgid "Enter your shipment informations"
+msgstr "Saisissez les informations de votre expédition"
+
+msgid "Edit your shipment informations"
+msgstr "Modifiez les informations de votre expédition"
+
+msgid "Enter your transport offer informations"
+msgstr "Saisissez les informations de votre offre de transport"
+
+msgid "Edit your transport offer informations"
+msgstr "Modifiez les informations de votre offre de transport"
+
+msgid "Example of object that you can to carry"
+msgstr "Exemple des objects que vous pouvez transporter"
+
+msgid "Enter the description of object that you can to carry"
+msgstr "Saisissez la description des objets que vous pouvez transporter"
+
+msgid "Portable objects"
+msgstr "Objets transportables"
+
+msgid "Use \".\" For decimal numbers. Ex: 1.5"
+msgstr "Utilisez \".\" pour les nombres decimaux. Ex: 1.5"
+
+msgid "An alert has been activated for your request. We will notify you by SMS and E-mail as soon as an offer corresponding to your criteria will be published"
+msgstr "Une alerte a été activée pour votre demande. Nous vous informerons par SMS et E-mail dès qu'une offre repondant à vos critères sera publiée"
+
+msgid "Create an SMS and E-mail alert for your shipment"
+msgstr "Créer une alert SMS et E-mail pour votre envoi"
+
+msgid "Your payment was successfully registered. Your alert is active until"
+msgstr "Votre paiement a été enregistré avec succès. Votre alerte est active jusqu'au"
+
+msgid "Your payment could not be saved. Please change payment method or try again later"
+msgstr "Votre paiement n'a pas pu être enregistré. Veuillez changer de mode de paiement ou ressayer ultérieurement"
+
+msgid "Pay & create alert"
+msgstr "Payer & créer alerte"
+
+msgid "Cost of SMS and E-mail Alert"
+msgstr "Coût de l'alerte SMS et E-mail"
+
+msgid "Your password has been changed successfully"
+msgstr "Votre mot de passe a été modifié avec succès"
+
+msgid "An alert has been activated for this shipment"
+msgstr "Une alerte a été activée pour cet envoi"
+
+msgid "Corresponding transport offers for"
+msgstr "Offres de transport correspondantes pour"
+
+msgid "Transport offers that can interest you for"
+msgstr "Offres de tranporteur pouvant vous intéresser pour"
+
+msgid "Your transport offer has been saved and published"
+msgstr "Votre offre de transport a été sauvegardée et publiée"
+
+msgid "Your transport offer has been edited and published"
+msgstr "Votre offre de transport a été modifiée et publiée"
+
+msgid "Some data is missing. Please check and try again"
+msgstr "Certaines données sont manquantes. Verifiez puis essayez à nouveau"
+
+msgid "Some data is missing for saving your transport offer"
+msgstr "Certaines données sont manquantes pour la sauvegarde de votre offre de transport"
+
+msgid "Payment has been cancelled"
+msgstr "Le payement a été annulé"
+
+msgid "Cancel details for review"
+msgstr "Annuler le details pour cet avis"
+
+msgid "Give more details for your review"
+msgstr "Donnez plus de détails pour votre avis"
+
+msgid "An error occurred while editing your transport offer"
+msgstr "Une erreur est survenue pendant la modification de votre offre"
+
+msgid "An error occurred while saving your transport offer"
+msgstr "Une erreur est survenue pendant la sauvegarde de votre offre"
+
+msgid "An error occurred while editing your shipment"
+msgstr "Une erreur est survenue pendant la modification de votre expédition"
+
+msgid "An error occurred while saving your shipment"
+msgstr "Une erreur est survenue pendant la sauvegarde de votre expédition"
+
+msgid "Not verified"
+msgstr "Non vérifié"
+
+msgid "Verified"
+msgstr "Vérifié"
+
+msgid "Your profile has been updated successfully"
+msgstr "Votre profil a été mis à jour avec succès"
+
+msgid "An error occurred while updating your profile"
+msgstr "Une erreur est servenue pendant la modification de votre profil"
+
+msgid "An error occurred while creating your account"
+msgstr "Une erreur est survenue pendant la creation de votre compte"
+
+msgid "Unable to change password. Incorrect user"
+msgstr "Impossible de modifier le mot de passe. Utilisateur incorrect"
+
+msgid "Please select a valid transport offer for a valid shipment"
+msgstr "Veuillez selectionner une offre de transport valide pour une expédition valide"
+
+msgid "Please select a valid shipment for your alert"
+msgstr "Veuillez selectionner une expédition valide pour votre alerte"
+
+msgid "Please select a shipment for finding the transport offers"
+msgstr "Veuillez selectionner une expédition valide pour rechercher les offres de transport"
+
+msgid "You are not a author of this shipment. Log in with a correct user or select your own shipment"
+msgstr "Vous n'êtes pas l'auteur de cette expédition. Connectez vous avec l'utilisateur correspondant ou selectionner une expédition vous appartenant"
+
+msgid "We have a (or the) valid transport offer(s) that may be of interest to you for your shipment"
+msgstr "Nous avons une(ou des) offre(s) de transport valides pouvant vous intéresser pour votre expédition"
+
+msgid "to search and select the offer that suits you"
+msgstr "pour rechercher et selectionner l'offre qui vous convient"
+
+msgid "Alert transport offer(s)"
+msgstr "Alerte offre(s) de transport"
+
+msgid "The current password provided is not correct. Please check it out and try again"
+msgstr "Le mot de passe actuel fourni n'est pas correct. Veuillez le vérifier puis essayer à nouveau"
+
+msgid "Object to be shipped"
+msgstr "Objet à expédier"
+
+msgid "Describe a content of your shipment here"
+msgstr "Decrivez le contenu de votre expédition ici"
+
+msgid "The e-mail registered for your transactions is now"
+msgstr "L'e-mail enregistré pour vos transactions est desormais"

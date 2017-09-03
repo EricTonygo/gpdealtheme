@@ -227,7 +227,6 @@ get_template_part('top-menu', get_post_format());
                                                         </tr>
                                                         </tbody>
                                                     </table>
-
                                                     <span class="ui blue right ribbon label">
                                                         <?php echo get_post_meta($transport_offer_start_id, 'price', true) . " " . get_post_meta($transport_offer_start_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_start_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                     </span>

@@ -13,16 +13,17 @@
 <div class="ui vertical masthead  segment container">
     <!--div class="ui text container">
     </div-->
-    <div class="ui signup_contenair first_signup_contenair basic segment container">
+    <div class="ui signup_contenair first_signup_contenair basic segment container content_without_white">
         <div class="ui attached message">
             <div class="header"><?php echo __("Welcome to our website", 'gpdealdomain') ?> ! </div>
             <p class="promo_text_form"><?php echo __("Register in a few minutes and take full advantage of our services", 'gpdealdomain') ?> !</p>
         </div>
         <div class="ui fluid card">
             <div class="content">
-                <!--<p class="required_infos"><span style="color: red;">*</span> <?php _e("Required informations", "gpdealdomain"); ?></p>-->
+                <?php include(locate_template("content_success_or_faillure_message.php")); ?>
+                <!--<p class="required_infos"><span style="color: red;">*</span> <?php _e("Required information", "gpdealdomain"); ?></p>-->
                 <form id='register_form'  method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain') . "/" . __('account-summary', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off" enctype="multipart/form-data">
-                    <h4 class="ui dividing header"><?php _e("You are a", "gpdealdomain"); ?>?</h4>
+                    <h4 class="ui dividing header"><?php _e("You are a", "gpdealdomain"); ?> ?</h4>
                     <div id='civility_bloc' class="fields">
                         <div class="four wide field">
                         </div>
@@ -54,13 +55,22 @@
                             <input type="text" name="username" placeholder="<?php _e("Username", "gpdealdomain"); ?>">
                         </div>                        
                     </div>
-
+                    
                     <div class="fields">
                         <div class="four wide field">
                             <label><?php _e("E-mail", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
                         </div>
                         <div class="twelve wide field">
                             <input type="email" name="email" placeholder="<?php _e("E-mail address", "gpdealdomain"); ?>">
+                        </div>
+                    </div>
+                    
+                    <div class="fields">
+                        <div class="four wide field">
+                            <label><?php _e("Confirm e-mail", "gpdealdomain"); ?> <span style="color:red;">*</span></label>
+                        </div>
+                        <div class="twelve wide field">
+                            <input type="email" name="email_confirm" placeholder="<?php _e("E-mail address confirmation", "gpdealdomain"); ?>">
                         </div>
                     </div>
 
@@ -101,7 +111,7 @@
                     <div class="inline field">
                         <div class="ui checkbox">
                             <input type="checkbox" name="terms"> 
-                            <label class="label_terms_use"><span style="color:red;">*</span> <?php _e("I received the registration information", "gpdealdomain"); ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('terms-of-use', 'gpdealdomain')))); ?>" target="_blank"><?php _e("terms of use", "gpdealdomain"); ?></a>, <?php _e("transactions and data protection on this website", "gpdealdomain") ?>.</label>
+                            <label class="label_terms_use"><span style="color:red;">*</span> <?php _e("I received and accepted the registration information", "gpdealdomain"); ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('terms-of-use', 'gpdealdomain')))); ?>" target="_blank"><?php _e("terms of use", "gpdealdomain"); ?></a>, <?php _e("transactions and data protection on the site gpdeal.com", "gpdealdomain") ?>.</label>
                         </div>
                     </div>
 

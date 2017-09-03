@@ -18,7 +18,7 @@
         <div class="wide column">
             <div class="ui content_packages_transports fluid card">
                 <div class="content center aligned">
-                    <div class="header"><?php echo __('Shipments in search of carriers', 'gpdealdomain'); ?></div>
+                    <div class="header"><?php echo __('Shipments in search of carriers', 'gpdealdomain'); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                 </div>
                 <div class="content content_packages_transports content_without_white">
                     <?php
@@ -171,7 +171,7 @@
                             <div class="ui warning message">
                                 <div class="content">
                                     <div class="header" style="font-weight: normal;">
-                                        <?php _e("No unsatisfied shipping matches your criteria", "gpdealdomain"); ?>.
+                                        <?php _e("No unsatisfied shipment matches your criteria", "gpdealdomain"); ?>.
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                 ?>
                 <div class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php echo __('Shipments in search of carriers that may interest you', "gpdealdomain"); ?></div>
+                        <div class="header"><?php echo __('Shipments in search of carriers that may interest you', "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['start_city']; ?>(<?php echo $search_data['start_date']; ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo $search_data['destination_city']; ?>(<?php echo $search_data['destination_date']; ?>)</span></div>
                     </div>
                     <div class="content content_packages_transports content_without_white">
                         <div id='list_as_grid_content' class="ui three column doubling stackable grid">
@@ -274,38 +274,53 @@
                                         </div>
                                         <div class="content">
                                             <div class="ui form description">
-                                                <div class="inline field">
-                                                    <span class="span_label"><?php _e("Object", "gpdealdomain"); ?> : </span> 
-                                                    <span class="span_value">
-                                                        <?php
-                                                        $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
-                                                        $package_type_list_count = count($package_type_list);
-                                                        $j = 0;
-                                                        foreach ($package_type_list as $name) :
-                                                            ?>
-                                                            <?php if ($j < $package_type_list_count - 1) : ?>
-                                                                <span><?php echo __($name, "gpdealdomain"); ?>, </span>
-                                                            <?php else: ?>
-                                                                <span><?php echo __($name, "gpdealdomain"); ?></span>
-                                                            <?php endif ?>
-                                                            <?php
-                                                            $j++;
-                                                        endforeach
-                                                        ?>
-                                                    </span>
-                                                </div>
-                                                <div class="inline field">
-                                                    <span class="span_label"><?php _e("Dimensions", "gpdealdomain"); ?>(cm) : </span> 
-                                                    <span class="span_value">
-                                                        <?php _e("abrev_length", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'length', true) ?>, <?php _e("abrev_width", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'width', true) ?>, <?php _e("abrev_height", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'height', true); ?>
-                                                    </span>
-                                                </div>
-                                                <div class="inline field">
-                                                    <span class="span_label"><?php _e("Weight", "gpdealdomain"); ?>(kg) : </span> 
-                                                    <span class="span_value">
-                                                        <?php echo get_post_meta(get_the_ID(), 'weight', true) ?>
-                                                    </span>
-                                                </div>
+                                                <table class="ui celled unstackable table package_table">
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span_label"><?php _e("Object", "gpdealdomain"); ?> : </span> 
+                                                        </td>
+                                                        <td>
+                                                            <span class="span_value">
+                                                                <?php
+                                                                $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "names"));
+                                                                $package_type_list_count = count($package_type_list);
+                                                                $j = 0;
+                                                                foreach ($package_type_list as $name) :
+                                                                    ?>
+                                                                    <?php if ($j < $package_type_list_count - 1) : ?>
+                                                                        <span><?php echo __($name, "gpdealdomain"); ?>, </span>
+                                                                    <?php else: ?>
+                                                                        <span><?php echo __($name, "gpdealdomain"); ?></span>
+                                                                    <?php endif ?>
+                                                                    <?php
+                                                                    $j++;
+                                                                endforeach
+                                                                ?>
+                                                            </span> 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span_label"><?php _e("Dimensions", "gpdealdomain"); ?>(cm) : </span> 
+                                                        </td>
+                                                        <td>
+                                                            <span class="span_value">
+                                                                <?php _e("abrev_length", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'length', true) ?>, <?php _e("abrev_width", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'width', true) ?>, <?php _e("abrev_height", "gpdealdomain"); ?>= <?php echo get_post_meta(get_the_ID(), 'height', true); ?>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            <span class="span_label"><?php _e("Weight", "gpdealdomain"); ?>(kg) : </span> 
+                                                        </td>
+                                                        <td>
+                                                            <span class="span_value">
+                                                                <?php echo get_post_meta(get_the_ID(), 'weight', true) ?>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
 

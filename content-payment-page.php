@@ -7,7 +7,9 @@ get_template_part('top-menu', get_post_format());
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
                 <i class="small right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(esc_url(add_query_arg(array('package-id' => $_SESSION['package_id']), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))); ?>" class="section"><?php echo get_page_by_path(__('select-transport-offers', 'gpdealdomain'))->post_title ?></a>
+                <a href="<?php echo wp_make_link_relative(esc_url(add_query_arg(array('package-id' => $package_id), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))); ?>" class="section"><?php echo get_page_by_path(__('select-transport-offers', 'gpdealdomain'))->post_title ?></a>
+                <i class="small right chevron icon divider"></i>
+                <a href="<?php echo wp_make_link_relative(esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure-shipment', 'gpdealdomain'))))); ?>" class="section"><?php echo get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure-shipment', 'gpdealdomain'))->post_title ?></a>
                 <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -15,33 +17,40 @@ get_template_part('top-menu', get_post_format());
     </div>
 </div>
 <div class="ui vertical masthead segment container review_confirm">
-    <div class="ui signup_contenair basic segment container">
-        <div class="ui two top attached steps select_transport_offers">
-            <a class="step"href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))); ?>">
+    <div class="ui signup_contenair basic segment container content_without_white">
+        <div class="ui three top attached steps select_transport_offers">
+<!--            <a class="step"href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))); ?>">
                 <i class="file text outline icon"></i>
                 <div class="content">
                     <div class="title"><?php echo __("Review", 'gpdealdomain') ?></div>
                 </div>
-            </a>
-            <a class="active step" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain')))); ?>">
-                <i class="payment green icon"></i>
+            </a>-->
+            <a class="step" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure-shipment', 'gpdealdomain')))); ?>">
+                <i class="handshake icon"></i>
                 <div class="content">
-                    <div class="title"><?php echo __("Confirm Transaction", 'gpdealdomain') ?></div>
+                    <div class="title"><?php echo __("Insurance", 'gpdealdomain') ?></div>
                 </div>
             </a>
+            <div class="active step">
+                <i class="payment green icon"></i>
+                <div class="content">
+                    <div class="title"><?php echo __("Insurance payment", 'gpdealdomain') ?></div>
+                </div>
+            </div>
         </div>
-        <div class="ui attached segment select_transport_offers" style="padding-left: 0; padding-right: 0;">
+        <div class="ui attached segment select_transport_offers content_without_white" style="padding-left: 0; padding-right: 0;">
             <div class="ui attached message">
-                <div class="header"><?php echo __("Transaction Fees", 'gpdealdomain') ?> </div>
-                <p class="promo_text_form"><?php echo __("Choose your payment method then pay your transaction fees", 'gpdealdomain') ?>.</p>
+                <div class="header"><?php echo __("Insurance Fees", 'gpdealdomain') ?> </div>
+                <p class="promo_text_form"><?php echo __("Choose your payment method then pay your insurance fees", 'gpdealdomain') ?>.</p>
             </div>
             <div class="ui fluid card">
                 <div class="content">
+                    <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                     <div class="ui form">
                         <div class="inline field" style="text-align: center">
-                            <span class="span_label"><?php _e("Transaction Amount", "gpdealdomain"); ?> : </span>
+                            <span class="span_label"><?php _e("Insurance cost", "gpdealdomain"); ?> : </span>
 
-                            <span class="span_value"> <?php echo "2,00€"; ?></span>
+                            <span class="span_value"> <?php echo get_post_meta($package_id, 'insurance-cost', true)." ".get_post_meta($package_id, 'package-currency', true); ?></span>
                         </div>
                         <div class="inline fields">
                             <div class="field">
@@ -70,7 +79,7 @@ get_template_part('top-menu', get_post_format());
                             </div>
                         </div>
                     </div>
-                    <form id="creditCard_payment_form"  method="POST" class="ui form creditCard_payment_form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain')))); ?>" style="margin-bottom: 1em" autocomplete="off">
+                    <form id="creditCard_payment_form"  method="POST" class="ui form creditCard_payment_form" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'). '/' . __('insure-shipment', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain')))); ?>" style="margin-bottom: 1em" autocomplete="off">
                         <h4 class="ui dividing header"><?php _e("Billing Information", "gpdealdomain"); ?></h4>
                         <input type="hidden" name="card-type" value="visa">
                         <div class="fields">
@@ -160,7 +169,7 @@ get_template_part('top-menu', get_post_format());
                     <div id='creditcard_process' class="ui green button right floated">
                         <?php _e("Pay with Credit Card", "gpdealdomain"); ?>
                     </div>
-                    <a id='paypal_process' href="<?php echo esc_url(add_query_arg(array('payment-method' => "paypal"), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain'))))); ?>" class="ui green button right floated" style="display: none;">
+                    <a id='paypal_process' href="<?php echo esc_url(add_query_arg(array('payment-method' => "paypal"), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'). '/' . __('insure-shipment', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain'))))); ?>" class="ui green button right floated" style="display: none;">
                         <?php _e("Pay with PayPal", "gpdealdomain"); ?>
                     </a>
                 </div>

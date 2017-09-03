@@ -6,10 +6,10 @@
 session_start();
 expire_session();
 if (!is_user_logged_in()) {
-    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-        gp_reset_password();
-    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-        gp_reset_password();
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($_POST['new_password'])) {
+        $login = esc_attr($_POST['username']);
+        $new_password = esc_attr($_POST['new_password']);
+        gp_reset_password($login, $new_password);
     } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_GET['key'])) {
         $user_login = esc_attr(wp_unslash(trim($_GET['id'])));
         $hash_reset_password = $_GET['key'];
@@ -21,10 +21,10 @@ if (!is_user_logged_in()) {
                 $reset_password_possible = true;
                 $reset_password_message = "";
             } else {
-                $reset_password_message = __("This link is expired", "gpdealdomain");
+                $reset_password_message = __("This password reset link is expired", "gpdealdomain");
             }
         } else {
-            $reset_password_message = __("This reseted password link is invalid", "gpdealdomain");
+            $reset_password_message = __("This password reset link is invalid", "gpdealdomain");
         }
         get_header();
 
@@ -33,7 +33,30 @@ if (!is_user_logged_in()) {
         get_footer();
     }
 } else {
-    wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain'))));
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_password']) && isset($_POST['new_password'])) {
+        $user = get_user_by('id', get_current_user_id());
+        $login = $current_user->data->user_login;
+        $old_password = esc_attr($_POST['old_password']);
+        $new_password = esc_attr($_POST['new_password']);
+        if ($user && wp_check_password($old_password, $user->data->user_pass, $user->ID)) {
+            gp_reset_password($login, $new_password);
+        } else {
+            $_SESSION["faillure_process"] = __("The current password provided is not correct. Please check it out and try again", "gpdealdomain");
+            get_header();
+
+            include(locate_template('content-reset-password-page.php'));
+
+            get_footer();
+        }
+    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+        $reset_password_possible = true;
+        $reset_password_message = "";
+        get_header();
+
+        include(locate_template('content-reset-password-page.php'));
+
+        get_footer();
+    }
 }
 
 

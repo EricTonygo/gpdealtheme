@@ -49,7 +49,7 @@ $(function () {
                         identifier: 'transport_offer_package_type',
                         rules: [
                             {
-                                type: 'empty',
+                                type: 'checked',
                                 prompt: gpdeal_translate("Please specify the type of shipments")
                             }
                         ]
@@ -158,6 +158,8 @@ $(function () {
                     $('#error_name_list').html("");
                     $('#write_transport_offer_form.ui.form').addClass('loading');
                     $('#submit_transport_offer').addClass('disabled');
+                    $('#submit_send_transport_offer').addClass('disabled');
+                    $('#cancel_edit_transport_offer_infos_btn').addClass('disabled');
                     var today = new Date();
                     var valid = true;
                     today.setHours(0);
@@ -180,45 +182,35 @@ $(function () {
                     destination_date.setMinutes(0);
                     destination_date.setSeconds(0);
                     destination_date.setMilliseconds(0);
-                    if (today.getTime() > start_date.getTime()) {
-                        $('#write_transport_offer_form.ui.form').removeClass('loading');
-                        $('#submit_transport_offer').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
+                    if (today.getTime() > start_date.getTime()) {                        
                         $('#error_name_list').html("<li>"+gpdeal_translate("The departure date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                     if (today.getTime() > start_deadline.getTime()) {
-                        $('#write_transport_offer_form.ui.form').removeClass('loading');
-                        $('#submit_transport_offer').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
                         $('#error_name_list').append("<li>"+gpdeal_translate("The deadline of the offer can not be less than the current date")+"</li>");
                         valid = false;
                     }
 
                     if (start_deadline.getTime() > start_date.getTime()) {
-                        $('#write_transport_offer_form.ui.form').removeClass('loading');
-                        $('#submit_transport_offer').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
                         $('#error_name_list').append("<li>"+gpdeal_translate("The departure date can not be less than the deadline of the offer")+"</li>");
                         valid = false;
                     }
 
                     if (today.getTime() > destination_date.getTime()) {
-                        $('#write_transport_offer_form.ui.form').removeClass('loading');
-                        $('#submit_transport_offer').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
                         $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the current date")+"</li>");
                         valid = false;
                     }
                     if (start_date.getTime() > destination_date.getTime()) {
-                        $('#write_transport_offer_form.ui.form').removeClass('loading');
-                        $('#submit_transport_offer').removeClass('disabled');
-                        $('#error_name_header').html("Erreur(s)");
                         $('#error_name_list').append("<li>"+gpdeal_translate("The arrival date can not be less than the departure date")+"</li>");
                         valid = false;
                     }
 
                     if (!valid) {
+                        $('#write_transport_offer_form.ui.form').removeClass('loading');
+                        $('#submit_transport_offer').removeClass('disabled');
+                        $('#submit_send_transport_offer').removeClass('disabled');
+                        $('#cancel_edit_transport_offer_infos_btn').removeClass('disabled');
+                        $('#error_name_header').html("Erreur(s)");
                         $('#error_name_message').show();
                         return false;
                     }
@@ -226,9 +218,6 @@ $(function () {
                 }
             }
             );
-
-
-
 
 
     $('#evaluation_form.ui.form').submit(function (e) {
@@ -348,6 +337,18 @@ $(function () {
                 $(this).removeClass('loading');
             }
         });
+    });
+    
+    $('#show_more_details_evaluations_link').click(function (e){
+        $(this).hide();
+        $('#hide_more_details_evaluations_link').show();
+        $('#content_details_evaluations_form').show();
+    });
+    
+    $('#hide_more_details_evaluations_link').click(function (e){
+        $(this).hide();
+        $('#show_more_details_evaluations_link').show();
+        $('#content_details_evaluations_form').hide();
     });
 });
 

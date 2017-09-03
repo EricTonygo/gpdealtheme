@@ -10,7 +10,7 @@ if (is_user_logged_in()) {
         if ($_POST['selected_transport_offers'] && $_POST['package_id']) {
             $_SESSION['selected_transport_offers'] = array_map('intval', $_POST['selected_transport_offers']);
             $_SESSION['package_id'] = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
-            $_SESSION['error_cancel_redirect_url'] = esc_url(add_query_arg(array('package-id' => $_POST['package_id']), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))));
+            //$_SESSION['error_cancel_redirect_url'] = esc_url(add_query_arg(array('package-id' => $_POST['package_id']), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))));
             wp_safe_redirect(esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))));
             exit;
         }
@@ -18,7 +18,11 @@ if (is_user_logged_in()) {
         if (isset($_GET['package-id'])) {
             $package_id = intval(removeslashes(esc_attr(trim($_GET['package-id']))));
             $selected_transport_offers = get_post_meta($package_id, 'carrier-ID', true);
-
+            $L = get_post_meta($package_id, 'length', true);
+            $l = get_post_meta($package_id, 'width', true);
+            $h = get_post_meta($package_id, 'height', true);
+            $weight = get_post_meta($package_id, 'weight', true);
+            $package_currency = get_post_meta($package_id, 'package-currency', true);
             get_header();
             include(locate_template('content-show-transport-offers-package-page.php'));
             get_footer();
@@ -55,6 +59,7 @@ if (is_user_logged_in()) {
                 //************************************************************************************************************************************** */
                 update_post_meta($package_id, 'carrier-ID', $selected_transport_offers);
                 update_post_meta($package_id, 'package-status', 2);
+                update_post_meta($package_id, 'package-insurance-completed', 2);
                 foreach ($selected_transport_offers as $transport_offer_id) {
                     $package_ids = get_post_meta($transport_offer_id, 'packages-IDs', true);
                     if (is_array($package_ids) && !empty($package_ids)) {

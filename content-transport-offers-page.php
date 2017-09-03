@@ -28,25 +28,26 @@ get_template_part('top-menu', get_post_format());
                     <div class="ui content_packages_transports main_right_content fluid card">
                         <div class="content">
                             <span class="header left floated" style="text-transform: uppercase; font-weight: normal; margin-top: 0.5em;"><?php _e('My transport offers', 'gpdealdomain'); ?></span>
-                            <?php if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2): ?>
-                                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui green right floated button" ><?php echo __('New Transport Offer', 'gpdealdomain') ?></a>
-                            <?php endif ?>
+                            <?php //if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2): ?>
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui green right floated button" ><?php echo __('New Transport Offer', 'gpdealdomain') ?></a>
+                            <?php //endif ?>
                         </div>
                         <div class="content content_packages_transports">
+                            <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                             <?php if (get_user_meta(get_current_user_id(), "registration-completed", true) != 2): ?>
                                 <div class="ui warning message">
                                     <div class="header">
                                         <?php _e("Incomplete registration", "gpdealdomain"); ?>
                                     </div>
                                     <p>
-                                        <?php _e("You must complete your registration to be able to add a transport offer", "gpdealdomain"); ?>
+                                        <?php _e("You must complete the missing information in your profile in order to be able to publish a transport offer", "gpdealdomain"); ?>.
                                     </p>
                                 </div>
                             <?php endif ?>
                             <div class="ui styled fluid accordion">
                                 <?php
                                 global $current_user;
-                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 1, 'compare' => '='), array('key' => 'transport-status', 'value' => -1, 'compare' => '='))));
+                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 1, 'compare' => '='), array('key' => 'transport-status', 'value' => -1, 'compare' => '='))));
                                 if ($transport_offers->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php echo __('In progress', 'gpdealdomain') ?> </div>
@@ -129,7 +130,7 @@ get_template_part('top-menu', get_post_format());
                                                         <div class="content">
                                                             <div class="ui form description">
                                                                 <div class="inline field">
-                                                                   <span class="span_label"><?php echo __("Deadline", "gpdealdomain"); ?> : </span> 
+                                                                    <span class="span_label"><?php echo __("Deadline", "gpdealdomain"); ?> : </span> 
                                                                     <span class="span_value">
                                                                         <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'deadline-of-proposition-transport-offer', true))); ?>
                                                                     </span>
@@ -199,7 +200,7 @@ get_template_part('top-menu', get_post_format());
 
                                 <?php
                                 global $current_user;
-                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 2, 'compare' => '='), array('key' => 'transport-status', 'value' => 4, 'compare' => '='))));
+                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 2, 'compare' => '='), array('key' => 'transport-status', 'value' => 4, 'compare' => '='))));
                                 if ($transport_offers->have_posts()) {
                                     ?>
                                     <div class="title"><i class="dropdown icon"></i> <?php echo __('Expired', 'gpdealdomain') ?> </div>

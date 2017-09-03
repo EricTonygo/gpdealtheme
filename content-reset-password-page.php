@@ -1,4 +1,7 @@
-<?php get_template_part('top-menu', get_post_format()); ?>
+<?php get_template_part('top-menu', get_post_format()); 
+$old_password = esc_attr($_POST['old_password']);
+$new_password = esc_attr($_POST['new_password']);
+?>
 <div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
         <div class="center menu">
@@ -15,16 +18,31 @@
 <div class="ui vertical masthead  segment container">
     <!--div class="ui text container">
     </div-->
-    <div class="ui signup_contenair basic segment container">
-        <?php if ($reset_password_possible && $reset_password_message == ""): ?>
+    <div class="ui signup_contenair basic segment container content_without_white">
+        <?php //if ($reset_password_possible && $reset_password_message == ""): ?>
             <div class="ui attached message">
                 <div class="header"><?php echo __("Reset your password", 'gpdealdomain') ?> </div>
                 <p class="promo_text_form"><?php echo __("Fill in the information below to change your password", 'gpdealdomain') ?></p>
             </div>
             <div class="ui fluid card">
                 <div class="content">
+                    <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                     <form id='reset_password_form'  method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('change-the-password', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off">
+                        <?php if(!is_user_logged_in()): ?>
                         <input type="hidden" name="username" value="<?php echo $user_login; ?>">
+                        <?php else: ?>
+                        <div class="fields">
+                            <div class="four wide field">
+                                <label><?php echo __("Current Password", 'gpdealdomain') ?> <span style="color:red;">*</span></label>
+                            </div>
+                            <div class="twelve wide field">
+                                <div class="ui input right icon old_password">
+                                    <i class="unhide link icon old_password" style="display: none;" input_password_id="old_password"></i>
+                                    <input id='old_password' type="password" name="old_password" placeholder="<?php echo __("Current Password", 'gpdealdomain') ?>" class="visible_password" value="<?php echo $old_password; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif ?>
                         <div class="fields">
                             <div class="four wide field">
                                 <label><?php echo __("New Password", 'gpdealdomain') ?> <span style="color:red;">*</span></label>
@@ -32,7 +50,7 @@
                             <div class="twelve wide field">
                                 <div class="ui input right icon new_password">
                                     <i class="unhide link icon new_password" style="display: none;" input_password_id="new_password"></i>
-                                    <input id='new_password' type="password" name="new_password" placeholder="<?php echo __("New Password", 'gpdealdomain') ?>" class="visible_password">
+                                    <input id='new_password' type="password" name="new_password" placeholder="<?php echo __("New Password", 'gpdealdomain') ?>" class="visible_password" value="<?php echo $new_password; ?>">
                                 </div>
                             </div>
                         </div>
@@ -44,7 +62,7 @@
                             <div class="twelve wide field">
                                 <div class="ui input right icon">
                                     <i class="unhide link icon confirm_new_password" style="display: none;" input_password_id="confirm_new_password"></i>
-                                    <input id='confirm_new_password' type="password" name="confirm_new_password" placeholder="<?php echo __("Confirm New Password", 'gpdealdomain') ?>" class="visible_password">
+                                    <input id='confirm_new_password' type="password" name="confirm_new_password" placeholder="<?php echo __("Confirm New Password", 'gpdealdomain') ?>" class="visible_password" value="<?php echo $new_password; ?>">
                                 </div>
                             </div>
                         </div>
@@ -66,15 +84,15 @@
                     </form>
                 </div>
             </div>
-        <?php else: ?>
-            <div class="ui error message">
+        <?php //else: ?>
+<!--            <div class="ui error message">
                 <div class="content">
                     <div class="header" style="font-weight: normal;">
                         <?php echo $reset_password_message; ?>.
                     </div>
                 </div>
-            </div>                       
-        <?php endif ?>
+            </div>                       -->
+        <?php //endif ?>
     </div>
 </div>
 

@@ -13,13 +13,15 @@
 <div class="ui vertical masthead  segment container">
     <div class="ui stackable grid">
         <div class="wide column">
-            <div  class="ui content_packages_transports fluid card">
+            <div  class="ui content_packages_transports fluid card content_without_white">
                 <div class="content">
-                    <div class="ui success message">
+                    <div class="ui icon success message">
+                        <i class="checkmark green icon"></i>
                         <div class="content">
-                            <div class="header" style="font-weight: normal;">
-                                <?php echo $success_registration_message; ?>.
+                            <div class="header">
+                                <?php echo $success_registration_message_title; ?>
                             </div>
+                            <p><?php echo $success_registration_message_content; ?>.</p>
                         </div>
                     </div>
                 </div>

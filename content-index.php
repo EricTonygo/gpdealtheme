@@ -56,8 +56,8 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
                                 </div>
                             </div>     
                         </div>
-                        <div class="fields">
-                            <div style="margin-left: 0.6em" class="inline fields">
+                        <div class="fields" style="margin-bottom: 0;">
+                            <div id="package_type_fields_find_offers" style="margin-left: 0.6em" class="inline fields">
                                 <span class="span_label" style="margin-right: 1.3em;"><?php echo __("Object", 'gpdealdomain') ?>(s)<i class="help circle green link icon tooltip">
                                         <span class="tooltiptext"><?php echo __("Several possible choices", "gpdealdomain") ?></span>
                                     </i>
@@ -69,13 +69,21 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
                                     <div class="field">
                                         <div class="ui checkbox">
                                             <input type="checkbox" name="package-type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
-                                            <label><?php echo __($typePackage->name, "gpdealdomain"); ?> <i class="big green <?php echo getIconNameByLabelName($typePackage->name);?> icon"></i></label>
+                                            <label><?php echo __($typePackage->name, "gpdealdomain"); ?>
+                                                <?php if($typePackage->slug =="colis"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                                <?php elseif($typePackage->slug =="autre"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                                <?php elseif($typePackage->slug =="mail"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                                <?php endif ?>                                           
+                                            </label>
                                         </div>
                                     </div>
                                 <?php endforeach ?>
                             </div>
                         </div>
-                        <div class="field">
+                        <div class="field" style="margin-bottom: 0;">
                             <div id="server_error_message" class="ui negative message" style="display:none">
                                 <i class="close icon"></i>
                                 <div id="server_error_content" class="header">Internal server error</div>
@@ -133,8 +141,8 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
                                 </div>
                             </div>     
                         </div>
-                        <div class="fields">
-                            <div style="margin-left: 0.6em" class="inline fields">
+                        <div class="fields" style="margin-bottom: 0;">
+                            <div id="package_type_fields_find_shipments" style="margin-left: 0.6em" class="inline fields">
                                 <span class="span_label" style="margin-right: 1.3em;"><?php echo __("Object", 'gpdealdomain') ?>(s)<i class="help circle green link icon tooltip">
                                         <span class="tooltiptext"><?php echo __("Several possible choices", "gpdealdomain") ?></span>
                                     </i>
@@ -146,14 +154,23 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
                                     <div class="field">
                                         <div class="ui checkbox">
                                             <input type="checkbox" name="package-type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
-                                            <label><?php echo __($typePackage->name, "gpdealdomain"); ?> <i class="big green <?php echo getIconNameByLabelName($typePackage->name);?> icon"></i></label>
+                                            <label><?php echo __($typePackage->name, "gpdealdomain"); ?>
+                                                <?php if($typePackage->slug =="colis"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                                <?php elseif($typePackage->slug =="autre"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                                <?php elseif($typePackage->slug =="mail"): ?>
+                                                <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                                <?php endif ?>
+                                            
+                                            </label>
                                         </div>
                                     </div>
                                 <?php endforeach ?>
                             </div>
                         </div>
 
-                        <div class="field">
+                        <div class="field" style="margin-bottom: 0;">
                             <div id="server_error_message_package" class="ui negative message" style="display:none">
                                 <i class="close icon"></i>
                                 <div id="server_error_content_package" class="header">Internal server error</div>

@@ -344,6 +344,15 @@ $('#register_form')
                             }
                         ]
                     },
+                    email_confirm: {
+                        identifier: 'email_confirm',
+                        rules: [
+                            {
+                                type: 'match[email]',
+                                prompt: gpdeal_translate("The entered email addresses do not match")
+                            }
+                        ]
+                    },
                     password: {
                         identifier: 'password',
                         rules: [
@@ -446,7 +455,7 @@ $('#register_form')
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: gpdeal_translate("Please select your country of phone number")
+                                prompt: gpdeal_translate("Please select the country code of phone number")
                             }
                         ]
                     },
@@ -519,6 +528,7 @@ $('#register_form')
                     $('#confirm_save_account_particular').addClass('disabled');
                     $('#submit_create_account_particular').addClass('disabled');
                     $('#submit_edit_account_particular').addClass('disabled');
+                    $('#cancel_edit_form_account_particular').addClass('disabled');
 
                 }
             }
@@ -614,7 +624,7 @@ $('#register_form')
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: gpdeal_translate("Please select your country of phone number")
+                                prompt: gpdeal_translate("Please select the country code of phone number")
                             }
                         ]
                     },
@@ -637,7 +647,7 @@ $('#register_form')
                         rules: [
                             {
                                 type: 'empty',
-                                prompt: gpdeal_translate("Please select your country of phone number")
+                                prompt: gpdeal_translate("Please select the country code of phone number")
                             }
                         ]
                     },
@@ -718,7 +728,7 @@ $('#register_form')
                     $('#register_form_enterprise.ui.form').addClass('loading');
                     $('#submit_create_account_enterprise').addClass('disabled');
                     $('#submit_edit_account_enterprise').addClass('disabled');
-
+                    $('#cancel_edit_form_account_enterprise').addClass('disabled');
                 }
             }
             );
@@ -872,6 +882,15 @@ $('#register_form')
     $('#reset_password_form.ui.form')
             .form({
                 fields: {
+                    old_password: {
+                        identifier: 'old_password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter the current password")
+                            }
+                        ]
+                    },
                     new_password: {
                         identifier: 'new_password',
                         rules: [
@@ -987,11 +1006,51 @@ $('#register_form')
             return false;
         }
     });
+    
+    $('#show_form_account_particular').click(function(e){
+        e.preventDefault();
+        $('.show_fields').hide();
+        $('.edit_fields').show();
+    });
+    
+    $('#cancel_edit_form_account_particular').click(function(e){
+        e.preventDefault();
+        $('.edit_fields').hide();
+        $('.show_fields').show();        
+    });
+    
+    $('#show_form_account_enterprise').click(function(e){
+        e.preventDefault();
+        $('.show_fields').hide();
+        $('.edit_fields').show();
+    });
+    
+    $('#cancel_edit_form_account_enterprise').click(function(e){
+        e.preventDefault();
+        $('.edit_fields').hide();
+        $('.show_fields').show();        
+    });
 
     $('#edit_account').click(function (e) {
         e.preventDefault();
         $('#block_form_edit').show();
         $('#block_recap').hide();
+    });
+    
+    $('input[name="mobile_phone_country_code"]').change(function (e) {
+        $("#mobile_phone_country_code").val($('input[name="mobile_phone_country_code"]').val());
+    });
+    
+    $('input[name="home_phone_country_code"]').change(function (e) {
+        $("#home_phone_country_code").val($('input[name="home_phone_country_code"]').val());
+    });
+    
+    $('input[name="mobile_phone_country_code_representative1"]').change(function (e) {
+        $("#mobile_phone_country_code_representative1").val($('input[name="mobile_phone_country_code_representative1"]').val());
+    });
+    
+    $('input[name="mobile_phone_country_code_representative2"]').change(function (e) {
+        $("#mobile_phone_country_code_representative2").val($('input[name="mobile_phone_country_code_representative2"]').val());
     });
 });
 

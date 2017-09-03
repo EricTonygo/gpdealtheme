@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en_GB\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.3\n"
 
 # Translation of gpdealtheme in English (UK)
 msgid "Transport offers"
@@ -329,3 +329,9 @@ msgstr "I ship"
 
 msgid "find_package_form_title"
 msgstr "I carry"
+
+msgid "day_abrev"
+msgstr "d"
+
+msgid "Log_in_plural_second_person"
+msgstr "Log in"
