@@ -45,7 +45,7 @@ get_template_part('top-menu', get_post_format());
                 </div>
                 <div class="extra content">
                     <div class="action right aligned">
-                        <a class="ui black button icon field_bottom_space" href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));?>">
+                        <a class="ui black button icon field_bottom_space" href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), wp_make_link_relative(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain')))))) ?>">
                             <?php _e("Cancel", "gpdealdomain"); ?>
                         </a>
                         <button id='submit_confirm_create_alert_btn' class="ui green button right labeled icon field_bottom_space">

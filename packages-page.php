@@ -6,6 +6,61 @@
 session_start();
 expire_session();
 if (is_user_logged_in()) {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+        $params_arg = array();
+        $num_page_search_for_carriers = 1;
+        $num_page_in_progress = 1;
+        $num_page_evaluated_closed = 1;
+        $num_page_expired = 1;
+        $num_page_canceled = 1;
+        $params_arg_search_for_carriers = array("shipment-status" => "search-for-carriers");
+        $params_arg_in_progress = array("shipment-status" => "in-progress");
+        $params_arg_evaluated_closed = array("shipment-status" => "evaluated-closed");
+        $params_arg_expired = array("shipment-status" => "expired");
+        $params_arg_canceled = array("shipment-status" => "canceled");
+        if (isset($_GET["shipment-status"]) && $_GET["shipment-status"] == "search-for-carriers") {
+            $shipments_status = removeslashes(esc_attr(trim($_GET["shipment-status"])));
+            $params_arg_search_for_carriers["shipment-status"] = $shipments_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_search_for_carriers = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["shipment-status"]) && $_GET["shipment-status"] == "in-progress") {
+            $shipments_status = removeslashes(esc_attr(trim($_GET["shipment-status"])));
+            $params_arg_in_progress["shipment-status"] = $shipments_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_in_progress = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["shipment-status"]) && $_GET["shipment-status"] == "evaluated-closed") {
+            $shipments_status = removeslashes(esc_attr(trim($_GET["shipment-status"])));
+            $params_arg_evaluated_closed["shipment-status"] = $shipments_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_evaluated_closed = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["shipment-status"]) && $_GET["shipment-status"] == "expired") {
+            $shipments_status = removeslashes(esc_attr(trim($_GET["shipment-status"])));
+            $params_arg_expired["shipment-status"] = $shipments_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_expired = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["shipment-status"]) && $_GET["shipment-status"] == "canceled") {
+            $shipments_status = removeslashes(esc_attr(trim($_GET["shipment-status"])));
+            $params_arg_canceled["shipment-status"] = $shipments_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_canceled = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        }
+        $packages_search_for_carriers = new WP_Query(array('post_type' => 'package', 'posts_per_page' => 4, 'paged' => $num_page_search_for_carriers, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array('relation' => 'OR', array('key' => 'package-status', 'value' => 1, 'compare' => '='), array('key' => 'package-status', 'value' => -1, 'compare' => '='))));
+        $packages_in_progress = new WP_Query(array('post_type' => 'package', 'posts_per_page' => 4, 'paged' => $num_page_in_progress, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array(array('key' => 'package-status', 'value' => 2, 'compare' => '='))));
+        $packages_evaluated_closed = new WP_Query(array('post_type' => 'package', 'posts_per_page' => 4, 'paged' => $num_page_evaluated_closed, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array(array('key' => 'package-status', 'value' => 3, 'compare' => '='))));
+        $packages_expired = new WP_Query(array('post_type' => 'package', 'posts_per_page' => 4, 'paged' => $num_page_expired, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array(array('key' => 'package-status', 'value' => 4, 'compare' => '='))));
+        $packages_canceled = new WP_Query(array('post_type' => 'package', 'posts_per_page' => 4, 'paged' => $num_page_canceled, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array(array('key' => 'package-status', 'value' => 5, 'compare' => '='))));
+        $total_search_for_carriers_post_pages = $packages_search_for_carriers->max_num_pages;
+        $total_in_progress_post_pages = $packages_in_progress->max_num_pages;
+        $total_evaluated_closed_post_pages = $packages_evaluated_closed->max_num_pages;
+        $total_expired_post_pages = $packages_expired->max_num_pages;
+        $total_canceled_post_pages = $packages_canceled->max_num_pages;
+        $page_link = get_permalink();
+    }
     if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2) {
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['submit_send_package']) && $_POST['submit_send_package'] == "yes" && isset($_POST['package_type']) && isset($_POST['package_content']) && isset($_POST['package_dimensions_length']) && isset($_POST['package_dimensions_width']) && isset($_POST['package_dimensions_height']) && isset($_POST['package_weight']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
@@ -82,7 +137,8 @@ if (is_user_logged_in()) {
         } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
             if (is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))) {
                 get_header();
-                get_template_part('content-packages-page', get_post_format());
+
+                include(locate_template('content-packages-page.php'));
                 get_footer();
             } elseif (is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))) {
                 if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2) {
@@ -95,10 +151,10 @@ if (is_user_logged_in()) {
                 }
             }
         }
-    } else {
+    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
         if (is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))) {
             get_header();
-            get_template_part('content-packages-page', get_post_format());
+            include(locate_template('content-packages-page.php'));
             get_footer();
         } elseif (is_page(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))) {
             wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));

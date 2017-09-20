@@ -411,6 +411,23 @@ body.pushable>.pusher {
     }
 }
 
+.inline.cookie.nag.top.fixed.menu{
+    background: #FFF;
+    border-radius: 0;
+    bottom: 0;
+    top: auto;
+}
+
+.ui.inline.nag>.title{
+    max-width: 80%;
+    text-align: justify;
+    color: #212425
+}
+
+.ui.inline.nag>.icon.close{
+    color: #212425
+}
+
 @media only screen and (max-width: 467px) {
     .cycle_bg_image{
         height: 79.5vh!important;

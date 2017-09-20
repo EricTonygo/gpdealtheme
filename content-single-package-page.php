@@ -716,7 +716,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                     "destination_country" => $destination_country,
                     "destination_state" => $destination_state,
                     "destination_city" => $destination_city,
-                    "destination_date" => $destination_date
+                    "destination_date" => $destination_date,
+                    "posts_per_page" => 3
                 );
                 $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, array_map('intval', get_post_meta(get_the_ID(), "carrier-ID", true))));
                 if ($transport_offers_which_can_interest->have_posts()):

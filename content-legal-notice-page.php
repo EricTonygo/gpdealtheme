@@ -12,8 +12,7 @@
             </div>
         </div>
         <div class="ui vertical masthead  segment container">
-            <!--div class="ui text container">
-            </div-->
+            
             <div class="ui stackable grid">
 
                 <div class="twelve wide column">

@@ -85,13 +85,18 @@ if (is_user_logged_in()) {
             }
         } else {
             $_SESSION["faillure_process"] = __("Some data is missing. Please check and try again", "gpdealdomain");
-            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'). '/' . __('write', 'gpdealdomain'))));
+            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))));
             exit;
         }
     } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package-id'])) {
         $package_id = intval(removeslashes(esc_attr(trim($_GET['package-id']))));
-        $post_author = get_post_field('post_author', $package_id);
-        if (get_current_user_id() == $post_author) {
+        $package_post_author = get_post_field('post_author', $package_id);
+        //Tester si l'utilisateur connecté est bel et bien l'auteur de l'expédition dont il recherche les offres de transport        
+        if (get_current_user_id() == $package_post_author) {
+            $num_page_corresponding = 1;
+            $num_page_can_interest = 1;
+            $params_arg_corresponding = array("package-id" => $package_id);
+            $params_arg_can_interest = array("package-id" => $package_id);
             $old_transport_offers = is_array(get_post_meta($package_id, 'carrier-ID', true)) ? array_map('intval', get_post_meta($package_id, 'carrier-ID', true)) : array();
             $type = wp_get_post_terms($package_id, 'type_package', array("fields" => "ids"));
             $start_country = get_post_meta($package_id, 'departure-country-package', true);
@@ -114,6 +119,29 @@ if (is_user_logged_in()) {
                 "destination_date" => $destination_date,
                 "excluded_transport_offers" => $old_transport_offers
             );
+            $params_arg_corresponding["result-type"] = "corresponding";
+            $params_arg_can_interest["result-type"] = "can-interest";
+            if (isset($_GET["result-type"]) && $_GET["result-type"] == "corresponding") {
+                $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+                $params_arg_corresponding["result-type"] = $result_type;
+                if (isset($_GET["num-page"])) {
+                    $num_page_corresponding = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+                }
+            } elseif (isset($_GET["result-type"]) && $_GET["result-type"] == "can-interest") {
+                $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+                $params_arg_can_interest["result-type"] = $result_type;
+                if (isset($_GET["num-page"])) {
+                    $num_page_can_interest = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+                }
+            }
+            $search_data_corresponding = $search_data;
+            $search_data_can_interest = $search_data;
+            $search_data_corresponding["posts_per_page"] = 6;
+            $search_data_corresponding["page"] = $num_page_corresponding;
+            $search_data_can_interest["posts_per_page"] = 6;
+            $search_data_can_interest["page"] = $num_page_can_interest;
+            $page_link = get_permalink();
+
             $L = get_post_meta($package_id, 'length', true);
             $l = get_post_meta($package_id, 'width', true);
             $h = get_post_meta($package_id, 'height', true);
@@ -124,11 +152,11 @@ if (is_user_logged_in()) {
             $ip_visitor_data = ip_visitor_data();
             if ($ip_visitor_data) {
                 $alert_currency = $ip_visitor_data["geoplugin_currencyCode"];
-                if($ip_visitor_data["geoplugin_currencyConverter"]){
-                    $alert_cost = round($ip_visitor_data["geoplugin_currencyConverter"]*2, 2);
-                }                 
+                if ($ip_visitor_data["geoplugin_currencyConverter"]) {
+                    $alert_cost = round($ip_visitor_data["geoplugin_currencyConverter"] * 2, 2);
+                }
             }
-            if($alert_cost == null || $alert_cost == "" || $alert_currency == null || $alert_currency == ""){
+            if ($alert_cost == null || $alert_cost == "" || $alert_currency == null || $alert_currency == "") {
                 $alert_cost = 2;
                 $alert_currency = "USD";
             }

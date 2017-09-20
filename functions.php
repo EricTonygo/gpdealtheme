@@ -44,7 +44,7 @@ function hide_admin_bar_from_front_end() {
 add_filter('show_admin_bar', 'hide_admin_bar_from_front_end');
 
 function gpdeal_scripts() {
-    wp_register_style('semantic_ui_css', 'https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css', array(), '2.2.6');
+    wp_register_style('semantic_ui_css', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css', array(), '2.2.10');
     //wp_register_style( 'semantic_ui_css', 'https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css');
     wp_enqueue_style('semantic_ui_css');
     wp_register_style('font-awesone', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
@@ -52,8 +52,11 @@ function gpdeal_scripts() {
     wp_enqueue_style('reset', get_template_directory_uri() . '/assets/css/reset.css');
     wp_enqueue_style('owl.carousel.css', get_template_directory_uri() . '/assets/css/owl.carousel.css');
     wp_register_style('datetimepicker_css', get_template_directory_uri() . '/assets/css/jquery.datetimepicker.min.css');
+//    wp_enqueue_script('jquery-3.1.1.min', 'https://code.jquery.com/jquery-3.1.1.min.js', array(), false, true);
+    wp_enqueue_script('jquery.cookie.min', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', array(), false, true);
     wp_enqueue_script('jquery.min', get_template_directory_uri() . '/assets/js/jquery.min.js', array(), false);
-    wp_register_script('semantic_ui_js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js', array(), '2.2.6', true);
+    wp_register_script('semantic_ui_js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js', array(), '2.2.10', true);
+//    wp_register_script('semantic_ui_js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js', array(), '2.2.6', true);
     //wp_register_script( 'google_map_places_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places', array(), false, true );
     //wp_register_script( 'semantic_ui_js', 'https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js', array(), false, true);
     wp_enqueue_script('semantic_ui_js');

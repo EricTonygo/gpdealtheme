@@ -17,6 +17,27 @@
 
 $(document).ready(function () {
     $.datetimepicker.setLocale($('html').attr('lang'));
+    // Wont re-appear unless cleared
+    $('.cookie.nag')
+            .nag('show')
+            ;
+
+//    // Clears cookie so nag shows again
+//    $('.cookie.nag')
+//            .nag('clear')
+//            ;
+
+//    // Automatically shows on init if cookie isnt set
+//    $('.cookie.nag')
+//            .nag({
+//                key: 'accepts-cookies',
+//                value: true
+//            })
+//            ;
+
+    $('.cookie.nag').find(".close.icon").click(function (e) {
+        $('#alert-cookies').hide();
+    });
 //    $(this).bind("contextmenu", function (e) {
 //        e.preventDefault();
 //    });
@@ -719,16 +740,16 @@ $(document).ready(function () {
                         rules: [
                             {
                                 type: 'empty'
-                                        //prompt: 'Veuillez saisir votre login'
+                                //prompt: gpdeal_translate("Please enter your username or email")
                             }
                         ]
                     },
-                    last_name: {
+                    password: {
                         identifier: '_password',
                         rules: [
                             {
                                 type: 'empty'
-                                        //prompt: 'Veuillez saisir votre mot de passe'
+                                //prompt: gpdeal_translate("Please enter your password")
                             }
                         ]
                     }
@@ -876,23 +897,23 @@ $(document).ready(function () {
                         identifier: '_username',
                         rules: [
                             {
-                                type: 'empty'
-                                        //prompt: 'Veuillez saisir votre login'
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter your username or email")
                             }
                         ]
                     },
-                    last_name: {
+                    password: {
                         identifier: '_password',
                         rules: [
                             {
-                                type: 'empty'
-                                        //prompt: 'Veuillez saisir votre mot de passe'
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter your password")
                             }
                         ]
                     }
-                }
-                //inline: true,
-                //on: 'change'
+                },
+                inline: true,
+                on: 'change'
             });
 
     $('#submit_login_form2').click(function (e) {

@@ -6,6 +6,30 @@
 session_start();
 expire_session();
 if (is_user_logged_in()) {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+        $num_page_in_progress = 1;
+        $num_page_expired = 1;
+        $params_arg_in_progress = array("transport-offer-status" => "in-progress");
+        $params_arg_expired = array("transport-offer-status" => "expired");
+        if (isset($_GET["transport-offer-status"]) && $_GET["transport-offer-status"] == "in-progress") {
+            $transport_offer_status = removeslashes(esc_attr(trim($_GET["transport-offer-status"])));
+            $params_arg_in_progress["transport-offer-status"] = $transport_offer_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_in_progress = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["transport-offer-status"]) && $_GET["transport-offer-status"] == "expired") {
+            $transport_offer_status = removeslashes(esc_attr(trim($_GET["transport-offer-status"])));
+            $params_arg_expired["transport-offer-status"] = $transport_offer_status;
+            if (isset($_GET["num-page"])) {
+                $num_page_expired = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        }
+        $transport_offers_in_progress = new WP_Query(array('post_type' => 'transport-offer', 'posts_per_page' => 4, 'paged' => $num_page_in_progress, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 1, 'compare' => '='), array('key' => 'transport-status', 'value' => -1, 'compare' => '='))));
+        $transport_offers_expired = new WP_Query(array('post_type' => 'transport-offer', 'posts_per_page' => 4, 'paged' => $num_page_expired, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => get_current_user_id(), 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 2, 'compare' => '='), array('key' => 'transport-status', 'value' => 4, 'compare' => '='))));
+        $total_in_progress_post_pages = $transport_offers_in_progress->max_num_pages;
+        $total_expired_post_pages = $transport_offers_expired->max_num_pages;
+        $page_link = get_permalink();
+    }
     if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2) {
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
@@ -69,7 +93,7 @@ if (is_user_logged_in()) {
         } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
             if (is_page(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain'))) {
                 get_header();
-                get_template_part('content-transport-offers-page', get_post_format());
+                include(locate_template('content-transport-offers-page.php'));
                 get_footer();
             } elseif (is_page(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))) {
                 get_header();

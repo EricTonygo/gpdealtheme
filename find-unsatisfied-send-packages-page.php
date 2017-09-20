@@ -26,6 +26,44 @@ if (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) 
             "destination_city" => $country_region_city_destination['city'],
             "destination_date" => $destination_date
         );
+        $num_page_corresponding = 1;
+        $num_page_can_interest = 1;
+        $params_arg_corresponding = array();
+        $params_arg_can_interest = array();
+        $params_arg_corresponding["start-city"] = $start_city;
+        $params_arg_can_interest["start-city"] = $start_city;
+        $params_arg_corresponding["start-date"] = $start_date;
+        $params_arg_can_interest["start-date"] = $start_date;
+        $params_arg_corresponding["destination-city"] = $destination_city;
+        $params_arg_can_interest["destination-city"] = $destination_city;
+        $params_arg_corresponding["destination-date"] = $destination_date;
+        $params_arg_can_interest["destination-date"] = $destination_date;
+        if($package_type){
+        $params_arg_corresponding["package-type"] = $package_type;
+        $params_arg_can_interest["package-type"] = $package_type;
+        }
+        $params_arg_corresponding["result-type"] = "corresponding";
+        $params_arg_can_interest["result-type"] = "can-interest";
+        if (isset($_GET["result-type"]) && $_GET["result-type"] == "corresponding") {
+            $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+            $params_arg_corresponding["result-type"] = $result_type;
+            if (isset($_GET["num-page"])) {
+                $num_page_corresponding = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        } elseif (isset($_GET["result-type"]) && $_GET["result-type"] == "can-interest") {
+            $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+            $params_arg_can_interest["result-type"] = $result_type;
+            if (isset($_GET["num-page"])) {
+                $num_page_can_interest = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+            }
+        }
+        $search_data_corresponding = $search_data;
+        $search_data_can_interest = $search_data;
+        $search_data_corresponding["posts_per_page"] = 6;
+        $search_data_corresponding["page"] = $num_page_corresponding;
+        $search_data_can_interest["posts_per_page"] = 6;
+        $search_data_can_interest["page"] = $num_page_can_interest;
+        $page_link = get_permalink();
     }
     get_header();
     include(locate_template('content-find-unsatisfied-send-packages-page.php'));

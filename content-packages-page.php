@@ -45,14 +45,13 @@
                             <div class="ui styled fluid accordion">
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'package-status', 'value' => 1, 'compare' => '='), array('key' => 'package-status', 'value' => -1, 'compare' => '='))));
-                                if ($packages->have_posts()) {
+                                if ($packages_search_for_carriers->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php _e("Search for carriers", "gpdealdomain"); ?> </div>
-                                    <div class="content">
+                                    <div class="title <?php if($shipments_status && $shipments_status == "search-for-carriers"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php _e("Search for carriers", "gpdealdomain"); ?> </div>
+                                    <div class="content <?php if($shipments_status && $shipments_status == "search-for-carriers"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($packages->have_posts()): $packages->the_post();
+                                            while ($packages_search_for_carriers->have_posts()): $packages_search_for_carriers->the_post();
                                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
                                                 ?>
                                                 <div id="single_package_column<?php the_ID() ?>" class="column">
@@ -154,6 +153,42 @@
                                             endwhile;
                                             ?>
                                         </div>
+                                        <?php
+                                        if ($total_search_for_carriers_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_search_for_carriers_post_pages;
+                                            if ($total_search_for_carriers_post_pages > 5 && $num_page_search_for_carriers > 3) {
+                                                $end = $num_page_search_for_carriers + 2 < $total_search_for_carriers_post_pages ? $num_page_search_for_carriers + 2 : $total_search_for_carriers_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_search_for_carriers_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_search_for_carriers > 1): ?>
+                                                            <?php
+                                                            $params_arg_search_for_carriers["num-page"] = $num_page_search_for_carriers - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_search_for_carriers, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_search_for_carriers["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_search_for_carriers == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_search_for_carriers, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_search_for_carriers < $total_search_for_carriers_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_search_for_carriers["num-page"] = $num_page_search_for_carriers + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_search_for_carriers, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }
@@ -162,14 +197,14 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 2, 'compare' => '='))));
-                                if ($packages->have_posts()) {
+
+                                if ($packages_in_progress->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php _e("In progress", "gpdealdomain"); ?> </div>
-                                    <div class="content">
+                                    <div class="title <?php if($shipments_status && $shipments_status == "in-progress"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php _e("In progress", "gpdealdomain"); ?> </div>
+                                    <div class="content <?php if($shipments_status && $shipments_status == "in-progress"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($packages->have_posts()): $packages->the_post();
+                                            while ($packages_in_progress->have_posts()): $packages_in_progress->the_post();
                                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
                                                 ?>
                                                 <div id="single_package_column<?php the_ID() ?>" class="column">
@@ -265,6 +300,42 @@
                                             endwhile;
                                             ?>
                                         </div>
+                                        <?php
+                                        if ($total_in_progress_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_in_progress_post_pages;
+                                            if ($total_in_progress_post_pages > 5 && $num_page_in_progress > 3) {
+                                                $end = $num_page_in_progress + 2 < $total_in_progress_post_pages ? $num_page_in_progress + 2 : $total_in_progress_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_in_progress_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_in_progress > 1): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $num_page_in_progress - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_in_progress == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_in_progress < $total_in_progress_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $num_page_in_progress + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }
@@ -273,14 +344,14 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 3, 'compare' => '='))));
-                                if ($packages->have_posts()) {
+
+                                if ($packages_evaluated_closed->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php _e("Evaluated/Closed", "gpdealdomain"); ?> </div>
-                                    <div class="content">                           
+                                    <div class="title <?php if($shipments_status && $shipments_status == "evaluated-closed"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php _e("Evaluated/Closed", "gpdealdomain"); ?> </div>
+                                    <div class="content <?php if($shipments_status && $shipments_status == "evaluated-closed"): ?>active<?php endif ?>">                           
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($packages->have_posts()): $packages->the_post();
+                                            while ($packages_evaluated_closed->have_posts()): $packages_evaluated_closed->the_post();
                                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
                                                 ?>
                                                 <div id="single_package_column<?php the_ID() ?>" class="column">
@@ -367,6 +438,42 @@
                                             endwhile;
                                             ?>
                                         </div>
+                                        <?php
+                                        if ($total_evaluated_closed_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_evaluated_closed_post_pages;
+                                            if ($total_evaluated_closed_post_pages > 5 && $num_page_evaluated_closed > 3) {
+                                                $end = $num_page_evaluated_closed + 2 < $total_evaluated_closed_post_pages ? $num_page_evaluated_closed + 2 : $total_evaluated_closed_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_evaluated_closed_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_evaluated_closed > 1): ?>
+                                                            <?php
+                                                            $params_arg_evaluated_closed["num-page"] = $num_page_evaluated_closed - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_evaluated_closed, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_evaluated_closed["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_evaluated_closed == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_evaluated_closed, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_evaluated_closed < $total_evaluated_closed_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_evaluated_closed["num-page"] = $num_page_evaluated_closed + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_evaluated_closed, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }
@@ -375,16 +482,14 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 4, 'compare' => '='))));
-                                if ($packages->have_posts()) {
+
+                                if ($packages_expired->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php _e("Expired", "gpdealdomain"); ?> </div>
-                                    <div class="content">
-
-
+                                    <div class="title <?php if($shipments_status && $shipments_status == "expired"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php _e("Expired", "gpdealdomain"); ?> </div>
+                                    <div class="content <?php if($shipments_status && $shipments_status == "expired"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($packages->have_posts()): $packages->the_post();
+                                            while ($packages_expired->have_posts()): $packages_expired->the_post();
                                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
                                                 ?>
                                                 <div id="single_package_column<?php the_ID() ?>" class="column">
@@ -470,7 +575,43 @@
                                                 <?php
                                             endwhile;
                                             ?>
-                                        </div>                            
+                                        </div>
+                                        <?php
+                                        if ($total_expired_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_expired_post_pages;
+                                            if ($total_expired_post_pages > 5 && $num_page_expired > 3) {
+                                                $end = $num_page_expired + 2 < $total_expired_post_pages ? $num_page_expired + 2 : $total_expired_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_expired_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_expired > 1): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $num_page_expired - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_expired == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_expired < $total_expired_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $num_page_expired + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }
@@ -479,14 +620,14 @@
 
                                 <?php
                                 global $current_user;
-                                $packages = new WP_Query(array('post_type' => 'package', 'posts_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'package-status', 'value' => 5, 'compare' => '='))));
-                                if ($packages->have_posts()) {
+
+                                if ($packages_canceled->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php _e("Canceled", "gpdealdomain"); ?> </div>
-                                    <div class="content">
+                                    <div class="title <?php if($shipments_status && $shipments_status == "canceled"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php _e("Canceled", "gpdealdomain"); ?> </div>
+                                    <div class="content <?php if($shipments_status && $shipments_status == "canceled"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($packages->have_posts()): $packages->the_post();
+                                            while ($packages_canceled->have_posts()): $packages_canceled->the_post();
                                                 $package_type_list = wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "all"));
                                                 ?>
                                                 <div id="single_package_column<?php the_ID() ?>" class="column">
@@ -572,7 +713,43 @@
                                                 <?php
                                             endwhile;
                                             ?>
-                                        </div>                              
+                                        </div> 
+                                        <?php
+                                        if ($total_canceled_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_canceled_post_pages;
+                                            if ($total_canceled_post_pages > 5 && $num_page_canceled > 3) {
+                                                $end = $num_page_canceled + 2 < $total_canceled_post_pages ? $num_page_canceled + 2 : $total_canceled_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_canceled_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_canceled > 1): ?>
+                                                            <?php
+                                                            $params_arg_canceled["num-page"] = $num_page_canceled - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_canceled, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_canceled["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_canceled == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_canceled, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_canceled < $total_canceled_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_canceled["num-page"] = $num_page_canceled + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_canceled, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }

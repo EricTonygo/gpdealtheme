@@ -379,7 +379,7 @@ msgid "I would like to be informed about the products and services of Global Par
 msgstr "Je souhaite être informé(e) des produits et des services du site Global Parcel Deal. Je peux modifier ce paramètre à tout moment dans la gestion des informations de mon profil"
 
 msgid "terms of use"
-msgstr "les conditions d'utilisation"
+msgstr "conditions d'utilisation"
 
 msgid "transactions and data protection on the site gpdeal.com"
 msgstr "les transactions et la protection des données du site gpdeal.com"
@@ -1371,7 +1371,7 @@ msgstr "Envoyer votre message"
 msgid "Name or Campany name"
 msgstr "Nom ou Nom entreprise"
 
-msgid "The dates of your shipments are exceeded"
+msgid "The dates of your shipment are exceeded"
 msgstr "Les dates de votre expédition sont dépassées"
 
 msgid "No shipment for the moment"
@@ -1443,7 +1443,7 @@ msgstr "Merci de votre fidélité"
 msgid "Notification of change of e-mail address"
 msgstr "Notification d'un changement d'adresse e-mail"
 
-msgid "The modification of your e-mail address has been taken into account on our Global Parcel Deal website"
+msgid "The modification of your e-mail address has been considered on our Global Parcel Deal website"
 msgstr "La modification de votre adresse de messagerie a bien été prise en compte sur notre site Global Parcel Deal"
 
 msgid "If you are not the owner of this action, please contact the site administrator at"
@@ -1682,3 +1682,21 @@ msgstr "Decrivez le contenu de votre expédition ici"
 
 msgid "The e-mail registered for your transactions is now"
 msgstr "L'e-mail enregistré pour vos transactions est desormais"
+
+msgid "GPDeal uses cookies to provide you a more personalized service"
+msgstr "GPDeal utilise des cookies afin de vous délivrer un service plus personnalisé"
+
+msgid "By continuing your navigation, we understand that you accept"
+msgstr "En poursuivant votre navigation, nous comprenons que vous acceptez"
+
+msgid "and"
+msgstr "et"
+
+msgid "our"
+msgstr "notre"
+
+msgid "privacy policy and cookies"
+msgstr "charte de confidentialité et de cookies"
+
+msgid "Details"
+msgstr "Détails"
