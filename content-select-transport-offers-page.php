@@ -19,18 +19,19 @@ $destination_date_DT = new \DateTime($destination_date);
     <!--div class="ui text container">
     </div-->
     <div class="ui stackable grid">
+        <?php //var_dump(getLastCurrencyAmountFromUSD("XAF")); ?>
         <div class="wide column">
             <form id="selected_transport_offers_form" class="" method="POST" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))); ?>">
                 <div  class="ui content_packages_transports fluid card">
                     <div class="content center aligned">
-                        <div class="header"><?php _e("The corresponding offers for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'departure-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true))); ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'destination-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true))); ?>)</span></div>
+                        <div class="header"><?php _e("Corresponding transport offers for", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'departure-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true))); ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'destination-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true))); ?>)</span></div>
                     </div>
                     <?php if ($today > $start_date_DT || $today > $destination_date_DT): ?>
                         <div class="content content_packages_transports content_without_white">
                             <div class="ui warning message">
                                 <div class="content">
                                     <div class="header" style="font-weight: normal;">
-                                        <?php echo __("The dates of your shipments are exceeded", "gpdealdomain") ?>.                                        
+                                        <?php echo __("The dates of your shipment are exceeded", "gpdealdomain") ?>.                                        
                                     </div>
                                 </div>
                             </div>
@@ -38,15 +39,16 @@ $destination_date_DT = new \DateTime($destination_date);
                     <?php else: ?>
                         <div class="content content_packages_transports content_without_white">
                             <?php
-                            $transport_offers = new WP_Query(getWPQueryArgsForCarrierSearch($search_data));
-                            $exclude_ids = array();
-                            if ($transport_offers->have_posts()) {
+                            $transport_offers_corresponding = new WP_Query(getWPQueryArgsForCarrierSearch($search_data_corresponding));
+                            //$exclude_ids = array();
+                            $total_corresponding_post_pages = $transport_offers_corresponding->max_num_pages;
+                            if ($transport_offers_corresponding->have_posts()) {
                                 ?>
                                 <div id='list_as_grid_content' class="ui three column doubling stackable grid">
                                     <?php
-                                    while ($transport_offers->have_posts()): $transport_offers->the_post();
+                                    while ($transport_offers_corresponding->have_posts()): $transport_offers_corresponding->the_post();
                                         $transport_offer_id = get_the_ID();
-                                        $exclude_ids[] = $transport_offer_id;
+                                        //$exclude_ids[] = $transport_offer_id;
                                         ?>
                                         <div class="column">
                                             <div class="ui fluid card transport_offer_card">
@@ -92,6 +94,35 @@ $destination_date_DT = new \DateTime($destination_date);
                                                 </div>
                                                 <div class="content">
                                                     <div class="ui form description">
+                                                        <div class="field">
+                                                            <div class="ui grid">
+                                                                <div class="seven wide column">
+                                                                    <i class="large blue marker icon"></i>
+                                                                    <div class="inline field">
+                                                                        <span class="span_value">
+                                                                            <?php echo get_post_meta($transport_offer_id, 'departure-city-transport-offer', true) ?>
+                                                                        </span><br>
+                                                                        <span class="span_value">
+                                                                            (<?php echo get_post_meta($transport_offer_id, 'departure-country-transport-offer', true) ?>)
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="two wide column">
+                                                                    <i class="large blue long arrow right icon"></i>
+                                                                </div>
+                                                                <div class="seven wide column">
+                                                                    <i class="large blue flag checkered icon"></i>
+                                                                    <div class="inline field"> 
+                                                                        <span class="span_value">
+                                                                            <?php echo get_post_meta($transport_offer_id, 'destination-city-transport-offer', true) ?>
+                                                                        </span><br>
+                                                                        <span class="span_value">
+                                                                            (<?php echo get_post_meta($transport_offer_id, 'destination-country-transport-offer', true) ?>)
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="field">
                                                             <div class="ui grid">
                                                                 <div class="seven wide column">
@@ -214,29 +245,79 @@ $destination_date_DT = new \DateTime($destination_date);
                                                         </table>
 
                                                         <span class="ui blue right ribbon label">
-                                                            <?php echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
+                                                            <?php
+//                                                                $transport_method = $transport_method_list[0];
+//                                                                $price = getCostOfTransportOffer(get_post_meta($transport_offer_id, 'distance-between-departure-arrival', true), $L, $l, $h, $weight, strtolower($transport_method), 0.001844748, $package_currency);
+                                                            ?>
+                                                            <?php
+                                                            echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true);
+//                                                            echo $price." ".$package_currency;
+                                                            ?><?php if (get_post_meta($transport_offer_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="extra content">
-                                                    <input id='selected_transport_offer_checkbox<?php echo $transport_offer_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_id; ?>" style="display: none">
-                                                    <a id='selected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_id; ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php echo $transport_offer_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_id; ?>)"><?php echo __("Select", "gpdealdomain") ?></a>
-                                                </div>
+                                                <?php if (get_current_user_id() != $post_author): ?>
+                                                    <div class="extra content">
+                                                        <input id='selected_transport_offer_checkbox<?php echo $transport_offer_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_id; ?>" style="display: none">
+                                                        <a id='selected_transport_offer<?php echo $transport_offer_id; ?>' class="ui green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_id; ?>)"><i class="checkmark icon"></i></a>
+                                                        <a id='unselected_transport_offer<?php echo $transport_offer_id; ?>' class="ui green button" onclick="select_transport_offer(<?php echo $transport_offer_id; ?>)"><?php echo __("Select", "gpdealdomain") ?></a>
+                                                    </div>
+                                                <?php endif ?>
                                             </div>
                                         </div>
                                         <?php
                                     endwhile;
                                     ?>                               
                                 </div>
+                                <?php
+                                if ($total_corresponding_post_pages > 1):
+                                    $start = 1;
+                                    $end = $total_corresponding_post_pages;
+                                    if ($total_corresponding_post_pages > 5 && $num_page_corresponding > 3) {
+                                        $end = $num_page_corresponding + 2 < $total_corresponding_post_pages ? $num_page_corresponding + 2 : $total_corresponding_post_pages;
+                                        $start = $end - 4 > 1 ? $end - 4 : 1;
+                                    } elseif ($total_corresponding_post_pages > 5) {
+                                        $end = 5;
+                                    }
+                                    ?>
+                                    <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                        <div class="content">
+                                            <div class="ui small icon buttons">
+                                                <?php if ($num_page_corresponding > 1): ?>
+                                                    <?php
+                                                    $params_arg_corresponding["num-page"] = $num_page_corresponding - 1;
+                                                    ?>
+                                                    <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_corresponding, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                <?php endif ?>
+                                                <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                    <?php
+                                                    $params_arg_corresponding["num-page"] = $i;
+                                                    ?>
+                                                    <a class="ui <?php if ($num_page_corresponding == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_corresponding, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                <?php endfor; ?>
+                                                <?php if ($num_page_corresponding < $total_corresponding_post_pages): ?>
+                                                    <?php
+                                                    $params_arg_corresponding["num-page"] = $num_page_corresponding + 1;
+                                                    ?>
+                                                    <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_corresponding, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                <?php endif ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
                             <?php } else { ?>
                                 <div class="">
                                     <div class="ui warning message">
                                         <div class="content">
                                             <div class="header" style="font-weight: normal;">
-                                                <?php echo __("No valid offer match your criteria", "gpdealdomain") ?>. <?php echo __("Your request has been registered", "gpdealdomain") ?>.<br>
-                                                <?php _e("You can change it", "gpdealdomain"); ?> <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), wp_make_link_relative(get_permalink($package_id)))); ?>"><?php _e("here", "gpdealdomain"); ?></a> <?php _e("or search again later", "gpdealdomain"); ?>.<br>
-                                                <?php _e("You will be automatically notified (email or sms) when an offer you may be interested in will be registered", "gpdealdomain"); ?>.
+                                                <?php if (get_post_meta($package_id, 'transport-offer-alert', true) == 2): ?>
+                                                    <?php echo __("An alert has been activated for your request. We will notify you by SMS and E-mail as soon as an offer corresponding to your criteria will be published", "gpdealdomain") ?>.
+                                                <?php else: ?>
+                                                    <?php echo __("No valid offer match your criteria", "gpdealdomain") ?>. <?php echo __("Your request has been registered", "gpdealdomain") ?>.<br>
+                                                    <?php _e("You can change it", "gpdealdomain"); ?> <a href="<?php echo esc_url(add_query_arg(array('action' => 'edit'), wp_make_link_relative(get_permalink($package_id)))); ?>"><?php _e("here", "gpdealdomain"); ?></a> <?php _e("or search again later", "gpdealdomain"); ?>.<br>
+                                                    <?php //_e("You will be automatically notified (email or sms) when an offer you may be interested in will be registered", "gpdealdomain"); ?>
+                                                    <?php echo __("If you want to be informed by e-mail and SMS once a corresponding offer has been published", "gpdealdomain") ?>, <a href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('create-alert-for-transport-offers', 'gpdealdomain'))))); ?>"><?php _e("Create an alert here", "gpdealdomain"); ?></a>(<?php echo $alert_cost; ?> <?php echo $alert_currency; ?>).
+                                                <?php endif ?>
                                             </div>
                                         </div>
                                     </div>
@@ -250,12 +331,16 @@ $destination_date_DT = new \DateTime($destination_date);
                 </div>
                 <?php if ($today <= $start_date_DT && $today <= $destination_date_DT): ?>
                     <?php
-                    $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, $exclude_ids));
+                    $search_data_corresponding["posts_per_page"] = -1;
+                    $transport_offers_corresponding = new WP_Query(getWPQueryArgsForCarrierSearch($search_data_corresponding));
+                    $exclude_ids = wp_list_pluck($transport_offers_corresponding->posts, "ID");
+                    $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data_can_interest, $exclude_ids));
+                    $total_can_interest_post_pages = $transport_offers_which_can_interest->max_num_pages;
                     if ($transport_offers_which_can_interest->have_posts()) {
                         ?>
                         <div  class="ui content_packages_transports fluid card">
                             <div class="content center aligned">
-                                <div class="header"><?php _e("The offers that can interest you for your shipment", "gpdealdomain"); ?> <?php _e("from", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'departure-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true))); ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'destination-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true))); ?>)</span></div>
+                                <div class="header"><?php _e("Transport offers that can interest you for", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'departure-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true))); ?>)</span> <?php _e("to", "gpdealdomain"); ?> <span class="locality_name"><?php echo get_post_meta($package_id, 'destination-city-package', true); ?>(<?php echo date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true))); ?>)</span></div>
                             </div>
                             <div class="content content_packages_transports content_without_white">
 
@@ -461,26 +546,69 @@ $destination_date_DT = new \DateTime($destination_date);
                                                         </table>
 
                                                         <span class="ui blue right ribbon label">
-                                                            <?php echo get_post_meta($transport_offer_wci_id, 'price', true) . " " . get_post_meta($transport_offer_wci_id, 'currency', true); ?><?php if (get_post_meta($transport_offer_wci_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
+                                                            <?php
+//                                                                $transport_method = $transport_method_list[0];
+//                                                                $price = getCostOfTransportOffer(get_post_meta($transport_offer_wci_id, 'distance-between-departure-arrival', true), $L, $l, $h, $weight, strtolower($transport_method), 0.001844748, $package_currency);
+                                                            ?>
+                                                            <?php
+                                                            echo get_post_meta($transport_offer_wci_id, 'price', true) . " " . get_post_meta($transport_offer_wci_id, 'currency', true);
+//                                                            echo $price." ".$package_currency;
+                                                            ?><?php if (get_post_meta($transport_offer_wci_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="extra content">
-                                                    <input id='selected_transport_offer_checkbox<?php echo $transport_offer_wci_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_wci_id; ?>" style="display: none">
-                                                    <a id='selected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><i class="checkmark icon"></i></a>
-                                                    <a id='unselected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui fluid grey button" onclick="select_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><?php echo __("Select", "gpdealdomain") ?></a>
-                                                </div>
+                                                <?php if (get_current_user_id() != $post_author): ?>
+                                                    <div class="extra content">
+                                                        <input id='selected_transport_offer_checkbox<?php echo $transport_offer_wci_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_wci_id; ?>" style="display: none">
+                                                        <a id='selected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><i class="checkmark icon"></i></a>
+                                                        <a id='unselected_transport_offer<?php echo $transport_offer_wci_id; ?>' class="ui green button" onclick="select_transport_offer(<?php echo $transport_offer_wci_id; ?>)"><?php echo __("Select", "gpdealdomain") ?></a>
+                                                    </div>
+                                                <?php endif ?>
                                             </div>
                                         </div>
                                         <?php
                                     endwhile;
                                     ?>
                                 </div>
+                                <?php
+                                if ($total_can_interest_post_pages > 1):
+                                    $start = 1;
+                                    $end = $total_can_interest_post_pages;
+                                    if ($total_destination_post_pages > 5 && $num_page_can_interest > 3) {
+                                        $end = $num_page_can_interest + 2 < $total_can_interest_post_pages ? $num_page_can_interest + 2 : $total_can_interest_post_pages;
+                                        $start = $end - 4 > 1 ? $end - 4 : 1;
+                                    } elseif ($total_can_interest_post_pages > 5) {
+                                        $end = 5;
+                                    }
+                                    ?>
+                                    <div style="margin-top: 1.5em; text-align: center;">
+                                        <div class="ui small icon buttons">
+                                            <?php if ($num_page_can_interest > 1): ?>
+                                                <?php
+                                                $params_arg_can_interest["num-page"] = $num_page_can_interest - 1;
+                                                ?>
+                                                <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_can_interest, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                            <?php endif ?>
+                                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                <?php
+                                                $params_arg_can_interest["num-page"] = $i;
+                                                ?>
+                                                <a class="ui <?php if ($num_page_can_interest == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_can_interest, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                            <?php endfor; ?>
+                                            <?php if ($num_page_can_interest < $total_can_interest_post_pages): ?>
+                                                <?php
+                                                $params_arg_can_interest["num-page"] = $num_page_can_interest + 1;
+                                                ?>
+                                                <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_can_interest, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                            <?php endif ?>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
                             </div>
                         </div>
                         <?php
                     } wp_reset_postdata();
-                    if ($transport_offers_which_can_interest->have_posts() || $transport_offers->have_posts()):
+                    if ($transport_offers_which_can_interest->have_posts() || $transport_offers_corresponding->have_posts()):
                         ?>
                         <input type="hidden" name='package_id' value="<?php echo $package_id; ?>">
 
@@ -494,6 +622,6 @@ $destination_date_DT = new \DateTime($destination_date);
         </div>
     </div>
 </div>
-<?php //include(locate_template('content-payment-forms-modal.php')); ?>
+<?php //include(locate_template('content-payment-forms-modal.php'));  ?>
 <div id='main_content_reviews_evaluations'>
 </div>

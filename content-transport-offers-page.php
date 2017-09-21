@@ -28,32 +28,31 @@ get_template_part('top-menu', get_post_format());
                     <div class="ui content_packages_transports main_right_content fluid card">
                         <div class="content">
                             <span class="header left floated" style="text-transform: uppercase; font-weight: normal; margin-top: 0.5em;"><?php _e('My transport offers', 'gpdealdomain'); ?></span>
-                            <?php if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2): ?>
-                                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui green right floated button" ><?php echo __('New Transport Offer', 'gpdealdomain') ?></a>
-                            <?php endif ?>
+                            <?php //if (get_user_meta(get_current_user_id(), "registration-completed", true) == 2): ?>
+                            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui green right floated button" ><?php echo __('New Transport Offer', 'gpdealdomain') ?></a>
+                            <?php //endif ?>
                         </div>
                         <div class="content content_packages_transports">
+                            <?php include(locate_template("content_success_or_faillure_message.php")); ?>
                             <?php if (get_user_meta(get_current_user_id(), "registration-completed", true) != 2): ?>
                                 <div class="ui warning message">
                                     <div class="header">
                                         <?php _e("Incomplete registration", "gpdealdomain"); ?>
                                     </div>
                                     <p>
-                                        <?php _e("You must complete your registration to be able to add a transport offer", "gpdealdomain"); ?>
+                                        <?php _e("You must complete the missing information in your profile in order to be able to publish a transport offer", "gpdealdomain"); ?>.
                                     </p>
                                 </div>
                             <?php endif ?>
                             <div class="ui styled fluid accordion">
-                                <?php
-                                global $current_user;
-                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 1, 'compare' => '='), array('key' => 'transport-status', 'value' => -1, 'compare' => '='))));
-                                if ($transport_offers->have_posts()) {
+                                <?php                                
+                                if ($transport_offers_in_progress->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php echo __('In progress', 'gpdealdomain') ?> </div>
-                                    <div class="content">
+                                    <div class="title <?php if($transport_offer_status && $transport_offer_status == "in-progress"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php echo __('In progress', 'gpdealdomain') ?> </div>
+                                    <div class="content <?php if($transport_offer_status && $transport_offer_status == "in-progress"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($transport_offers->have_posts()): $transport_offers->the_post();
+                                            while ($transport_offers_in_progress->have_posts()): $transport_offers_in_progress->the_post();
                                                 $transport_offer_id = get_the_ID();
                                                 $package_type_list = wp_get_post_terms($transport_offer_id, 'type_package', array("fields" => "all"));
                                                 $transport_method_list = wp_get_post_terms($transport_offer_id, 'transport-method', array("fields" => "all"));
@@ -129,7 +128,7 @@ get_template_part('top-menu', get_post_format());
                                                         <div class="content">
                                                             <div class="ui form description">
                                                                 <div class="inline field">
-                                                                   <span class="span_label"><?php echo __("Deadline", "gpdealdomain"); ?> : </span> 
+                                                                    <span class="span_label"><?php echo __("Deadline", "gpdealdomain"); ?> : </span> 
                                                                     <span class="span_value">
                                                                         <?php echo date('d-m-Y', strtotime(get_post_meta($transport_offer_id, 'deadline-of-proposition-transport-offer', true))); ?>
                                                                     </span>
@@ -191,6 +190,42 @@ get_template_part('top-menu', get_post_format());
                                             endwhile;
                                             ?>
                                         </div>
+                                        <?php
+                                        if ($total_in_progress_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_in_progress_post_pages;
+                                            if ($total_in_progress_post_pages > 5 && $num_page_in_progress > 3) {
+                                                $end = $num_page_in_progress + 2 < $total_in_progress_post_pages ? $num_page_in_progress + 2 : $total_in_progress_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_in_progress_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_in_progress > 1): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $num_page_in_progress - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_in_progress == $i): ?>blue<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_in_progress < $total_in_progress_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_in_progress["num-page"] = $num_page_in_progress + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_in_progress, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }
@@ -199,14 +234,14 @@ get_template_part('top-menu', get_post_format());
 
                                 <?php
                                 global $current_user;
-                                $transport_offers = new WP_Query(array('post_type' => 'transport-offer', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'author' => $current_user->ID, 'meta_query' => array('relation' => 'OR', array('key' => 'transport-status', 'value' => 2, 'compare' => '='), array('key' => 'transport-status', 'value' => 4, 'compare' => '='))));
-                                if ($transport_offers->have_posts()) {
+                                
+                                if ($transport_offers_expired->have_posts()) {
                                     ?>
-                                    <div class="title"><i class="dropdown icon"></i> <?php echo __('Expired', 'gpdealdomain') ?> </div>
-                                    <div class="content">
+                                    <div class="title <?php if($transport_offer_status && $transport_offer_status == "expired"): ?>active<?php endif ?>"><i class="dropdown icon"></i> <?php echo __('Expired', 'gpdealdomain') ?> </div>
+                                    <div class="content <?php if($transport_offer_status && $transport_offer_status == "expired"): ?>active<?php endif ?>">
                                         <div id='list_as_grid_content' class="ui two column doubling stackable grid">
                                             <?php
-                                            while ($transport_offers->have_posts()): $transport_offers->the_post();
+                                            while ($transport_offers_expired->have_posts()): $transport_offers_expired->the_post();
                                                 $transport_offer_id = get_the_ID();
                                                 $package_type_list = wp_get_post_terms($transport_offer_id, 'type_package', array("fields" => "all"));
                                                 $transport_method_list = wp_get_post_terms($transport_offer_id, 'transport-method', array("fields" => "all"));
@@ -338,6 +373,42 @@ get_template_part('top-menu', get_post_format());
                                             endwhile;
                                             ?>
                                         </div>
+                                        <?php
+                                        if ($total_expired_post_pages > 1):
+                                            $start = 1;
+                                            $end = $total_expired_post_pages;
+                                            if ($total_expired_post_pages > 5 && $num_page_expired > 3) {
+                                                $end = $num_page_expired + 2 < $total_expired_post_pages ? $num_page_expired + 2 : $total_expired_post_pages;
+                                                $start = $end - 4 > 1 ? $end - 4 : 1;
+                                            }elseif($total_expired_post_pages > 5){
+                                                $end = 5;
+                                            }
+                                            ?>
+                                            <div class="fluid card" style="margin-top: 1.5em; text-align: center;">
+                                                <div class="content">
+                                                    <div class="ui small icon buttons right floated">
+                                                        <?php if ($num_page_expired > 1): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $num_page_expired - 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><i class="chevron left icon"></i></a>
+                                                        <?php endif ?>
+                                                        <?php for ($i = $start; $i <= $end; $i++): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $i;
+                                                            ?>
+                                                            <a class="ui <?php if ($num_page_expired == $i): ?>green<?php else: ?>basic<?php endif ?> button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><?php echo $i; ?></a>
+                                                        <?php endfor; ?>
+                                                        <?php if ($num_page_expired < $total_expired_post_pages): ?>
+                                                            <?php
+                                                            $params_arg_expired["num-page"] = $num_page_expired + 1;
+                                                            ?>
+                                                            <a class="ui button" href="<?php echo esc_url(add_query_arg($params_arg_expired, wp_make_link_relative($page_link))); ?>"><i class="chevron right icon"></i></a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
                                     </div>
                                     <?php
                                 }

@@ -27,7 +27,7 @@
     </script>   -->
 <?php endif ?>
 
-<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places&language=fr"></script>-->
+<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places&language=en"></script>-->
 <!--<script>
             var input = document.getElementById('s');
             var options = {
@@ -72,7 +72,7 @@
     </script>-->
 <?php endif ?>
     
-<?php if (is_page(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' .__('profil', 'gpdealdomain'))): ?>
+<?php if (is_page(__('registration', 'gpdealdomain') . '/' . __('account-summary', 'gpdealdomain')) || is_page(__('my-account', 'gpdealdomain') . '/' .__('profile', 'gpdealdomain'))): ?>
 <!--       <script>
         var input1 = document.getElementById('locality');
         var input2 = document.getElementById('locality_pro');

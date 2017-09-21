@@ -13,7 +13,7 @@
 <div class="ui vertical masthead  segment container">
     <div class="ui stackable grid">
         <div class="wide column">
-            <div  class="ui content_packages_transports fluid card">
+            <div  class="ui content_packages_transports fluid card content_without_white">
                 <div class="content">
                     <?php if ($activation_message != ""): ?>
                         <?php if ($account_activated == true): ?>

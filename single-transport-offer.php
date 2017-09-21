@@ -12,7 +12,7 @@ if (is_user_logged_in()) {
             $global_evaluation = removeslashes(esc_attr(trim($_POST['global_evaluation'])));
             $comment_content = removeslashes(esc_attr(trim($_POST['comment_content'])));
             $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
-            $action= $_POST['action'];
+            $action = $_POST['action'];
             $evaluation_data = array(
                 "responses" => array($item_delivred, $item_state, $delivry_time, $cost, $global_evaluation),
                 'comment_content' => $comment_content,
@@ -33,7 +33,7 @@ if (is_user_logged_in()) {
         } elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "add-evaluation-comment" && isset($_POST["evaluation_id"])) {
             $evaluation_id = intval(removeslashes(esc_attr(trim($_POST['evaluation_id']))));
             $comment_content = removeslashes(esc_attr(trim($_POST['comment_content'])));
-            $action= $_POST['action'];
+            $action = $_POST['action'];
             $comment_id = add_evaluation_comment($evaluation_id, $comment_content);
             if ($comment_id == null || is_wp_error($comment_id)) {
                 $json = array("message" => __("Unable to add comment to this review", "gpdealdomain"));
@@ -45,7 +45,7 @@ if (is_user_logged_in()) {
             $evaluation_id = intval(removeslashes(esc_attr(trim($_POST['evaluation_id']))));
             $comment_parent_id = intval(removeslashes(esc_attr(trim($_POST['comment_parent_id']))));
             $comment_content = removeslashes(esc_attr(trim($_POST['comment_content'])));
-            $action= $_POST['action'];
+            $action = $_POST['action'];
             $comment_id = add_comment_reply($evaluation_id, $comment_parent_id, $comment_content);
             if ($comment_id == null || is_wp_error($comment_id)) {
                 $json = array("message" => __("Unable to add response to this comment", "gpdealdomain"));
@@ -56,7 +56,7 @@ if (is_user_logged_in()) {
         } elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "close") {
             $transport_offer_id = removeslashes(esc_attr(trim($_POST['transport_offer_id'])));
             $package_id = removeslashes(esc_attr(trim($_POST['package_id'])));
-            $action= $_POST['action'];
+            $action = $_POST['action'];
             $carriers_IDs = get_post_meta($package_id, 'carrier-ID', true);
             $packages_IDs = get_post_meta($transport_offer_id, 'packages-IDs', true);
             if (is_array($carriers_IDs) && !empty($carriers_IDs)) {
@@ -99,12 +99,13 @@ if (is_user_logged_in()) {
                 $json = array("message" => __("Transaction close successfully", "gpdealdomain"));
                 return wp_send_json_success($json);
             }
-        } elseif (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['transport_offer_price']) && isset($_POST['transport_offer_currency']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
+        } elseif (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
             $package_type = array_map('intval', $_POST['transport_offer_package_type']);
             $transport_method = removeslashes(esc_attr(trim($_POST['transport_offer_transport_method'])));
             $transport_offer_price = removeslashes(esc_attr(trim($_POST['transport_offer_price'])));
             $transport_offer_currency = removeslashes(esc_attr(trim($_POST['transport_offer_currency'])));
             $transport_offer_price_type = removeslashes(esc_attr(trim($_POST['transport_offer_price_type'])));
+            $transport_offer_portable_objects = removeslashes(esc_attr(trim($_POST['transport_offer_portable_objects'])));
             $max_length = removeslashes(esc_attr(trim($_POST['package_length_max'])));
             $max_width = removeslashes(esc_attr(trim($_POST['package_width_max'])));
             $max_height = removeslashes(esc_attr(trim($_POST['package_height_max'])));
@@ -116,12 +117,15 @@ if (is_user_logged_in()) {
             $destination_date = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', removeslashes(esc_attr(trim($_POST['destination_date']))))));
             $country_region_city_start = getCountryRegionCityInformations($start_city);
             $country_region_city_destination = getCountryRegionCityInformations($destination_city);
+            $echo_start_city = $start_city;
+            $echo_destination_city = $destination_city;
             $transport_offer_data = array(
                 'transport_offer_package_type' => $package_type,
                 'transport_offer_transport_method' => $transport_method,
                 'transport_offer_price' => $transport_offer_price,
                 'transport_offer_currency' => $transport_offer_currency,
                 'transport_offer_price_type' => $transport_offer_price_type,
+                'transport_offer_portable_objects' => $transport_offer_portable_objects,
                 'package_length_max' => $max_length,
                 'package_width_max' => $max_width,
                 'package_height_max' => $max_height,
@@ -129,23 +133,29 @@ if (is_user_logged_in()) {
                 "start_country" => $country_region_city_start['country'],
                 "start_state" => $country_region_city_start['region'],
                 "start_city" => $country_region_city_start['city'],
+                "start_city_as_gmap" => $start_city,
                 'start_date' => $start_date,
                 'start_deadline' => $start_deadline,
                 "destination_country" => $country_region_city_destination['country'],
                 "destination_state" => $country_region_city_destination['region'],
                 "destination_city" => $country_region_city_destination['city'],
-                'destination_date' => $destination_date
+                "destination_city_as_gmap" => $destination_city,
+                'destination_date' => $destination_date,
+                "distance_between_departure_arrival" => gpdealDistanceBetweenTwoCities($start_city, $destination_city)
             );
             $transport_offer_id = updateTransportOffer(get_the_ID(), $transport_offer_data);
             if (!is_wp_error($transport_offer_id)) {
+                $_SESSION["success_process"] = __("Your transport offer has been edited and published", "gpdealdomain");
                 wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain'))));
                 exit;
+            } else {
+                $_SESSION["faillure_process"] = __("An error occurred while editing your transport offer", "gpdealdomain");
             }
         } else {
-            
+            $_SESSION["faillure_process"] = __("Some data is missing. Please check and try again", "gpdealdomain");
         }
         get_header();
-        get_template_part('content-single-transport-offer-page', get_post_format());
+        include(locate_template('content-single-transport-offer-page.php'));
         get_footer();
     } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action'])) {
         if ($_GET['action'] == "evaluate" && isset($_GET['package_id'])) {
@@ -155,7 +165,7 @@ if (is_user_logged_in()) {
         get_header();
         include(locate_template('content-single-transport-offer-page.php'));
         get_footer();
-    }elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package_id']) && !isset($_GET['action'])) {        
+    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package_id']) && !isset($_GET['action'])) {
         $package_id = intval(removeslashes(esc_attr(trim($_GET['package_id']))));
         get_header();
         include(locate_template('content-single-transport-offer-page.php'));

@@ -26,7 +26,7 @@ var lang = {
         "The arrival date can not be less than the current date": "La date d'arrivée ne peut pas être inférieure à la date du jour",
         "The arrival date can not be less than the departure date": "La date d'arrivée ne peut pas être inférieure à la date de depart",
         "The deadline of the offer can not be less than the current date": "La date limite de l'offre ne peut pas être inférieure à la date du jour",
-        "The departure date can not be less than the deadline of the offer": "La date d'arrivée ne peut pas être inférieure à la date de depart",
+        "The departure date can not be less than the deadline of the offer": "La date de départ ne peut pas être inférieure à la date limite de l'offre",
         "Internal server error" : "Erreur s'est produite au niveau du serveur",
         "Failed to validate" : "Echec de validation",
         "Please specify the item type of your shipment" : "Veuillez préciser le type d'objet de votre expédition",
@@ -76,6 +76,7 @@ var lang = {
         "Please enter your answer to the test question": "Veuillez saisir votre réposnse test à la qustion",
         "Please enter a current password" : "Veuillez saisir le mot de passe actuel",
         "Please enter the new password" : "Veuillez saisir le nouveau mot de passe",
+        "Please enter the current password" : "Veuillez saisir le mot de passe actuel",
         "Invalid email address": "Adresse email invalide",
         "Please select your account type": "Veuillez selectionner votre type de compte",
         "Please enter a correct card number": "Veuillez saisir un numéro de carte correct",
@@ -84,9 +85,11 @@ var lang = {
         "Please enter your card expiration year": "Veuillez saisir l'année d'expiration de votre carte",
         "Please enter a first name of card owner": "Vueillez saisir le prenom du propriétaire de la carte",
         "Please enter a last name of card owner": "Veuillez saisir le nom du propriétaire de la carte",
-        "Please select a billing country of your card": "Veuillez selectionner le pays de facturation de la carte"
-    }
-    
+        "Please select a billing country of your card": "Veuillez selectionner le pays de facturation de la carte",
+        "Please enter a value of your property": "Veuillez saisir la valeur de votre bien",
+        "The value of your property must be a number": "La valeur de votre bien doit être un nombre",
+        "Please select the country code of phone number":"Selectionner l'indicatif du pays de votre numero"
+    }    
 };
 
 

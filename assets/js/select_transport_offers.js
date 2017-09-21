@@ -10,13 +10,14 @@ function unselect_transport_offer(package_id) {
 }
 
 function select_transport_offer(package_id) {
-    $('#unselected_transport_offer' + package_id).hide();
-    $('#selected_transport_offer' + package_id).show();
+    //$('#unselected_transport_offer' + package_id).hide();
+    //$('#selected_transport_offer' + package_id).show();
     $('#selected_transport_offer_checkbox' + package_id).prop('checked', true);
     if ($('input[name="selected_transport_offers[]"]:checked').length > 0) {
-        $('#submit_selected_transport_offers').show();
+        //$('#submit_selected_transport_offers').show();
+        $('#selected_transport_offers_form').submit();
     } else {
-        $('#submit_selected_transport_offers').hide();
+        //$('#submit_selected_transport_offers').hide();
     }
 }
 
@@ -106,14 +107,14 @@ $(function () {
         });
     });
 
-    $('#selected_transport_offers_form').submit(function (e) {        
+    $('#selected_transport_offers_form').submit(function (e) {
         $('#selected_transport_offers_form').addClass('ui form loading');
     });
-    $('#submit_selected_transport_offers').click(function(e){
+    $('#submit_selected_transport_offers').click(function (e) {
         $('#selected_transport_offers_form').submit();
     });
-    
-    $('#payment_gateway_visa').change(function(){
+
+    $('#payment_gateway_visa').change(function () {
         if ($(this).is(':checked')) {
             $('#paypal_process').hide();
             $('#stripe_process').hide();
@@ -122,7 +123,7 @@ $(function () {
             $('#creditCard_payment_form input[name="card_type"]').val($(this).val());
         }
     });
-    $('#payment_gateway_mastercard').change(function(){
+    $('#payment_gateway_mastercard').change(function () {
         if ($(this).is(':checked')) {
             $('#paypal_process').hide();
             $('#stripe_process').hide();
@@ -131,16 +132,16 @@ $(function () {
             $('#creditCard_payment_form input[name="card_type"]').val($(this).val());
         }
     });
-    $('#payment_gateway_paypal').change(function(){
-        if ($(this).is(':checked')) {            
+    $('#payment_gateway_paypal').change(function () {
+        if ($(this).is(':checked')) {
             $('#stripe_process').hide();
             $('#creditcard_process').hide();
             $('#creditCard_payment_form').hide();
             $('#paypal_process').show();
         }
     });
-    $('#payment_gateway_stripe').change(function(){
-        if ($(this).is(':checked')) {            
+    $('#payment_gateway_stripe').change(function () {
+        if ($(this).is(':checked')) {
             $('#creditcard_process').hide();
             $('#creditCard_payment_form').hide();
             $('#paypal_process').hide();
@@ -218,12 +219,65 @@ $(function () {
                 on: 'blur'
             }
             );
+
+    $('#insure_shipment_form.ui.form')
+            .form({
+                fields: {
+                    property_value: {
+                        identifier: 'property_value',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: gpdeal_translate("Please enter a value of your property")
+                            },
+                            {
+                                type: 'number',
+                                prompt: gpdeal_translate("The value of your property must be a number")
+                            }
+                        ]
+                    }
+                },
+                inline: true,
+                on: 'blur'
+            }
+            );
+
+
+    $('#insure_shimpent_no').click(function (e) {
+        e.preventDefault();
+        $("#not_insure_shipment_form").submit();
+    });
     
-    $('#creditCard_payment_form').submit(function(e){
+    $("#not_insure_shipment_form").submit(function(e){
+        $('#insure_shimpent_yes').addClass("disabled");
+        $('#insure_shimpent_no').addClass("loading");
+    });
+
+    $('#insure_shimpent_yes').click(function (e) {
+        e.preventDefault();
+        if ($('#insure_shipment_form').form('is valid')) {
+            $("#insure_shipment_form").submit();
+        }
+    });
+    
+    $("#insure_shipment_form").submit(function(e){
+        $("#insure_shipment_form").addClass("loading");
+        $('#insure_shimpent_yes').addClass("disabled");
+        $('#insure_shimpent_no').addClass("disabled");
+    });
+    
+    
+    $('#submit_confirm_create_alert_btn').click(function(e){
+        $(this).addClass("loading");
+        $('#create_alert_form').submit();
+    });
+    
+    
+    $('#creditCard_payment_form').submit(function (e) {
         $('#creditCard_payment_form').addClass("loading");
         $('#creditcard_process').addClass('disabled');
     });
-    
+
     $('#creditcard_process').click(function (e) {
         e.preventDefault();
         $('#server_error_message').hide();
@@ -290,32 +344,53 @@ $(function () {
 //            });
         }
     });
-    
-    $('#paypal_process').click(function(){
+
+    $('#paypal_process').click(function () {
         $(this).addClass('loading');
     });
-    
-    $('#continue_to_confirm_transaction').click(function (){
+
+    $('#continue_to_confirm_transaction').click(function () {
         $(this).addClass('loading');
     });
-    
+
+    $('#calculate_insurance_cost').click(function (e) {
+        e.preventDefault();
+        if ($('#property_value').val() !== "") {
+            $('#insurance_cost').val('');
+            $(this).addClass("loading");
+            setTimeout(function () {
+                $('#insurance_cost').text(parseInt($('#property_value').val()) / 10);
+                $('#calculate_insurance_cost').removeClass("loading");
+                $('#insurance_cost_fields').show();
+            }, 1000);
+        }
+    });
+
+    $('#package_currency').change(function () {
+        var currency = $('select#package_currency option:selected').val();
+        if (currency !== "") {
+            $('#property_value_currency').text(currency);
+            $('#insurance_cost_currency').text(currency);
+        }
+    });
+
 });
 
-function show_user_evaluation(id){
-    if($('#content_evaluation_'+id).css('display')==="none"){
-        $('#content_evaluation_'+id).show();
-        
-    }else{
-        $('#content_evaluation_'+id).hide();
+function show_user_evaluation(id) {
+    if ($('#content_evaluation_' + id).css('display') === "none") {
+        $('#content_evaluation_' + id).show();
+
+    } else {
+        $('#content_evaluation_' + id).hide();
     }
 }
 
-function show_user_evaluation_single(id){
-    if($('#content_evaluation_single_'+id).css('display')==="none"){
-        $('#content_evaluation_single_'+id).show();
-        
-    }else{
-        $('#content_evaluation_single_'+id).hide();
+function show_user_evaluation_single(id) {
+    if ($('#content_evaluation_single_' + id).css('display') === "none") {
+        $('#content_evaluation_single_' + id).show();
+
+    } else {
+        $('#content_evaluation_single_' + id).hide();
     }
 }
 

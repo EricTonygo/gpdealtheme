@@ -5,7 +5,7 @@
  */
 session_start();
 expire_session();
-if (is_user_logged_in()) {    
+if (is_user_logged_in()) {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['package_type']) && isset($_POST['package_content']) && isset($_POST['package_dimensions_length']) && isset($_POST['package_dimensions_width']) && isset($_POST['package_dimensions_height']) && isset($_POST['package_weight']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
             $type = removeslashes(esc_attr(trim($_POST['package_type'])));
@@ -18,6 +18,22 @@ if (is_user_logged_in()) {
             $start_date = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', removeslashes(esc_attr(trim($_POST['start_date']))))));
             $destination_city = removeslashes(esc_attr(trim($_POST['destination_city'])));
             $destination_date = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', removeslashes(esc_attr(trim($_POST['destination_date']))))));
+            $package_currency = removeslashes(esc_attr(trim($_POST['package_currency'])));
+            $package_insured = removeslashes(esc_attr(trim($_POST['package_insured'])));
+            $property_value = removeslashes(esc_attr(trim($_POST['property_value'])));
+            $insurance_cost = removeslashes(esc_attr(trim($_POST['insurance_cost'])));
+            if ($package_insured && $package_insured == "on") {
+                $package_insured = "yes";
+                $property_value = floatval($property_value);
+                $insurance_cost = $property_value / 10;
+            } else {
+                $package_insured = "no";
+                $property_value = null;
+                $insurance_cost = null;
+            }
+            if (!$package_currency || $package_currency == "") {
+                $package_currency = "USD";
+            }
             $package_picture = $_FILES['package_picture_file'];
             if (!empty($package_picture)) {
                 $package_picture_id = upload_file($package_picture);
@@ -33,6 +49,10 @@ if (is_user_logged_in()) {
                 "package_dimensions_width" => $width,
                 "package_dimensions_height" => $height,
                 "package_weight" => $weight,
+                "package_currency" => $package_currency,
+                "package_insured" => $package_insured,
+                "property_value" => $property_value,
+                "insurance_cost" => $insurance_cost,
                 "start_country" => $country_region_city_start['country'],
                 "start_state" => $country_region_city_start['region'],
                 "start_city" => $country_region_city_start['city'],
@@ -46,68 +66,120 @@ if (is_user_logged_in()) {
             $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
             if (isset($_POST['submit_send_package']) && $_POST['submit_send_package'] == "yes") {
                 $package_id = sendPackage($package_data);
+                if (is_wp_error($package_id)) {
+                    $_SESSION['faillure_process'] = __("An error occurred while saving your shipment", "gpdealdomain");
+                }
             } elseif (isset($_POST['submit_update_send_package']) && $_POST['submit_update_send_package'] == "yes" && $package_id) {
                 $package_id = updateSendPackage($package_id, $package_data);
+                if (is_wp_error($package_id)) {
+                    $_SESSION['faillure_process'] = __("An error occurred while editing your shipment", "gpdealdomain");
+                }
             }
-
             $search_data = null;
             if (!is_wp_error($package_id)) {
-//                $country_region_city_start = getCountryRegionCityInformations($start_city);
-//                $country_region_city_destination = getCountryRegionCityInformations($destination_city);
-//                $search_data = array(
-//                    'package_type' => $type,
-//                    "start_country" => $country_region_city_start['country'],
-//                    "start_state" => $country_region_city_start['region'],
-//                    "start_city" => $country_region_city_start['city'],
-//                    'start_date' => $start_date,
-//                    "destination_country" => $country_region_city_destination['country'],
-//                    "destination_state" => $country_region_city_destination['region'],
-//                    "destination_city" => $country_region_city_destination['city'],
-//                    'destination_date' => $destination_date
-//                );
-//                get_header();
-//                include(locate_template('content-select-transport-offers-page.php'));
-//                get_footer();
                 wp_safe_redirect(esc_url(add_query_arg(array('package-id' => $package_id), get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain'))))));
+                exit;
+            } else {
+                wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))));
                 exit;
             }
         } else {
-            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));
+            $_SESSION["faillure_process"] = __("Some data is missing. Please check and try again", "gpdealdomain");
+            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain'))));
             exit;
         }
     } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package-id'])) {
         $package_id = intval(removeslashes(esc_attr(trim($_GET['package-id']))));
-        $old_transport_offers = is_array(get_post_meta($package_id, 'carrier-ID', true)) ? array_map('intval', get_post_meta($package_id, 'carrier-ID', true)): array();
-        $type = wp_get_post_terms($package_id, 'type_package', array("fields" => "ids"));
-        $start_country = get_post_meta($package_id, 'departure-country-package', true);
-        $start_state = get_post_meta($package_id, 'departure-state-package', true);
-        $start_city = get_post_meta($package_id, 'departure-city-package', true);
-        $start_date = date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true)));
-        $destination_country = get_post_meta($package_id, 'destination-country-package', true);
-        $destination_state = get_post_meta($package_id, 'destination-state-package', true);
-        $destination_city = get_post_meta($package_id, 'destination-city-package', true);
-        $destination_date = date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true)));
-        $search_data = array(
-            "package_type" => $type,
-            "start_country" => $start_country,
-            "start_state" => $start_state,
-            "start_city" => $start_city,
-            "start_date" => $start_date,
-            "destination_country" => $destination_country,
-            "destination_state" => $destination_state,
-            "destination_city" => $destination_city,
-            "destination_date" => $destination_date,
-            "excluded_transport_offers" => $old_transport_offers
-        );
-        get_header();
-        include(locate_template('content-select-transport-offers-page.php'));
-        get_footer();
+        $package_post_author = get_post_field('post_author', $package_id);
+        //Tester si l'utilisateur connecté est bel et bien l'auteur de l'expédition dont il recherche les offres de transport        
+        if (get_current_user_id() == $package_post_author) {
+            $num_page_corresponding = 1;
+            $num_page_can_interest = 1;
+            $params_arg_corresponding = array("package-id" => $package_id);
+            $params_arg_can_interest = array("package-id" => $package_id);
+            $old_transport_offers = is_array(get_post_meta($package_id, 'carrier-ID', true)) ? array_map('intval', get_post_meta($package_id, 'carrier-ID', true)) : array();
+            $type = wp_get_post_terms($package_id, 'type_package', array("fields" => "ids"));
+            $start_country = get_post_meta($package_id, 'departure-country-package', true);
+            $start_state = get_post_meta($package_id, 'departure-state-package', true);
+            $start_city = get_post_meta($package_id, 'departure-city-package', true);
+            $start_date = date('d-m-Y', strtotime(get_post_meta($package_id, 'date-of-departure-package', true)));
+            $destination_country = get_post_meta($package_id, 'destination-country-package', true);
+            $destination_state = get_post_meta($package_id, 'destination-state-package', true);
+            $destination_city = get_post_meta($package_id, 'destination-city-package', true);
+            $destination_date = date('d-m-Y', strtotime(get_post_meta($package_id, 'arrival-date-package', true)));
+            $search_data = array(
+                "package_type" => $type,
+                "start_country" => $start_country,
+                "start_state" => $start_state,
+                "start_city" => $start_city,
+                "start_date" => $start_date,
+                "destination_country" => $destination_country,
+                "destination_state" => $destination_state,
+                "destination_city" => $destination_city,
+                "destination_date" => $destination_date,
+                "excluded_transport_offers" => $old_transport_offers
+            );
+            $params_arg_corresponding["result-type"] = "corresponding";
+            $params_arg_can_interest["result-type"] = "can-interest";
+            if (isset($_GET["result-type"]) && $_GET["result-type"] == "corresponding") {
+                $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+                $params_arg_corresponding["result-type"] = $result_type;
+                if (isset($_GET["num-page"])) {
+                    $num_page_corresponding = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+                }
+            } elseif (isset($_GET["result-type"]) && $_GET["result-type"] == "can-interest") {
+                $result_type = removeslashes(esc_attr(trim($_GET["result-type"])));
+                $params_arg_can_interest["result-type"] = $result_type;
+                if (isset($_GET["num-page"])) {
+                    $num_page_can_interest = intval(removeslashes(esc_attr(trim($_GET["num-page"]))));
+                }
+            }
+            $search_data_corresponding = $search_data;
+            $search_data_can_interest = $search_data;
+            $search_data_corresponding["posts_per_page"] = 6;
+            $search_data_corresponding["page"] = $num_page_corresponding;
+            $search_data_can_interest["posts_per_page"] = 6;
+            $search_data_can_interest["page"] = $num_page_can_interest;
+            $page_link = get_permalink();
+
+            $L = get_post_meta($package_id, 'length', true);
+            $l = get_post_meta($package_id, 'width', true);
+            $h = get_post_meta($package_id, 'height', true);
+            $weight = get_post_meta($package_id, 'weight', true);
+            $package_currency = get_post_meta($package_id, 'package-currency', true);
+            $alert_cost = "";
+            $alert_currency = "";
+            $ip_visitor_data = ip_visitor_data();
+            if ($ip_visitor_data) {
+                $alert_currency = $ip_visitor_data["geoplugin_currencyCode"];
+                if ($ip_visitor_data["geoplugin_currencyConverter"]) {
+                    $alert_cost = round($ip_visitor_data["geoplugin_currencyConverter"] * 2, 2);
+                }
+            }
+            if ($alert_cost == null || $alert_cost == "" || $alert_currency == null || $alert_currency == "") {
+                $alert_cost = 2;
+                $alert_currency = "USD";
+            }
+            get_header();
+            include(locate_template('content-select-transport-offers-page.php'));
+            get_footer();
+        } else {
+            $_SESSION['warning_process'] = __("You are not a author of this shipment. Log in with a correct user or select your own shipment", "gpdealdomain");
+            wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));
+            exit;
+        }
     } else {
+        $_SESSION['warning_process'] = __("Please select a shipment for finding the transport offers", "gpdealdomain");
         wp_safe_redirect(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain'))));
         exit;
     }
 } else {
-    $_SESSION['redirect_to'] = get_the_permalink();
+    if (isset($_GET['package-id'])) {
+        $package_id = intval(removeslashes(esc_attr(trim($_GET['package-id']))));
+        $_SESSION['redirect_to'] = esc_url(add_query_arg(array('package-id' => $package_id), get_the_permalink()));
+    } else {
+        $_SESSION['redirect_to'] = get_the_permalink();
+    }
     wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
     exit;
 }

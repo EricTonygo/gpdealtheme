@@ -5,7 +5,11 @@
             <div class="item">
                 <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
                 <i class="small right arrow icon divider"></i>
+                <?php if(is_user_logged_in()): ?>
+                <div class="active section"><?php _e("Change your password", "gpdealdomain"); ?></div>
+                <?php else: ?>
                 <div class="active section"><?php the_title(); ?></div>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -13,10 +17,10 @@
 <div class="ui vertical masthead  segment container">
     <!--div class="ui text container">
     </div-->
-    <div class="ui signup_contenair basic segment container">
+    <div class="ui signup_contenair basic segment container content_without_white">
         <div class="ui attached message">
             <div class="header"><?php echo __("Forgot your password", 'gpdealdomain') ?> </div>
-            <p class="promo_text_form"><?php echo __("Fill your email below to obtain a password reset link", 'gpdealdomain') ?>.</p>
+            <p class="promo_text_form"><?php echo __("Fill your e-mail below to obtain a password reset link", 'gpdealdomain') ?>.</p>
         </div>
         <div class="ui fluid card">
             <div class="content">
@@ -42,7 +46,7 @@
                             </ul>
                         </div>
                     </div>
-                    <button id="submit_forgot_password" class="ui right floated green button" ><i class="send icon"></i><?php _e("Send Password Reset Link", 'gpdealdomain'); ?></button>
+                    <button id="submit_forgot_password" class="ui right floated green button" ><i class="send icon"></i><?php _e("Send Link", 'gpdealdomain'); ?></button>
                 </form>
             </div>
         </div>

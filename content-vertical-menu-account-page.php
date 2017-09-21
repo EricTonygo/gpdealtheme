@@ -1,6 +1,6 @@
 <div id="account_left_sidebar" class="ui vertical fluid tabular menu">
     <a class="<?php if (is_page(__('my-account', 'gpdealdomain'))): ?>active<?php endif ?> item" href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>' class="ui item">
-        <?php echo __("Overview", "gpdealdomain"); ?>  
+        <?php echo __("My account", "gpdealdomain"); ?>  
     </a>
     <a class="<?php if (is_page(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain'))): ?>active <?php endif ?>item" href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="ui item">
         <?php echo __("Profile", "gpdealdomain"); ?>  

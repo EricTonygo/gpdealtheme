@@ -3,7 +3,7 @@
 /*
   Template Name: Home Page
  */
-
+session_start();
 //header("Cache-Control", "no-cache, no-store, must-revalidate");
 if (is_user_logged_in() && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['logout']) && esc_attr($_GET['logout']) == 'true') {
     wp_logout();
@@ -16,6 +16,19 @@ if (is_user_logged_in() && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUES
     //Delete id of package store in session after logout
     if (isset($_SESSION['package_id'])) {
         unset($_SESSION['package_id']);
+    }
+    //Delete redirect link after login in website
+    if(isset($_SESSION['redirect_to'])){
+        unset($_SESSION['redirect_to']);
+    }
+    //Delete last time activity of the current connexion
+    if(isset($_SESSION['LAST_ACTIVITY'])){
+        unset($_SESSION['LAST_ACTIVITY']);
+    }
+    
+    //Delete a parameter remember_me  of the current connexion
+    if(isset($_SESSION['REMEMBER_ME'])){
+        unset($_SESSION['REMEMBER_ME']);
     }
     wp_safe_redirect(home_url('/'));
     exit;
@@ -34,7 +47,6 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' &&
     $result = updateStatusAllEndedOffers();
     return wp_send_json_success(array('result' => $result));
 }
-session_start();
 expire_session();
 get_header();
 
