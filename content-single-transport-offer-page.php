@@ -278,8 +278,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                         <?php if (get_post_meta(get_the_ID(), 'transport-status', true) != 2 || get_post_meta(get_the_ID(), 'package-status', true) != 3): ?>
                             <div class="field">
                                 <input type="hidden" name='action' value='edit'>                                
-                                <button id="submit_send_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Edit now!", "gpdealdomain"); ?></button>
-                                <button id="cancel_edit_transport_offer_infos_btn" class="ui right floated red button" style="min-width: 12em;" ><?php _e("Cancel Edit", "gpdealdomain"); ?></button>
+                                <button id="submit_send_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Edit", "gpdealdomain"); ?></button>
+                                <button id="cancel_edit_transport_offer_infos_btn" class="ui right floated red button" style="min-width: 12em;" ><?php _e("Cancel", "gpdealdomain"); ?></button>
                             </div>
                         <?php endif ?>
                     </form>

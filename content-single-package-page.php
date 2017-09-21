@@ -217,7 +217,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                             <input type="hidden" name='action' value='edit'>
                             <input type="hidden" name='package_id' value='<?php the_ID() ?>'>
                             <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search carriers", "gpdealdomain"); ?></button>
-                            <button id="cancel_edit_package_infos_btn" class="ui right floated red button" style="min-width: 12em;"><?php _e("Cancel change", "gpdealdomain"); ?></button>
+                            <button id="cancel_edit_package_infos_btn" class="ui right floated red button" style="min-width: 12em;"><?php _e("Cancel", "gpdealdomain"); ?></button>
                         </div>
                     </form>
                 </div>
