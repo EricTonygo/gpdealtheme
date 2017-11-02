@@ -13,7 +13,7 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
 <div id="bgImage1" class="cycle_bg_image" style="background-image: url('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-2.jpg'); display: none;"></div>
 <div id="bgImage2" class="cycle_bg_image" style="background-image: url('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-3.jpg'); display: none;"></div>
 <div id="bgImage3" class="cycle_bg_image" style="background-image: url('/gpdeal/wp-content/themes/gpdealtheme/assets/images/slide-image-4.jpg'); display: none;"></div>
-<div id='feature_homepage' class="ui vertical feature_homepage masthead segment" >
+<div id='feature_homepage' class="ui vertical feature_homepage masthead segment">
     <div  class="ui container">
         <div class="ui top attached tabular menu">
             <a class="<?php if ($submit_search_transport_offers == "yes" || ($submit_search_transport_offers != "yes" && $submit_search_unsatisfied_packages != "yes")): ?> active <?php endif ?> item" data-tab="search_carriers"><?php _e('find_TO_form_title', 'gpdealdomain') ?></a>
@@ -34,7 +34,7 @@ $submit_search_unsatisfied_packages = $_POST["submit_search_unsatisfied_packages
                                 <div class="ui calendar" >
                                     <div class="ui input left icon">
                                         <i class="calendar icon"></i>
-                                        <input type="text" name='start-date' placeholder="<?php _e('Departure date', 'gpdealdomain'); ?> " value="<?php echo $start_date ?>">
+                                        <input type="text" name='start-date' placeholder="<?php _e('Departure date', 'gpdealdomain'); ?>" value="<?php echo $start_date ?>">
                                     </div>
                                 </div>
                             </div>      

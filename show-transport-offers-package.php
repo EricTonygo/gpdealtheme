@@ -71,6 +71,16 @@ if (is_user_logged_in()) {
                     } else {
                         update_post_meta($transport_offer_id, 'packages-IDs', array($package_id));
                     }
+                    $packages_users_ids = get_post_meta($transport_offer_id, 'packages-users-IDs', true);
+                    $package_post_author = get_post_field('post_author', $package_id);
+                    if (is_array($packages_users_ids) && !empty($packages_users_ids)) {
+                        if (!in_array($package_post_author, $packages_users_ids)) {
+                            $packages_users_ids[] = $package_post_author;
+                            update_post_meta($transport_offer_id, 'packages-users-IDs', $packages_users_ids);
+                        }
+                    } else {
+                        update_post_meta($transport_offer_id, 'packages-users-IDs', array($package_post_author));
+                    }
                 }
             } else {
 //            $old_transport_offers = get_post_meta($package_id, 'carrier-ID', true);

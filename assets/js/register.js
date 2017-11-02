@@ -313,7 +313,7 @@ $(function () {
 //        readURLCompanyLogo(this);
 //    });
 
-$('#register_form')
+    $('#register_form')
             .form({
                 fields: {
                     role: {
@@ -324,7 +324,7 @@ $('#register_form')
                                 prompt: gpdeal_translate("Please select your account type")
                             }
                         ]
-                    },                 
+                    },
                     username: {
                         identifier: 'username',
                         rules: [
@@ -915,15 +915,17 @@ $('#register_form')
             }
             );
 
-    $('#submit_reset_password').click(function (e) {
-        e.preventDefault();
-        $('#server_error_message').hide();
-        //$('#reset_password_form.ui.form').form('validate form');
+    $('#reset_password_form.ui.form').submit(function () {
         if ($('#reset_password_form.ui.form').form('is valid')) {
             $('#reset_password_form.ui.form').addClass('loading');
             $('#submit_reset_password').addClass('disabled');
-            $('#reset_password_form.ui.form').submit();
         }
+    });
+
+    $('#submit_reset_password').click(function (e) {
+        e.preventDefault();
+        $('#server_error_message').hide();
+        $('#reset_password_form.ui.form').submit();
     });
 
 
@@ -958,7 +960,7 @@ $('#register_form')
             return false;
         }
     });
-    
+
     $('#confirm_save_account').click(function (e) {
         e.preventDefault();
         if ($('#register_form').form('is valid')) {
@@ -1006,29 +1008,29 @@ $('#register_form')
             return false;
         }
     });
-    
-    $('#show_form_account_particular').click(function(e){
+
+    $('#show_form_account_particular').click(function (e) {
         e.preventDefault();
         $('.show_fields').hide();
         $('.edit_fields').show();
     });
-    
-    $('#cancel_edit_form_account_particular').click(function(e){
+
+    $('#cancel_edit_form_account_particular').click(function (e) {
         e.preventDefault();
         $('.edit_fields').hide();
-        $('.show_fields').show();        
+        $('.show_fields').show();
     });
-    
-    $('#show_form_account_enterprise').click(function(e){
+
+    $('#show_form_account_enterprise').click(function (e) {
         e.preventDefault();
         $('.show_fields').hide();
         $('.edit_fields').show();
     });
-    
-    $('#cancel_edit_form_account_enterprise').click(function(e){
+
+    $('#cancel_edit_form_account_enterprise').click(function (e) {
         e.preventDefault();
         $('.edit_fields').hide();
-        $('.show_fields').show();        
+        $('.show_fields').show();
     });
 
     $('#edit_account').click(function (e) {
@@ -1036,19 +1038,19 @@ $('#register_form')
         $('#block_form_edit').show();
         $('#block_recap').hide();
     });
-    
+
     $('input[name="mobile_phone_country_code"]').change(function (e) {
         $("#mobile_phone_country_code").val($('input[name="mobile_phone_country_code"]').val());
     });
-    
+
     $('input[name="home_phone_country_code"]').change(function (e) {
         $("#home_phone_country_code").val($('input[name="home_phone_country_code"]').val());
     });
-    
+
     $('input[name="mobile_phone_country_code_representative1"]').change(function (e) {
         $("#mobile_phone_country_code_representative1").val($('input[name="mobile_phone_country_code_representative1"]').val());
     });
-    
+
     $('input[name="mobile_phone_country_code_representative2"]').change(function (e) {
         $("#mobile_phone_country_code_representative2").val($('input[name="mobile_phone_country_code_representative2"]').val());
     });

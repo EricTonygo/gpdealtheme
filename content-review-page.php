@@ -16,22 +16,22 @@ get_template_part('top-menu', get_post_format());
 </div>
 <div class="ui vertical masthead segment container review_confirm">
     <?php //if (get_post_meta($package_id, 'package-insured', true) == "yes" && get_post_meta($package_id, 'package-insurance-completed', true) == 1): ?>
-<!--        <div class="ui content_steps_select_transport_offer container">
-            <div class="ui two top attached steps select_transport_offers">
-                <a class="active step"href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))); ?>">
-                    <i class="file text outline green icon"></i>
-                    <div class="content">
-                        <div class="title"><?php echo __("Review", 'gpdealdomain') ?></div>
-                    </div>
-                </a>
-                <a class="disabled step" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure', 'gpdealdomain')))); ?>">
-                    <i class="payment icon"></i>
-                    <div class="content">
-                        <div class="title"><?php echo __("Insure your shipment", 'gpdealdomain') ?></div>
-                    </div>
-                </a>
-            </div>
-        </div>-->
+    <!--        <div class="ui content_steps_select_transport_offer container">
+                <div class="ui two top attached steps select_transport_offers">
+                    <a class="active step"href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('review', 'gpdealdomain')))); ?>">
+                        <i class="file text outline green icon"></i>
+                        <div class="content">
+                            <div class="title"><?php echo __("Review", 'gpdealdomain') ?></div>
+                        </div>
+                    </a>
+                    <a class="disabled step" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure', 'gpdealdomain')))); ?>">
+                        <i class="payment icon"></i>
+                        <div class="content">
+                            <div class="title"><?php echo __("Insure your shipment", 'gpdealdomain') ?></div>
+                        </div>
+                    </a>
+                </div>
+            </div>-->
     <?php //endif ?>
     <div class="ui attached segment select_transport_offers">
         <div class="ui stackable grid">
@@ -63,6 +63,7 @@ get_template_part('top-menu', get_post_format());
                                     $destination_city = get_post_meta(get_the_ID(), 'destination-city-transport-offer', true);
                                     $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true)));
                                     $transport_offer_id = get_the_ID();
+                                    $post_author = get_post_field('post_author', $transport_offer_id);
                                     ?>
                                     <div class="wide column">
                                         <div class="ui signup_contenair basic segment container content_without_white">
@@ -322,7 +323,8 @@ get_template_part('top-menu', get_post_format());
                                                             <?php
                                                             //$price = getCostOfTransportOffer(get_post_meta($transport_offer_id, 'distance-between-departure-arrival', true), $L, $l, $h, $weight, strtolower($name), 0.001844748, $package_currency);
                                                             ?>
-                                                            <?php echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true); 
+                                                            <?php
+                                                            echo get_post_meta($transport_offer_id, 'price', true) . " " . get_post_meta($transport_offer_id, 'currency', true);
 //                                                            echo $price." ".$package_currency;
                                                             ?><?php if (get_post_meta($transport_offer_id, 'price-type', true) == 1): ?>/kg<?php endif ?>
                                                         </span>
@@ -352,13 +354,13 @@ get_template_part('top-menu', get_post_format());
                     </div>
                     <div class="extra content">
                         <a id="continue_to_confirm_transaction" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('insure-shipment', 'gpdealdomain')))); ?>" class="ui green button right floated">
-                                <?php _e("Validate selection", "gpdealdomain"); ?>
-                            </a>
-                        
+                            <?php _e("Validate selection", "gpdealdomain"); ?>
+                        </a>                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div id='main_content_reviews_evaluations'>
+</div>

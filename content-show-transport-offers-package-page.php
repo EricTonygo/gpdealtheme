@@ -47,10 +47,11 @@
                                     $destination_state = get_post_meta(get_the_ID(), 'destination-state-transport-offer', true);
                                     $destination_city = get_post_meta(get_the_ID(), 'destination-city-transport-offer', true);
                                     $destination_date = date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true)));
+                                    $contact_voices = array_map('intval', get_post_meta(get_the_ID(), 'contact-voices', true));
                                     $transport_offer_id = get_the_ID();
                                     $post_author = get_post_field('post_author', $transport_offer_id);
                                     $user_data = get_userdata($post_author);
-                                    ?>
+                                ?>
                                     <div id="selected_transport_offer_column<?php echo $transport_offer_id; ?>" class="wide column">
                                         <div class="ui signup_contenair basic segment container content_without_white">
                                             <div id="selected_transport_offer_card<?php echo $transport_offer_id; ?>" class="ui fluid card transport_offer_card">
@@ -339,28 +340,32 @@
                                                         <h4 class="ui dividing header" style="font-weight: normal; text-transform: uppercase;"><?php echo __("Carrier Contact", "gpdealdomain") ?> </h4>
                                                         <table class="ui celled unstackable table transport_offer_table">
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <span class="span_label"><?php _e("E-mail", "gpdealdomain"); ?></span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <span class="span_value">
-                                                                            <?php echo $user_data->user_email; ?>
-                                                                        </span> 
-                                                                    </td>
-                                                                </tr>
-                                                                <?php $roles = get_user_roles_by_user_id($post_author); ?>
-                                                                <?php if (in_array("particular", $roles)): ?>
+                                                                <?php if ($contact_voices && in_array(1, $contact_voices, true)): ?>
                                                                     <tr>
                                                                         <td>
-                                                                            <span class="span_label"><?php _e("Phone Number", "gpdealdomain"); ?></span> 
+                                                                            <span class="span_label"><?php _e("E-mail", "gpdealdomain"); ?></span>
                                                                         </td>
                                                                         <td>
                                                                             <span class="span_value">
-                                                                                <?php echo get_user_meta($post_author, 'mobile-phone-country-code', true) . '' . get_user_meta($post_author, 'mobile-phone-number', true); ?>
-                                                                            </span>
+                                                                                <?php echo $user_data->user_email; ?>
+                                                                            </span> 
                                                                         </td>
                                                                     </tr>
+                                                                <?php endif ?>
+                                                                <?php $roles = get_user_roles_by_user_id($post_author); ?>
+                                                                <?php if (in_array("particular", $roles)): ?>
+                                                                    <?php if ($contact_voices && in_array(2, $contact_voices, true)): ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span class="span_label"><?php _e("Phone Number", "gpdealdomain"); ?></span> 
+                                                                            </td>
+                                                                            <td>
+                                                                                <span class="span_value">
+                                                                                    <?php echo get_user_meta($post_author, 'mobile-phone-country-code', true) . '' . get_user_meta($post_author, 'mobile-phone-number', true); ?>
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <?php endif ?>
                                                                     <tr>
                                                                         <td>
                                                                             <span class="span_label"><?php _e("First name", "gpdealdomain"); ?></span> 
@@ -381,18 +386,7 @@
                                                                             </span>
                                                                         </td>
                                                                     </tr>
-                                                                    <?php if (get_user_meta($post_author, 'card-identity-number', true)): ?>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <span class="span_label"><?php _e("Card Identity Number", "gpdealdomain"); ?> </span> 
-                                                                            </td>
-                                                                            <td>
-                                                                                <span class="span_value">
-                                                                                    <?php echo get_user_meta($post_author, 'card-identity-number', true); ?>
-                                                                                </span>
-                                                                            </td>
-                                                                        </tr>
-                                                                    <?php endif ?>
+                                                                   
 
                                                                 <?php elseif (in_array("enterprise", $roles) || in_array("professional", $roles)): ?>
                                                                     <tr>
@@ -414,17 +408,7 @@
                                                                                 <?php echo get_user_meta($post_author, 'company-name', true); ?>
                                                                             </span>
                                                                         </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <span class="span_label"><?php _e("Company Ident Number", "gpdealdomain"); ?> </span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span class="span_value">
-                                                                                <?php echo get_user_meta($post_author, 'company-identity-number', true); ?>
-                                                                            </span>
-                                                                        </td>
-                                                                    </tr>
+                                                                    </tr>               
                                                                 <?php endif ?>
                                                             </tbody>
                                                         </table>
@@ -444,7 +428,7 @@
                                                                     <?php echo __("Cancel", "gpdealdomain") ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Cancel carrier if no transaction with him", "gpdealdomain") ?></span></i>
                                                                 </a>
                                                             </form>
-                                                            <a id="evaluate_transport_offer_btn<?php echo $transport_offer_id; ?>" href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate', 'package_id' => $package_id), wp_make_link_relative(get_permalink($transport_offer_id)))) ?>" class="ui right floated basic primary button">
+                                                            <a id="evaluate_transport_offer_btn<?php echo $transport_offer_id; ?>" href="<?php echo esc_url(add_query_arg(array('action' => 'evaluate', 'package_id' => $package_id), wp_make_link_relative(get_permalink($transport_offer_id)))); ?>" class="ui right floated basic primary button">
                                                                 <?php echo __("Evaluate", "gpdealdomain") ?> <i class="help circle green link icon tooltip"><span class="tooltiptext"><?php echo __("Give your reviews if transaction carried out", "gpdealdomain") ?></span></i>
                                                             </a>
                                                         <?php else: ?>

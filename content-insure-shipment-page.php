@@ -24,7 +24,7 @@ get_template_part('top-menu', get_post_format());
                 </div>
             </a>
             <a class="active step" href="<?php echo esc_url(get_permalink(get_page_by_path(__('select-transport-offers', 'gpdealdomain') . '/' . __('payment', 'gpdealdomain')))); ?>">
-                <i class="handshake green icon"></i>
+                <i class="umbrella green icon"></i>
                 <div class="content">
                     <div class="title"><?php echo __("Insurance", 'gpdealdomain') ?></div>
                 </div>

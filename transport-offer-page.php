@@ -34,6 +34,7 @@ if (is_user_logged_in()) {
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
                 $package_type = array_map('intval', $_POST['transport_offer_package_type']);
+                $contact_voices = array_map('intval', $_POST['contact_voices']);
                 $transport_method = removeslashes(esc_attr(trim($_POST['transport_offer_transport_method'])));
                 $transport_offer_price = removeslashes(esc_attr(trim($_POST['transport_offer_price'])));
                 $transport_offer_currency = removeslashes(esc_attr(trim($_POST['transport_offer_currency'])));
@@ -74,7 +75,8 @@ if (is_user_logged_in()) {
                     "destination_city" => $country_region_city_destination['city'],
                     "destination_city_as_gmap" => $destination_city,
                     "destination_date" => $destination_date,
-                    "distance_between_departure_arrival" => gpdealDistanceBetweenTwoCities($start_city, $destination_city)
+                    "distance_between_departure_arrival" => gpdealDistanceBetweenTwoCities($start_city, $destination_city),
+                    "contact_voices" => $contact_voices
                 );
                 $transport_offer_id = saveTransportOffer($transport_offer_data);
                 if (!is_wp_error($transport_offer_id)) {
@@ -118,6 +120,7 @@ if (is_user_logged_in()) {
         }
     }
 } else {
+    $_SESSION["warning_process"] = __("You must be logged in to pusblish a transport offer", "gpdealdomain");
     $_SESSION['redirect_to'] = get_the_permalink();
     wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
 }

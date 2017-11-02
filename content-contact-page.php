@@ -19,7 +19,7 @@
                 <div class="twelve wide column">
                     <div id="content_search_carrier_form" class="ui fluid card">
                         <div class="content content_page">
-                            <form id='contact_form' action="<?php echo wp_make_link_relative(get_the_permalink()) ?>" class="ui form">
+                            <form id='contact_form' action="<?php echo wp_make_link_relative(get_the_permalink()) ?>" class="ui form" autocomplete="off">
                                 <?php if (!is_user_logged_in()): ?>
                                     <div class=" fields">
                                         <div class="three wide field">

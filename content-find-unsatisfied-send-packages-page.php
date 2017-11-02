@@ -13,8 +13,97 @@
 <div class="ui vertical masthead  segment container">
     <!--div class="ui text container">
     </div-->
-    <div class="ui stackable grid">
+    <div id="content_search_packages_form" class="ui fluid card">
+        <div class="content center aligned">
+            <div class="header" style="font-size: 10.5pt;">
+                <span id="show_search_form"><a><?php _e('Show search details', 'gpdealdomain'); ?></a> <i class="chevron down icon"></i></span><span id="hide_search_form" style="display:none;"><a><?php _e('Hide search details', 'gpdealdomain'); ?></a> <i class="chevron up icon"></i></span>
+            </div>
+        </div>
+        <div id='search_unsatisfied_packages_content' class="content" style="display: none;">
+            <form id='search_unsatisfied_packages_form'  method="GET" action="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('search-for-unsatisfied-shipments', 'gpdealdomain')))); ?>" class="ui form" autocomplete="off">
+                <div class="two wide fields">
+                    <div class="field">
+                        <div class="ui input  icon start_city_package">
+                            <i class="remove link icon start_city_package" style="display: none;" locality_id='start_city_package'></i>
+                            <input id="start_city_package" type="text" class="locality" name='start-city' placeholder="<?php _e('Departure city', 'gpdealdomain'); ?>" value="<?php echo $start_city ?>">
+                        </div>
+                    </div>             
+                    <div class="field">
+                        <div class="ui calendar" >
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" name='start-date' placeholder="<?php _e('Departure date', 'gpdealdomain'); ?>" value="<?php echo $start_date ?>">
+                            </div>
+                        </div>
+                    </div>      
+                </div>
 
+                <div class="two wide fields">
+                    <div class="field">
+                        <div class="ui input icon destination_city_package">
+                            <i class="remove link icon destination_city_package" style="display: none;" locality_id='destination_city_package'></i>
+                            <input id="destination_city_package" type="text" class="locality" name='destination-city' placeholder="<?php _e('Destination city', 'gpdealdomain'); ?>" value="<?php echo $destination_city ?>">
+                        </div>
+                    </div>             
+                    <div class="field">
+                        <div class="ui calendar" >
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" name='destination-date' placeholder="<?php _e('Destination date', 'gpdealdomain'); ?>" value="<?php echo $destination_date ?>">
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+                <div class="fields" style="margin-bottom: 0;">
+                    <div id="package_type_fields_find_shipments" style="margin-left: 0.6em" class="inline fields">
+                        <span class="span_label" style="margin-right: 1.3em;"><?php echo __("Object", 'gpdealdomain') ?>(s)<i class="help circle green link icon tooltip">
+                                <span class="tooltiptext"><?php echo __("Several possible choices", "gpdealdomain") ?></span>
+                            </i>
+                        </span>
+                        <?php
+                        $typePackages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
+                        foreach ($typePackages as $typePackage):
+                            ?>
+                            <div class="field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="package-type[]" value="<?php echo $typePackage->term_id; ?>" <?php if (in_array($typePackage->term_id, $package_type, true)): ?> checked="checked" <?php endif ?>>
+                                    <label><?php echo __($typePackage->name, "gpdealdomain"); ?>
+                                        <?php if ($typePackage->slug == "colis"): ?>
+                                            <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_colis.png"></i>
+                                        <?php elseif ($typePackage->slug == "autre"): ?>
+                                            <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_autre_colis.png"></i>
+                                        <?php elseif ($typePackage->slug == "mail"): ?>
+                                            <i class="big green icon"><img class="ui mini image" src="<?php echo wp_make_link_relative(get_template_directory_uri()) ?>/assets/images/icone_courrier.png"></i>
+                                        <?php endif ?>
+
+                                    </label>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                </div>
+
+                <div class="field" style="margin-bottom: 0;">
+                    <div id="server_error_message_package" class="ui negative message" style="display:none">
+                        <i class="close icon"></i>
+                        <div id="server_error_content_package" class="header">Internal server error</div>
+                    </div>
+                    <div id="error_name_message_package" class="ui error message" style="display: none">
+                        <i class="close icon"></i>
+                        <div id="error_name_header_package" class="header"></div>
+                        <ul id="error_name_list_package" class="list">
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <button id="submit_search_unsatisfied_packages" class="ui right floated green button" type="submit"><?php echo __("Search shippers", "gpdealdomain") ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ui stackable grid">
         <div class="wide column">
             <div class="ui content_packages_transports fluid card">
                 <div class="content center aligned">
@@ -156,11 +245,11 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <?php if (is_user_logged_in()): ?>
+                                        <?php //if (is_user_logged_in()): ?>
                                             <div class="extra content">
                                                 <a  class="ui green button" href="<?php the_permalink(); ?>"><?php echo __("Details", "gpdealdomain") ?></a>
                                             </div>
-                                        <?php endif ?>
+                                        <?php //endif ?>
                                     </div>
                                 </div>
                                 <?php
@@ -209,6 +298,7 @@
                                 <div class="content">
                                     <div class="header" style="font-weight: normal;">
                                         <?php _e("No unsatisfied shipment matches your criteria", "gpdealdomain"); ?>.
+                                        <?php echo __("If you want to be contacted by a shipper", "gpdealdomain") ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>"><?php _e("Publish a transport offer here", "gpdealdomain"); ?></a>.
                                     </div>
                                 </div>
                             </div>
@@ -364,11 +454,11 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <?php if (is_user_logged_in()): ?>
+                                        <?php //if (is_user_logged_in()): ?>
                                             <div class="extra content">
                                                 <a  class="ui green button" href="<?php the_permalink(); ?>"><?php echo __("Details", "gpdealdomain") ?></a>
                                             </div>
-                                        <?php endif ?>
+                                        <?php //endif ?>
                                     </div>
                                 </div>
                                 <?php

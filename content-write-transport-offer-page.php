@@ -1,5 +1,7 @@
 <?php
 get_template_part('top-menu', get_post_format());
+$current_user = wp_get_current_user();
+$roles = $current_user->roles;
 ?>
 <div class="ui tiny borderless second-nav menu">
     <div class="ui container center aligned">
@@ -122,7 +124,7 @@ get_template_part('top-menu', get_post_format());
                                 <textarea placeholder="<?php echo __("Enter the description of object that you can to carry", "gpdealdomain"); ?>" name="transport_offer_portable_objects" cols="30" rows="5"><?php echo $transport_offer_portable_objects; ?></textarea>
                             </div>
                         </div>
-                        
+
                         <div class="fields">
                             <div class="four wide field dim_max_label">
                                 <label><?php echo __("Max dimensions", 'gpdealdomain') ?> <i class="help circle green link icon tooltip">
@@ -229,6 +231,29 @@ get_template_part('top-menu', get_post_format());
                                 </div>
                             </div>
                         </div>
+                        <?php if (in_array("particular", $roles)): ?>
+                            <h4 class="ui dividing header"><?php echo __("Prefer to be contacted by?", 'gpdealdomain') ?></h4>
+                            <div class="fields">
+                                <div class="four wide field">
+                                </div>
+                                <div class="twelve wide field">
+                                    <div style="margin-left: 0.6em" class="inline fields checkbox_with_icones">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="contact_voices[]" value="1" <?php if ($contact_voices && in_array(1, $contact_voices, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __("E-mail", "gpdealdomain"); ?></label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="contact_voices[]" value="2" <?php if ($contact_voices && in_array(2, $contact_voices, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __("Phone Number", "gpdealdomain"); ?></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif ?>
 
                         <div class="inline field">
                             <div class="ui checkbox">
@@ -250,8 +275,8 @@ get_template_part('top-menu', get_post_format());
                                 </ul>
                             </div>
                         </div>
-                        <div class="field">
-                            <button id="submit_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Publish offer", "gpdealdomain"); ?></button>
+                        <div class="field" style="text-align: right;">
+                            <button id="submit_transport_offer" class="ui green button" type="submit" style="min-width: 12em;"><?php _e("Publish offer", "gpdealdomain"); ?></button>
                         </div>
                     </form>
                 </div>

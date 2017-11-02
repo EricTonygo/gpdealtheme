@@ -1,9 +1,12 @@
 <?php
 global $current_user;
+$current_user = wp_get_current_user();
+$roles = $current_user->roles;
 $transport_offer_id = get_the_ID();
 get_template_part('top-menu', get_post_format());
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
     $package_type = array_map('intval', wp_get_post_terms(get_the_ID(), 'type_package', array("fields" => "ids")));
+    $contact_voices = array_map('intval', get_post_meta(get_the_ID(), 'contact-voices', true));
     $transport_method = array_map('intval', wp_get_post_terms(get_the_ID(), 'transport-method', array("fields" => "ids")));
     $transport_offer_price = get_post_meta(get_the_ID(), 'price', true);
     $transport_offer_currency = get_post_meta(get_the_ID(), 'currency', true);
@@ -35,18 +38,20 @@ $post_author = get_post_field('post_author', get_the_ID());
         <div class="center menu">
             <div class="item <?php if ($post_author != $current_user->ID): ?>small_breadcumb<?php endif ?>">
                 <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
-                <i class="small right chevron icon divider"></i>
-                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
-                <i class="small right chevron icon divider"></i>
-                <?php if ($post_author == $current_user->ID): ?>
-                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
-                <?php else: ?>
-                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
+                <?php if (is_user_logged_in()): ?>
                     <i class="small right chevron icon divider"></i>
-                    <a href="<?php echo wp_make_link_relative(get_the_permalink($package_id)); ?>" class="section"><?php echo get_post_field('post_title', $package_id); ?></a>
+                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
                     <i class="small right chevron icon divider"></i>
-                    <a href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), wp_make_link_relative(get_the_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))))); ?>" class="section"><?php echo __('Selected carriers', 'gpdealdomain'); ?></a>
-                <?php endif ?>
+                    <?php if ($post_author == $current_user->ID): ?>
+                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
+                    <?php else: ?>
+                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
+                        <i class="small right chevron icon divider"></i>
+                        <a href="<?php echo wp_make_link_relative(get_the_permalink($package_id)); ?>" class="section"><?php echo get_post_field('post_title', $package_id); ?></a>
+                        <i class="small right chevron icon divider"></i>
+                        <a href="<?php echo esc_url(add_query_arg(array('package-id' => $package_id), wp_make_link_relative(get_the_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('show-carriers-contacts', 'gpdealdomain')))))); ?>" class="section"><?php echo __('Selected carriers', 'gpdealdomain'); ?></a>
+                    <?php endif ?>
+                <?php endif ?>   
                 <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
             </div>
@@ -262,6 +267,29 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </div>
                             </div>
                         </div>
+                        <?php if (in_array("particular", $roles)): ?>
+                            <h4 class="ui dividing header"><?php echo __("Prefer to be contacted by?", 'gpdealdomain') ?></h4>
+                            <div class="fields">
+                                <div class="four wide field">
+                                </div>
+                                <div class="twelve wide field">
+                                    <div style="margin-left: 0.6em" class="inline fields checkbox_with_icones">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="contact_voices[]" value="1" <?php if ($contact_voices && in_array(1, $contact_voices, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __("E-mail", "gpdealdomain"); ?></label>
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" name="contact_voices[]" value="2" <?php if ($contact_voices && in_array(2, $contact_voices, true)): ?> checked="checked" <?php endif ?>>
+                                                <label><?php echo __("Phone Number", "gpdealdomain"); ?></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif ?>
 
                         <div class="inline field">
                             <div class="ui checkbox">
@@ -283,10 +311,10 @@ $post_author = get_post_field('post_author', get_the_ID());
                             </div>
                         </div>
                         <?php if (get_post_meta(get_the_ID(), 'transport-status', true) != 2 || get_post_meta(get_the_ID(), 'package-status', true) != 3): ?>
-                            <div class="field">
+                            <div class="field" style="text-align: right">
                                 <input type="hidden" name='action' value='edit'>
-                                <button id="submit_send_transport_offer" class="ui right floated green button" type="submit" style="min-width: 12em;"><?php _e("Edit", "gpdealdomain"); ?></button>
-                                <button id="cancel_edit_transport_offer_infos_btn" class="ui right floated red button" style="min-width: 12em;" ><?php _e("Cancel", "gpdealdomain"); ?></button>
+                                <button id="cancel_edit_transport_offer_infos_btn" class="ui red button" style="min-width: 12em;" ><?php _e("Cancel", "gpdealdomain"); ?></button>
+                                <button id="submit_send_transport_offer" class="ui green button" type="submit" style="min-width: 12em;"><?php _e("Edit", "gpdealdomain"); ?></button>
                             </div>
                         <?php endif ?>
                     </form>
@@ -302,7 +330,7 @@ $post_author = get_post_field('post_author', get_the_ID());
         <div class="ui stackable grid">
             <div class="eleven wide column">
                 <div  class="ui fluid card transport_offer_card">
-                    <?php if ($current_user->ID != $post_author): ?>
+                    <?php if (is_user_logged_in()): ?>
                         <div class="image">
                             <div class="content_image_profilename">
                                 <?php
@@ -501,6 +529,16 @@ $post_author = get_post_field('post_author', get_the_ID());
                                             </span>
                                         </td>
                                     </tr>
+                                    <?php if ($portable_objects): ?>
+                                        <tr>
+                                            <td>
+                                                <span class="span_label"><?php echo __("Description", 'gpdealdomain') ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="span_value"> <?php echo $portable_objects; ?></span>                                 
+                                            </td>
+                                        </tr>
+                                    <?php endif ?>
                                     <?php if ($max_length || $max_width || $max_height || $max_weight) : ?>
                                         <tr>
                                             <td>
@@ -582,15 +620,19 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 $current_user_evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => 1, "post_status" => 'publish', 'author' => $current_user->ID, 'meta_query' => array(array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='))));
                             }
                             ?>
-
-                            <div class="field" style="margin-top: 2em">
-                                <?php if (get_post_field('post_author', get_the_ID()) != $current_user->ID && !$evaluations->have_posts() && !$current_user_evaluations->have_posts() && $action != null && $action == "evaluate" && $package_id && get_post_meta($package_id, 'package-status', true) == 2): ?>
-                                    <a id="show_block_evaluation_form_top" <?php if ($current_user_evaluations->have_posts()): ?> href="#action_evaluate_down"<?php else: ?> href="#block_evaluation_form" <?php endif ?> onclick="show_block_evaluation_form_top()" class="ui right floated green basic button"><?php echo __("Give an reviews", "gpdealdomain") ?></a>
-                                <?php endif ?>
-                                <?php if (get_post_field('post_author', get_the_ID()) == $current_user->ID && !$evaluations->have_posts() && get_post_meta(get_the_ID(), 'transport-status', true) == 1): ?>
-                                    <button id="edit_transport_offer_infos_btn" class="ui right floated green button" ><?php echo __("Edit offer", "gpdealdomain"); ?></button>
-                                <?php endif ?>
-                            </div>
+                            <?php if (is_user_logged_in()): ?>
+                                <div class="field" style="margin-top: 2em">
+                                    <?php
+                                    $packages_users_ids = get_post_meta(get_the_ID(), 'packages-users-IDs', true);
+                                    ?>
+                                    <?php if (in_array(get_current_user_id(), $packages_users_ids) && get_post_field('post_author', get_the_ID()) != get_current_user_id() && !$evaluations->have_posts() && !$current_user_evaluations->have_posts() && $action != null && $action == "evaluate" && $package_id && get_post_meta($package_id, 'package-status', true) == 2): ?>
+                                        <a id="show_block_evaluation_form_top" <?php if ($current_user_evaluations->have_posts()): ?> href="#action_evaluate_down"<?php else: ?> href="#block_evaluation_form" <?php endif ?> onclick="show_block_evaluation_form_top()" class="ui right floated green basic button"><?php echo __("Give an reviews", "gpdealdomain") ?></a>
+                                    <?php endif ?>
+                                    <?php if (in_array(get_current_user_id(), $packages_users_ids) && get_post_field('post_author', get_the_ID()) == get_current_user_id() && !$evaluations->have_posts() && get_post_meta(get_the_ID(), 'transport-status', true) == 1): ?>
+                                        <button id="edit_transport_offer_infos_btn" class="ui right floated green button" ><?php echo __("Edit offer", "gpdealdomain"); ?></button>
+                                    <?php endif ?>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
@@ -739,7 +781,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         </div>
                     <?php endif ?>
                     <div class="ui bottom attached active tab segment" data-tab="evaluations-tab" style="border:none;">
-                        <div id='evaluations' class="ui basic segment container" <?php if ($action != null && $action != 'evaluate' && $action != 'evaluations' && $action != 'show'): ?> style="display: none" <?php endif ?>>
+                        <div id='evaluations' class="ui basic segment container" <?php if ($action != null && $action != 'evaluate' && $action != 'evaluations' && $action != 'show'): ?> style="display: none; padding-left: 0; padding-right: 0"<?php else: ?>style="padding-left: 0; padding-right: 0"<?php endif ?>>
                             <?php
                             $transport_offer_link = wp_make_link_relative(get_the_permalink());
                             //$evaluations = new WP_Query(array('post_type' => 'evaluation', 'post_per_page' => -1, "post_status" => 'publish', 'orderby' => 'post_date', 'order' => 'DESC', 'meta_query' => array(array('key' => 'transport-offer-ID', 'value' => get_the_ID(), 'compare' => '='))));
@@ -859,8 +901,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                                                                     </div>
                                                                     <?php if ($current_user_comments_count == 0): ?>
                                                                         <div class="actions">
-                                                                            <a id="show_comment_reply_form<?php echo $comment->comment_ID; ?>" onclick="show_comment_reply_form(<?php echo $comment->comment_ID; ?>)" class="reply"><?php echo __("Answer", "gpdealdomain") ?></a>
-                                                                            <a id="hide_comment_reply_form<?php echo $comment->comment_ID; ?>" onclick="hide_comment_reply_form(<?php echo $comment->comment_ID; ?>)" class="reply" style="display: none"><?php echo __("Cancel", "gpdealdomain") ?></a>
+                                                                            <a id="show_comment_reply_form<?php echo $comment->comment_ID; ?>" onclick="show_comment_reply_form(<?php echo $comment->comment_ID; ?>)" class="reply" style="text-decoration: none"><i class="reply icon"></i><?php echo __("Answer", "gpdealdomain") ?></a>
+                                                                            <a id="hide_comment_reply_form<?php echo $comment->comment_ID; ?>" onclick="hide_comment_reply_form(<?php echo $comment->comment_ID; ?>)" class="reply" style="display: none; text-decoration: none;"><?php echo __("Cancel", "gpdealdomain") ?></a>
                                                                         </div>
                                                                     <?php endif ?>
                                                                 </div>
@@ -950,7 +992,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </div>
                             </div>
                             <?php if ($package_id): ?>           
-                                <?php if (get_post_field('post_author', $transport_offer_id) != $current_user->ID && !$current_user_evaluations->have_posts()): ?>
+                                <?php if (is_user_logged_in() && get_post_field('post_author', $transport_offer_id) != get_current_user_id() && !$current_user_evaluations->have_posts()): ?>
                                     <div id="block_evaluation_form" class="ui fluid card" style="display: none">
                                         <div class="content">                                            
                                             <form id="evaluation_form" class="ui form" action="<?php echo wp_make_link_relative(get_the_permalink($transport_offer_id)) ?>" method="POST">
@@ -1074,7 +1116,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                     "destination_date" => $destination_date,
                     "posts_per_page" => 3
                 );
-                $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, array_map('intval', get_post_meta(get_the_ID(), "packages-IDs", true))));
+                $exclude_packages_IDs = is_array(get_post_meta(get_the_ID(), "packages-IDs", true)) ? get_post_meta(get_the_ID(), "packages-IDs", true) : array();
+                $packages = new WP_Query(getWPQueryArgsForUnsatifiedSendPackagesWithCanInterest($search_data, array_map('intval', $exclude_packages_IDs)));
                 if ($packages->have_posts()):
                     ?>
                     <div class="ui fluid card right_content_unsatisfied_shipments">

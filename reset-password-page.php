@@ -33,7 +33,7 @@ if (!is_user_logged_in()) {
         get_footer();
     }
 } else {
-    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['new_password']) && isset($_POST['new_password'])) {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['old_password']) && isset($_POST['new_password'])) {
         $user = get_user_by('id', get_current_user_id());
         $login = $current_user->data->user_login;
         $old_password = esc_attr($_POST['old_password']);

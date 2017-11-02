@@ -320,7 +320,7 @@ $(document).ready(function () {
     $("#dropdown_search_mobile.ui.dropdown.item").dropdown({
         on: 'click',
         onHide: function () {
-            if ($('#s_mobile').val() !== "") {
+            if ($('#q_mobile').val() !== "") {
                 return false;
             }
         }
@@ -689,14 +689,14 @@ $(document).ready(function () {
     }
 
     $('#search_input_top_form').submit(function () {
-        if ($('#search_input_top_form input[name="s"]').val() === "") {
+        if ($('#search_input_top_form input[name="q"]').val() === "") {
             return false;
         }
         $('#submit_search_input_top').addClass('loading');
     });
 
     $('#mobile_search_input_top_form').submit(function () {
-        if ($('#mobile_search_input_top_form input[name="s"]').val() === "") {
+        if ($('#mobile_search_input_top_form input[name="q"]').val() === "") {
             return false;
         }
         $('#mobile_submit_search_input_top').addClass('loading');
@@ -1108,6 +1108,22 @@ $(document).ready(function () {
         $('#' + previousImageId).fadeOut(options);
         $('#' + imageIds[currentImageIndex]).fadeIn(options);
     }
+    
+    $('#show_search_form>a').click(function(e){
+        e.preventDefault();
+        $('#show_search_form').hide();
+        $('#hide_search_form').show();
+        $('#search_transport_offers_content').transition('slide down');
+        $('#search_unsatisfied_packages_content').transition('slide down');
+    });
+    
+    $('#hide_search_form>a').click(function(e){
+        e.preventDefault();
+        $('#hide_search_form').hide();
+        $('#show_search_form').show();
+        $('#search_transport_offers_content').transition('slide down');
+        $('#search_unsatisfied_packages_content').transition('slide down');
+    });
 });
 
 

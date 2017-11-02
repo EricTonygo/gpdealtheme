@@ -274,7 +274,7 @@ get_template_part('top-menu', get_post_format());
                                     </ul>
                                 </div>
                             </div>
-                            <div class="field">
+                            <div class="field" style="text-align: right;">
                                 <?php if (isset($_POST["confirm_transaction"]) && $_POST["confirm_transaction"] == "true"): ?> 
                                     <input type="hidden" name="confirm_transaction"  value="true">
                                     <select name="selected_transport_offers[]"  multiple="multiple" style="display: none">
@@ -288,9 +288,9 @@ get_template_part('top-menu', get_post_format());
                                             <?php endforeach ?>
                                         <?php } ?>
                                     </select>
-                                    <button id="submit_send_package" onclick='confirm_finalisation_transaction_send_package()' class="ui right floated green button" name="submit_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Finalize transaction", "gpdealdomain"); ?></button>
+                                    <button id="submit_send_package" onclick='confirm_finalisation_transaction_send_package()' class="ui green button" name="submit_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Finalize transaction", "gpdealdomain"); ?></button>
                                 <?php else: ?>
-                                    <button id="submit_send_package" class="ui right floated green button" name="submit_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search for carriers", "gpdealdomain"); ?></button>
+                                    <button id="submit_send_package" class="ui green button" name="submit_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search for carriers", "gpdealdomain"); ?></button>
                                 <?php endif ?>
                             </div>
                         </form>

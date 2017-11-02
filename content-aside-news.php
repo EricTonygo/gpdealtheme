@@ -14,7 +14,7 @@ if ($latest_news->have_posts()) :
                         <?php endif ?>
                     </p>
                     <div align="center">
-                        <div class="ui header"><?php the_title() ?></div>
+                        <a class="ui header" href="<?php echo wp_make_link_relative(get_permalink()); ?>"><?php the_title() ?></a>
                         <p><?php the_content() ?></p>
                     </div>
                 </div>

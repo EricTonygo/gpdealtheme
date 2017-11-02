@@ -9,7 +9,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr_FR\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.4\n"
 
 # Translation of gpdealtheme in French (France)
 msgid "Transport offers"
@@ -745,7 +745,7 @@ msgid "No evaluation"
 msgstr "Aucune évaluation"
 
 msgid "Add a comment"
-msgstr "Ajouter a commentaire"
+msgstr "Ajouter un commentaire"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -1176,8 +1176,8 @@ msgstr "Vous devez completer votre inscription pour etre capable de publier une 
 msgid "You must complete the missing information in your profile in order to be able to publish a transport offer"
 msgstr "Vous devez compléter les informations manquantes dans votre profil pour pouvoir publier une offre de transport"
 
-msgid "You must complete the missing information in your profile in order to be able to search for carriers"
-msgstr "Vous devez compléter les informations manquantes dans votre profil pour pouvoir rechercher des transporteurs"
+msgid "You must complete the missing information in your profile in order to be able to contact carriers"
+msgstr "Vous devez compléter les informations manquantes dans votre profil pour pouvoir contacter des transporteurs"
 
 msgid "Account Type"
 msgstr "Type de compte"
@@ -1700,3 +1700,69 @@ msgstr "charte de confidentialité et de cookies"
 
 msgid "Details"
 msgstr "Détails"
+
+msgid "Show search details"
+msgstr "Afficher détails de la recherche"
+
+msgid "Hide search details"
+msgstr "Masquer détails de la recherche"
+
+msgid "Contact voices"
+msgstr "Voix de contact"
+
+msgid "Prefer to be contacted by?"
+msgstr "Vous préférez être contacté par ?"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Search information"
+msgstr "Recherche informations"
+
+msgid "our-news"
+msgstr "nos-actualites"
+
+msgid "Posted on"
+msgstr "Publié dans"
+
+msgid "Read more"
+msgstr "En savoir plus"
+
+msgid "Latest News"
+msgstr "Actualités Récentes"
+
+msgid "Share on"
+msgstr "Partager sur"
+
+msgid "Previous"
+msgstr "Précedent"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "You must be logged in to pusblish a shipment"
+msgstr "Vous devez être connecter pour publier une expédition"
+
+msgid "You must be logged in to pusblish a transport offer"
+msgstr "Vous devez être connecter pour publier une offre de transport"
+
+msgid "We do not have news published at this time"
+msgstr "Nous n'avons pas d'actualités publiées à ce moment"
+
+msgid "No results match your keywords"
+msgstr "Aucun résultat ne correspond à vos mots clés"
+
+msgid "Publish a shipment here"
+msgstr "Publier une expédition ici"
+
+msgid "Publish a transport offer here"
+msgstr "Publier une offre de transport ici"
+
+msgid "If you want to be contacted by a shipper"
+msgstr "Si vous souhaitez être contacté par un expéditeur"
+
+msgid "If you wish to be notified when a corresponding offer is published"
+msgstr "Si vous souhaitez être averti lorsqu'une offre correspondante sera publiée"
+
+msgid "Category"
+msgstr "Categorie"

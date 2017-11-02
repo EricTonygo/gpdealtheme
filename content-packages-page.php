@@ -38,7 +38,7 @@
                                         <?php _e("Incomplete registration", "gpdealdomain"); ?>
                                     </div>
                                     <p>
-                                        <?php _e("You must complete the missing information in your profile in order to be able to search for carriers", "gpdealdomain"); ?>.
+                                        <?php _e("You must complete the missing information in your profile in order to be able to contact carriers", "gpdealdomain"); ?>.
                                     </p>
                                 </div>
                             <?php endif ?>

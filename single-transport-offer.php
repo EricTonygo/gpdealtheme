@@ -2,8 +2,9 @@
 
 session_start();
 expire_session();
-if (is_user_logged_in()) {
-    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (is_user_logged_in()) {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "evaluate") {
             $item_delivred = removeslashes(esc_attr(trim($_POST['item_delivred'])));
             $item_state = removeslashes(esc_attr(trim($_POST['item_state'])));
@@ -101,6 +102,7 @@ if (is_user_logged_in()) {
             }
         } elseif (isset($_POST['transport_offer_package_type']) && isset($_POST['transport_offer_transport_method']) && isset($_POST['start_city']) && isset($_POST['start_date']) && isset($_POST['start_deadline']) && isset($_POST['destination_city']) && isset($_POST['destination_date']) && isset($_POST['terms'])) {
             $package_type = array_map('intval', $_POST['transport_offer_package_type']);
+            $contact_voices = array_map('intval', $_POST['contact_voices']);
             $transport_method = removeslashes(esc_attr(trim($_POST['transport_offer_transport_method'])));
             $transport_offer_price = removeslashes(esc_attr(trim($_POST['transport_offer_price'])));
             $transport_offer_currency = removeslashes(esc_attr(trim($_POST['transport_offer_currency'])));
@@ -141,7 +143,8 @@ if (is_user_logged_in()) {
                 "destination_city" => $country_region_city_destination['city'],
                 "destination_city_as_gmap" => $destination_city,
                 'destination_date' => $destination_date,
-                "distance_between_departure_arrival" => gpdealDistanceBetweenTwoCities($start_city, $destination_city)
+                "distance_between_departure_arrival" => gpdealDistanceBetweenTwoCities($start_city, $destination_city),
+                "contact_voices" => $contact_voices
             );
             $transport_offer_id = updateTransportOffer(get_the_ID(), $transport_offer_data);
             if (!is_wp_error($transport_offer_id)) {
@@ -157,7 +160,12 @@ if (is_user_logged_in()) {
         get_header();
         include(locate_template('content-single-transport-offer-page.php'));
         get_footer();
-    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action'])) {
+    } else {
+        $_SESSION['redirect_to'] = get_the_permalink();
+        wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
+    }
+} elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['action'])) {
+    if (is_user_logged_in()) {
         if ($_GET['action'] == "evaluate" && isset($_GET['package_id'])) {
             $action = $_GET['action'];
             $package_id = intval(removeslashes(esc_attr(trim($_GET['package_id']))));
@@ -165,17 +173,23 @@ if (is_user_logged_in()) {
         get_header();
         include(locate_template('content-single-transport-offer-page.php'));
         get_footer();
-    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package_id']) && !isset($_GET['action'])) {
+    } else {
+        $_SESSION['redirect_to'] = get_the_permalink();
+        wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
+    }
+} elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['package_id']) && !isset($_GET['action'])) {
+    if (is_user_logged_in()) {
         $package_id = intval(removeslashes(esc_attr(trim($_GET['package_id']))));
         get_header();
         include(locate_template('content-single-transport-offer-page.php'));
         get_footer();
     } else {
-        get_header();
-        get_template_part('content-single-transport-offer-page', get_post_format());
-        get_footer();
+        $_SESSION['redirect_to'] = get_the_permalink();
+        wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
     }
 } else {
-    $_SESSION['redirect_to'] = get_the_permalink();
-    wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
+    $page_title = get_post_meta(get_the_ID(), 'departure-city-transport-offer', true) . "(" . date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-transport-offer', true))) . ") " . __("to", "gpdealdomain") . " " . get_post_meta(get_the_ID(), 'destination-city-transport-offer', true) . "(" . date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-transport-offer', true))) . ")";
+    get_header();
+    include(locate_template('content-single-transport-offer-page.php'));
+    get_footer();
 }

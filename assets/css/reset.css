@@ -27,6 +27,31 @@ body.pushable>.pusher {
     width: 1200px;
 }
 
+.ui.menu .item>.ui.button{
+    /*border-radius: 1.285714rem;*/
+}
+
+.ui.menu .item:before{
+    background: none;
+}
+
+.ui.inverted.menu .item:before{
+    background: none;
+}
+
+.ui.inverted.menu .item .ui.icon.input input{
+    /*border-radius: 1.285714rem;*/
+}
+
+#menu_top_footer.inverted.menu .right.menu .item{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#menu_top_footer.inverted.menu .left.menu .search_item{
+    width: 23em;
+}
+
 .shadow_main_menu{
     box-shadow: 0 1px 2px 0 rgba(34,36,38,.15)!important;
 }
@@ -252,6 +277,10 @@ body.pushable>.pusher {
         margin-bottom: 0.5em!important;
     }
     
+    #left_menu_top_footer{
+        display:none!important;
+    }
+    
     #block_recap_desktop{
         display:none!important;
     }
@@ -358,7 +387,7 @@ body.pushable>.pusher {
             right: 16em!important;
             top: 26.7em!important;
         }*/
-    #sidebar_mobile_menu_item, #remove_mobile_menu_item{
+    #sidebar_mobile_menu_item, #remove_mobile_menu_item {
         display: none;
     }
 
@@ -430,7 +459,7 @@ body.pushable>.pusher {
 
 @media only screen and (max-width: 467px) {
     .cycle_bg_image{
-        height: 79.5vh!important;
+        height: 71.85vh!important
         padding: 1em 0em;
     }
     
@@ -622,7 +651,7 @@ body.pushable>.pusher {
 }
 
 .menu.signin_dropdown_menu{
-    width: 16em;
+    /*width: 16em;*/
 }
 
 .ui.sidebar.menu .item a {
@@ -1423,4 +1452,39 @@ form{
 
 .how_it_works .header{
     color: #4183C4!important
+}
+
+.ui.items>.item>.content>a.header.post_title{
+    color: rgb(145, 200, 70)!important;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.ui.items>.item>.content>a.header.post_title:hover{
+    color: rgb(145, 200, 70);
+}
+
+.ui.items>.item>.content>a.header.post_title:focus{
+    color: rgb(145, 200, 70);
+}
+
+.ui.card.aside_blog_card{
+    box-shadow: none;
+}
+
+.ui.card.aside_blog_card .post_title{
+    color: rgb(145, 200, 70)!important;
+    font-size: 16px!important;
+    font-weight: 500!important;
+}
+
+.ui.card.single_post .content .header.post_title{
+    color: rgb(145, 200, 70)!important;
+    font-size: 18px!important;
+    font-weight: 500!important;
+}
+
+.ui.card.aside_blog_card .ui.list>.item a.header{
+    font-weight: normal;
+    font-size: 14px;
 }

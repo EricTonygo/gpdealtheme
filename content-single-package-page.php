@@ -33,18 +33,20 @@ $post_author = get_post_field('post_author', get_the_ID());
     <div class="ui container center aligned">
         <div class="center menu">
             <div class="item <?php if ($post_author != $current_user->ID): ?>small_breadcumb<?php endif ?>">
-                <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>
+                <a href="<?php echo wp_make_link_relative(home_url('/')); ?>" class="section"><?php echo get_page_by_path(__('home', 'gpdealdomain'))->post_title ?></a>                
+                <?php if (is_user_logged_in()): ?>  
                 <i class="small right chevron icon divider"></i>
                 <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>" class="section"><?php echo get_page_by_path(__('my-account', 'gpdealdomain'))->post_title ?></a>
-                <i class="small right chevron icon divider"></i>
-                <?php if ($post_author == $current_user->ID): ?>
-                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
-                <?php else: ?>
-                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
-                    <i class="small right chevron icon divider"></i>
-                    <a href="<?php echo wp_make_link_relative(get_the_permalink($transport_offer_id)); ?>" class="section"><?php echo get_post_field('post_title', $transport_offer_id); ?></a>
-                    <i class="small right chevron icon divider"></i>
-                    <div class="section"><?php echo __('Carried shipments', 'gpdealdomain'); ?></div>
+                <i class="small right chevron icon divider"></i>            
+                    <?php if ($transport_offer_id): ?>
+                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))) ?>" class="section"><?php echo __('Transport offers', 'gpdealdomain') ?></a>
+                        <i class="small right chevron icon divider"></i>
+                        <a href="<?php echo wp_make_link_relative(get_the_permalink($transport_offer_id)); ?>" class="section"><?php echo get_post_field('post_title', $transport_offer_id); ?></a>
+                        <i class="small right chevron icon divider"></i>
+                        <div class="section"><?php echo __('Carried shipments', 'gpdealdomain'); ?></div>
+                    <?php else: ?>
+                        <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))) ?>" class="section"><?php echo __('Shipments', 'gpdealdomain'); ?></a>
+                    <?php endif ?>               
                 <?php endif ?>
                 <i class="small right arrow icon divider"></i>
                 <div class="active section"><?php the_title(); ?></div>
@@ -112,12 +114,12 @@ $post_author = get_post_field('post_author', get_the_ID());
                             </div>
                             <div class="twelve wide field">
 <!--                                <select name="package_type" class="ui search fluid dropdown" data-validate="package_type">
-                                    <option value=""><?php //echo __("Object type to be shipped", "gpdealdomain");   ?></option>
+                                    <option value=""><?php //echo __("Object type to be shipped", "gpdealdomain");       ?></option>
                                 <?php
                                 //$type_packages = get_terms(array('taxonomy' => 'type_package', 'hide_empty' => false, 'orderby' => 'ID', 'order' => 'ASC'));
                                 //foreach ($type_packages as $type_package):
                                 ?>
-                                        <option value="<?php //echo $type_package->term_id;   ?>" <?php //if (in_array($type_package->term_id, $type, true)):   ?> selected="selected" <?php //endif   ?>><?php //echo __($type_package->name, "gpdealdomain");   ?></option>
+                                        <option value="<?php //echo $type_package->term_id;       ?>" <?php //if (in_array($type_package->term_id, $type, true)):       ?> selected="selected" <?php //endif       ?>><?php //echo __($type_package->name, "gpdealdomain");       ?></option>
                                 <?php //endforeach ?>
                                 </select>-->
                                 <div class="inline fields checkbox_with_icones">
@@ -209,7 +211,7 @@ $post_author = get_post_field('post_author', get_the_ID());
                         $currencies = getCurrenciesList();
                         foreach ($currencies as $currency) :
                             ?>
-                                                                        <option value="<?php echo $currency['code'] ?>" <?php if ($currency['code'] == $package_currency): ?> selected="selected" <?php endif ?>><?php echo $currency['name'] . " - " . $currency['code']; ?></option>
+                                                                                    <option value="<?php echo $currency['code'] ?>" <?php if ($currency['code'] == $package_currency): ?> selected="selected" <?php endif ?>><?php echo $currency['name'] . " - " . $currency['code']; ?></option>
                         <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -305,12 +307,11 @@ $post_author = get_post_field('post_author', get_the_ID());
                                 </ul>
                             </div>
                         </div>
-                        <div class="field">
+                        <div class="field" style="text-align: right;">
                             <input type="hidden" name='action' value='edit'>
                             <input type="hidden" name='package_id' value='<?php the_ID() ?>'>
-                            <button id="submit_send_package" class="ui right floated green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search carriers", "gpdealdomain"); ?></button>
-                            <button id="cancel_edit_package_infos_btn" class="ui right floated red button" style="min-width: 12em;"><?php _e("Cancel", "gpdealdomain"); ?></button>
-
+                            <button id="cancel_edit_package_infos_btn" class="ui red button" style="min-width: 12em;"><?php _e("Cancel", "gpdealdomain"); ?></button>
+                            <button id="submit_send_package" class="ui green button" name="submit_update_send_package" value="yes" type="submit" style="min-width: 12em;"><?php _e("Search carriers", "gpdealdomain"); ?></button>
                         </div>
                     </form>
                 </div>
@@ -324,7 +325,7 @@ $post_author = get_post_field('post_author', get_the_ID());
         <div class="ui stackable grid">
             <div class="eleven wide column">
                 <div  class="ui fluid card package_card">
-                    <?php if ($current_user->ID != $post_author): ?>
+                    <?php if (is_user_logged_in()): ?>
                         <div class="image">
                             <div class="content_image_profilename">
                                 <?php
@@ -720,7 +721,8 @@ $post_author = get_post_field('post_author', get_the_ID());
                     "destination_date" => $destination_date,
                     "posts_per_page" => 3
                 );
-                $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, array_map('intval', get_post_meta(get_the_ID(), "carrier-ID", true))));
+                $exclude_Carriers_IDs = is_array(get_post_meta(get_the_ID(), "carrier-ID", true)) ? get_post_meta(get_the_ID(), "carrier-ID", true) : array();
+                $transport_offers_which_can_interest = new WP_Query(getWPQueryArgsCarrierSearchForWhichCanInterest($search_data, array_map('intval', $exclude_Carriers_IDs)));
                 if ($transport_offers_which_can_interest->have_posts()):
                     ?>
                     <div class="ui fluid card right_content_unsatisfied_shipments">

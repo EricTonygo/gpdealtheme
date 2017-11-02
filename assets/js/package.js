@@ -122,7 +122,7 @@ $(function () {
     $('#send_package_form.ui.form')
             .form({
                 fields: {
-                    type: {
+                    package_type: {
                         identifier: 'package_type',
                         rules: [
                             {

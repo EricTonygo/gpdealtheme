@@ -162,6 +162,7 @@ if (is_user_logged_in()) {
         }
     }
 } else {
+    $_SESSION["warning_process"] = __("You must be logged in to pusblish a shipment", "gpdealdomain");
     $_SESSION['redirect_to'] = get_the_permalink();
     wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
     exit;

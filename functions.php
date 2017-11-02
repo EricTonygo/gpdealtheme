@@ -55,6 +55,7 @@ function gpdeal_scripts() {
 //    wp_enqueue_script('jquery-3.1.1.min', 'https://code.jquery.com/jquery-3.1.1.min.js', array(), false, true);
     wp_enqueue_script('jquery.cookie.min', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js', array(), false, true);
     wp_enqueue_script('jquery.min', get_template_directory_uri() . '/assets/js/jquery.min.js', array(), false);
+    wp_enqueue_script('vue_js', 'https://unpkg.com/vue', array(), false);
     wp_register_script('semantic_ui_js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js', array(), '2.2.10', true);
 //    wp_register_script('semantic_ui_js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js', array(), '2.2.6', true);
     //wp_register_script( 'google_map_places_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCsKRohVxC2BavLF5MeV93AKVDkkJaE0mU&libraries=places', array(), false, true );

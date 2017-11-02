@@ -46,7 +46,7 @@ $(function () {
             .form({
                 fields: {
                     transport_offer_package_type: {
-                        identifier: 'transport_offer_package_type',
+                        identifier: 'transport_offer_package_type[]',
                         rules: [
                             {
                                 type: 'checked',
@@ -140,12 +140,21 @@ $(function () {
                             }
                         ]
                     },
+                    contact_voices: {
+                        identifier: 'contact_voices[]',
+                        rules: [
+                            {
+                                type: 'checked',
+                                prompt: gpdeal_translate("Please specify your contact voices")
+                            }
+                        ]
+                    },
                     terms: {
                         identifier: 'terms',
                         rules: [
                             {
                                 type: 'checked',
-                                prompt: gpdeal_translate("You must agree to these Terms of Use")
+                                prompt: gpdeal_translate("You should read the list of objects prohibited for transport")
                             }
                         ]
                     }

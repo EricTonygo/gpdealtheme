@@ -231,15 +231,11 @@ get_template_part('top-menu', get_post_format());
                                                     </span>
                                                 </div>
                                             </div>
-                                            <!--                                            <div class="extra content">
-                                            <?php if (is_user_logged_in()) : ?>
-                                                                                                                                                                <input id='selected_transport_offer_checkbox<?php echo $transport_offer_start_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_start_id; ?>" style="display: none">
-                                                                                                                                                                <a id='selected_transport_offer<?php echo $transport_offer_start_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_start_id; ?>)"><i class="checkmark icon"></i></a>
-                                                                                                                                                                <a id='unselected_transport_offer<?php echo $transport_offer_start_id; ?>' class="ui fluid green button" onclick="select_transport_offer(<?php echo $transport_offer_start_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                            <?php else: ?>
-                                                                                                                                                                <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                            <?php endif ?>
-                                                                                        </div>-->
+                                            <div class="extra content">
+                                                <div class="extra content">
+                                                    <a  class="ui green button" href="<?php echo wp_make_link_relative(get_permalink($transport_offer_start_id)); ?>"><?php echo __("Details", "gpdealdomain") ?></a>
+                                                </div>
+                                            </div>
                                         </div>                                        
                                     </div>
                                     <?php
@@ -288,8 +284,8 @@ get_template_part('top-menu', get_post_format());
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
                                             <?php echo __("No valid offer from", 'gpdealdomain') ?> <?php echo $country_region_city['city']; ?>.
+                                            <?php echo __("If you wish to be notified when a corresponding offer is published", "gpdealdomain") ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>"><?php _e("Publish a shipment here", "gpdealdomain"); ?></a>.
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -513,15 +509,11 @@ get_template_part('top-menu', get_post_format());
                                                     </span>
                                                 </div>
                                             </div>
-                                            <!--                                            <div class="extra content">
-                                            <?php if (is_user_logged_in()) : ?>
-                                                                                                                                                                <input id='selected_transport_offer_checkbox<?php echo $transport_offer_dest_id; ?>' type="checkbox" name="selected_transport_offers[]" value="<?php echo $transport_offer_dest_id; ?>" style="display: none">
-                                                                                                                                                                <a id='selected_transport_offer<?php echo $transport_offer_dest_id; ?>' class="ui fluid green button" style="display: none" onclick="unselect_transport_offer(<?php echo $transport_offer_dest_id; ?>)"><i class="checkmark icon"></i></a>
-                                                                                                                                                                <a id='unselected_transport_offer<?php echo $transport_offer_dest_id; ?>' class="ui fluid green button" onclick="select_transport_offer(<?php echo $transport_offer_dest_id; ?>)"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                            <?php else: ?>
-                                                                                                                                                                <a class="ui fluid green button" onclick="signin();"><?php echo __("Selectionner", "gpdealdomain") ?></a>
-                                            <?php endif ?>
-                                                                                        </div>-->
+                                            <div class="extra content">
+                                                <div class="extra content">
+                                                    <a  class="ui green button" href="<?php echo wp_make_link_relative(get_permalink($transport_offer_dest_id)); ?>"><?php echo __("Details", "gpdealdomain") ?></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <?php
@@ -568,6 +560,9 @@ get_template_part('top-menu', get_post_format());
                                     <div class="content">
                                         <div class="header" style="font-weight: normal;">
                                             <?php echo __("No valid offer to", 'gpdealdomain') ?> <?php echo $country_region_city['city']; ?>.
+                                            <?php if($transport_offers_start->have_posts()):?>
+                                            <?php echo __("If you wish to be notified when a corresponding offer is published", "gpdealdomain") ?>, <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>"><?php _e("Publish a shipment here", "gpdealdomain"); ?></a>.
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                 </div>

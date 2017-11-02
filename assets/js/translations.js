@@ -88,7 +88,9 @@ var lang = {
         "Please select a billing country of your card": "Veuillez selectionner le pays de facturation de la carte",
         "Please enter a value of your property": "Veuillez saisir la valeur de votre bien",
         "The value of your property must be a number": "La valeur de votre bien doit être un nombre",
-        "Please select the country code of phone number":"Selectionner l'indicatif du pays de votre numero"
+        "Please select the country code of phone number":"Selectionner l'indicatif du pays de votre numero",
+        "Please specify your contact voices":"Veuillez preciser vos voix de contact",
+        "You should read the list of objects prohibited for transport": "Vous devez prendre connaissance de la liste des objets prohibés pour le transport"
     }    
 };
 

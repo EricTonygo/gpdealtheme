@@ -2,8 +2,8 @@
 
 session_start();
 expire_session();
-if (is_user_logged_in()) {
-    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (is_user_logged_in()) {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_POST["action"]) && $_POST["action"] == "cancel") {
             $package_id = intval(removeslashes(esc_attr(trim($_POST['package_id']))));
 
@@ -103,15 +103,16 @@ if (is_user_logged_in()) {
             include(locate_template('content-single-package-page.php'));
             get_footer();
         }
-    } elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
-        if (isset($_GET['transport-offer-id'])) {
-            $transport_offer_id = intval(removeslashes(esc_attr(trim($_GET['transport-offer-id']))));
-        }
-        get_header();
-        include(locate_template('content-single-package-page.php'));
-        get_footer();
+    } else {
+        $_SESSION['redirect_to'] = get_the_permalink();
+        wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
     }
-} else {
-    $_SESSION['redirect_to'] = get_the_permalink();
-    wp_safe_redirect(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain'))));
+} elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['transport-offer-id'])) {
+        $transport_offer_id = intval(removeslashes(esc_attr(trim($_GET['transport-offer-id']))));
+    }
+    $page_title = get_post_meta(get_the_ID(), 'departure-city-package', true) . "(" . date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'date-of-departure-package', true))) . ") " . __("to", "gpdealdomain") . " " . get_post_meta(get_the_ID(), 'destination-city-package', true) . "(" . date('d-m-Y', strtotime(get_post_meta(get_the_ID(), 'arrival-date-package', true))) . ")";
+    get_header();
+    include(locate_template('content-single-package-page.php'));
+    get_footer();
 }

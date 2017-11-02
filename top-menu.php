@@ -20,11 +20,11 @@
                     <div class="item" style="display: none">test value</div>
                     <form id="mobile_search_input_top_form" action="<?php echo wp_make_link_relative(get_site_url() . '/') ?>" method="GET" >
                         <div class="ui action input">
-                            <div class="ui input right icon s_mobile">
-                                <i class="remove link icon s_mobile" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s_mobile'></i>
-                                <input id='s_mobile' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="s" value="<?php
-                                if (isset($_GET['s'])) {
-                                    echo stripslashes($_GET['s']);
+                            <div class="ui input right icon q_mobile">
+                                <i class="remove link icon q_mobile" <?php if (!isset($_GET['q'])): ?> style="display: none;" <?php endif ?> locality_id='q_mobile'></i>
+                                <input id='q_mobile' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="q" value="<?php
+                                if (isset($_GET['q'])) {
+                                    echo stripslashes($_GET['q']);
                                 }
                                 ?>" autocomplete="off" style="width: 23em;">
                             </div>
@@ -37,11 +37,11 @@
             <div  class="ui top right pointing dropdown item lang_select">
                 <i class="<?php _e("flag_code", "gpdealdomain"); ?> flag"></i>
                 <div class="menu">
-                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'en'), wp_make_link_relative(home_url('/')))) ?>" class="item" data-value="gb">
-                        <i class="gb flag"></i><?php echo __('English', 'gpdealdomain') ?>
+                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'en'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="gb" style="text-align: center;">
+                        <i class="gb flag" style="margin-right: 0;"></i><?php //echo __('English', 'gpdealdomain') ?>
                     </a>
-                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'fr'), wp_make_link_relative(home_url('/')))) ?>" class="item" data-value="fr">
-                        <i class="fr flag"></i><?php echo __('French', 'gpdealdomain') ?>
+                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'fr'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="fr" style="text-align: center;">
+                        <i class="fr flag" style="margin-right: 0;"></i><?php //echo __('French', 'gpdealdomain') ?>
                     </a>
                 </div>
             </div>
@@ -136,12 +136,12 @@
             <a href="<?php echo wp_make_link_relative(home_url('/')) ?>" class="header item">
                 <img class="ui tiny image logo" src="<?php echo get_template_directory_uri() ?>/assets/images/gpdeal_logo.png">
             </a>
-            <!--            <div class="item">
-                            <a class="ui tiny basic green button"><?php _e("I Carry", "gpdealdomain"); ?></a>
-                        </div>
-                        <div class="item">
-                            <a class="ui tiny green button"><?php _e("I Ship", "gpdealdomain"); ?></a>
-                        </div>-->
+<!--            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('about-us', 'gpdealdomain')))) ?>" class="item">
+                <?php echo __("About us", 'gpdealdomain') ?>
+            </a>
+            <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('blog', 'gpdealdomain')))) ?>" class="item">
+                <?php echo __("Blog", 'gpdealdomain') ?>
+            </a>-->
         </div>
 
         <div id="sitename" class="center menu">
@@ -149,11 +149,11 @@
                 <form id="search_input_top_form" action="<?php echo wp_make_link_relative(get_site_url() . '/'); ?>" method="GET">
                     <?php if (is_user_logged_in()): ?>
                         <div id="search_input_top" class="ui action input" style="width: 39em;">
-                            <div class="ui input right icon s" style="width: 35em;">
-                                <i class="remove link icon s" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s'></i>
-                                <input id='s' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="s" value="<?php
-                                if (isset($_GET['s'])) {
-                                    echo stripslashes($_GET['s']);
+                            <div class="ui input right icon q" style="width: 35em;">
+                                <i class="remove link icon q" <?php if (!isset($_GET['q'])): ?> style="display: none;" <?php endif ?> locality_id='q'></i>
+                                <input id='q' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="q" value="<?php
+                                if (isset($_GET['q'])) {
+                                    echo stripslashes($_GET['q']);
                                 }
                                 ?>" autocomplete="off">
                             </div>
@@ -161,11 +161,11 @@
                         </div>
                     <?php else: ?>
                         <div id="search_input_top" class="ui action input" style="width: 35em;">
-                            <div class="ui input right icon s" style="width: 31em;">
-                                <i class="remove link icon s" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s'></i>
-                                <input id='s' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="s" value="<?php
-                                if (isset($_GET['s'])) {
-                                    echo stripslashes($_GET['s']);
+                            <div class="ui input right icon q" style="width: 31em;">
+                                <i class="remove link icon q" <?php if (!isset($_GET['q'])): ?> style="display: none;" <?php endif ?> locality_id='q'></i>
+                                <input id='q' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="q" value="<?php
+                                if (isset($_GET['q'])) {
+                                    echo stripslashes($_GET['q']);
                                 }
                                 ?>" autocomplete="off">
                             </div>
@@ -177,15 +177,27 @@
         </div>
 
         <div  class="right menu">
+<!--            <div class="item">
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui green button">
+                    <i class="shipping icon"></i><?php echo __("I carry", 'gpdealdomain') ?>
+                </a>
+            </div>
+            <div class="item">
+                <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain') . '/' . __('write', 'gpdealdomain')))); ?>" class="ui button">
+                    <i class="travel icon"></i><?php echo __("I ship", 'gpdealdomain') ?>
+                </a>
+            </div>-->
+<!--            <a id="search_menu_item" class="ui item"><i class="search icon"></i></a>
+            <a id='remove_search_menu_item' class="ui item" style="display:none"><i class="remove icon"></i></a>-->
             <div id="lang_select" class="ui top right pointing dropdown item">
                 <i class="<?php _e("flag_code", "gpdealdomain"); ?> flag"></i>
-                <span ><?php echo __('Lang title', 'gpdealdomain') ?></span><i class="dropdown icon"></i>
+                <span ><?php //echo __('Lang title', 'gpdealdomain') ?></span><i class="dropdown icon" style="margin-left: 0;"></i>
                 <div class="menu">
-                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'en'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="gb">
-                        <i class="gb flag"></i><?php echo __('English', 'gpdealdomain') ?>
+                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'en'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="gb" style="text-align: center;">
+                        <i class="gb flag" style="margin-right: 0;"></i><?php //echo __('English', 'gpdealdomain') ?>
                     </a>
-                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'fr'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="fr">
-                        <i class="fr flag"></i><?php echo __('French', 'gpdealdomain') ?>
+                    <a href="<?php echo esc_url(add_query_arg(array('lang' => 'fr'), wp_make_link_relative(home_url('/')))); ?>" class="item" data-value="fr" style="text-align: center;">
+                        <i class="fr flag" style="margin-right: 0;"></i><?php //echo __('French', 'gpdealdomain') ?>
                     </a>
                 </div>
             </div>
@@ -271,18 +283,19 @@
                     <i class="add user icon"></i><?php echo __("Sign up", 'gpdealdomain') ?>
                 </a>
             <?php endif ?>
+
         </div>
     </div>
 </div>
-<?php if(!isset($_COOKIE["storage"])): ?>
-<!--<div id="alert-cookies" class="ui large top fixed menu" style="background-color: transparent; box-shadow: none; border:none;">-->
+<?php if (!isset($_COOKIE["storage"])): ?>
+    <!--<div id="alert-cookies" class="ui large top fixed menu" style="background-color: transparent; box-shadow: none; border:none;">-->
     <div class="ui inline cookie nag top fixed menu">
         <span class="title">
             <?php _e("GPDeal uses cookies to provide you a more personalized service", "gpdealdomain"); ?>. <?php _e("By continuing your navigation, we understand that you accept", "gpdealdomain"); ?> <?php _e("our", "gpdealdomain"); ?> <a><?php _e("privacy policy and cookies", "gpdealdomain"); ?></a>
         </span>
         <i class="close icon"></i>
     </div>
-<!--</div>-->
+    <!--</div>-->
 <?php endif ?>
 <div id='sub_main_menu' class="ui fixed menu hidden">
     <div class="ui container">
@@ -294,9 +307,9 @@
                         <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('registration', 'gpdealdomain')))); ?>" class="item"><?php echo __("Sign up", 'gpdealdomain') ?></a>
                         <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('log-in', 'gpdealdomain')))); ?>" class="item"><?php echo __("Sign in", 'gpdealdomain') ?></a>
                     <?php else : ?>
-    <!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>' class="item">
-                        <?php _e('Account', 'gpdealdomain') ?>                         
-                        </a>-->
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain')))); ?>' class="item">
+                            <?php _e('Account', 'gpdealdomain') ?>                         
+                        </a>
                         <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('profile', 'gpdealdomain')))); ?>' class="item">
                             <?php _e('Profile', 'gpdealdomain') ?>                         
                         </a>
@@ -316,12 +329,12 @@
                         <?php echo __('I carry', 'gpdealdomain'); ?>
                     </a>
                     <?php if (is_user_logged_in()): ?>
-    <!--                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>' class="item">
-                        <?php echo __('My shipments', 'gpdealdomain') ?>                         
-                            </a>
-                            <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>' class="item">
-                        <?php echo __('My transport offers', 'gpdealdomain') ?>                         
-                            </a>-->
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('shipments', 'gpdealdomain')))); ?>' class="item">
+                            <?php echo __('My shipments', 'gpdealdomain') ?>                         
+                        </a>
+                        <a href='<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('my-account', 'gpdealdomain') . '/' . __('transport-offers', 'gpdealdomain')))); ?>' class="item">
+                            <?php echo __('My transport offers', 'gpdealdomain') ?>                         
+                        </a>
                     <?php endif ?>
                 </div>
             </div>
@@ -331,8 +344,29 @@
                     <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('legal-notices', 'gpdealdomain')))); ?>" class="item"><?php echo get_page_by_path(__('legal-notices', 'gpdealdomain'))->post_title ?></a>
                     <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('terms-of-use', 'gpdealdomain')))); ?>" class="item"><?php echo get_page_by_path(__('terms-of-use', 'gpdealdomain'))->post_title ?></a>
                     <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('contact-us', 'gpdealdomain')))); ?>" class="item"><?php echo get_page_by_path(__('contact-us', 'gpdealdomain'))->post_title ?></a>
+                    <a href="<?php echo wp_make_link_relative(get_permalink(get_page_by_path(__('blog', 'gpdealdomain')))); ?>" class="item"><?php _e("Blog", "gpdealdomain") ?></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--<div id='sub_main_menu' class="ui fixed menu hidden">
+    <div class="ui container">
+        <form id="search_input_top_form" class="ui fluid form" action="<?php echo wp_make_link_relative(get_site_url() . '/'); ?>" method="GET">
+            <div class="field">
+                <div id="search_input_top" class="ui fluid action input" >
+                    <div class="ui input right icon s">
+                        <i class="remove link icon s" <?php if (!isset($_GET['s'])): ?> style="display: none;" <?php endif ?> locality_id='s'></i>
+                        <input id='s' type="text" class="locality" placeholder="<?php _e('Search for carriers from and to', 'gpdealdomain') ?>..." name="s" value="<?php
+if (isset($_GET['s'])) {
+    echo stripslashes($_GET['s']);
+}
+?>" autocomplete="off">
+                    </div>
+                    <button id="submit_search_input_top" type="submit" class="ui green button"><i class="search icon"></i></button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>-->
